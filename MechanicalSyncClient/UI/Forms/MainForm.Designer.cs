@@ -89,7 +89,7 @@ namespace MechanicalSyncClient.UI.Forms
             // 
             this.newRevisionToolStripMenuItem.Name = "newRevisionToolStripMenuItem";
             this.newRevisionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.newRevisionToolStripMenuItem.Text = "New revision...";
+            this.newRevisionToolStripMenuItem.Text = "New version...";
             // 
             // openToolStripMenuItem
             // 

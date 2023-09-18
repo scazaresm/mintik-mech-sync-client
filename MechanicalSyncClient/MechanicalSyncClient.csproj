@@ -84,18 +84,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\LocalProjectSynchronizerState.cs" />
+    <Compile Include="Core\ApiClient\Handlers\DownloadProjectFileHandler.cs" />
+    <Compile Include="Core\ApiClient\IMechSyncClient.cs" />
+    <Compile Include="Core\ProjectSynchronizerState.cs" />
     <Compile Include="Core\Domain\FileSyncEvent.cs" />
     <Compile Include="Core\Domain\FileSyncEventState.cs" />
     <Compile Include="Core\Domain\FileSyncEventType.cs" />
     <Compile Include="Core\Domain\LocalProject.cs" />
-    <Compile Include="Core\ILocalProjectMonitor.cs" />
-    <Compile Include="Core\ILocalProjectSynchronizer.cs" />
+    <Compile Include="Core\IProjectMonitor.cs" />
+    <Compile Include="Core\IProjectSynchronizer.cs" />
     <Compile Include="Database\DB.cs" />
-    <Compile Include="Sync\LocalProjectMonitor.cs" />
-    <Compile Include="Sync\LocalProjectSynchronizer.cs" />
-    <Compile Include="Sync\States\CheckFilesIntegrityState.cs" />
-    <Compile Include="Sync\States\FetchFileSyncEventsState.cs" />
+    <Compile Include="Core\ApiClient\MechSyncClient.cs" />
+    <Compile Include="Core\ApiClient\ProgressStream.cs" />
+    <Compile Include="Core\ApiClient\Handlers\DownloadProjectFileWithProgressHandler.cs" />
+    <Compile Include="Sync\ProjectMonitor.cs" />
+    <Compile Include="Sync\ProjectSynchronizer.cs" />
+    <Compile Include="Sync\States\DownloadProjectState.cs" />
+    <Compile Include="Sync\States\FetchEventsState.cs" />
+    <Compile Include="Sync\States\ProcessEventsState.cs" />
     <Compile Include="UI\Forms\LocalProjectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,6 +176,7 @@
   <ItemGroup>
     <None Include="Resources\mail-arrow-up-24.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\SQLitePCLRaw.lib.e_sqlite3.2.0.4\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets" Condition="Exists('packages\SQLitePCLRaw.lib.e_sqlite3.2.0.4\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

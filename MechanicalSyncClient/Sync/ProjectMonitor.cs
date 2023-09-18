@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncClient.Sync
 {
-    class LocalProjectMonitor : ILocalProjectMonitor
+    class ProjectMonitor : IProjectMonitor
     {
         private readonly List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
         private bool disposedValue;
@@ -20,9 +20,9 @@ namespace MechanicalSyncClient.Sync
 
         private readonly object EventQueueLock = new object();
         public Queue<FileSyncEvent> EventQueue { get; }
-        public bool IsProcessingQueuedEvents { get; private set; }
+        public bool IsInsertingQueuedEvents { get; private set; }
 
-        public LocalProjectMonitor(LocalProject project, string fileFilter)
+        public ProjectMonitor(LocalProject project, string fileFilter)
         {
             if (project is null)
             {
@@ -62,50 +62,6 @@ namespace MechanicalSyncClient.Sync
             }
         }
 
-        private void DisposeFileSystemWatchers()
-        {
-            foreach (FileSystemWatcher watcher in watchers)
-                watcher.Dispose();
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    DisposeFileSystemWatchers();
-                }
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void ProcessQueuedEvents()
-        {
-            IsProcessingQueuedEvents = true;
-            lock (EventQueueLock)
-            {
-                while (EventQueue.Count > 0)
-                {
-                    try
-                    {
-                        _ = DB.Async.InsertAsync(EventQueue.Dequeue());
-                    }
-                    catch(Exception ex)
-                    {
-                        // TODO: log exception
-                    }
-                }
-            }
-            IsProcessingQueuedEvents = false;
-        }
-
         private void EnqueueEvent(FileSyncEvent e)
         {
             // skip lock files (used by apps to indicate a given file is in use)
@@ -116,8 +72,29 @@ namespace MechanicalSyncClient.Sync
             {
                 EventQueue.Enqueue(e);
             }
-            if (!IsProcessingQueuedEvents)
-                ProcessQueuedEvents();
+            if (!IsInsertingQueuedEvents)
+                InsertQueuedEvents();
+        }
+
+        private void InsertQueuedEvents()
+        {
+            IsInsertingQueuedEvents = true;
+            lock (EventQueueLock)
+            {
+                while (EventQueue.Count > 0)
+                {
+                    try
+                    {
+                        var fileSyncEvent = EventQueue.Dequeue();
+                        _ = DB.Connection.InsertAsync(fileSyncEvent);
+                    }
+                    catch(Exception ex)
+                    {
+                        // TODO: log exception
+                    }
+                }
+            }
+            IsInsertingQueuedEvents = false;
         }
 
         public void OnFileCreated(object source, FileSystemEventArgs e)
@@ -174,6 +151,25 @@ namespace MechanicalSyncClient.Sync
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
             });
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    foreach (FileSystemWatcher watcher in watchers)
+                        watcher.Dispose();
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

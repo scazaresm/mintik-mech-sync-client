@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncClient.Sync
 {
-    public class LocalProjectSynchronizer : ILocalProjectSynchronizer
+    public class ProjectSynchronizer : IProjectSynchronizer
     {
-        private ILocalProjectMonitor _monitor;
-        private LocalProjectSynchronizerState _state;
+        private IProjectMonitor _monitor;
+        private ProjectSynchronizerState _state;
 
         public LocalProject LocalProject { get; }
 
-        public LocalProjectSynchronizer(LocalProject localProject, LocalProjectSynchronizerState initialState)
+        public ProjectSynchronizer(LocalProject localProject, ProjectSynchronizerState initialState)
         {
             if (localProject is null)
             {
@@ -23,16 +23,16 @@ namespace MechanicalSyncClient.Sync
             }
             LocalProject = localProject;
 
-            _monitor = new LocalProjectMonitor(localProject, "*.sldprt | *.sldasm | *.slddrw");
+            _monitor = new ProjectMonitor(localProject, "*.sldprt | *.sldasm | *.slddrw");
             SetState(initialState);
         }
 
-        public LocalProjectSynchronizerState GetState()
+        public ProjectSynchronizerState GetState()
         {
             return _state;
         }
 
-        public void SetState(LocalProjectSynchronizerState state)
+        public void SetState(ProjectSynchronizerState state)
         {
             _state = state ?? throw new ArgumentNullException(nameof(state));
             _state.SetSynchronizer(this);
@@ -50,8 +50,6 @@ namespace MechanicalSyncClient.Sync
             if (_state != null)
                 await _state.RunTransitionLogicAsync();
         }
-
-
-       
+        
     }
 }

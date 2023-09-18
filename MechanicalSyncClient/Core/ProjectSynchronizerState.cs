@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncClient.Core
 {
-    public abstract class LocalProjectSynchronizerState
+    public abstract class ProjectSynchronizerState
     {
-        protected ILocalProjectSynchronizer _synchronizer;
+        protected IProjectSynchronizer _synchronizer;
 
-        public void SetSynchronizer(ILocalProjectSynchronizer synchronizer)
+        public void SetSynchronizer(IProjectSynchronizer synchronizer)
         {
             _synchronizer = synchronizer;
         }

@@ -8,26 +8,23 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncClient.Database
 {
-    public sealed class DB
+    public sealed class DB : IDisposable
     {
         private static string databasePath = "sync-local-state.db";
 
         private static DB instance = null;
 
-        private SQLiteConnection syncConnection;
-        private SQLiteAsyncConnection asyncConnection;
+        private readonly SQLiteAsyncConnection _connection;
+        private bool disposedValue;
 
         private DB()
         {
-            syncConnection = new SQLiteConnection(databasePath);
-            asyncConnection = new SQLiteAsyncConnection(databasePath);
-            InitializeTables();
-        }
-
-        private void InitializeTables()
-        {
-            syncConnection.CreateTable<LocalProject>();
-            syncConnection.CreateTable<FileSyncEvent>();
+            using(var syncConnection = new SQLiteConnection(databasePath))
+            {
+                syncConnection.CreateTable<LocalProject>();
+                syncConnection.CreateTable<FileSyncEvent>();
+            }
+            _connection = new SQLiteAsyncConnection(databasePath);
         }
 
         public static DB Instance
@@ -40,21 +37,31 @@ namespace MechanicalSyncClient.Database
             }
         }
 
-        public static SQLiteAsyncConnection Async
+        public static SQLiteAsyncConnection Connection
         {
             get
             {
-                return Instance.asyncConnection;
+                return Instance._connection;
             }
         }
 
-        public static SQLiteConnection Sync
+        private void Dispose(bool disposing)
         {
-            get
+            if (!disposedValue)
             {
-                return Instance.syncConnection;
+                if (disposing)
+                {
+                    _ = _connection.CloseAsync();
+                }
+                disposedValue = true;
             }
         }
 
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

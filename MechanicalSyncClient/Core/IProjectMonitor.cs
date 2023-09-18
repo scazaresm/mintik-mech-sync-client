@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncClient.Core
 {
-    interface ILocalProjectMonitor : IDisposable
+    interface IProjectMonitor : IDisposable
     {
         void OnFileCreated(object source, FileSystemEventArgs e);
         void OnFileDeleted(object source, FileSystemEventArgs e);

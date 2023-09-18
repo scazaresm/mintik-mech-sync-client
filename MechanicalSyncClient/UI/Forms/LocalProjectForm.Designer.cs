@@ -1,7 +1,7 @@
 ﻿
 namespace MechanicalSyncClient
 {
-    partial class MainForm
+    partial class LocalProjectForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,18 +30,18 @@ namespace MechanicalSyncClient
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LocalProjectForm));
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Deleted",
             "other"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Irving Martínez", 0);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Gustavo Avila", 0);
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Irving Martínez", 0);
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Gustavo Avila", 0);
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ReviewerListImages = new System.Windows.Forms.ImageList(this.components);
             this.ReviewerStateImages = new System.Windows.Forms.ImageList(this.components);
@@ -55,6 +55,7 @@ namespace MechanicalSyncClient
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -68,6 +69,10 @@ namespace MechanicalSyncClient
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
@@ -77,9 +82,16 @@ namespace MechanicalSyncClient
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.DesignReviewToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.ApproveRevisionButton = new System.Windows.Forms.ToolStripButton();
+            this.RejectRevisionButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -87,18 +99,7 @@ namespace MechanicalSyncClient
             this.label2 = new System.Windows.Forms.Label();
             this.RevisionGoalText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
-            this.ApproveRevisionButton = new System.Windows.Forms.ToolStripButton();
-            this.RejectRevisionButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -201,10 +202,10 @@ namespace MechanicalSyncClient
             this.columnHeader2});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.HideSelection = false;
-            listViewItem1.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
+            listViewItem5,
+            listViewItem6});
             this.listView1.LargeImageList = this.imageList1;
             this.listView1.Location = new System.Drawing.Point(3, 28);
             this.listView1.MultiSelect = false;
@@ -243,6 +244,15 @@ namespace MechanicalSyncClient
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(179, 22);
             this.toolStripLabel1.Text = "Tracking project changes in local";
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton5.Image = global::MechanicalSyncClient.Properties.Resources.open_folder_24;
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(150, 22);
+            this.toolStripButton5.Text = "Open containing folder";
             // 
             // statusStrip1
             // 
@@ -300,13 +310,13 @@ namespace MechanicalSyncClient
             this.ReviewersListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ReviewersListView.FullRowSelect = true;
             this.ReviewersListView.HideSelection = false;
-            listViewItem3.Checked = true;
-            listViewItem3.StateImageIndex = 2;
-            listViewItem4.Checked = true;
-            listViewItem4.StateImageIndex = 1;
+            listViewItem1.Checked = true;
+            listViewItem1.StateImageIndex = 2;
+            listViewItem2.Checked = true;
+            listViewItem2.StateImageIndex = 1;
             this.ReviewersListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3,
-            listViewItem4});
+            listViewItem1,
+            listViewItem2});
             this.ReviewersListView.LargeImageList = this.ReviewerListImages;
             this.ReviewersListView.Location = new System.Drawing.Point(0, 59);
             this.ReviewersListView.Name = "ReviewersListView";
@@ -414,6 +424,39 @@ namespace MechanicalSyncClient
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.Size = new System.Drawing.Size(987, 300);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Assembly";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 250;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Column2.HeaderText = "Required change";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 500;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Status";
+            this.Column3.Items.AddRange(new object[] {
+            "Pending",
+            "Done",
+            "Won\'t do"});
+            this.Column3.Name = "Column3";
+            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // Column4
+            // 
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Column4.HeaderText = "Designer comments";
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 300;
             // 
             // textBox1
             // 
@@ -524,133 +567,6 @@ namespace MechanicalSyncClient
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(300, 25);
             // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(80, 22);
-            this.toolStripLabel2.Text = "Assembly file:";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.RevisionGoalText);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1231, 139);
-            this.panel1.TabIndex = 3;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.label4);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(900, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(331, 55);
-            this.panel2.TabIndex = 5;
-            // 
-            // label4
-            // 
-            this.label4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(16, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(315, 55);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Design is changing from revision 1.0 to 2.0";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 39);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Revision goal:";
-            // 
-            // RevisionGoalText
-            // 
-            this.RevisionGoalText.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.RevisionGoalText.Location = new System.Drawing.Point(0, 55);
-            this.RevisionGoalText.Multiline = true;
-            this.RevisionGoalText.Name = "RevisionGoalText";
-            this.RevisionGoalText.ReadOnly = true;
-            this.RevisionGoalText.Size = new System.Drawing.Size(1231, 84);
-            this.RevisionGoalText.TabIndex = 1;
-            this.RevisionGoalText.Text = "Here goes a text describing what are the objectives of this project revision: des" +
-    "ign everything from scratch, redesign, or make small fixes.";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(318, 18);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "220214NY-OBERG SML HEAD TOOLING";
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Assembly";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 250;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle11;
-            this.Column2.HeaderText = "Required change";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 500;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Status";
-            this.Column3.Items.AddRange(new object[] {
-            "Pending",
-            "Done",
-            "Won\'t do"});
-            this.Column3.Name = "Column3";
-            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // Column4
-            // 
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle12;
-            this.Column4.HeaderText = "Designer comments";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 300;
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton5.Image = global::MechanicalSyncClient.Properties.Resources.open_folder_24;
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(150, 22);
-            this.toolStripButton5.Text = "Open containing folder";
-            // 
             // toolStripButton4
             // 
             this.toolStripButton4.Image = global::MechanicalSyncClient.Properties.Resources.refresh_icon_24;
@@ -659,6 +575,11 @@ namespace MechanicalSyncClient
             this.toolStripButton4.Size = new System.Drawing.Size(66, 22);
             this.toolStripButton4.Text = "Refresh";
             this.toolStripButton4.ToolTipText = "Refresh content";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButton3
             // 
@@ -696,6 +617,11 @@ namespace MechanicalSyncClient
             this.RejectRevisionButton.Text = "Reject design";
             this.RejectRevisionButton.ToolTipText = "Reject designer\'s changes";
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripButton2
             // 
             this.toolStripButton2.Enabled = false;
@@ -706,6 +632,11 @@ namespace MechanicalSyncClient
             this.toolStripButton2.Text = "Publish revision";
             this.toolStripButton2.ToolTipText = "Publish revision changes";
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripButton1
             // 
             this.toolStripButton1.Image = global::MechanicalSyncClient.Properties.Resources.save_icon_24;
@@ -715,7 +646,88 @@ namespace MechanicalSyncClient
             this.toolStripButton1.Text = "Save";
             this.toolStripButton1.ToolTipText = "Save review data";
             // 
-            // MainForm
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(80, 22);
+            this.toolStripLabel2.Text = "Assembly file:";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.RevisionGoalText);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1231, 139);
+            this.panel1.TabIndex = 3;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel2.Location = new System.Drawing.Point(900, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(331, 55);
+            this.panel2.TabIndex = 5;
+            // 
+            // label4
+            // 
+            this.label4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(16, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(315, 55);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Design is changing from version 1.0 to 2.0";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(4, 39);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Goal:";
+            // 
+            // RevisionGoalText
+            // 
+            this.RevisionGoalText.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.RevisionGoalText.Location = new System.Drawing.Point(0, 55);
+            this.RevisionGoalText.Multiline = true;
+            this.RevisionGoalText.Name = "RevisionGoalText";
+            this.RevisionGoalText.ReadOnly = true;
+            this.RevisionGoalText.Size = new System.Drawing.Size(1231, 84);
+            this.RevisionGoalText.TabIndex = 1;
+            this.RevisionGoalText.Text = "Here goes a text describing what are the objectives of this project revision: des" +
+    "ign everything from scratch, redesign, or make small fixes.";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(318, 18);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "220214NY-OBERG SML HEAD TOOLING";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(662, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // LocalProjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -723,7 +735,7 @@ namespace MechanicalSyncClient
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.IsMdiContainer = true;
-            this.Name = "MainForm";
+            this.Name = "LocalProjectForm";
             this.Text = "220214NY-OBERG SML HEAD TOOLING";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -822,6 +834,7 @@ namespace MechanicalSyncClient
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.Button button1;
     }
 }
 

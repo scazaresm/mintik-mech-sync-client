@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncClient.Core;
+using MechanicalSyncClient.Core.ApiClient;
 using MechanicalSyncClient.Core.Domain;
 using MechanicalSyncClient.Database;
 using MechanicalSyncClient.Sync;
@@ -14,11 +15,11 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncClient
 {
-    public partial class MainForm : Form
+    public partial class LocalProjectForm : Form
     {
-        private LocalProjectMonitor monitor;
+        private ProjectMonitor monitor;
 
-        public MainForm()
+        public LocalProjectForm()
         {
             InitializeComponent();
         }
@@ -26,7 +27,7 @@ namespace MechanicalSyncClient
         private async Task RunDemo()
         {
             int remoteIdToCheck = 123; 
-            LocalProject project = await DB.Async.Table<LocalProject>()
+            LocalProject project = await DB.Connection.Table<LocalProject>()
                                               .Where(p => p.RemoteId == remoteIdToCheck)
                                               .FirstOrDefaultAsync();
 
@@ -40,7 +41,7 @@ namespace MechanicalSyncClient
                     LastSyncDateTime = DateTime.Now
                 };
 
-                await DB.Async.InsertAsync(project);
+                await DB.Connection.InsertAsync(project);
                 Console.WriteLine("Demo project inserted.");
             }
             else
@@ -48,7 +49,7 @@ namespace MechanicalSyncClient
                 Console.WriteLine("Demo project already exists.");
             }
 
-            monitor = new LocalProjectMonitor(project, "*.sldprt | *.slddrw | *.sldasm");
+            monitor = new ProjectMonitor(project, "*.sldprt | *.slddrw | *.sldasm");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -78,6 +79,24 @@ namespace MechanicalSyncClient
             {
                 MessageBox.Show("You want to save your changes!");
                 e.Handled = true;
+            }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string localFilename = Guid.NewGuid().ToString() + ".SLDASM";
+            _ = MechSyncClient.Instance.DownloadProjectFileAsync("working-folder/123/M097_00-00.SLDASM", localFilename);
+        }
+
+        public void UpdateToolStripProgressBar(int value)
+        {
+            if (toolStripProgressBar1.Owner.InvokeRequired)
+            {
+                toolStripProgressBar1.Owner.Invoke(new Action(() => UpdateToolStripProgressBar(value)));
+            }
+            else
+            {
+                toolStripProgressBar1.Value = value;
             }
         }
     }

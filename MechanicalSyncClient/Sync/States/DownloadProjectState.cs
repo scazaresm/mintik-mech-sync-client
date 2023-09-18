@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncClient.Sync.States
 {
-    public class FetchFileSyncEventsState : LocalProjectSynchronizerState
+    public class DownloadProjectState : ProjectSynchronizerState
     {
-        public override Task RunTransitionLogicAsync()
+        public override void UpdateUI()
         {
             throw new NotImplementedException();
         }
 
-        public override void UpdateUI()
+        public override Task RunTransitionLogicAsync()
         {
             throw new NotImplementedException();
         }

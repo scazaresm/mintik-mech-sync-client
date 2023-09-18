@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncClient.Core
 {
-    public interface ILocalProjectSynchronizer
+    public interface IProjectSynchronizer
     {
         // State related methods
-        LocalProjectSynchronizerState GetState();
-        void SetState(LocalProjectSynchronizerState state);
+        ProjectSynchronizerState GetState();
+        void SetState(ProjectSynchronizerState state);
         Task RunTransitionLogicAsync();
 
         // UI related methods
