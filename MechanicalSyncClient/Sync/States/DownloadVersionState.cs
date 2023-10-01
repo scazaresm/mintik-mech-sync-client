@@ -1,22 +1,22 @@
 ﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Database;
-using MechanicalSyncApp.Database.Domain;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Sync.States
 {
-    public class FetchEventsState : ProjectSynchronizerState
+    public class DownloadVersionState : ProjectSynchronizerState
     {
         public override void UpdateUI()
         {
-            throw new NotImplementedException();
+            
         }
 
         public override async Task RunTransitionLogicAsync()
         {
            
-
         }
     }
 }

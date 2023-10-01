@@ -1,20 +1,12 @@
-﻿using SQLite;
+﻿using MechanicalSyncApp.UI.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MechanicalSyncClient
+namespace MechanicalSyncApp
 {
-    public class Person
-    {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Age { get; set; }
-    }
-
     static class Program
     {
         /// <summary>
@@ -25,7 +17,7 @@ namespace MechanicalSyncClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LocalProjectForm());
+            Application.Run(new DemoForm());
         }
     }
 }

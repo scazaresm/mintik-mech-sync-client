@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MechanicalSyncClient.UI.Forms
+namespace MechanicalSyncApp.UI.Forms
 {
     public partial class MainForm : Form
     {

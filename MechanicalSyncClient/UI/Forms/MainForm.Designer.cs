@@ -1,5 +1,5 @@
 ﻿
-namespace MechanicalSyncClient.UI.Forms
+namespace MechanicalSyncApp.UI.Forms
 {
     partial class MainForm
     {

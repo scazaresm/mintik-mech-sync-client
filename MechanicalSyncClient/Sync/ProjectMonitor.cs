@@ -1,18 +1,15 @@
-﻿using MechanicalSyncClient.Core;
-using MechanicalSyncClient.Core.Domain;
-using MechanicalSyncClient.Database;
+﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Database;
+using MechanicalSyncApp.Database.Domain;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MechanicalSyncClient.Sync
+namespace MechanicalSyncApp.Sync
 {
     class ProjectMonitor : IProjectMonitor
     {
-        private readonly List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
+        private FileSystemWatcher watcher;
         private bool disposedValue;
 
         public LocalProject Project { get; }
@@ -20,7 +17,8 @@ namespace MechanicalSyncClient.Sync
 
         private readonly object EventQueueLock = new object();
         public Queue<FileSyncEvent> EventQueue { get; }
-        public bool IsInsertingQueuedEvents { get; private set; }
+
+        public bool IsMonitoring { get; private set; }
 
         public ProjectMonitor(LocalProject project, string fileFilter)
         {
@@ -38,28 +36,62 @@ namespace MechanicalSyncClient.Sync
             FileFilter = fileFilter;
             EventQueue = new Queue<FileSyncEvent>();
 
-            InitializeFileSystemWatchers();
+            InitializeFileSystemWatcher();
         }
 
-        public void InitializeFileSystemWatchers()
+        public bool IsEventQueueEmpty()
         {
-            foreach(string filter in FileFilter.Split('|'))
+            lock (EventQueueLock)
             {
-                var watcher = new FileSystemWatcher()
-                {
-                    Path = Project.FullPath,
-                    Filter = filter.Trim()
-                };
-                watcher.Created += new FileSystemEventHandler(OnFileCreated);
-                watcher.Deleted += new FileSystemEventHandler(OnFileDeleted);
-                watcher.Renamed += new RenamedEventHandler(OnFileRenamed);
-                watcher.Changed += new FileSystemEventHandler(OnFileChanged);
-
-                watcher.IncludeSubdirectories = true;
-                watcher.EnableRaisingEvents = true;
-
-                watchers.Add(watcher);
+                return EventQueue.Count == 0;
             }
+        }
+
+        public FileSyncEvent PeekNextEvent()
+        {
+            lock (EventQueueLock)
+            {
+                if (EventQueue.Count == 0)
+                    return null;
+
+                return EventQueue.Peek();
+            }
+        }
+
+        public FileSyncEvent DequeueEvent()
+        {
+            lock (EventQueueLock)
+            {
+                if (EventQueue.Count == 0)
+                    return null;
+
+                return EventQueue.Dequeue();
+            }
+        }
+
+        public void StartMonitoring()
+        {
+            watcher.EnableRaisingEvents = true;
+            IsMonitoring = true;
+        }
+
+        public void StopMonitoring()
+        {
+            watcher.EnableRaisingEvents = false;
+            IsMonitoring = false;
+        }
+
+        private void InitializeFileSystemWatcher()
+        {
+            watcher = new FileSystemWatcher()
+            {
+                Path = Project.FullPath,
+                IncludeSubdirectories = true
+            };
+            watcher.Created += new FileSystemEventHandler(OnFileCreated);
+            watcher.Deleted += new FileSystemEventHandler(OnFileDeleted);
+            watcher.Renamed += new RenamedEventHandler(OnFileRenamed);
+            watcher.Changed += new FileSystemEventHandler(OnFileChanged);
         }
 
         private void EnqueueEvent(FileSyncEvent e)
@@ -72,32 +104,10 @@ namespace MechanicalSyncClient.Sync
             {
                 EventQueue.Enqueue(e);
             }
-            if (!IsInsertingQueuedEvents)
-                InsertQueuedEvents();
         }
 
-        private void InsertQueuedEvents()
-        {
-            IsInsertingQueuedEvents = true;
-            lock (EventQueueLock)
-            {
-                while (EventQueue.Count > 0)
-                {
-                    try
-                    {
-                        var fileSyncEvent = EventQueue.Dequeue();
-                        _ = DB.Connection.InsertAsync(fileSyncEvent);
-                    }
-                    catch(Exception ex)
-                    {
-                        // TODO: log exception
-                    }
-                }
-            }
-            IsInsertingQueuedEvents = false;
-        }
-
-        public void OnFileCreated(object source, FileSystemEventArgs e)
+        #region FileSystemWatcher event callbacks
+        private void OnFileCreated(object source, FileSystemEventArgs e)
         {
             Console.WriteLine($"File created: {e.Name}");
             EnqueueEvent(new FileSyncEvent
@@ -105,13 +115,13 @@ namespace MechanicalSyncClient.Sync
                 LocalProjectId = Project.LocalId,
                 LocalProject = Project,
                 EventType = FileSyncEventType.Created,
-                Name = e.Name,
+                RelativePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
             });
         }
 
-        public void OnFileDeleted(object source, FileSystemEventArgs e)
+        private void OnFileDeleted(object source, FileSystemEventArgs e)
         {
             Console.WriteLine($"File deleted: {e.Name}");
             EnqueueEvent(new FileSyncEvent
@@ -119,13 +129,13 @@ namespace MechanicalSyncClient.Sync
                 LocalProjectId = Project.LocalId,
                 LocalProject = Project,
                 EventType = FileSyncEventType.Deleted,
-                Name = e.Name,
+                RelativePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
             });
         }
 
-        public void OnFileChanged(object source, FileSystemEventArgs e)
+        private void OnFileChanged(object source, FileSystemEventArgs e)
         {
             Console.WriteLine($"File changed: {e.Name}");
             EnqueueEvent(new FileSyncEvent
@@ -133,13 +143,13 @@ namespace MechanicalSyncClient.Sync
                 LocalProjectId = Project.LocalId,
                 LocalProject = Project,
                 EventType = FileSyncEventType.Changed,
-                Name = e.Name,
+                RelativePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
             });
         }
 
-        public void OnFileRenamed(object source, FileSystemEventArgs e)
+        private void OnFileRenamed(object source, FileSystemEventArgs e)
         {
             Console.WriteLine($"File renamed: {e.Name}");
             EnqueueEvent(new FileSyncEvent
@@ -147,20 +157,21 @@ namespace MechanicalSyncClient.Sync
                 LocalProjectId = Project.LocalId,
                 LocalProject = Project,
                 EventType = FileSyncEventType.Renamed,
-                Name = e.Name,
+                RelativePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
             });
         }
+        #endregion
 
+        #region Dispose pattern
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
                 if (disposing)
                 {
-                    foreach (FileSystemWatcher watcher in watchers)
-                        watcher.Dispose();
+                    watcher.Dispose();
                 }
                 disposedValue = true;
             }
@@ -171,5 +182,6 @@ namespace MechanicalSyncClient.Sync
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+        #endregion
     }
 }

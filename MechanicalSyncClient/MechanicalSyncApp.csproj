@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E97318F3-1749-4B23-9D41-311E4CE86E95}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MechanicalSyncClient</RootNamespace>
-    <AssemblyName>MechanicalSyncClient</AssemblyName>
+    <RootNamespace>MechanicalSyncApp</RootNamespace>
+    <AssemblyName>MechanicalSyncApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -38,24 +38,6 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SQLite-net, Version=1.8.116.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\sqlite-net-pcl.1.8.116\lib\netstandard2.0\SQLite-net.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLiteNetExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\SQLiteNetExtensions.2.1.0\lib\netstandard1.1\SQLiteNetExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.batteries_v2, Version=2.0.4.976, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
-      <HintPath>packages\SQLitePCLRaw.bundle_green.2.0.4\lib\net461\SQLitePCLRaw.batteries_v2.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.core, Version=2.0.4.976, Culture=neutral, PublicKeyToken=1488e028ca7ab535, processorArchitecture=MSIL">
-      <HintPath>packages\SQLitePCLRaw.core.2.0.4\lib\netstandard2.0\SQLitePCLRaw.core.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.nativelibrary, Version=2.0.4.976, Culture=neutral, PublicKeyToken=502ed628492ab262, processorArchitecture=MSIL">
-      <HintPath>packages\SQLitePCLRaw.bundle_green.2.0.4\lib\net461\SQLitePCLRaw.nativelibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.provider.dynamic_cdecl, Version=2.0.4.976, Culture=neutral, PublicKeyToken=b68184102cba0b3b, processorArchitecture=MSIL">
-      <HintPath>packages\SQLitePCLRaw.provider.dynamic_cdecl.2.0.4\lib\netstandard2.0\SQLitePCLRaw.provider.dynamic_cdecl.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -73,6 +55,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -84,24 +67,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\ApiClient\Handlers\DownloadProjectFileHandler.cs" />
-    <Compile Include="Core\ApiClient\IMechSyncClient.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\DeleteFileHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\DownloadFileHandler.cs" />
+    <Compile Include="Core\Services\Authentication\AuthenticationServiceClient.cs" />
+    <Compile Include="Core\Services\Authentication\Handlers\LoginHandler.cs" />
+    <Compile Include="Core\Services\Authentication\Handlers\RefreshTokenHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\UploadFileHandler.cs" />
+    <Compile Include="Core\Services\MechSync\IMechSyncServiceClient.cs" />
+    <Compile Include="Core\Services\Authentication\Models\Request\LoginRequest.cs" />
+    <Compile Include="Core\Services\Authentication\Models\Response\LoginResponse.cs" />
+    <Compile Include="Core\Services\Authentication\Models\Response\RefreshTokenResponse.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\DeleteFileRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\DownloadFileRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\UploadFileRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Response\DeleteFileResponse.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Response\UploadFileResponse.cs" />
+    <Compile Include="Core\Services\Authentication\Models\UserDetails.cs" />
+    <Compile Include="Core\Services\Authentication\IAuthenticationServiceClient.cs" />
     <Compile Include="Core\ProjectSynchronizerState.cs" />
-    <Compile Include="Core\Domain\FileSyncEvent.cs" />
-    <Compile Include="Core\Domain\FileSyncEventState.cs" />
-    <Compile Include="Core\Domain\FileSyncEventType.cs" />
-    <Compile Include="Core\Domain\LocalProject.cs" />
+    <Compile Include="Core\Util\QueryUriGenerator.cs" />
+    <Compile Include="Database\Domain\FileSyncEvent.cs" />
+    <Compile Include="Database\Domain\FileSyncEventState.cs" />
+    <Compile Include="Database\Domain\FileSyncEventType.cs" />
+    <Compile Include="Database\Domain\LocalProject.cs" />
     <Compile Include="Core\IProjectMonitor.cs" />
     <Compile Include="Core\IProjectSynchronizer.cs" />
-    <Compile Include="Database\DB.cs" />
-    <Compile Include="Core\ApiClient\MechSyncClient.cs" />
-    <Compile Include="Core\ApiClient\ProgressStream.cs" />
-    <Compile Include="Core\ApiClient\Handlers\DownloadProjectFileWithProgressHandler.cs" />
+    <Compile Include="Core\Util\JsonUtils.cs" />
+    <Compile Include="Core\Util\Sha256ChecksumValidator.cs" />
+    <Compile Include="Core\Util\IChecksumValidator.cs" />
+    <Compile Include="Core\Services\MechSync\MechSyncServiceClient.cs" />
+    <Compile Include="Core\Util\ProgressStream.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\DownloadFileWithProgressHandler.cs" />
+    <Compile Include="Core\IFileSyncEventHandler.cs" />
+    <Compile Include="Sync\Handlers\FileCreatedHandler.cs" />
     <Compile Include="Sync\ProjectMonitor.cs" />
     <Compile Include="Sync\ProjectSynchronizer.cs" />
-    <Compile Include="Sync\States\DownloadProjectState.cs" />
+    <Compile Include="Sync\States\DownloadVersionState.cs" />
     <Compile Include="Sync\States\FetchEventsState.cs" />
-    <Compile Include="Sync\States\ProcessEventsState.cs" />
+    <Compile Include="Sync\States\IdleState.cs" />
+    <Compile Include="Sync\States\ProcessQueuedEventsState.cs" />
+    <Compile Include="UI\Forms\DemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\DemoForm.Designer.cs">
+      <DependentUpon>DemoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\LocalProjectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +126,9 @@
     <Compile Include="UI\Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\Forms\DemoForm.resx">
+      <DependentUpon>DemoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\LocalProjectForm.resx">
       <DependentUpon>LocalProjectForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,11 +191,4 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="packages\SQLitePCLRaw.lib.e_sqlite3.2.0.4\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets" Condition="Exists('packages\SQLitePCLRaw.lib.e_sqlite3.2.0.4\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\SQLitePCLRaw.lib.e_sqlite3.2.0.4\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SQLitePCLRaw.lib.e_sqlite3.2.0.4\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets'))" />
-  </Target>
 </Project>

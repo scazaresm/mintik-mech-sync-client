@@ -1,5 +1,5 @@
 ﻿
-namespace MechanicalSyncClient
+namespace MechanicalSyncApp
 {
     partial class LocalProjectForm
     {
@@ -31,17 +31,17 @@ namespace MechanicalSyncClient
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LocalProjectForm));
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Deleted",
             "other"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Irving Martínez", 0);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Gustavo Avila", 0);
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Irving Martínez", 0);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Gustavo Avila", 0);
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ReviewerListImages = new System.Windows.Forms.ImageList(this.components);
             this.ReviewerStateImages = new System.Windows.Forms.ImageList(this.components);
@@ -54,7 +54,6 @@ namespace MechanicalSyncClient
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
@@ -94,12 +93,15 @@ namespace MechanicalSyncClient
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.RevisionGoalText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.toolStripComboBox2 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.button3 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -171,13 +173,14 @@ namespace MechanicalSyncClient
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ImageList = this.ProjectTabImages;
-            this.tabControl1.Location = new System.Drawing.Point(0, 139);
+            this.tabControl1.Location = new System.Drawing.Point(0, 36);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1231, 484);
+            this.tabControl1.Size = new System.Drawing.Size(1231, 587);
             this.tabControl1.TabIndex = 4;
             this.tabControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tabControl1_KeyDown);
             // 
@@ -190,7 +193,7 @@ namespace MechanicalSyncClient
             this.tabPage1.Location = new System.Drawing.Point(4, 31);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1223, 449);
+            this.tabPage1.Size = new System.Drawing.Size(1223, 552);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Local files";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -202,15 +205,15 @@ namespace MechanicalSyncClient
             this.columnHeader2});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.HideSelection = false;
-            listViewItem5.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem5,
-            listViewItem6});
+            listViewItem1,
+            listViewItem2});
             this.listView1.LargeImageList = this.imageList1;
             this.listView1.Location = new System.Drawing.Point(3, 28);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1217, 396);
+            this.listView1.Size = new System.Drawing.Size(1217, 499);
             this.listView1.SmallImageList = this.imageList1;
             this.listView1.TabIndex = 2;
             this.listView1.TileSize = new System.Drawing.Size(150, 30);
@@ -231,7 +234,8 @@ namespace MechanicalSyncClient
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
+            this.toolStripLabel3,
+            this.toolStripComboBox2,
             this.toolStripButton5});
             this.toolStrip1.Location = new System.Drawing.Point(3, 3);
             this.toolStrip1.Name = "toolStrip1";
@@ -239,16 +243,10 @@ namespace MechanicalSyncClient
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(179, 22);
-            this.toolStripLabel1.Text = "Tracking project changes in local";
-            // 
             // toolStripButton5
             // 
             this.toolStripButton5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton5.Image = global::MechanicalSyncClient.Properties.Resources.open_folder_24;
+            this.toolStripButton5.Image = global::MechanicalSyncApp.Properties.Resources.open_folder_24;
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
             this.toolStripButton5.Size = new System.Drawing.Size(150, 22);
@@ -259,7 +257,7 @@ namespace MechanicalSyncClient
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStrip1.Location = new System.Drawing.Point(3, 424);
+            this.statusStrip1.Location = new System.Drawing.Point(3, 527);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1217, 22);
             this.statusStrip1.TabIndex = 4;
@@ -280,9 +278,9 @@ namespace MechanicalSyncClient
             this.tabPage2.Location = new System.Drawing.Point(4, 31);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1223, 449);
+            this.tabPage2.Size = new System.Drawing.Size(1223, 552);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Design review";
+            this.tabPage2.Text = "3D review";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // splitContainer2
@@ -300,7 +298,7 @@ namespace MechanicalSyncClient
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl2);
-            this.splitContainer2.Size = new System.Drawing.Size(1217, 418);
+            this.splitContainer2.Size = new System.Drawing.Size(1217, 521);
             this.splitContainer2.SplitterDistance = 212;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -310,17 +308,17 @@ namespace MechanicalSyncClient
             this.ReviewersListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ReviewersListView.FullRowSelect = true;
             this.ReviewersListView.HideSelection = false;
-            listViewItem1.Checked = true;
-            listViewItem1.StateImageIndex = 2;
-            listViewItem2.Checked = true;
-            listViewItem2.StateImageIndex = 1;
+            listViewItem3.Checked = true;
+            listViewItem3.StateImageIndex = 2;
+            listViewItem4.Checked = true;
+            listViewItem4.StateImageIndex = 1;
             this.ReviewersListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
+            listViewItem3,
+            listViewItem4});
             this.ReviewersListView.LargeImageList = this.ReviewerListImages;
             this.ReviewersListView.Location = new System.Drawing.Point(0, 59);
             this.ReviewersListView.Name = "ReviewersListView";
-            this.ReviewersListView.Size = new System.Drawing.Size(212, 359);
+            this.ReviewersListView.Size = new System.Drawing.Size(212, 462);
             this.ReviewersListView.SmallImageList = this.ReviewerListImages;
             this.ReviewersListView.StateImageList = this.ReviewerStateImages;
             this.ReviewersListView.TabIndex = 1;
@@ -374,7 +372,7 @@ namespace MechanicalSyncClient
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1001, 418);
+            this.tabControl2.Size = new System.Drawing.Size(1001, 521);
             this.tabControl2.TabIndex = 0;
             this.tabControl2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tabControl2_KeyDown);
             // 
@@ -385,7 +383,7 @@ namespace MechanicalSyncClient
             this.tabPage3.Location = new System.Drawing.Point(4, 31);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(993, 383);
+            this.tabPage3.Size = new System.Drawing.Size(993, 486);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Change requests";
             this.tabPage3.ToolTipText = "Change requests left by reviewers";
@@ -405,8 +403,8 @@ namespace MechanicalSyncClient
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer3.Size = new System.Drawing.Size(987, 377);
-            this.splitContainer3.SplitterDistance = 300;
+            this.splitContainer3.Size = new System.Drawing.Size(987, 480);
+            this.splitContainer3.SplitterDistance = 381;
             this.splitContainer3.TabIndex = 0;
             // 
             // dataGridView1
@@ -422,7 +420,7 @@ namespace MechanicalSyncClient
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(987, 300);
+            this.dataGridView1.Size = new System.Drawing.Size(987, 381);
             this.dataGridView1.TabIndex = 0;
             // 
             // Column1
@@ -434,8 +432,8 @@ namespace MechanicalSyncClient
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle11;
             this.Column2.HeaderText = "Required change";
             this.Column2.Name = "Column2";
             this.Column2.Width = 500;
@@ -452,8 +450,8 @@ namespace MechanicalSyncClient
             // 
             // Column4
             // 
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle12;
             this.Column4.HeaderText = "Designer comments";
             this.Column4.Name = "Column4";
             this.Column4.Width = 300;
@@ -466,7 +464,7 @@ namespace MechanicalSyncClient
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(987, 73);
+            this.textBox1.Size = new System.Drawing.Size(987, 95);
             this.textBox1.TabIndex = 0;
             // 
             // tabPage4
@@ -569,7 +567,7 @@ namespace MechanicalSyncClient
             // 
             // toolStripButton4
             // 
-            this.toolStripButton4.Image = global::MechanicalSyncClient.Properties.Resources.refresh_icon_24;
+            this.toolStripButton4.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
             this.toolStripButton4.Size = new System.Drawing.Size(66, 22);
@@ -583,7 +581,7 @@ namespace MechanicalSyncClient
             // 
             // toolStripButton3
             // 
-            this.toolStripButton3.Image = global::MechanicalSyncClient.Properties.Resources.mail_arrow_up_24;
+            this.toolStripButton3.Image = global::MechanicalSyncApp.Properties.Resources.mail_arrow_up_24;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(101, 22);
@@ -592,7 +590,7 @@ namespace MechanicalSyncClient
             // 
             // toolStripButton6
             // 
-            this.toolStripButton6.Image = global::MechanicalSyncClient.Properties.Resources.send_icon_24;
+            this.toolStripButton6.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
             this.toolStripButton6.Size = new System.Drawing.Size(112, 22);
@@ -601,7 +599,7 @@ namespace MechanicalSyncClient
             // 
             // ApproveRevisionButton
             // 
-            this.ApproveRevisionButton.Image = global::MechanicalSyncClient.Properties.Resources.thumbs_up_24;
+            this.ApproveRevisionButton.Image = global::MechanicalSyncApp.Properties.Resources.thumbs_up_24;
             this.ApproveRevisionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ApproveRevisionButton.Name = "ApproveRevisionButton";
             this.ApproveRevisionButton.Size = new System.Drawing.Size(110, 22);
@@ -610,7 +608,7 @@ namespace MechanicalSyncClient
             // 
             // RejectRevisionButton
             // 
-            this.RejectRevisionButton.Image = global::MechanicalSyncClient.Properties.Resources.thumbs_down_24;
+            this.RejectRevisionButton.Image = global::MechanicalSyncApp.Properties.Resources.thumbs_down_24;
             this.RejectRevisionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RejectRevisionButton.Name = "RejectRevisionButton";
             this.RejectRevisionButton.Size = new System.Drawing.Size(97, 22);
@@ -625,7 +623,7 @@ namespace MechanicalSyncClient
             // toolStripButton2
             // 
             this.toolStripButton2.Enabled = false;
-            this.toolStripButton2.Image = global::MechanicalSyncClient.Properties.Resources.merge_icon_24;
+            this.toolStripButton2.Image = global::MechanicalSyncApp.Properties.Resources.merge_icon_24;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(110, 22);
@@ -639,7 +637,7 @@ namespace MechanicalSyncClient
             // 
             // toolStripButton1
             // 
-            this.toolStripButton1.Image = global::MechanicalSyncClient.Properties.Resources.save_icon_24;
+            this.toolStripButton1.Image = global::MechanicalSyncApp.Properties.Resources.save_icon_24;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(51, 22);
@@ -655,77 +653,104 @@ namespace MechanicalSyncClient
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button3);
+            this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.RevisionGoalText);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1231, 139);
+            this.panel1.Size = new System.Drawing.Size(1231, 36);
             this.panel1.TabIndex = 3;
             // 
-            // panel2
+            // button2
             // 
-            this.panel2.Controls.Add(this.label4);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(900, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(331, 55);
-            this.panel2.TabIndex = 5;
-            // 
-            // label4
-            // 
-            this.label4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(16, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(315, 55);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Design is changing from version 1.0 to 2.0";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 39);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Goal:";
-            // 
-            // RevisionGoalText
-            // 
-            this.RevisionGoalText.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.RevisionGoalText.Location = new System.Drawing.Point(0, 55);
-            this.RevisionGoalText.Multiline = true;
-            this.RevisionGoalText.Name = "RevisionGoalText";
-            this.RevisionGoalText.ReadOnly = true;
-            this.RevisionGoalText.Size = new System.Drawing.Size(1231, 84);
-            this.RevisionGoalText.TabIndex = 1;
-            this.RevisionGoalText.Text = "Here goes a text describing what are the objectives of this project revision: des" +
-    "ign everything from scratch, redesign, or make small fixes.";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(318, 18);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "220214NY-OBERG SML HEAD TOOLING";
+            this.button2.Location = new System.Drawing.Point(728, 3);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(662, 12);
+            this.button1.Location = new System.Drawing.Point(647, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel2.Location = new System.Drawing.Point(854, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(377, 36);
+            this.panel2.TabIndex = 5;
+            // 
+            // label4
+            // 
+            this.label4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(374, 36);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Design is changing from version 1.0 to 2.0";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(485, 36);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "220214NY-OBERG SML HEAD TOOLING";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripComboBox2
+            // 
+            this.toolStripComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboBox2.Items.AddRange(new object[] {
+            "Work in progress",
+            "Under review",
+            "Published",
+            "Previous"});
+            this.toolStripComboBox2.Name = "toolStripComboBox2";
+            this.toolStripComboBox2.Size = new System.Drawing.Size(121, 25);
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(48, 22);
+            this.toolStripLabel3.Text = "Version:";
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Location = new System.Drawing.Point(4, 31);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(1223, 552);
+            this.tabPage5.TabIndex = 2;
+            this.tabPage5.Text = "Concept review";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(566, 3);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // LocalProjectForm
             // 
@@ -770,7 +795,6 @@ namespace MechanicalSyncClient
             this.DesignReviewToolStrip.ResumeLayout(false);
             this.DesignReviewToolStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -789,7 +813,6 @@ namespace MechanicalSyncClient
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.ListView ReviewersListView;
@@ -813,8 +836,6 @@ namespace MechanicalSyncClient
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox RevisionGoalText;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
@@ -835,6 +856,11 @@ namespace MechanicalSyncClient
         private System.Windows.Forms.DataGridViewComboBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox2;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Button button3;
     }
 }
 

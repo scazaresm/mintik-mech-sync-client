@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MechanicalSyncClient.Core.ApiClient
+namespace MechanicalSyncApp.Core.Util
 {
     public class ProgressStream : Stream
     {

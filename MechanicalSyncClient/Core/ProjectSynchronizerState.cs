@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MechanicalSyncClient.Core
+namespace MechanicalSyncApp.Core
 {
     public abstract class ProjectSynchronizerState
     {
-        protected IProjectSynchronizer _synchronizer;
+        protected IProjectSynchronizer synchronizer;
 
         public void SetSynchronizer(IProjectSynchronizer synchronizer)
         {
-            _synchronizer = synchronizer;
+            this.synchronizer = synchronizer;
         }
 
         public abstract void UpdateUI();

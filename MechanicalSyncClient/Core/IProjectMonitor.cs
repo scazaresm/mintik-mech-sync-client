@@ -1,17 +1,19 @@
-﻿using System;
+﻿using MechanicalSyncApp.Database.Domain;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MechanicalSyncClient.Core
+namespace MechanicalSyncApp.Core
 {
-    interface IProjectMonitor : IDisposable
+    public interface IProjectMonitor : IDisposable
     {
-        void OnFileCreated(object source, FileSystemEventArgs e);
-        void OnFileDeleted(object source, FileSystemEventArgs e);
-        void OnFileChanged(object source, FileSystemEventArgs e);
-        void OnFileRenamed(object source, FileSystemEventArgs e);
+        void StartMonitoring();
+        void StopMonitoring();
+        bool IsEventQueueEmpty();
+        FileSyncEvent PeekNextEvent();
+        FileSyncEvent DequeueEvent();
     }
 }

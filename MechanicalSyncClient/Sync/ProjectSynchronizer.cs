@@ -1,17 +1,14 @@
-﻿using MechanicalSyncClient.Core;
-using MechanicalSyncClient.Core.Domain;
+﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Database.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace MechanicalSyncClient.Sync
+namespace MechanicalSyncApp.Sync
 {
     public class ProjectSynchronizer : IProjectSynchronizer
     {
-        private IProjectMonitor _monitor;
-        private ProjectSynchronizerState _state;
+        public IProjectMonitor Monitor { get; private set; }
+        private ProjectSynchronizerState state;
 
         public LocalProject LocalProject { get; }
 
@@ -23,32 +20,32 @@ namespace MechanicalSyncClient.Sync
             }
             LocalProject = localProject;
 
-            _monitor = new ProjectMonitor(localProject, "*.sldprt | *.sldasm | *.slddrw");
+            Monitor = new ProjectMonitor(localProject, "*.sldprt | *.sldasm | *.slddrw");
             SetState(initialState);
         }
 
         public ProjectSynchronizerState GetState()
         {
-            return _state;
+            return state;
         }
 
         public void SetState(ProjectSynchronizerState state)
         {
-            _state = state ?? throw new ArgumentNullException(nameof(state));
-            _state.SetSynchronizer(this);
-            _state.UpdateUI();
+            this.state = state ?? throw new ArgumentNullException(nameof(state));
+            this.state.SetSynchronizer(this);
+            this.state.UpdateUI();
         }
 
         public void UpdateUI()
         {
-            if (_state != null)
-                _state.UpdateUI();
+            if (state != null)
+                state.UpdateUI();
         }
 
         public async Task RunTransitionLogicAsync()
         {
-            if (_state != null)
-                await _state.RunTransitionLogicAsync();
+            if (state != null)
+                await state.RunTransitionLogicAsync();
         }
         
     }
