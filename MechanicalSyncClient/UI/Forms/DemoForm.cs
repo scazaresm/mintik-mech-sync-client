@@ -1,13 +1,14 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.Authentication.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
-using MechanicalSyncApp.Database;
-using MechanicalSyncApp.Database.Domain;
-using MechanicalSyncApp.Sync;
-using MechanicalSyncApp.Sync.States;
+using MechanicalSyncApp.Core.Util;
+using MechanicalSyncApp.Sync.ProjectSynchronizer;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,24 +19,34 @@ namespace MechanicalSyncApp.UI.Forms
         private LocalProject project;
         private IProjectSynchronizer projectSynchronizer;
 
+        private FileBrowserUI fileBrowser;
+
         public DemoForm()
         {
             InitializeComponent();
+            fileBrowser = new FileBrowserUI(listView1);
         }
 
-        private void InitializeSynchronizer()
+        private void DemoForm_Load(object sender, EventArgs e)
         {
-            project = new LocalProject()
-            {
-                FullPath = @"C:\sync_demo",
-                RemoteId = "651653adad5cbc5699ddff66",
-            };
-            projectSynchronizer = new ProjectSynchronizer(project, new IdleState());
+            fileBrowser.Navigate(@"C:\sync_demo");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
         }
 
         private void InitSynchronizerButton_Click(object sender, EventArgs e)
         {
-            InitializeSynchronizer();
+            project = new LocalProject("651653adad5cbc5699ddff66", @"C:\sync_demo");
+            projectSynchronizer = new ProjectSynchronizer(project, new ProjectSynchronizerUI
+            {
+                FileBrowser = fileBrowser
+            });
         }
 
         private void StartMonitoringButton_Click(object sender, EventArgs e)
@@ -45,7 +56,7 @@ namespace MechanicalSyncApp.UI.Forms
                 MessageBox.Show("Initialize the synchronizer first.");
                 return;
             }
-            projectSynchronizer.Monitor.StartMonitoring();
+            projectSynchronizer.ChangeMonitor.StartMonitoring();
         }
 
         private void StopMonitoringButton_Click(object sender, EventArgs e)
@@ -55,7 +66,7 @@ namespace MechanicalSyncApp.UI.Forms
                 MessageBox.Show("Initialize the synchronizer first.");
                 return;
             }
-            projectSynchronizer.Monitor.StopMonitoring();
+            projectSynchronizer.ChangeMonitor.StopMonitoring();
         }
 
         private async void LoginButton_Click(object sender, EventArgs e)
@@ -86,7 +97,7 @@ namespace MechanicalSyncApp.UI.Forms
                     ProjectId = "651653adad5cbc5699ddff66",
                     VersionFolder = "Ongoing"
                 };
-                await MechSyncServiceClient.Instance.DownloadProjectFileAsync(request);
+                await MechSyncServiceClient.Instance.DownloadFileAsync(request);
             }
             catch (Exception ex)
             {
@@ -105,7 +116,7 @@ namespace MechanicalSyncApp.UI.Forms
                     ProjectId = "651653adad5cbc5699ddff66",
                     VersionFolder = "Ongoing"
                 };
-                await MechSyncServiceClient.Instance.DownloadProjectFileAsync(request, UpdateToolStripProgressBar);
+                await MechSyncServiceClient.Instance.DownloadFileAsync(request, UpdateToolStripProgressBar);
             }
             catch (Exception ex)
             {
@@ -135,7 +146,7 @@ namespace MechanicalSyncApp.UI.Forms
                     RelativeFilePath = "folder1/folder2/M097_00-79.sldasm",
                     ProjectId = "651653adad5cbc5699ddff66"
                 };
-                await MechSyncServiceClient.Instance.UploadProjectFileAsync(request);
+                await MechSyncServiceClient.Instance.UploadFileAsync(request);
                 MessageBox.Show("File uploaded!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -153,7 +164,7 @@ namespace MechanicalSyncApp.UI.Forms
                     RelativeFilePath = "folder1/folder2/M097_00-79.sldasm",
                     ProjectId = "651653adad5cbc5699ddff66"
                 };
-                await MechSyncServiceClient.Instance.DeleteProjectFileAsync(request);
+                await MechSyncServiceClient.Instance.DeleteFileAsync(request);
                 MessageBox.Show("File deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -167,5 +178,10 @@ namespace MechanicalSyncApp.UI.Forms
             ProcessEventsButton.Enabled = false;
             await projectSynchronizer.RunTransitionLogicAsync();
         }
+
+
+
+     
+
     }
 }

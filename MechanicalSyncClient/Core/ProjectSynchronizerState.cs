@@ -8,11 +8,11 @@ namespace MechanicalSyncApp.Core
 {
     public abstract class ProjectSynchronizerState
     {
-        protected IProjectSynchronizer synchronizer;
+        public IProjectSynchronizer Synchronizer { get; private set; }
 
         public void SetSynchronizer(IProjectSynchronizer synchronizer)
         {
-            this.synchronizer = synchronizer;
+            Synchronizer = synchronizer;
         }
 
         public abstract void UpdateUI();

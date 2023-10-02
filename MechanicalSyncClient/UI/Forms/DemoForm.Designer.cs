@@ -29,6 +29,15 @@ namespace MechanicalSyncApp.UI.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Example",
+            "Deleted",
+            "other"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Other",
+            "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DemoForm));
             this.InitSynchronizerButton = new System.Windows.Forms.Button();
             this.StartMonitoringButton = new System.Windows.Forms.Button();
             this.StopMonitoringButton = new System.Windows.Forms.Button();
@@ -39,8 +48,13 @@ namespace MechanicalSyncApp.UI.Forms
             this.DownloadProgressButton = new System.Windows.Forms.Button();
             this.UploadFileButton = new System.Windows.Forms.Button();
             this.DeleteFileButton = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
             this.ProcessEventsButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -141,15 +155,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.DeleteFileButton.UseVisualStyleBackColor = true;
             this.DeleteFileButton.Click += new System.EventHandler(this.DeleteFileButton_Click);
             // 
-            // listView1
-            // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(12, 160);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(651, 381);
-            this.listView1.TabIndex = 9;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            // 
             // ProcessEventsButton
             // 
             this.ProcessEventsButton.Location = new System.Drawing.Point(531, 99);
@@ -160,13 +165,74 @@ namespace MechanicalSyncApp.UI.Forms
             this.ProcessEventsButton.UseVisualStyleBackColor = true;
             this.ProcessEventsButton.Click += new System.EventHandler(this.ProcessEventsButton_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(268, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(101, 23);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Add item";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(268, 41);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(101, 23);
+            this.button2.TabIndex = 12;
+            this.button2.Text = "Remove item";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.listView1.HideSelection = false;
+            listViewItem1.StateImageIndex = 0;
+            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2});
+            this.listView1.Location = new System.Drawing.Point(0, 145);
+            this.listView1.MultiSelect = false;
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(675, 412);
+            this.listView1.StateImageList = this.imageList2;
+            this.listView1.TabIndex = 13;
+            this.listView1.TileSize = new System.Drawing.Size(150, 30);
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "File name";
+            this.columnHeader1.Width = 800;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "";
+            this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeader2.Width = 150;
+            // 
+            // imageList2
+            // 
+            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
+            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList2.Images.SetKeyName(0, "ok-icon-32.png");
+            this.imageList2.Images.SetKeyName(1, "sync-icon-32.png");
+            // 
             // DemoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(675, 582);
-            this.Controls.Add(this.ProcessEventsButton);
             this.Controls.Add(this.listView1);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ProcessEventsButton);
             this.Controls.Add(this.DeleteFileButton);
             this.Controls.Add(this.UploadFileButton);
             this.Controls.Add(this.DownloadProgressButton);
@@ -178,6 +244,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.Controls.Add(this.InitSynchronizerButton);
             this.Name = "DemoForm";
             this.Text = "DemoForm";
+            this.Load += new System.EventHandler(this.DemoForm_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -197,7 +264,12 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.Button DownloadProgressButton;
         private System.Windows.Forms.Button UploadFileButton;
         private System.Windows.Forms.Button DeleteFileButton;
-        private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Button ProcessEventsButton;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ImageList imageList2;
     }
 }

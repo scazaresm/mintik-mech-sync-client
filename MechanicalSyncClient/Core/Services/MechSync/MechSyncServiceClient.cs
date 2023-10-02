@@ -53,21 +53,21 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             _fileClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", response.Token);
         }
 
-        public async Task DownloadProjectFileAsync(DownloadFileRequest request, Action<int> progressCallback)
+        public async Task DownloadFileAsync(DownloadFileRequest request, Action<int> progressCallback)
         {
             await RefreshAuthTokenAsync();
             var handler = new DownloadFileWithProgressHandler(_fileClient, request, new Sha256ChecksumValidator(), progressCallback);
             await handler.HandleAsync();
         }
 
-        public async Task DownloadProjectFileAsync(DownloadFileRequest request)
+        public async Task DownloadFileAsync(DownloadFileRequest request)
         {
             await RefreshAuthTokenAsync();
             var handler = new DownloadFileHandler(_fileClient, request, new Sha256ChecksumValidator());
             await handler.HandleAsync();
         }
 
-        public async Task<UploadFileResponse> UploadProjectFileAsync(UploadFileRequest request)
+        public async Task<UploadFileResponse> UploadFileAsync(UploadFileRequest request)
         {
             await RefreshAuthTokenAsync();
             var handler = new UploadFileHandler(_fileClient, request, new Sha256ChecksumValidator());
@@ -75,7 +75,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             return response;
         }
 
-        public async Task<DeleteFileResponse> DeleteProjectFileAsync(DeleteFileRequest request)
+        public async Task<DeleteFileResponse> DeleteFileAsync(DeleteFileRequest request)
         {
             await RefreshAuthTokenAsync();
             var handler = new DeleteFileHandler(_fileClient, request);

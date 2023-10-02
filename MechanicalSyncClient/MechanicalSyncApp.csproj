@@ -67,6 +67,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
+    <Compile Include="Core\IWorkspaceManager.cs" />
+    <Compile Include="UI\ProjectSynchronizerUI.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DeleteFileHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DownloadFileHandler.cs" />
     <Compile Include="Core\Services\Authentication\AuthenticationServiceClient.cs" />
@@ -86,11 +89,11 @@
     <Compile Include="Core\Services\Authentication\IAuthenticationServiceClient.cs" />
     <Compile Include="Core\ProjectSynchronizerState.cs" />
     <Compile Include="Core\Util\QueryUriGenerator.cs" />
-    <Compile Include="Database\Domain\FileSyncEvent.cs" />
-    <Compile Include="Database\Domain\FileSyncEventState.cs" />
-    <Compile Include="Database\Domain\FileSyncEventType.cs" />
-    <Compile Include="Database\Domain\LocalProject.cs" />
-    <Compile Include="Core\IProjectMonitor.cs" />
+    <Compile Include="Core\Domain\FileChangeEvent.cs" />
+    <Compile Include="Core\Domain\FileChangeEventState.cs" />
+    <Compile Include="Core\Domain\FileChangeEventType.cs" />
+    <Compile Include="Core\Domain\LocalProject.cs" />
+    <Compile Include="Core\IProjectChangeMonitor.cs" />
     <Compile Include="Core\IProjectSynchronizer.cs" />
     <Compile Include="Core\Util\JsonUtils.cs" />
     <Compile Include="Core\Util\Sha256ChecksumValidator.cs" />
@@ -99,13 +102,17 @@
     <Compile Include="Core\Util\ProgressStream.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DownloadFileWithProgressHandler.cs" />
     <Compile Include="Core\IFileSyncEventHandler.cs" />
-    <Compile Include="Sync\Handlers\FileCreatedHandler.cs" />
-    <Compile Include="Sync\ProjectMonitor.cs" />
-    <Compile Include="Sync\ProjectSynchronizer.cs" />
-    <Compile Include="Sync\States\DownloadVersionState.cs" />
-    <Compile Include="Sync\States\FetchEventsState.cs" />
-    <Compile Include="Sync\States\IdleState.cs" />
-    <Compile Include="Sync\States\ProcessQueuedEventsState.cs" />
+    <Compile Include="Core\Util\DictionaryListViewAdapter.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\Handlers\FileChangedEventHandler.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\Handlers\FileCreatedEventHandler.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\Handlers\FileDeletedEventHandler.cs" />
+    <Compile Include="Sync\ProjectChangeMonitor.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\ProjectSynchronizer.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\ChangeMonitorDisabledState.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\WaitForChangeEventsState.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\ProcessChangeEventsState.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\SyncLocalProjectState.cs" />
+    <Compile Include="UI\FileBrowserUI.cs" />
     <Compile Include="UI\Forms\DemoForm.cs">
       <SubType>Form</SubType>
     </Compile>

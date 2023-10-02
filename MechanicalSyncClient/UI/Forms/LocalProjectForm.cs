@@ -1,6 +1,4 @@
 ﻿using MechanicalSyncApp.Core.Services.MechSync;
-using MechanicalSyncApp.Database;
-using MechanicalSyncApp.Database.Domain;
 using MechanicalSyncApp.Sync;
 using System;
 using System.Threading.Tasks;
@@ -10,7 +8,7 @@ namespace MechanicalSyncApp
 {
     public partial class LocalProjectForm : Form
     {
-        private ProjectMonitor monitor;
+        private ProjectChangeMonitor monitor;
 
         public LocalProjectForm()
         {

@@ -1,4 +1,4 @@
-﻿using MechanicalSyncApp.Database.Domain;
+﻿using MechanicalSyncApp.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core
 {
-    public interface IProjectMonitor : IDisposable
+    public interface IProjectChangeMonitor : IDisposable
     {
+        bool IsMonitoring { get; }
+
         void StartMonitoring();
         void StopMonitoring();
         bool IsEventQueueEmpty();
-        FileSyncEvent PeekNextEvent();
-        FileSyncEvent DequeueEvent();
+        FileChangeEvent PeekNextEvent();
+        FileChangeEvent DequeueEvent();
     }
 }

@@ -1,47 +1,48 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
-using MechanicalSyncApp.Database.Domain;
 using System;
 using System.Threading.Tasks;
 
 
-namespace MechanicalSyncApp.Sync.Handlers
+namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Handlers
 {
-    public class FileCreatedHandler : IFileSyncEventHandler
+    public class FileCreatedEventHandler : IFileSyncEventHandler
     {
         private readonly IMechSyncServiceClient client;
 
         public IFileSyncEventHandler NextHandler { get; set; }
 
-        public FileCreatedHandler(IMechSyncServiceClient client)
+        public FileCreatedEventHandler(IMechSyncServiceClient client)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
-        public async Task HandleAsync(FileSyncEvent fileSyncEvent)
+        public async Task HandleAsync(FileChangeEvent fileSyncEvent)
         {
-            if (fileSyncEvent.EventType != FileSyncEventType.Created)
+            if (fileSyncEvent.EventType != FileChangeEventType.Created)
             {
-                //await NextHandler?.HandleAsync(fileSyncEvent);
+                if (NextHandler != null)
+                    await NextHandler.HandleAsync(fileSyncEvent);
                 return;
             }
             try
             {
-                await client.UploadProjectFileAsync(new UploadFileRequest
+                await client.UploadFileAsync(new UploadFileRequest
                 {
                     LocalFilePath = fileSyncEvent.FullPath,
                     RelativeFilePath = fileSyncEvent.RelativePath.Replace('\\', '/'),
                     ProjectId = fileSyncEvent.LocalProject.RemoteId
                 });
-            } 
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception($"Failed to handle file created event: {ex.Message}", ex);
             }
         }
 
-        public Task HandleAsync(FileSyncEvent fileSyncEvent, int retryLimit)
+        public Task HandleAsync(FileChangeEvent fileSyncEvent, int retryLimit)
         {
             throw new NotImplementedException();
         }

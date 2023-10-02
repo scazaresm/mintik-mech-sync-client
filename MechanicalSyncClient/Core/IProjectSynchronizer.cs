@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MechanicalSyncApp.Core.Domain;
+using MechanicalSyncApp.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +10,10 @@ namespace MechanicalSyncApp.Core
 {
     public interface IProjectSynchronizer
     {
-        IProjectMonitor Monitor { get; }
+        ProjectSynchronizerUI UI { get; }
+
+        LocalProject LocalProject { get; }
+        IProjectChangeMonitor ChangeMonitor { get; }
 
         // State related methods
         ProjectSynchronizerState GetState();

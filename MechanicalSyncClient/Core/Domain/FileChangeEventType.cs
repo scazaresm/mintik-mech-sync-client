@@ -1,6 +1,6 @@
-﻿namespace MechanicalSyncApp.Database.Domain
+﻿namespace MechanicalSyncApp.Core.Domain
 {
-    public enum FileSyncEventType
+    public enum FileChangeEventType
     {
         Created,
         Renamed,
