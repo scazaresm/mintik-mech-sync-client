@@ -1,5 +1,6 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
+using MechanicalSyncApp.Core.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -57,6 +58,18 @@ namespace MechanicalSyncApp.Sync
             }
         }
 
+        public void EnqueueEvent(FileChangeEvent e)
+        {
+            // skip lock files (used by apps to indicate a given file is in use)
+            if (Path.GetFileName(e.FullPath).Trim().StartsWith("~$"))
+                return;
+
+            lock (eventQueueLock)
+            {
+                EventQueue.Enqueue(e);
+            }
+        }
+
         public FileChangeEvent DequeueEvent()
         {
             lock (eventQueueLock)
@@ -93,17 +106,6 @@ namespace MechanicalSyncApp.Sync
             watcher.Changed += new FileSystemEventHandler(OnFileChanged);
         }
 
-        private void EnqueueEvent(FileChangeEvent e)
-        {
-            // skip lock files (used by apps to indicate a given file is in use)
-            if (Path.GetFileName(e.FullPath).Trim().StartsWith("~$"))
-                return;
-
-            lock (eventQueueLock)
-            {
-                EventQueue.Enqueue(e);
-            }
-        }
 
         #region FileSystemWatcher event callbacks
         private void OnFileCreated(object source, FileSystemEventArgs e)

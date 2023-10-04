@@ -4,6 +4,7 @@ using MechanicalSyncApp.Sync.ProjectSynchronizer.States;
 using MechanicalSyncApp.UI;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.ProjectSynchronizer
 {
@@ -23,10 +24,10 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer
                 throw new ArgumentNullException(nameof(localProject));
             }
             LocalProject = localProject;
-            UI = ui ?? throw new ArgumentNullException(nameof(ui));
 
+            UI = ui ?? throw new ArgumentNullException(nameof(ui));
             ChangeMonitor = new ProjectChangeMonitor(localProject, "*.sldprt | *.sldasm | *.slddrw");
-            SetState(new ChangeMonitorDisabledState());
+            SetState(new StopSynchronizerState());
         }
 
         public ProjectSynchronizerState GetState()

@@ -15,13 +15,13 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
     {
         private readonly HttpClient _client;
         private readonly DownloadFileRequest _request;
-        private readonly IChecksumValidator _checksumCalculator;
+        private readonly IChecksumValidator _checksumValidator;
 
-        public DownloadFileHandler(HttpClient client, DownloadFileRequest request, IChecksumValidator checksumCalculator)
+        public DownloadFileHandler(HttpClient client, DownloadFileRequest request, IChecksumValidator checksumValidator)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _request = request ?? throw new ArgumentNullException(nameof(request));
-            _checksumCalculator = checksumCalculator ?? throw new ArgumentNullException(nameof(checksumCalculator));
+            _checksumValidator = checksumValidator ?? throw new ArgumentNullException(nameof(checksumValidator));
         }
 
         public async Task HandleAsync()
@@ -51,7 +51,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                 string expectedChecksum = response.Headers.GetValues("X-Checksum-SHA256").FirstOrDefault();
                 if (!string.IsNullOrEmpty(expectedChecksum))
                 {
-                    _checksumCalculator.ValidateFileChecksum(_request.LocalFilename, expectedChecksum);
+                    _checksumValidator.ValidateFileChecksum(_request.LocalFilename, expectedChecksum);
                 }
             }
         }

@@ -9,6 +9,7 @@ namespace MechanicalSyncApp.Core.Domain
     public enum FileSyncStatusIconIndex
     {
         Synced,
-        Syncing
+        Syncing,
+        Error
     }
 }

@@ -1,6 +1,12 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Domain;
+using MechanicalSyncApp.Core.Services.MechSync;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
+using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+using MechanicalSyncApp.Core.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,16 +17,82 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
     {
         public override async Task RunTransitionLogicAsync()
         {
-            // TODO: call handler for sync local project logic
-            await Task.Delay(1000);
+            try
+            {
+                var request = new GetFilesMetadataRequest()
+                {
+                    ProjectId = Synchronizer.LocalProject.RemoteId,
+                    VersionFolder = "Ongoing"
+                };
+                var filesInRemote = await MechSyncServiceClient.Instance.GetFilesMetadataAsync(request);
 
-            Synchronizer.SetState(new WaitForChangeEventsState());
-            _ = Synchronizer.RunTransitionLogicAsync();
+                var analyzer = new LocalProjectAnalyzer(Synchronizer.LocalProject, new Sha256ChecksumValidator());
+
+                var result = analyzer.CompareAgainstRemote(filesInRemote.Files);
+                EnqueueCreatedFiles(result.CreatedFiles);
+                EnqueueChangedFiles(result.ChangedFiles);
+                EnqueueDeletedFiles(result.DeletedFiles);
+
+                Synchronizer.SetState(new WaitForChangeEventsState());
+                _ = Synchronizer.RunTransitionLogicAsync();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         public override void UpdateUI()
         {
 
+        }
+
+        private void EnqueueCreatedFiles(List<FileMetadata> createdFiles)
+        {
+            foreach (var file in createdFiles)
+            {
+                Synchronizer.ChangeMonitor.EnqueueEvent(new FileChangeEvent
+                {
+                    EventType = FileChangeEventType.Created,
+                    LocalProject = Synchronizer.LocalProject,
+                    FullPath = Path.Combine(Synchronizer.LocalProject.LocalDirectory, file.RelativeFilePath),
+                    RelativePath = file.RelativeFilePath,
+                    RaiseDateTime = DateTime.Now,
+                    EventState = FileChangeEventState.Queued
+                });
+            }
+        }
+
+        private void EnqueueChangedFiles(List<FileMetadata> changedFiles)
+        {
+            foreach (var file in changedFiles)
+            {
+                Synchronizer.ChangeMonitor.EnqueueEvent(new FileChangeEvent
+                {
+                    EventType = FileChangeEventType.Changed,
+                    LocalProject = Synchronizer.LocalProject,
+                    FullPath = Path.Combine(Synchronizer.LocalProject.LocalDirectory, file.RelativeFilePath),
+                    RelativePath = file.RelativeFilePath,
+                    RaiseDateTime = DateTime.Now,
+                    EventState = FileChangeEventState.Queued
+                });
+            }
+        }
+
+        private void EnqueueDeletedFiles(List<FileMetadata> deletedFiles)
+        {
+            foreach (var file in deletedFiles)
+            {
+                Synchronizer.ChangeMonitor.EnqueueEvent(new FileChangeEvent
+                {
+                    EventType = FileChangeEventType.Deleted,
+                    LocalProject = Synchronizer.LocalProject,
+                    FullPath = Path.Combine(Synchronizer.LocalProject.LocalDirectory, file.RelativeFilePath),
+                    RelativePath = file.RelativeFilePath,
+                    RaiseDateTime = DateTime.Now,
+                    EventState = FileChangeEventState.Queued
+                });
+            }
         }
     }
 }

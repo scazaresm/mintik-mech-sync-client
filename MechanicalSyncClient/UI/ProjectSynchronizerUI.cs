@@ -8,6 +8,6 @@ namespace MechanicalSyncApp.UI
 {
     public class ProjectSynchronizerUI
     {
-        public FileBrowserUI FileBrowser { get; set; }
+        public FileViewer FileViewer { get; set; }
     }
 }

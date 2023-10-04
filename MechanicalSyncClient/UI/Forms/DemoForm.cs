@@ -5,7 +5,9 @@ using MechanicalSyncApp.Core.Services.Authentication.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Util;
+using MechanicalSyncApp.Sync;
 using MechanicalSyncApp.Sync.ProjectSynchronizer;
+using MechanicalSyncApp.Sync.ProjectSynchronizer.States;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,17 +21,13 @@ namespace MechanicalSyncApp.UI.Forms
         private LocalProject project;
         private IProjectSynchronizer projectSynchronizer;
 
-        private FileBrowserUI fileBrowser;
-
         public DemoForm()
         {
             InitializeComponent();
-            fileBrowser = new FileBrowserUI(listView1);
         }
 
         private void DemoForm_Load(object sender, EventArgs e)
         {
-            fileBrowser.Navigate(@"C:\sync_demo");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -42,10 +40,10 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void InitSynchronizerButton_Click(object sender, EventArgs e)
         {
-            project = new LocalProject("651653adad5cbc5699ddff66", @"C:\sync_demo");
-            projectSynchronizer = new ProjectSynchronizer(project, new ProjectSynchronizerUI
+            project = new LocalProject("651d7d0d05ed6cb587091598", @"C:\sync_demo");
+            projectSynchronizer = new ProjectSynchronizer(project, new ProjectSynchronizerUI()
             {
-                FileBrowser = fileBrowser
+                FileViewer = new FileViewer(new ListView(), project.LocalDirectory)
             });
         }
 
@@ -57,6 +55,7 @@ namespace MechanicalSyncApp.UI.Forms
                 return;
             }
             projectSynchronizer.ChangeMonitor.StartMonitoring();
+            ProcessEventsButton.Enabled = true;
         }
 
         private void StopMonitoringButton_Click(object sender, EventArgs e)
@@ -94,10 +93,50 @@ namespace MechanicalSyncApp.UI.Forms
                 {
                     LocalFilename = "M097_00-02-001.SLDPRT",
                     RelativeFilePath = "folder/M097_00-02-001.SLDPRT",
-                    ProjectId = "651653adad5cbc5699ddff66",
+                    ProjectId = "651ca7196335322b03dc103d",
                     VersionFolder = "Ongoing"
                 };
                 await MechSyncServiceClient.Instance.DownloadFileAsync(request);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void GetFilesMetadataButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var request = new GetFilesMetadataRequest()
+                {
+                    ProjectId = "651ca7196335322b03dc103d",
+                    VersionFolder = "Ongoing"
+                };
+                var response = await MechSyncServiceClient.Instance.GetFilesMetadataAsync(request);
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private async void AnalyzeLocalButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var request = new GetFilesMetadataRequest()
+                {
+                    ProjectId = project.RemoteId,
+                    VersionFolder = "Ongoing"
+                };
+                var filesMetadataInRemote = await MechSyncServiceClient.Instance.GetFilesMetadataAsync(request);
+
+                var analyzer = new LocalProjectAnalyzer(project, new Sha256ChecksumValidator());
+
+                var result = analyzer.CompareAgainstRemote(filesMetadataInRemote.Files);
             }
             catch (Exception ex)
             {
@@ -113,7 +152,7 @@ namespace MechanicalSyncApp.UI.Forms
                 {
                     LocalFilename = "M097_00-00.SLDASM",
                     RelativeFilePath = "folder/M097_00-00.SLDASM",
-                    ProjectId = "651653adad5cbc5699ddff66",
+                    ProjectId = "651ca7196335322b03dc103d",
                     VersionFolder = "Ongoing"
                 };
                 await MechSyncServiceClient.Instance.DownloadFileAsync(request, UpdateToolStripProgressBar);
@@ -162,7 +201,7 @@ namespace MechanicalSyncApp.UI.Forms
                 var request = new DeleteFileRequest()
                 {
                     RelativeFilePath = "folder1/folder2/M097_00-79.sldasm",
-                    ProjectId = "651653adad5cbc5699ddff66"
+                    ProjectId = "651cd9b0ab729ebc4068d45d"
                 };
                 await MechSyncServiceClient.Instance.DeleteFileAsync(request);
                 MessageBox.Show("File deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -173,15 +212,38 @@ namespace MechanicalSyncApp.UI.Forms
             }
         }
 
-        private async void ProcessEventsButton_Click(object sender, EventArgs e)
+        private void ProcessEventsButton_Click(object sender, EventArgs e)
         {
             ProcessEventsButton.Enabled = false;
-            await projectSynchronizer.RunTransitionLogicAsync();
+            projectSynchronizer.SetState(new SyncLocalProjectState());
+            _ = projectSynchronizer.RunTransitionLogicAsync();
         }
 
+        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            // Get the selected ListViewItem, if any
+            ListViewItem selectedItem = listView1.SelectedItems.Count > 0 ? listView1.SelectedItems[0] : null;
 
+            // Check if a ListViewItem was double-clicked
+            if (selectedItem != null)
+            {
+                // Do something with the double-clicked ListViewItem
+                string text = selectedItem.Text;
+                string subItemText = selectedItem.SubItems[2].Text;
 
-     
+                // Example: Show a message box with the item's text
+                MessageBox.Show($"Item: {text}, Subitem: {subItemText}");
+            }
+        }
 
+        private void RefreshButton_Click(object sender, EventArgs e)
+        {
+            projectSynchronizer.UI.FileViewer.PopulateFiles();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            projectSynchronizer.UI.FileViewer = new FileViewer(listView1, project.LocalDirectory);
+        }
     }
 }

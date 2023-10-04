@@ -24,9 +24,9 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
             }
 
             // initialize chain of handlers
-            fileCreatedHandler = new FileCreatedEventHandler(client);
+            fileCreatedHandler = new FileCreatedEventHandler(client, this);
             fileChangedHandler = new FileChangedEventHandler(client, this);
-            fileDeletedHandler = new FileDeletedEventHandler(client);
+            fileDeletedHandler = new FileDeletedEventHandler(client, this);
 
             fileCreatedHandler.NextHandler = fileChangedHandler;
             fileChangedHandler.NextHandler = fileDeletedHandler;
@@ -49,15 +49,8 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
                 Console.WriteLine(ex);
             }
 
-            if (monitor.IsEventQueueEmpty())
-            {
-                Synchronizer.SetState(new WaitForChangeEventsState());
-            }
-            else
-            {
-                Synchronizer.SetState(this);
-            }
-            await Synchronizer.RunTransitionLogicAsync();
+            Synchronizer.SetState(new WaitForChangeEventsState());
+            _ = Synchronizer.RunTransitionLogicAsync();
         }
     }
 }

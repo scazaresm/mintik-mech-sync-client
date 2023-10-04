@@ -13,9 +13,8 @@ namespace MechanicalSyncApp.Core
         string WorkspaceDirectory { get; }
         MechSyncServiceClient ServiceClient { get; }
 
-        void Initialize();
-        void DownloadRemoteProject(string remoteProjectId);
-        void PublishLocalProject(LocalProject localProject);
-        void CreateProjectVersion(string remoteProjectId);
+
+
+        void OpenMyProjects();
     }
 }

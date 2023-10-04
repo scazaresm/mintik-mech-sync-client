@@ -14,5 +14,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task DownloadFileAsync(DownloadFileRequest request);
         Task<UploadFileResponse> UploadFileAsync(UploadFileRequest request);
         Task<DeleteFileResponse> DeleteFileAsync(DeleteFileRequest request);
+
+        Task<GetFilesMetadataResponse> GetFilesMetadataAsync(GetFilesMetadataRequest request);
     }
 }

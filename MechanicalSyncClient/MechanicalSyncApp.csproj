@@ -68,7 +68,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
+    <Compile Include="Core\Domain\LocalProjectAnalysisResult.cs" />
     <Compile Include="Core\IWorkspaceManager.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetFilesMetadataHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Models\FileMetadata.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\GetFilesMetadataRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Response\GetFilesMetadataResponse.cs" />
+    <Compile Include="Core\Util\FileUtils.cs" />
+    <Compile Include="Sync\LocalProjectAnalyzer.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\StopSynchronizerState.cs" />
+    <Compile Include="UI\Forms\ProjectSynchronizerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ProjectSynchronizerForm.Designer.cs">
+      <DependentUpon>ProjectSynchronizerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProjectSynchronizerUI.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DeleteFileHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DownloadFileHandler.cs" />
@@ -108,11 +122,10 @@
     <Compile Include="Sync\ProjectSynchronizer\Handlers\FileDeletedEventHandler.cs" />
     <Compile Include="Sync\ProjectChangeMonitor.cs" />
     <Compile Include="Sync\ProjectSynchronizer\ProjectSynchronizer.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\ChangeMonitorDisabledState.cs" />
     <Compile Include="Sync\ProjectSynchronizer\States\WaitForChangeEventsState.cs" />
     <Compile Include="Sync\ProjectSynchronizer\States\ProcessChangeEventsState.cs" />
     <Compile Include="Sync\ProjectSynchronizer\States\SyncLocalProjectState.cs" />
-    <Compile Include="UI\FileBrowserUI.cs" />
+    <Compile Include="UI\FileViewer.cs" />
     <Compile Include="UI\Forms\DemoForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +164,9 @@
     </Compile>
     <EmbeddedResource Include="UI\Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\ProjectSynchronizerForm.resx">
+      <DependentUpon>ProjectSynchronizerForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

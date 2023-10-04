@@ -83,6 +83,14 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             return response;
         }
 
+        public async Task<GetFilesMetadataResponse> GetFilesMetadataAsync(GetFilesMetadataRequest request)
+        {
+            await RefreshAuthTokenAsync();
+            var handler = new GetFilesMetadataHandler(_fileClient, request);
+            var response = await handler.HandleAsync();
+            return response;
+        }
+
         #region Disposing pattern
         protected virtual void Dispose(bool disposing)
         {
