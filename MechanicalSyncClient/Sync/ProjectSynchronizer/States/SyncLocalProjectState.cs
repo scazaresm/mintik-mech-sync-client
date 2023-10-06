@@ -21,8 +21,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
             {
                 var request = new GetFilesMetadataRequest()
                 {
-                    ProjectId = Synchronizer.LocalProject.RemoteId,
-                    VersionFolder = "Ongoing"
+                    VersionId = Synchronizer.LocalProject.RemoteVersionId,
                 };
                 var filesInRemote = await MechSyncServiceClient.Instance.GetFilesMetadataAsync(request);
 
@@ -33,7 +32,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
                 EnqueueChangedFiles(result.ChangedFiles);
                 EnqueueDeletedFiles(result.DeletedFiles);
 
-                Synchronizer.SetState(new WaitForChangeEventsState());
+                Synchronizer.SetState(new WaitForSyncEventsState());
                 _ = Synchronizer.RunTransitionLogicAsync();
             }
             catch(Exception ex)
@@ -51,14 +50,14 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
         {
             foreach (var file in createdFiles)
             {
-                Synchronizer.ChangeMonitor.EnqueueEvent(new FileChangeEvent
+                Synchronizer.ChangeMonitor.EnqueueEvent(new FileSyncEvent
                 {
-                    EventType = FileChangeEventType.Created,
+                    EventType = FileSyncEventType.Created,
                     LocalProject = Synchronizer.LocalProject,
                     FullPath = Path.Combine(Synchronizer.LocalProject.LocalDirectory, file.RelativeFilePath),
                     RelativePath = file.RelativeFilePath,
                     RaiseDateTime = DateTime.Now,
-                    EventState = FileChangeEventState.Queued
+                    EventState = FileSyncEventState.Queued
                 });
             }
         }
@@ -67,14 +66,14 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
         {
             foreach (var file in changedFiles)
             {
-                Synchronizer.ChangeMonitor.EnqueueEvent(new FileChangeEvent
+                Synchronizer.ChangeMonitor.EnqueueEvent(new FileSyncEvent
                 {
-                    EventType = FileChangeEventType.Changed,
+                    EventType = FileSyncEventType.Changed,
                     LocalProject = Synchronizer.LocalProject,
                     FullPath = Path.Combine(Synchronizer.LocalProject.LocalDirectory, file.RelativeFilePath),
                     RelativePath = file.RelativeFilePath,
                     RaiseDateTime = DateTime.Now,
-                    EventState = FileChangeEventState.Queued
+                    EventState = FileSyncEventState.Queued
                 });
             }
         }
@@ -83,14 +82,14 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
         {
             foreach (var file in deletedFiles)
             {
-                Synchronizer.ChangeMonitor.EnqueueEvent(new FileChangeEvent
+                Synchronizer.ChangeMonitor.EnqueueEvent(new FileSyncEvent
                 {
-                    EventType = FileChangeEventType.Deleted,
+                    EventType = FileSyncEventType.Deleted,
                     LocalProject = Synchronizer.LocalProject,
                     FullPath = Path.Combine(Synchronizer.LocalProject.LocalDirectory, file.RelativeFilePath),
                     RelativePath = file.RelativeFilePath,
                     RaiseDateTime = DateTime.Now,
-                    EventState = FileChangeEventState.Queued
+                    EventState = FileSyncEventState.Queued
                 });
             }
         }

@@ -16,7 +16,7 @@ namespace MechanicalSyncApp.Sync
         public string FileFilter { get; }
 
         private readonly object eventQueueLock = new object();
-        public Queue<FileChangeEvent> EventQueue { get; }
+        public Queue<FileSyncEvent> EventQueue { get; }
 
         public bool IsMonitoring { get; private set; }
 
@@ -34,7 +34,7 @@ namespace MechanicalSyncApp.Sync
 
             Project = project;
             FileFilter = fileFilter;
-            EventQueue = new Queue<FileChangeEvent>();
+            EventQueue = new Queue<FileSyncEvent>();
 
             InitializeFileSystemWatcher();
         }
@@ -47,7 +47,7 @@ namespace MechanicalSyncApp.Sync
             }
         }
 
-        public FileChangeEvent PeekNextEvent()
+        public FileSyncEvent PeekNextEvent()
         {
             lock (eventQueueLock)
             {
@@ -58,7 +58,7 @@ namespace MechanicalSyncApp.Sync
             }
         }
 
-        public void EnqueueEvent(FileChangeEvent e)
+        public void EnqueueEvent(FileSyncEvent e)
         {
             // skip lock files (used by apps to indicate a given file is in use)
             if (Path.GetFileName(e.FullPath).Trim().StartsWith("~$"))
@@ -70,7 +70,7 @@ namespace MechanicalSyncApp.Sync
             }
         }
 
-        public FileChangeEvent DequeueEvent()
+        public FileSyncEvent DequeueEvent()
         {
             lock (eventQueueLock)
             {
@@ -111,10 +111,10 @@ namespace MechanicalSyncApp.Sync
         private void OnFileCreated(object source, FileSystemEventArgs e)
         {
             Console.WriteLine($"File created: {e.Name}");
-            EnqueueEvent(new FileChangeEvent
+            EnqueueEvent(new FileSyncEvent
             {
                 LocalProject = Project,
-                EventType = FileChangeEventType.Created,
+                EventType = FileSyncEventType.Created,
                 RelativePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
@@ -124,10 +124,10 @@ namespace MechanicalSyncApp.Sync
         private void OnFileDeleted(object source, FileSystemEventArgs e)
         {
             Console.WriteLine($"File deleted: {e.Name}");
-            EnqueueEvent(new FileChangeEvent
+            EnqueueEvent(new FileSyncEvent
             {
                 LocalProject = Project,
-                EventType = FileChangeEventType.Deleted,
+                EventType = FileSyncEventType.Deleted,
                 RelativePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
@@ -137,10 +137,10 @@ namespace MechanicalSyncApp.Sync
         private void OnFileChanged(object source, FileSystemEventArgs e)
         {
             Console.WriteLine($"File changed: {e.Name}");
-            EnqueueEvent(new FileChangeEvent
+            EnqueueEvent(new FileSyncEvent
             {
                 LocalProject = Project,
-                EventType = FileChangeEventType.Changed,
+                EventType = FileSyncEventType.Changed,
                 RelativePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
@@ -150,10 +150,10 @@ namespace MechanicalSyncApp.Sync
         private void OnFileRenamed(object source, FileSystemEventArgs e)
         {
             Console.WriteLine($"File renamed: {e.Name}");
-            EnqueueEvent(new FileChangeEvent
+            EnqueueEvent(new FileSyncEvent
             {
                 LocalProject = Project,
-                EventType = FileChangeEventType.Renamed,
+                EventType = FileSyncEventType.Renamed,
                 RelativePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now

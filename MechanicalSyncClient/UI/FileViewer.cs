@@ -13,29 +13,33 @@ namespace MechanicalSyncApp.UI
 {
     public class FileViewer
     {
-        public ListView ListView { get; private set; }
         private readonly ImageList iconList;
-
+        public ListView AttachedListView { get; private set; }
         private string localDirectory;
 
         public DictionaryListViewAdapter FileLookup { get; private set; }
 
-        public FileViewer(ListView listView, string localDirectory)
+        public FileViewer(string localDirectory)
         {
             this.localDirectory = localDirectory ?? throw new ArgumentNullException(nameof(localDirectory));
-            ListView = listView ?? throw new ArgumentNullException(nameof(listView));
+            AttachedListView = new ListView();
             iconList = new ImageList();
             iconList.ImageSize = new Size(32, 32);
             iconList.ColorDepth = ColorDepth.Depth32Bit;
+            FileLookup = new DictionaryListViewAdapter(AttachedListView.Items);
+        }
+
+        public void AttachListView(ListView listView)
+        {
+            this.AttachedListView = listView;
             FileLookup = new DictionaryListViewAdapter(listView.Items);
             PopulateFiles();
         }
 
         public void AddCreatedFile(string filePath)
         {
-            FileInfo fileInfo = new FileInfo(filePath);
-            if(!FileLookup.ContainsKey(fileInfo.FullName))
-                FileLookup.Add(fileInfo.FullName, BuildDefaultListViewItem(fileInfo));
+            if (!FileLookup.ContainsKey(filePath))
+                FileLookup.Add(filePath, BuildDefaultListViewItem(filePath));
             SetSyncingStatusToFile(filePath);
         }
 
@@ -108,39 +112,45 @@ namespace MechanicalSyncApp.UI
                 throw new Exception($"Directory does not exist: {localDirectory}");
             }
 
+            iconList.Images.Clear();
             FileLookup.Clear();
-            foreach (string localFile in Directory.GetFiles(localDirectory, "*.*", SearchOption.AllDirectories))
+            AttachedListView.Enabled = false;
+            //listView.SmallImageList = iconList;
+
+            var allLocalFiles = Directory.GetFiles(localDirectory, "*.*", SearchOption.AllDirectories);
+
+            foreach (string localFile in allLocalFiles)
             {
-                FileInfo fileInfo = new FileInfo(localFile);
-                if (fileInfo.Name.StartsWith("~$"))
+                if (Path.GetFileName(localFile).StartsWith("~$"))
                     continue;
 
-                FileLookup.Add(fileInfo.FullName, BuildDefaultListViewItem(fileInfo));
+                FileLookup.Add(localFile, BuildDefaultListViewItem(localFile));
                 SetSyncedStatusToFile(localFile);
             }
-            ListView.SmallImageList = iconList;
+            AttachedListView.Enabled = true;
         }
 
-        private ListViewItem BuildDefaultListViewItem(FileInfo fileInfo)
+        private ListViewItem BuildDefaultListViewItem(string filePath)
         {
-            var relativeFilePath = fileInfo.FullName.Replace(localDirectory + Path.DirectorySeparatorChar, "");
+            var relativeFilePath = filePath.Replace(localDirectory + Path.DirectorySeparatorChar, "");
 
-            iconList.Images.Add(Icon.ExtractAssociatedIcon(fileInfo.FullName));
-            var listViewItem = new ListViewItem(relativeFilePath, iconList.Images.Count - 1);
+            //iconList.Images.Add(Icon.ExtractAssociatedIcon(filePath));
+            //var listViewItem = new ListViewItem(relativeFilePath, iconList.Images.Count - 1);
+            var listViewItem = new ListViewItem(relativeFilePath);
 
-            var groupIndex = GetListViewGroupIndex(fileInfo);
+            var groupIndex = GetListViewGroupIndex(filePath);
             if(groupIndex >= 0)
-                listViewItem.Group = ListView.Groups[groupIndex];
+                listViewItem.Group = AttachedListView.Groups[groupIndex];
             return listViewItem;
         }
 
-        private int GetListViewGroupIndex(FileInfo fileInfo)
+        private int GetListViewGroupIndex(string filePath)
         {
-            if(ListView.Groups.Count != 3)
+            if(AttachedListView.Groups.Count != 3)
             {
                 return -1;
             }
-            switch(fileInfo.Extension.ToLower())
+            switch(Path.GetExtension(filePath))
             {
                 case ".sldasm": return 0;
                 case ".sldprt": return 1;

@@ -2,7 +2,7 @@
 
 namespace MechanicalSyncApp.Core.Domain
 {
-    public class FileChangeEvent
+    public class FileSyncEvent
     {
         public LocalProject LocalProject { get; set; }
 
@@ -10,7 +10,7 @@ namespace MechanicalSyncApp.Core.Domain
         public string FullPath { get; set; }
 
         public DateTime RaiseDateTime { get; set; }
-        public FileChangeEventType EventType { get; set; }
-        public FileChangeEventState EventState { get; set; } = FileChangeEventState.Queued;
+        public FileSyncEventType EventType { get; set; }
+        public FileSyncEventState EventState { get; set; } = FileSyncEventState.Queued;
     }
 }

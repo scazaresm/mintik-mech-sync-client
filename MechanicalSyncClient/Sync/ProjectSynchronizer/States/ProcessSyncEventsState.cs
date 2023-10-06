@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 {
-    public class ProcessChangeEventsState : ProjectSynchronizerState
+    public class ProcessSyncEventsState : ProjectSynchronizerState
     {
         private readonly FileCreatedEventHandler fileCreatedHandler;
         private readonly FileChangedEventHandler fileChangedHandler;
         private readonly FileDeletedEventHandler fileDeletedHandler;
 
-        public ProcessChangeEventsState(MechSyncServiceClient client)
+        public ProcessSyncEventsState(MechSyncServiceClient client)
         {
             if (client is null)
             {
@@ -49,7 +49,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
                 Console.WriteLine(ex);
             }
 
-            Synchronizer.SetState(new WaitForChangeEventsState());
+            Synchronizer.SetState(new WaitForSyncEventsState());
             _ = Synchronizer.RunTransitionLogicAsync();
         }
     }

@@ -16,7 +16,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="eDrawings.Interop.EModelViewControl">
+      <HintPath>..\..\..\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelViewControl.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -74,15 +79,16 @@
     <Compile Include="Core\Services\MechSync\Models\FileMetadata.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetFilesMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Response\GetFilesMetadataResponse.cs" />
-    <Compile Include="Core\Util\FileUtils.cs" />
     <Compile Include="Sync\LocalProjectAnalyzer.cs" />
     <Compile Include="Sync\ProjectSynchronizer\States\StopSynchronizerState.cs" />
-    <Compile Include="UI\Forms\ProjectSynchronizerForm.cs">
+    <Compile Include="UI\DesignViewer.cs" />
+    <Compile Include="UI\Forms\DesignViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\ProjectSynchronizerForm.Designer.cs">
-      <DependentUpon>ProjectSynchronizerForm.cs</DependentUpon>
+    <Compile Include="UI\Forms\DesignViewerForm.Designer.cs">
+      <DependentUpon>DesignViewerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ListViewExtensions.cs" />
     <Compile Include="UI\ProjectSynchronizerUI.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DeleteFileHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DownloadFileHandler.cs" />
@@ -103,9 +109,9 @@
     <Compile Include="Core\Services\Authentication\IAuthenticationServiceClient.cs" />
     <Compile Include="Core\ProjectSynchronizerState.cs" />
     <Compile Include="Core\Util\QueryUriGenerator.cs" />
-    <Compile Include="Core\Domain\FileChangeEvent.cs" />
-    <Compile Include="Core\Domain\FileChangeEventState.cs" />
-    <Compile Include="Core\Domain\FileChangeEventType.cs" />
+    <Compile Include="Core\Domain\FileSyncEvent.cs" />
+    <Compile Include="Core\Domain\FileSyncEventState.cs" />
+    <Compile Include="Core\Domain\FileSyncEventType.cs" />
     <Compile Include="Core\Domain\LocalProject.cs" />
     <Compile Include="Core\IProjectChangeMonitor.cs" />
     <Compile Include="Core\IProjectSynchronizer.cs" />
@@ -122,8 +128,8 @@
     <Compile Include="Sync\ProjectSynchronizer\Handlers\FileDeletedEventHandler.cs" />
     <Compile Include="Sync\ProjectChangeMonitor.cs" />
     <Compile Include="Sync\ProjectSynchronizer\ProjectSynchronizer.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\WaitForChangeEventsState.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\ProcessChangeEventsState.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\WaitForSyncEventsState.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\ProcessSyncEventsState.cs" />
     <Compile Include="Sync\ProjectSynchronizer\States\SyncLocalProjectState.cs" />
     <Compile Include="UI\FileViewer.cs" />
     <Compile Include="UI\Forms\DemoForm.cs">
@@ -149,6 +155,9 @@
     <EmbeddedResource Include="UI\Forms\DemoForm.resx">
       <DependentUpon>DemoForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\DesignViewerForm.resx">
+      <DependentUpon>DesignViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\LocalProjectForm.resx">
       <DependentUpon>LocalProjectForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -164,9 +173,6 @@
     </Compile>
     <EmbeddedResource Include="UI\Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\ProjectSynchronizerForm.resx">
-      <DependentUpon>ProjectSynchronizerForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

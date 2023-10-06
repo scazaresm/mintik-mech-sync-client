@@ -15,8 +15,8 @@ namespace MechanicalSyncApp.Core
         void StartMonitoring();
         void StopMonitoring();
         bool IsEventQueueEmpty();
-        FileChangeEvent PeekNextEvent();
-        void EnqueueEvent(FileChangeEvent fileChangeEvent);
-        FileChangeEvent DequeueEvent();
+        FileSyncEvent PeekNextEvent();
+        void EnqueueEvent(FileSyncEvent fileChangeEvent);
+        FileSyncEvent DequeueEvent();
     }
 }

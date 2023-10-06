@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 {
-    public class WaitForChangeEventsState : ProjectSynchronizerState
+    public class WaitForSyncEventsState : ProjectSynchronizerState
     {
         public override async Task RunTransitionLogicAsync()
         {
@@ -30,7 +30,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
             else
             {
                 // process queued change events
-                var nextState = new ProcessChangeEventsState(MechSyncServiceClient.Instance);
+                var nextState = new ProcessSyncEventsState(MechSyncServiceClient.Instance);
                 Synchronizer.SetState(nextState);
                 _ = Synchronizer.RunTransitionLogicAsync();
             }

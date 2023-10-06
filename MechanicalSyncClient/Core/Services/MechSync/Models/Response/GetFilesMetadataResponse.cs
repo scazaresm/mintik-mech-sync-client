@@ -9,7 +9,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models.Response
     public class GetFilesMetadataResponse
     {
         public string ProjectId { get; set; }
-        public string VersionFolder { get; set; }
+        public string VersionId { get; set; }
         public List<FileMetadata> Files { get; set; }
 
         public string Error { get; set; }

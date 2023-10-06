@@ -40,10 +40,14 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void InitSynchronizerButton_Click(object sender, EventArgs e)
         {
-            project = new LocalProject("651d7d0d05ed6cb587091598", @"C:\sync_demo");
+            project = new LocalProject(
+                "651f63b58ab79706cf22efbd", 
+                "651f63b58ab79706cf22efbf", 
+                @"C:\sync_demo"
+            );
             projectSynchronizer = new ProjectSynchronizer(project, new ProjectSynchronizerUI()
             {
-                FileViewer = new FileViewer(new ListView(), project.LocalDirectory)
+                FileViewer = new FileViewer(project.LocalDirectory)
             });
         }
 
@@ -110,8 +114,7 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 var request = new GetFilesMetadataRequest()
                 {
-                    ProjectId = "651ca7196335322b03dc103d",
-                    VersionFolder = "Ongoing"
+                    VersionId = "651f63b58ab79706cf22efbf",
                 };
                 var response = await MechSyncServiceClient.Instance.GetFilesMetadataAsync(request);
                 
@@ -129,8 +132,7 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 var request = new GetFilesMetadataRequest()
                 {
-                    ProjectId = project.RemoteId,
-                    VersionFolder = "Ongoing"
+                    VersionId = project.RemoteVersionId,
                 };
                 var filesMetadataInRemote = await MechSyncServiceClient.Instance.GetFilesMetadataAsync(request);
 
@@ -222,17 +224,14 @@ namespace MechanicalSyncApp.UI.Forms
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // Get the selected ListViewItem, if any
-            ListViewItem selectedItem = listView1.SelectedItems.Count > 0 ? listView1.SelectedItems[0] : null;
+            ListViewItem selectedItem = ProjectFilesListView.SelectedItems.Count > 0 ? ProjectFilesListView.SelectedItems[0] : null;
 
             // Check if a ListViewItem was double-clicked
             if (selectedItem != null)
             {
-                // Do something with the double-clicked ListViewItem
-                string text = selectedItem.Text;
-                string subItemText = selectedItem.SubItems[2].Text;
-
-                // Example: Show a message box with the item's text
-                MessageBox.Show($"Item: {text}, Subitem: {subItemText}");
+                string filePath = selectedItem.SubItems[2].Text;
+                var designViewerForm = new DesignViewerForm(filePath);
+                designViewerForm.Show();
             }
         }
 
@@ -243,7 +242,8 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            projectSynchronizer.UI.FileViewer = new FileViewer(listView1, project.LocalDirectory);
+            ProjectFilesListView.SetDoubleBuffered();
+            projectSynchronizer.UI.FileViewer.AttachListView(ProjectFilesListView);
         }
     }
 }

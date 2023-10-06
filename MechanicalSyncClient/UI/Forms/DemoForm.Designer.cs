@@ -60,22 +60,22 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.ProcessEventsButton = new System.Windows.Forms.Button();
-            this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+            this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.NavigationTree = new System.Windows.Forms.TreeView();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.ProjectFilesListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.RefreshButton = new System.Windows.Forms.ToolStripButton();
+            this.ProjectSincronizerToolStrip = new System.Windows.Forms.ToolStrip();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
+            this.RefreshButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
+            this.ProjectSincronizerToolStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -147,13 +147,13 @@ namespace MechanicalSyncApp.UI.Forms
             this.ProcessEventsButton.UseVisualStyleBackColor = true;
             this.ProcessEventsButton.Click += new System.EventHandler(this.ProcessEventsButton_Click);
             // 
-            // imageList2
+            // FileSyncStatusIcons
             // 
-            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
-            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList2.Images.SetKeyName(0, "ok-icon-32.png");
-            this.imageList2.Images.SetKeyName(1, "sync-icon-32.png");
-            this.imageList2.Images.SetKeyName(2, "error-icon-32.png");
+            this.FileSyncStatusIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("FileSyncStatusIcons.ImageStream")));
+            this.FileSyncStatusIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.FileSyncStatusIcons.Images.SetKeyName(0, "ok-icon-32.png");
+            this.FileSyncStatusIcons.Images.SetKeyName(1, "sync-icon-32.png");
+            this.FileSyncStatusIcons.Images.SetKeyName(2, "error-icon-32.png");
             // 
             // splitContainer1
             // 
@@ -167,8 +167,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.listView1);
-            this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
+            this.splitContainer1.Panel2.Controls.Add(this.ProjectFilesListView);
+            this.splitContainer1.Panel2.Controls.Add(this.ProjectSincronizerToolStrip);
             this.splitContainer1.Size = new System.Drawing.Size(973, 509);
             this.splitContainer1.SplitterDistance = 278;
             this.splitContainer1.TabIndex = 16;
@@ -198,36 +198,37 @@ namespace MechanicalSyncApp.UI.Forms
             this.NavigationTree.Size = new System.Drawing.Size(278, 509);
             this.NavigationTree.TabIndex = 0;
             // 
-            // listView1
+            // ProjectFilesListView
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ProjectFilesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ProjectFilesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             listViewGroup1.Header = "Assemblies";
             listViewGroup1.Name = "assembliesGroup";
             listViewGroup2.Header = "Parts";
             listViewGroup2.Name = "partsGroup";
             listViewGroup3.Header = "Drawings";
             listViewGroup3.Name = "drawingsGroup";
-            this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            this.ProjectFilesListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2,
             listViewGroup3});
-            this.listView1.HideSelection = false;
+            this.ProjectFilesListView.HideSelection = false;
             listViewItem1.StateImageIndex = 0;
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            this.ProjectFilesListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1,
             listViewItem2});
-            this.listView1.Location = new System.Drawing.Point(0, 25);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(691, 484);
-            this.listView1.StateImageList = this.imageList2;
-            this.listView1.TabIndex = 14;
-            this.listView1.TileSize = new System.Drawing.Size(150, 30);
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.ProjectFilesListView.Location = new System.Drawing.Point(0, 25);
+            this.ProjectFilesListView.MultiSelect = false;
+            this.ProjectFilesListView.Name = "ProjectFilesListView";
+            this.ProjectFilesListView.Size = new System.Drawing.Size(691, 484);
+            this.ProjectFilesListView.StateImageList = this.FileSyncStatusIcons;
+            this.ProjectFilesListView.TabIndex = 14;
+            this.ProjectFilesListView.TileSize = new System.Drawing.Size(150, 30);
+            this.ProjectFilesListView.UseCompatibleStateImageBehavior = false;
+            this.ProjectFilesListView.View = System.Windows.Forms.View.Details;
+            this.ProjectFilesListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
             // 
             // columnHeader1
             // 
@@ -240,25 +241,15 @@ namespace MechanicalSyncApp.UI.Forms
             this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeader2.Width = 150;
             // 
-            // toolStrip2
+            // ProjectSincronizerToolStrip
             // 
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ProjectSincronizerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RefreshButton});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(691, 25);
-            this.toolStrip2.TabIndex = 15;
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // RefreshButton
-            // 
-            this.RefreshButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.RefreshButton.Image = ((System.Drawing.Image)(resources.GetObject("RefreshButton.Image")));
-            this.RefreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RefreshButton.Name = "RefreshButton";
-            this.RefreshButton.Size = new System.Drawing.Size(66, 22);
-            this.RefreshButton.Text = "Refresh";
-            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
+            this.ProjectSincronizerToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.ProjectSincronizerToolStrip.Name = "ProjectSincronizerToolStrip";
+            this.ProjectSincronizerToolStrip.Size = new System.Drawing.Size(691, 25);
+            this.ProjectSincronizerToolStrip.TabIndex = 15;
+            this.ProjectSincronizerToolStrip.Text = "toolStrip2";
             // 
             // panel1
             // 
@@ -284,6 +275,16 @@ namespace MechanicalSyncApp.UI.Forms
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // RefreshButton
+            // 
+            this.RefreshButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.RefreshButton.Image = ((System.Drawing.Image)(resources.GetObject("RefreshButton.Image")));
+            this.RefreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshButton.Name = "RefreshButton";
+            this.RefreshButton.Size = new System.Drawing.Size(66, 22);
+            this.RefreshButton.Text = "Refresh";
+            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
+            // 
             // DemoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -302,8 +303,8 @@ namespace MechanicalSyncApp.UI.Forms
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
+            this.ProjectSincronizerToolStrip.ResumeLayout(false);
+            this.ProjectSincronizerToolStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -319,14 +320,14 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.Button ProcessEventsButton;
-        private System.Windows.Forms.ImageList imageList2;
+        private System.Windows.Forms.ImageList FileSyncStatusIcons;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView ProjectFilesListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TreeView NavigationTree;
-        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStrip ProjectSincronizerToolStrip;
         private System.Windows.Forms.ToolStripButton RefreshButton;
         private System.Windows.Forms.Button button1;
     }

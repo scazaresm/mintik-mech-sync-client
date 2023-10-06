@@ -1,6 +1,6 @@
 ﻿namespace MechanicalSyncApp.Core.Domain
 {
-    public enum FileChangeEventState
+    public enum FileSyncEventState
     {
         Queued,
         Processing,

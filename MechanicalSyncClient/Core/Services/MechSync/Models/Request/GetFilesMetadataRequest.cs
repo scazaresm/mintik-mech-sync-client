@@ -8,7 +8,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models.Request
 {
     public class GetFilesMetadataRequest
     {
-        public string ProjectId { get; set; }
-        public string VersionFolder { get; set; }
+        public string VersionId { get; set; }
     }
 }

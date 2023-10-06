@@ -25,26 +25,37 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Handlers
             this.sourceState = sourceState ?? throw new ArgumentNullException(nameof(sourceState));
         }
 
-        public async Task HandleAsync(FileChangeEvent fileSyncEvent)
+        public async Task HandleAsync(FileSyncEvent fileSyncEvent)
         {
-            if (fileSyncEvent.EventType != FileChangeEventType.Deleted)
+            if (fileSyncEvent.EventType != FileSyncEventType.Deleted)
             {
                 if (NextHandler != null)
                     await NextHandler.HandleAsync(fileSyncEvent);
                 return;
             }
 
-            var fileBrowser = sourceState.Synchronizer.UI.FileViewer;
+            var fileViewer = sourceState.Synchronizer.UI.FileViewer;
             try
             {
-                fileBrowser.SetSyncingStatusToFile(fileSyncEvent.FullPath);
-                await Task.Delay(50); // avoid overloading server
+                fileViewer.SetSyncingStatusToFile(fileSyncEvent.FullPath);
+
+                await Task.Delay(10); // avoid overloading the server
+
                 await client.DeleteFileAsync(new DeleteFileRequest
                 {
                     RelativeFilePath = fileSyncEvent.RelativePath.Replace(Path.DirectorySeparatorChar, '/'),
-                    ProjectId = fileSyncEvent.LocalProject.RemoteId
+                    ProjectId = fileSyncEvent.LocalProject.RemoteProjectId
                 });
-                fileBrowser.RemoveDeletedFile(fileSyncEvent.FullPath);
+
+                // if we deleted a directory and its contents, we need to repopulate files in viewer
+                if(!Path.HasExtension(fileSyncEvent.FullPath))
+                {
+                    fileViewer.PopulateFiles();
+                }
+                else
+                {
+                    fileViewer.RemoveDeletedFile(fileSyncEvent.FullPath);
+                }
             }
             catch (Exception ex)
             {
@@ -52,9 +63,10 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Handlers
             }
         }
 
-        public Task HandleAsync(FileChangeEvent fileSyncEvent, int retryLimit)
+        public Task HandleAsync(FileSyncEvent fileSyncEvent, int retryLimit)
         {
             throw new NotImplementedException();
         }
+
     }
 }

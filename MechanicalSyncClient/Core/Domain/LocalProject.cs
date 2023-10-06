@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace MechanicalSyncApp.Core.Domain
+﻿namespace MechanicalSyncApp.Core.Domain
 {
     public class LocalProject
     {
-        public string RemoteId { get; set; }
+        public string RemoteProjectId { get; set; }
+        public string RemoteVersionId { get; set; }
         public string LocalDirectory { get; set; }
 
-        public LocalProject(string remoteId, string localDirectory)
+        public LocalProject(string remoteId, string remoteVersionId, string localDirectory)
         {
-            RemoteId = remoteId;
+            RemoteProjectId = remoteId;
+            RemoteVersionId = remoteVersionId;
             LocalDirectory = localDirectory;
         }
     }

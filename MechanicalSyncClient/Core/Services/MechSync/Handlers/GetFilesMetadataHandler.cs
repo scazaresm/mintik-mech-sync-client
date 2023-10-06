@@ -26,8 +26,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
         {
             var queryParameters = new Dictionary<string, string>
             {
-                { "projectId", request.ProjectId },
-                { "versionFolder", request.VersionFolder },
+                { "versionId", request.VersionId },
             };
 
             var uri = new QueryUriGenerator("files/metadata", queryParameters).Generate();

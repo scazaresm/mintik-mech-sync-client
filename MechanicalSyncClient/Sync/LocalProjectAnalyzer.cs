@@ -91,6 +91,7 @@ namespace MechanicalSyncApp.Sync
             {
                 string fileName = Path.GetFileName(fullFilePath);
                 string relativeFilePath = fullFilePath.Replace(localProject.LocalDirectory + Path.DirectorySeparatorChar, "");
+                relativeFilePath = relativeFilePath.Replace(Path.DirectorySeparatorChar, '/');
 
                 // ommit lock files and duplicates
                 if (fileName.StartsWith("~$") || localFileIndex.ContainsKey(relativeFilePath))
