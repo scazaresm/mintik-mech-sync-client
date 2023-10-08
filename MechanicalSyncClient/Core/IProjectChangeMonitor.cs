@@ -10,9 +10,8 @@ namespace MechanicalSyncApp.Core
 {
     public interface IProjectChangeMonitor : IDisposable
     {
-        bool IsMonitoring { get; }
-
         void StartMonitoring();
+        bool IsMonitoring();
         void StopMonitoring();
         bool IsEventQueueEmpty();
         FileSyncEvent PeekNextEvent();

@@ -1,5 +1,6 @@
 ﻿using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.UI;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace MechanicalSyncApp.Core
         IMechSyncServiceClient ServiceClient { get; }
         IFileMetadataChecker SyncChecker { get; }
         IProjectChangeMonitor ChangeMonitor { get; }
+
+        Dictionary<string, FileMetadata> LocalFileIndex { get; }
+        Dictionary<string, FileMetadata> RemoteFileIndex { get; }
 
         // State related methods
         ProjectSynchronizerState GetState();

@@ -8,31 +8,30 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Commands
 {
-    public class StopWorkingCommand : IUserInterfaceCommand
+    public class SyncRemoteCommand : IUserInterfaceCommand
     {
         private readonly IProjectSynchronizer synchronizer;
 
-        public StopWorkingCommand(IProjectSynchronizer synchronizer)
+        public SyncRemoteCommand(IProjectSynchronizer synchronizer)
         {
             this.synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
         }
 
         public void Execute()
         {
-            var ui = synchronizer.UI;
-
-            ui.StopWorkingButton.Visible = false;
-            ui.SyncRemoteButton.Visible = false;
-            ui.StartWorkingButton.Visible = true;
-
-            synchronizer.ChangeMonitor.StopMonitoring();
-            synchronizer.SetState(new IdleState());
-            _ = synchronizer.RunTransitionLogicAsync();
         }
 
-        public Task ExecuteAsync()
+        public async Task ExecuteAsync()
         {
-            throw new NotImplementedException();
+            synchronizer.ChangeMonitor.StopMonitoring();
+            synchronizer.SetState(new IdleState());
+            await synchronizer.RunTransitionLogicAsync();
+
+            await Task.Delay(1000);
+
+            synchronizer.ChangeMonitor.StartMonitoring();
+            synchronizer.SetState(new IndexLocalFiles());
+            _ = synchronizer.RunTransitionLogicAsync();
         }
     }
 }

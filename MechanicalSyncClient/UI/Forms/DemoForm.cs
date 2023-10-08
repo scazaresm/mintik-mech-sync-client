@@ -66,7 +66,7 @@ namespace MechanicalSyncApp.UI.Forms
                 MessageBox.Show("Initialize the synchronizer first.");
                 return;
             }
-            projectSynchronizer.SetState(new CheckSyncState());
+            projectSynchronizer.SetState(new SyncCheckState());
             _ = projectSynchronizer.RunTransitionLogicAsync();
             projectSynchronizer.ChangeMonitor.StartMonitoring();
         }
@@ -201,13 +201,7 @@ namespace MechanicalSyncApp.UI.Forms
             }
         }
 
-        private void ProcessEventsButton_Click(object sender, EventArgs e)
-        {
-            ProcessEventsButton.Enabled = false;
-            projectSynchronizer.SetState(new CheckSyncState());
-            _ = projectSynchronizer.RunTransitionLogicAsync();
-        }
-
+    
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // Get the selected ListViewItem, if any

@@ -24,10 +24,10 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
         {
             if (Synchronizer.ChangeMonitor.IsEventQueueEmpty())
             {
-                if (Synchronizer.ChangeMonitor.IsMonitoring)
+                if (Synchronizer.ChangeMonitor.IsMonitoring())
                     Synchronizer.SetState(this);
                 else
-                    Synchronizer.SetState(new ChangeMonitorStoppedState());
+                    Synchronizer.SetState(new IdleState());
 
                 await Task.Delay(1000);
                 _ = Synchronizer.RunTransitionLogicAsync();
@@ -35,7 +35,6 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
             else
             {
                 Synchronizer.SetState(new HandleFileSyncEventsState());
-
                 await Task.Delay(1000);
                 _ = Synchronizer.RunTransitionLogicAsync();
             }

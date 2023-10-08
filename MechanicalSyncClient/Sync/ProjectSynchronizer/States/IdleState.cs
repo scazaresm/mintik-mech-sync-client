@@ -7,17 +7,11 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 {
-    class ChangeMonitorStoppedState : ProjectSynchronizerState
+    class IdleState : ProjectSynchronizerState
     {
         public override async Task RunTransitionLogicAsync()
         {
             await Task.Delay(500);
-            if (Synchronizer.ChangeMonitor.IsMonitoring)
-                Synchronizer.SetState(new MonitorFileSyncEventsState());
-            else
-                Synchronizer.SetState(this);
-
-            _ = Synchronizer.RunTransitionLogicAsync();
         }
 
         public override void UpdateUI()

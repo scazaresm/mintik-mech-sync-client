@@ -52,10 +52,14 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 
             try
             {
-                if(totalEvents == 0)
+                if (totalEvents == 0 && handledEvents == 0)
                 {
                     totalEvents = Synchronizer.ChangeMonitor.GetTotalInQueue();
                     Console.WriteLine($"Starting to handle {totalEvents} events.");
+                }
+                else
+                {
+                    totalEvents = Synchronizer.ChangeMonitor.GetTotalInQueue() + handledEvents;
                 }
 
                 var nextEvent = monitor.DequeueEvent();

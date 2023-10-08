@@ -55,7 +55,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.EventHandlers
 
                 fileViewer.SetSyncingStatusToFile(fileSyncEvent.FullPath);
 
-                await Task.Delay(10); // avoid overloading the server
+                await Task.Delay(50); // avoid overloading the server
                 await Task.Factory.StartNew(async () =>
                 {
                     await client.UploadFileAsync(new UploadFileRequest
@@ -65,7 +65,6 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.EventHandlers
                         ProjectId = fileSyncEvent.LocalProject.RemoteProjectId
                     });
                 }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-
                 fileViewer.SetSyncedStatusToFile(fileSyncEvent.FullPath);
             }
             catch (Exception ex)

@@ -9,5 +9,6 @@ namespace MechanicalSyncApp.Core
     public interface IUserInterfaceCommand
     {
         void Execute();
+        Task ExecuteAsync();
     }
 }

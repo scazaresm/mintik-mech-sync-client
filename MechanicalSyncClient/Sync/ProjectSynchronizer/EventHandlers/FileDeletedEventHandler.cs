@@ -43,9 +43,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.EventHandlers
             try
             {
                 fileViewer.SetSyncingStatusToFile(fileSyncEvent.FullPath);
-
-                await Task.Delay(10); // avoid overloading the server
-
+                await Task.Delay(100); // avoid overloading the server
                 await client.DeleteFileAsync(new DeleteFileRequest
                 {
                     RelativeFilePath = fileSyncEvent.RelativePath.Replace(Path.DirectorySeparatorChar, '/'),

@@ -18,7 +18,7 @@ namespace MechanicalSyncApp.Sync
         private readonly object eventQueueLock = new object();
         public Queue<FileSyncEvent> ChangeEventQueue { get; }
 
-        public bool IsMonitoring { get; private set; }
+        private bool monitoring;
 
         public ProjectChangeMonitor(LocalProject project, string fileFilter)
         {
@@ -91,14 +91,25 @@ namespace MechanicalSyncApp.Sync
 
         public void StartMonitoring()
         {
-            watcher.EnableRaisingEvents = true;
-            IsMonitoring = true;
+            lock (eventQueueLock)
+            {
+                watcher.EnableRaisingEvents = true;
+                monitoring = true;
+            }
         }
 
         public void StopMonitoring()
         {
-            watcher.EnableRaisingEvents = false;
-            IsMonitoring = false;
+            lock (eventQueueLock)
+            {
+                watcher.EnableRaisingEvents = false;
+                monitoring = false;
+            }
+        }
+
+        public bool IsMonitoring()
+        {
+            return monitoring;
         }
 
         private void InitializeFileSystemWatcher()

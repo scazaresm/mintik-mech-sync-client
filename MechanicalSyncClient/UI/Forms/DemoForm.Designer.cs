@@ -31,38 +31,35 @@ namespace MechanicalSyncApp.UI.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DemoForm));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("220214NY-OBERG SML HEAD TOOLING");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Owned by me", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Owned by others");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Ongoing", new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("2023");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("2024");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Published", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("220214NY-OBERG SML HEAD TOOLING");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Owned by me", new System.Windows.Forms.TreeNode[] {
+            treeNode8});
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Owned by others");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Ongoing", new System.Windows.Forms.TreeNode[] {
+            treeNode9,
+            treeNode10});
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("2023");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("2024");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Published", new System.Windows.Forms.TreeNode[] {
+            treeNode12,
+            treeNode13});
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Deleted",
             "other"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("email_print.pdf", 0);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Irving Martínez", 0);
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Gustavo Avila", 0);
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("email_print.pdf", 0);
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Irving Martínez", 0);
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Gustavo Avila", 0);
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.InitSynchronizerButton = new System.Windows.Forms.Button();
-            this.StartMonitoringButton = new System.Windows.Forms.Button();
-            this.StopMonitoringButton = new System.Windows.Forms.Button();
             this.LoginButton = new System.Windows.Forms.Button();
-            this.ProcessEventsButton = new System.Windows.Forms.Button();
             this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.NavigationTree = new System.Windows.Forms.TreeView();
@@ -79,14 +76,15 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.SyncRemoteButton = new System.Windows.Forms.ToolStripButton();
             this.StartWorkingButton = new System.Windows.Forms.ToolStripButton();
             this.StopWorkingButton = new System.Windows.Forms.ToolStripButton();
+            this.SyncRemoteButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -139,8 +137,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -178,33 +174,13 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // InitSynchronizerButton
             // 
-            this.InitSynchronizerButton.Location = new System.Drawing.Point(419, 12);
+            this.InitSynchronizerButton.Location = new System.Drawing.Point(93, 12);
             this.InitSynchronizerButton.Name = "InitSynchronizerButton";
             this.InitSynchronizerButton.Size = new System.Drawing.Size(131, 23);
             this.InitSynchronizerButton.TabIndex = 0;
             this.InitSynchronizerButton.Text = "Initialize synchronizer";
             this.InitSynchronizerButton.UseVisualStyleBackColor = true;
             this.InitSynchronizerButton.Click += new System.EventHandler(this.InitSynchronizerButton_Click);
-            // 
-            // StartMonitoringButton
-            // 
-            this.StartMonitoringButton.Location = new System.Drawing.Point(556, 12);
-            this.StartMonitoringButton.Name = "StartMonitoringButton";
-            this.StartMonitoringButton.Size = new System.Drawing.Size(131, 23);
-            this.StartMonitoringButton.TabIndex = 1;
-            this.StartMonitoringButton.Text = "Start monitoring";
-            this.StartMonitoringButton.UseVisualStyleBackColor = true;
-            this.StartMonitoringButton.Click += new System.EventHandler(this.StartMonitoringButton_Click);
-            // 
-            // StopMonitoringButton
-            // 
-            this.StopMonitoringButton.Location = new System.Drawing.Point(693, 12);
-            this.StopMonitoringButton.Name = "StopMonitoringButton";
-            this.StopMonitoringButton.Size = new System.Drawing.Size(131, 23);
-            this.StopMonitoringButton.TabIndex = 2;
-            this.StopMonitoringButton.Text = "Stop monitoring";
-            this.StopMonitoringButton.UseVisualStyleBackColor = true;
-            this.StopMonitoringButton.Click += new System.EventHandler(this.StopMonitoringButton_Click);
             // 
             // LoginButton
             // 
@@ -215,17 +191,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.LoginButton.Text = "Login";
             this.LoginButton.UseVisualStyleBackColor = true;
             this.LoginButton.Click += new System.EventHandler(this.LoginButton_Click);
-            // 
-            // ProcessEventsButton
-            // 
-            this.ProcessEventsButton.Enabled = false;
-            this.ProcessEventsButton.Location = new System.Drawing.Point(830, 12);
-            this.ProcessEventsButton.Name = "ProcessEventsButton";
-            this.ProcessEventsButton.Size = new System.Drawing.Size(131, 23);
-            this.ProcessEventsButton.TabIndex = 10;
-            this.ProcessEventsButton.Text = "Process events";
-            this.ProcessEventsButton.UseVisualStyleBackColor = true;
-            this.ProcessEventsButton.Click += new System.EventHandler(this.ProcessEventsButton_Click);
             // 
             // FileSyncStatusIcons
             // 
@@ -258,23 +223,23 @@ namespace MechanicalSyncApp.UI.Forms
             this.NavigationTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.NavigationTree.Location = new System.Drawing.Point(0, 0);
             this.NavigationTree.Name = "NavigationTree";
-            treeNode1.Name = "Node2";
-            treeNode1.Text = "220214NY-OBERG SML HEAD TOOLING";
-            treeNode2.Name = "Node3";
-            treeNode2.Text = "Owned by me";
-            treeNode3.Name = "Node6";
-            treeNode3.Text = "Owned by others";
-            treeNode4.Name = "Node0";
-            treeNode4.Text = "Ongoing";
-            treeNode5.Name = "Node4";
-            treeNode5.Text = "2023";
-            treeNode6.Name = "Node5";
-            treeNode6.Text = "2024";
-            treeNode7.Name = "Node1";
-            treeNode7.Text = "Published";
+            treeNode8.Name = "Node2";
+            treeNode8.Text = "220214NY-OBERG SML HEAD TOOLING";
+            treeNode9.Name = "Node3";
+            treeNode9.Text = "Owned by me";
+            treeNode10.Name = "Node6";
+            treeNode10.Text = "Owned by others";
+            treeNode11.Name = "Node0";
+            treeNode11.Text = "Ongoing";
+            treeNode12.Name = "Node4";
+            treeNode12.Text = "2023";
+            treeNode13.Name = "Node5";
+            treeNode13.Text = "2024";
+            treeNode14.Name = "Node1";
+            treeNode14.Text = "Published";
             this.NavigationTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode7});
+            treeNode11,
+            treeNode14});
             this.NavigationTree.Size = new System.Drawing.Size(96, 706);
             this.NavigationTree.TabIndex = 0;
             // 
@@ -312,21 +277,21 @@ namespace MechanicalSyncApp.UI.Forms
             this.columnHeader1,
             this.columnHeader2});
             this.FileViewerListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            listViewGroup1.Header = "Assemblies";
-            listViewGroup1.Name = "assembliesGroup";
-            listViewGroup2.Header = "Parts";
-            listViewGroup2.Name = "partsGroup";
-            listViewGroup3.Header = "Drawings";
-            listViewGroup3.Name = "drawingsGroup";
+            listViewGroup4.Header = "Assemblies";
+            listViewGroup4.Name = "assembliesGroup";
+            listViewGroup5.Header = "Parts";
+            listViewGroup5.Name = "partsGroup";
+            listViewGroup6.Header = "Drawings";
+            listViewGroup6.Name = "drawingsGroup";
             this.FileViewerListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
+            listViewGroup4,
+            listViewGroup5,
+            listViewGroup6});
             this.FileViewerListView.HideSelection = false;
-            listViewItem1.StateImageIndex = 0;
+            listViewItem6.StateImageIndex = 0;
             this.FileViewerListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
+            listViewItem6,
+            listViewItem7});
             this.FileViewerListView.Location = new System.Drawing.Point(3, 28);
             this.FileViewerListView.MultiSelect = false;
             this.FileViewerListView.Name = "FileViewerListView";
@@ -366,7 +331,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.SyncStatusLabel.AutoSize = false;
             this.SyncStatusLabel.Name = "SyncStatusLabel";
             this.SyncStatusLabel.Size = new System.Drawing.Size(700, 17);
-            this.SyncStatusLabel.Text = "Analyzing local files...";
+            this.SyncStatusLabel.Text = "Status";
             this.SyncStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // SyncProgressBar
@@ -431,15 +396,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // SyncRemoteButton
-            // 
-            this.SyncRemoteButton.Image = global::MechanicalSyncApp.Properties.Resources.sync_24;
-            this.SyncRemoteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SyncRemoteButton.Name = "SyncRemoteButton";
-            this.SyncRemoteButton.Size = new System.Drawing.Size(93, 22);
-            this.SyncRemoteButton.Text = "Sync remote";
-            this.SyncRemoteButton.ToolTipText = "Send your local changes to remote server";
-            // 
             // StartWorkingButton
             // 
             this.StartWorkingButton.Image = global::MechanicalSyncApp.Properties.Resources.start_32;
@@ -457,6 +413,15 @@ namespace MechanicalSyncApp.UI.Forms
             this.StopWorkingButton.Size = new System.Drawing.Size(97, 22);
             this.StopWorkingButton.Text = "Stop working";
             this.StopWorkingButton.ToolTipText = "Stop monitoring your changes";
+            // 
+            // SyncRemoteButton
+            // 
+            this.SyncRemoteButton.Image = global::MechanicalSyncApp.Properties.Resources.sync_24;
+            this.SyncRemoteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SyncRemoteButton.Name = "SyncRemoteButton";
+            this.SyncRemoteButton.Size = new System.Drawing.Size(93, 22);
+            this.SyncRemoteButton.Text = "Sync remote";
+            this.SyncRemoteButton.ToolTipText = "Send your local changes to remote server";
             // 
             // toolStripButton6
             // 
@@ -492,6 +457,11 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(113, 22);
             this.toolStripLabel1.Text = "Ongoing version 1.0";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButton7
             // 
@@ -599,9 +569,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.listView1.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
-            listViewItem3.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3});
+            listViewItem1});
             this.listView1.LargeImageList = this.imageList1;
             this.listView1.Location = new System.Drawing.Point(7, 307);
             this.listView1.Name = "listView1";
@@ -622,10 +592,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.ReviewersListView.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.ReviewersListView.FullRowSelect = true;
             this.ReviewersListView.HideSelection = false;
-            listViewItem4.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
             this.ReviewersListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem4,
-            listViewItem5});
+            listViewItem2,
+            listViewItem3});
             this.ReviewersListView.LargeImageList = this.ReviewerListImages;
             this.ReviewersListView.Location = new System.Drawing.Point(7, 49);
             this.ReviewersListView.Name = "ReviewersListView";
@@ -716,8 +686,8 @@ namespace MechanicalSyncApp.UI.Forms
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle3;
             this.Column2.HeaderText = "Required change";
             this.Column2.Name = "Column2";
             this.Column2.Width = 500;
@@ -734,8 +704,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // Column4
             // 
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle4;
             this.Column4.HeaderText = "Designer comments";
             this.Column4.Name = "Column4";
             this.Column4.Width = 300;
@@ -1036,32 +1006,13 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.StartMonitoringButton);
             this.panel1.Controls.Add(this.InitSynchronizerButton);
-            this.panel1.Controls.Add(this.StopMonitoringButton);
             this.panel1.Controls.Add(this.LoginButton);
-            this.panel1.Controls.Add(this.ProcessEventsButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1385, 48);
             this.panel1.TabIndex = 17;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(202, 11);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // DemoForm
             // 
@@ -1125,16 +1076,12 @@ namespace MechanicalSyncApp.UI.Forms
         #endregion
 
         private System.Windows.Forms.Button InitSynchronizerButton;
-        private System.Windows.Forms.Button StartMonitoringButton;
-        private System.Windows.Forms.Button StopMonitoringButton;
         private System.Windows.Forms.Button LoginButton;
-        private System.Windows.Forms.Button ProcessEventsButton;
         private System.Windows.Forms.ImageList FileSyncStatusIcons;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TreeView NavigationTree;
         private System.Windows.Forms.ToolStrip ProjectSincronizerToolStrip;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ListView FileViewerListView;

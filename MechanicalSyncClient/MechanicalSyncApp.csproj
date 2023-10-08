@@ -74,19 +74,22 @@
   <ItemGroup>
     <Compile Include="Core\Domain\FileSyncStatus.cs" />
     <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
-    <Compile Include="Core\Domain\ProjectSyncCheckResult.cs" />
+    <Compile Include="Core\Domain\SyncCheckSummary.cs" />
     <Compile Include="Core\IFileMetadataChecker.cs" />
     <Compile Include="Core\IWorkspaceManager.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetFileMetadataHandler.cs" />
     <Compile Include="Core\Services\MechSync\Models\FileMetadata.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetFileMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Response\GetFileMetadataResponse.cs" />
+    <Compile Include="Sync\LocalProjectAnalyzer.cs" />
     <Compile Include="Sync\ProjectSynchronizer\Commands\StopWorkingCommand.cs" />
     <Compile Include="Sync\FileMetadataChecker.cs" />
     <Compile Include="Sync\ProjectSyncChecker.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\StartSynchronizerState.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\ChangeMonitorStoppedState.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\Commands\SyncRemoteCommand.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\IdleState.cs" />
     <Compile Include="Sync\ProjectSynchronizer\Commands\StartWorkingCommand.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\IndexLocalFiles.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\IndexRemoteFilesState.cs" />
     <Compile Include="UI\DesignViewer.cs" />
     <Compile Include="UI\Forms\DesignViewerForm.cs">
       <SubType>Form</SubType>
@@ -136,7 +139,7 @@
     <Compile Include="Sync\ProjectSynchronizer\ProjectSynchronizer.cs" />
     <Compile Include="Sync\ProjectSynchronizer\States\MonitorFileSyncEventsState.cs" />
     <Compile Include="Sync\ProjectSynchronizer\States\HandleFileSyncEventsState.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\CheckSyncState.cs" />
+    <Compile Include="Sync\ProjectSynchronizer\States\SyncCheckState.cs" />
     <Compile Include="UI\FileViewer.cs" />
     <Compile Include="UI\Forms\DemoForm.cs">
       <SubType>Form</SubType>

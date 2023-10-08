@@ -1,9 +1,11 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Sync.ProjectSynchronizer.Commands;
 using MechanicalSyncApp.UI;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,12 +17,16 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer
         public IProjectChangeMonitor ChangeMonitor { get; private set; }
         public IFileMetadataChecker SyncChecker { get; private set; }
 
+        public Dictionary<string, FileMetadata> LocalFileIndex { get; private set; }
+        public Dictionary<string, FileMetadata> RemoteFileIndex { get; private set; }
+
         public ProjectSynchronizerUI UI { get; private set; }
 
         private ProjectSynchronizerState state;
         private bool disposedValue;
 
         public LocalProject LocalProject { get; }
+
 
         public ProjectSynchronizer(LocalProject localProject, ProjectSynchronizerUI ui)
         {
@@ -33,6 +39,8 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer
             UI = ui ?? throw new ArgumentNullException(nameof(ui));
             ChangeMonitor = new ProjectChangeMonitor(localProject, "*.sldprt | *.sldasm | *.slddrw");
             ServiceClient = MechSyncServiceClient.Instance;
+            LocalFileIndex = new Dictionary<string, FileMetadata>();
+            RemoteFileIndex = new Dictionary<string, FileMetadata>();
             InitializeUI();
         }
 
@@ -56,13 +64,13 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer
 
             UI.SyncProgressBar.Visible = false;
             UI.SyncRemoteButton.Visible = false;
+            UI.SyncRemoteButton.Click += async (object sender, EventArgs e) => await new SyncRemoteCommand(this).ExecuteAsync();
 
-            UI.StartWorkingButton.Click += (object sender, EventArgs e) => new StartWorkingCommand(this).Execute();
+            UI.StartWorkingButton.Click += async (object sender, EventArgs e) => await new StartWorkingCommand(this).ExecuteAsync();
             UI.StartWorkingButton.Visible = true;
 
             UI.StopWorkingButton.Click += (object sender, EventArgs e) => new StopWorkingCommand(this).Execute();
             UI.StopWorkingButton.Visible = false;
-
 
         }
 

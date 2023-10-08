@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Domain
 {
-    public class ProjectSyncCheckResult
+    public class SyncCheckSummary
     {
         public List<FileMetadata> CreatedFiles { get; set; }  // existing in local, not in remote
         public List<FileMetadata> DeletedFiles { get; set; }  // existing in remote, not in local
         public List<FileMetadata> ChangedFiles { get; set; }  // existing in both local and remote, but different (checksum mismatch)
         public List<FileMetadata> SyncedFiles { get; set; }   // existing in both local and remote, with exactly same checksum
 
-        public ProjectSyncCheckResult()
+        public SyncCheckSummary()
         {
             SyncedFiles = new List<FileMetadata>();
             ChangedFiles = new List<FileMetadata>();
