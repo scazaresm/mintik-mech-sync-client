@@ -1,4 +1,5 @@
-﻿using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
+using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using MechanicalSyncApp.Core.Util;
 using Newtonsoft.Json;
@@ -13,20 +14,14 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
     {
         private readonly HttpClient client;
         private readonly UploadFileRequest request;
-        private readonly IChecksumValidator checksumValidator;
 
-        public UploadFileHandler(
-            HttpClient client, 
-            UploadFileRequest request,
-            IChecksumValidator checksumValidator
-            )
+        public UploadFileHandler(HttpClient client, UploadFileRequest request)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client)); ;
             this.request = request ?? throw new ArgumentNullException(nameof(request));
-            this.checksumValidator = checksumValidator ?? throw new ArgumentNullException(nameof(checksumValidator));
         }
 
-        public async Task<UploadFileResponse> HandleAsync()
+        public async Task<FileMetadata> HandleAsync()
         {
             string tempFile = Path.GetTempFileName();
             try
@@ -35,18 +30,15 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 
                 using (var formData = new MultipartFormDataContent())
                 {
-                    using (var fileStream = File.OpenRead(tempFile))
+                    using (var fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
                     {
-                        string fileChecksum = checksumValidator.CalculateFromFile(tempFile);
-                        formData.Headers.Add("X-Checksum-SHA256", fileChecksum);
-
                         formData.Add(new StreamContent(fileStream), "file", Path.GetFileName(request.LocalFilePath));
                         formData.Add(new StringContent(request.RelativeFilePath), "relativeFilePath");
                         formData.Add(new StringContent(request.ProjectId), "projectId");
 
                         var response = await client.PostAsync("files", formData);
                         var responseContent = await response.Content.ReadAsStringAsync();
-                        var responseJson = JsonConvert.DeserializeObject<UploadFileResponse>(responseContent);
+                        var responseJson = JsonConvert.DeserializeObject<FileMetadata>(responseContent);
 
                         if (!response.IsSuccessStatusCode)
                         {
@@ -64,7 +56,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
             }
             finally
             {
-                File.Delete(tempFile);
+                if(File.Exists(tempFile))
+                    File.Delete(tempFile);
             }
         }
     }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MechanicalSyncApp.UI
+namespace MechanicalSyncApp.Core
 {
-    public class ProjectSynchronizerUI
+    public interface IUserInterfaceCommand
     {
-        public FileViewer FileViewer { get; set; }
+        void Execute();
     }
 }

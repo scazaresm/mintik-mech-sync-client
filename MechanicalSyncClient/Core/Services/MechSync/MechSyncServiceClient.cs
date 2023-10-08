@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core.AuthenticationService;
 using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync.Handlers;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using MechanicalSyncApp.Core.Util;
@@ -56,21 +57,21 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         public async Task DownloadFileAsync(DownloadFileRequest request, Action<int> progressCallback)
         {
             await RefreshAuthTokenAsync();
-            var handler = new DownloadFileWithProgressHandler(_fileClient, request, new Sha256ChecksumValidator(), progressCallback);
+            var handler = new DownloadFileWithProgressHandler(_fileClient, request, progressCallback);
             await handler.HandleAsync();
         }
 
         public async Task DownloadFileAsync(DownloadFileRequest request)
         {
             await RefreshAuthTokenAsync();
-            var handler = new DownloadFileHandler(_fileClient, request, new Sha256ChecksumValidator());
+            var handler = new DownloadFileHandler(_fileClient, request);
             await handler.HandleAsync();
         }
 
-        public async Task<UploadFileResponse> UploadFileAsync(UploadFileRequest request)
+        public async Task<FileMetadata> UploadFileAsync(UploadFileRequest request)
         {
             await RefreshAuthTokenAsync();
-            var handler = new UploadFileHandler(_fileClient, request, new Sha256ChecksumValidator());
+            var handler = new UploadFileHandler(_fileClient, request);
             var response = await handler.HandleAsync();
             return response;
         }
@@ -83,10 +84,10 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             return response;
         }
 
-        public async Task<GetFilesMetadataResponse> GetFilesMetadataAsync(GetFilesMetadataRequest request)
+        public async Task<GetFileMetadataResponse> GetFileMetadataAsync(GetFileMetadataRequest request)
         {
             await RefreshAuthTokenAsync();
-            var handler = new GetFilesMetadataHandler(_fileClient, request);
+            var handler = new GetFileMetadataHandler(_fileClient, request);
             var response = await handler.HandleAsync();
             return response;
         }

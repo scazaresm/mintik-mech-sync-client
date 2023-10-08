@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core.Domain;
+using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.UI;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,14 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core
 {
-    public interface IProjectSynchronizer
+    public interface IProjectSynchronizer : IDisposable
     {
         ProjectSynchronizerUI UI { get; }
 
         LocalProject LocalProject { get; }
+
+        IMechSyncServiceClient ServiceClient { get; }
+        IFileMetadataChecker SyncChecker { get; }
         IProjectChangeMonitor ChangeMonitor { get; }
 
         // State related methods
@@ -21,6 +25,7 @@ namespace MechanicalSyncApp.Core
         Task RunTransitionLogicAsync();
 
         // UI related methods
+        void InitializeUI();
         void UpdateUI();
     }
 }

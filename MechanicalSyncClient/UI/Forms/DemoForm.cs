@@ -18,8 +18,9 @@ namespace MechanicalSyncApp.UI.Forms
 {
     public partial class DemoForm : Form
     {
-        private LocalProject project;
+        private LocalProject localProject;
         private IProjectSynchronizer projectSynchronizer;
+        private ProjectSynchronizerUI projectSynchronizerUI;
 
         public DemoForm()
         {
@@ -40,15 +41,22 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void InitSynchronizerButton_Click(object sender, EventArgs e)
         {
-            project = new LocalProject(
+            localProject = new LocalProject(
                 "651f63b58ab79706cf22efbd", 
                 "651f63b58ab79706cf22efbf", 
                 @"C:\sync_demo"
             );
-            projectSynchronizer = new ProjectSynchronizer(project, new ProjectSynchronizerUI()
+
+            projectSynchronizerUI = new ProjectSynchronizerUI()
             {
-                FileViewer = new FileViewer(project.LocalDirectory)
-            });
+                FileViewerListView = FileViewerListView,
+                StatusLabel = SyncStatusLabel,
+                StartWorkingButton = StartWorkingButton,
+                StopWorkingButton = StopWorkingButton,
+                SyncRemoteButton = SyncRemoteButton,
+                SyncProgressBar = SyncProgressBar,
+            };
+            projectSynchronizer = new ProjectSynchronizer(localProject, projectSynchronizerUI);
         }
 
         private void StartMonitoringButton_Click(object sender, EventArgs e)
@@ -58,8 +66,9 @@ namespace MechanicalSyncApp.UI.Forms
                 MessageBox.Show("Initialize the synchronizer first.");
                 return;
             }
+            projectSynchronizer.SetState(new CheckSyncState());
+            _ = projectSynchronizer.RunTransitionLogicAsync();
             projectSynchronizer.ChangeMonitor.StartMonitoring();
-            ProcessEventsButton.Enabled = true;
         }
 
         private void StopMonitoringButton_Click(object sender, EventArgs e)
@@ -112,11 +121,11 @@ namespace MechanicalSyncApp.UI.Forms
         {
             try
             {
-                var request = new GetFilesMetadataRequest()
+                var request = new GetFileMetadataRequest()
                 {
                     VersionId = "651f63b58ab79706cf22efbf",
                 };
-                var response = await MechSyncServiceClient.Instance.GetFilesMetadataAsync(request);
+                var response = await MechSyncServiceClient.Instance.GetFileMetadataAsync(request);
                 
             }
             catch (Exception ex)
@@ -128,22 +137,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private async void AnalyzeLocalButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var request = new GetFilesMetadataRequest()
-                {
-                    VersionId = project.RemoteVersionId,
-                };
-                var filesMetadataInRemote = await MechSyncServiceClient.Instance.GetFilesMetadataAsync(request);
-
-                var analyzer = new LocalProjectAnalyzer(project, new Sha256ChecksumValidator());
-
-                var result = analyzer.CompareAgainstRemote(filesMetadataInRemote.Files);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+  
         }
 
         private async void DownloadProgressButton_Click(object sender, EventArgs e)
@@ -167,14 +161,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         public void UpdateToolStripProgressBar(int progressValue)
         {
-            if (toolStripProgressBar1.Owner.InvokeRequired)
-            {
-                toolStripProgressBar1.Owner.Invoke(new Action(() => UpdateToolStripProgressBar(progressValue)));
-            }
-            else
-            {
-                toolStripProgressBar1.Value = progressValue;
-            }
+          
         }
 
         private async void UploadFileButton_Click(object sender, EventArgs e)
@@ -217,14 +204,14 @@ namespace MechanicalSyncApp.UI.Forms
         private void ProcessEventsButton_Click(object sender, EventArgs e)
         {
             ProcessEventsButton.Enabled = false;
-            projectSynchronizer.SetState(new SyncLocalProjectState());
+            projectSynchronizer.SetState(new CheckSyncState());
             _ = projectSynchronizer.RunTransitionLogicAsync();
         }
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // Get the selected ListViewItem, if any
-            ListViewItem selectedItem = ProjectFilesListView.SelectedItems.Count > 0 ? ProjectFilesListView.SelectedItems[0] : null;
+            ListViewItem selectedItem = FileViewerListView.SelectedItems.Count > 0 ? FileViewerListView.SelectedItems[0] : null;
 
             // Check if a ListViewItem was double-clicked
             if (selectedItem != null)
@@ -237,13 +224,23 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void RefreshButton_Click(object sender, EventArgs e)
         {
+            if (projectSynchronizer == null)
+            {
+                MessageBox.Show("Initialize the synchronizer first.");
+                return;
+            }
             projectSynchronizer.UI.FileViewer.PopulateFiles();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            ProjectFilesListView.SetDoubleBuffered();
-            projectSynchronizer.UI.FileViewer.AttachListView(ProjectFilesListView);
+            if (projectSynchronizer == null)
+            {
+                MessageBox.Show("Initialize the synchronizer first.");
+                return;
+            }
+            FileViewerListView.SetDoubleBuffered();
+            projectSynchronizer.UI.FileViewer.AttachListView(FileViewerListView);
         }
     }
 }

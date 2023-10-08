@@ -150,7 +150,7 @@ namespace MechanicalSyncApp.UI
             {
                 return -1;
             }
-            switch(Path.GetExtension(filePath))
+            switch(Path.GetExtension(filePath).ToLower())
             {
                 case ".sldasm": return 0;
                 case ".sldprt": return 1;

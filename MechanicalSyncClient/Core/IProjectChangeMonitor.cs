@@ -18,5 +18,6 @@ namespace MechanicalSyncApp.Core
         FileSyncEvent PeekNextEvent();
         void EnqueueEvent(FileSyncEvent fileChangeEvent);
         FileSyncEvent DequeueEvent();
+        long GetTotalInQueue();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core.Domain;
+using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
+using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Util;
 using System;
 using System.Collections.Generic;
@@ -11,99 +12,97 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Sync
 {
-    public class LocalProjectAnalyzer
+    public class ProjectSyncChecker
     {
         private readonly LocalProject localProject;
-        private readonly IChecksumValidator checksumValidator;
+        private readonly IMechSyncServiceClient client;
+        private readonly IChecksumCalculator checksumCalculator;
         private Dictionary<string, FileMetadata> localFileIndex;
         private Dictionary<string, FileMetadata> remoteFileIndex;
 
-        public LocalProjectAnalyzer(LocalProject localProject, IChecksumValidator checksumValidator)
+        public ProjectSyncChecker(LocalProject localProject, IMechSyncServiceClient client, IChecksumCalculator checksumCalculator)
         {
             this.localProject = localProject ?? throw new ArgumentNullException(nameof(localProject));
-            this.checksumValidator = checksumValidator ?? throw new ArgumentNullException(nameof(checksumValidator));
-            localFileIndex = new Dictionary<string, FileMetadata>();
-            remoteFileIndex = new Dictionary<string, FileMetadata>();
+            this.client = client ?? throw new ArgumentNullException(nameof(client));
+            this.checksumCalculator = checksumCalculator ?? throw new ArgumentNullException(nameof(checksumCalculator));
         }
 
-        public LocalProjectAnalysisResult CompareAgainstRemote(List<FileMetadata> remoteFiles)
+        public async Task<ProjectSyncCheckResult> CheckAsync()
         {
-            if (remoteFiles is null)
-            {
-                throw new ArgumentNullException(nameof(remoteFiles));
-            }
-
             if (!Directory.Exists(localProject.LocalDirectory))
             {
                 throw new DirectoryNotFoundException($"The directory does not exist: {localProject.LocalDirectory}");
             }
-            IndexRemoteFiles(remoteFiles);
-            IndexLocalFiles();
+            await IndexRemoteFilesAsync();
+            await IndexLocalFilesAsync();
 
-            var response = new LocalProjectAnalysisResult();
+            var result = new ProjectSyncCheckResult();
 
             foreach (KeyValuePair<string, FileMetadata> localFile in localFileIndex)
             {
                 if (remoteFileIndex.ContainsKey(localFile.Key))
-                {
                     if (remoteFileIndex[localFile.Key].FileChecksum == localFile.Value.FileChecksum)
-                    {
                         // Synced: file exists in both local and remote, and checksum is equals
-                        response.SyncedFiles.Add(remoteFileIndex[localFile.Key]);
-                    }
+                        result.SyncedFiles.Add(remoteFileIndex[localFile.Key]);
                     else
-                    {
                         // Unsynced: file exists in both local and remote but checksum is different
-                        response.ChangedFiles.Add(remoteFileIndex[localFile.Key]);
-                    }
-                }
+                        result.ChangedFiles.Add(remoteFileIndex[localFile.Key]);
                 else
-                {
                     // Created: file exists in local but not in remote
-                    response.CreatedFiles.Add(localFile.Value);
-                }
+                    result.CreatedFiles.Add(localFile.Value);
             }
 
             // check for deleted files
             IEnumerable<string> existingInRemoteButNotInLocal = remoteFileIndex.Keys.Except(localFileIndex.Keys);
             foreach (string deletedFileKey in existingInRemoteButNotInLocal)
-            {
-                response.DeletedFiles.Add(remoteFileIndex[deletedFileKey]);
-            }
+                result.DeletedFiles.Add(remoteFileIndex[deletedFileKey]);
 
-            return response;
+            return result;
         }
 
-        private void IndexRemoteFiles(List<FileMetadata> remoteFiles)
+        private async Task IndexRemoteFilesAsync()
         {
-            foreach(FileMetadata metadata in remoteFiles)
+            var metadataResponse = await client.GetFileMetadataAsync(new GetFileMetadataRequest()
             {
-                if(!remoteFileIndex.ContainsKey(metadata.RelativeFilePath))
+                VersionId = localProject.RemoteVersionId
+            });
+
+            if (metadataResponse.FileMetadata is null)
+                return;
+
+            foreach (FileMetadata metadata in metadataResponse.FileMetadata)
+                if (remoteFileIndex.ContainsKey(metadata.RelativeFilePath))
+                    remoteFileIndex[metadata.RelativeFilePath] = metadata;
+                else
                     remoteFileIndex.Add(metadata.RelativeFilePath, metadata);
-            }
         }
 
-        private void IndexLocalFiles()
+        private async Task IndexLocalFilesAsync()
         {
             string[] allLocalFiles = Directory.GetFiles(localProject.LocalDirectory, "*.*", SearchOption.AllDirectories);
 
-            foreach (string fullFilePath in allLocalFiles) 
+            foreach (string fullFilePath in allLocalFiles)
             {
                 string fileName = Path.GetFileName(fullFilePath);
                 string relativeFilePath = fullFilePath.Replace(localProject.LocalDirectory + Path.DirectorySeparatorChar, "");
                 relativeFilePath = relativeFilePath.Replace(Path.DirectorySeparatorChar, '/');
 
-                // ommit lock files and duplicates
-                if (fileName.StartsWith("~$") || localFileIndex.ContainsKey(relativeFilePath))
+                // ommit lock files
+                if (fileName.StartsWith("~$"))
                     continue;
 
                 FileInfo fileInfo = new FileInfo(fullFilePath);
-
-                localFileIndex.Add(relativeFilePath, new FileMetadata() { 
-                    FileChecksum = checksumValidator.CalculateFromFile(fullFilePath),
+                var fileMetadata = new FileMetadata()
+                {
+                    FileChecksum = await checksumCalculator.CalculateChecksumAsync(fullFilePath),
                     RelativeFilePath = relativeFilePath,
                     FileSize = fileInfo.Length
-                });
+                };
+
+                if (localFileIndex.ContainsKey(relativeFilePath))
+                    localFileIndex[relativeFilePath] = fileMetadata;
+                else
+                    localFileIndex.Add(relativeFilePath, fileMetadata);
             }
         }
 

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Handlers
+namespace MechanicalSyncApp.Sync.ProjectSynchronizer.EventHandlers
 {
     public class FileDeletedEventHandler : IFileSyncEventHandler
     {
@@ -27,6 +27,11 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Handlers
 
         public async Task HandleAsync(FileSyncEvent fileSyncEvent)
         {
+            if (fileSyncEvent is null)
+            {
+                throw new ArgumentNullException(nameof(fileSyncEvent));
+            }
+
             if (fileSyncEvent.EventType != FileSyncEventType.Deleted)
             {
                 if (NextHandler != null)
@@ -48,7 +53,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Handlers
                 });
 
                 // if we deleted a directory and its contents, we need to repopulate files in viewer
-                if(!Path.HasExtension(fileSyncEvent.FullPath))
+                if (!Path.HasExtension(fileSyncEvent.FullPath))
                 {
                     fileViewer.PopulateFiles();
                 }

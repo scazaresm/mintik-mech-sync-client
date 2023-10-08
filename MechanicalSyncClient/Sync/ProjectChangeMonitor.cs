@@ -16,7 +16,7 @@ namespace MechanicalSyncApp.Sync
         public string FileFilter { get; }
 
         private readonly object eventQueueLock = new object();
-        public Queue<FileSyncEvent> EventQueue { get; }
+        public Queue<FileSyncEvent> ChangeEventQueue { get; }
 
         public bool IsMonitoring { get; private set; }
 
@@ -34,7 +34,7 @@ namespace MechanicalSyncApp.Sync
 
             Project = project;
             FileFilter = fileFilter;
-            EventQueue = new Queue<FileSyncEvent>();
+            ChangeEventQueue = new Queue<FileSyncEvent>();
 
             InitializeFileSystemWatcher();
         }
@@ -43,7 +43,7 @@ namespace MechanicalSyncApp.Sync
         {
             lock (eventQueueLock)
             {
-                return EventQueue.Count == 0;
+                return ChangeEventQueue.Count == 0;
             }
         }
 
@@ -51,10 +51,10 @@ namespace MechanicalSyncApp.Sync
         {
             lock (eventQueueLock)
             {
-                if (EventQueue.Count == 0)
+                if (ChangeEventQueue.Count == 0)
                     return null;
 
-                return EventQueue.Peek();
+                return ChangeEventQueue.Peek();
             }
         }
 
@@ -66,7 +66,7 @@ namespace MechanicalSyncApp.Sync
 
             lock (eventQueueLock)
             {
-                EventQueue.Enqueue(e);
+                ChangeEventQueue.Enqueue(e);
             }
         }
 
@@ -74,10 +74,18 @@ namespace MechanicalSyncApp.Sync
         {
             lock (eventQueueLock)
             {
-                if (EventQueue.Count == 0)
+                if (ChangeEventQueue.Count == 0)
                     return null;
 
-                return EventQueue.Dequeue();
+                return ChangeEventQueue.Dequeue();
+            }
+        }
+
+        public long GetTotalInQueue()
+        {
+            lock (eventQueueLock)
+            {
+                return ChangeEventQueue.Count;
             }
         }
 
@@ -105,6 +113,8 @@ namespace MechanicalSyncApp.Sync
             watcher.Renamed += new RenamedEventHandler(OnFileRenamed);
             watcher.Changed += new FileSystemEventHandler(OnFileChanged);
         }
+
+
 
 
         #region FileSystemWatcher event callbacks

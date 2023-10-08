@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core.AuthenticationService;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using System;
@@ -12,9 +13,9 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
         Task DownloadFileAsync(DownloadFileRequest request, Action<int> progressCallback);
         Task DownloadFileAsync(DownloadFileRequest request);
-        Task<UploadFileResponse> UploadFileAsync(UploadFileRequest request);
+        Task<FileMetadata> UploadFileAsync(UploadFileRequest request);
         Task<DeleteFileResponse> DeleteFileAsync(DeleteFileRequest request);
 
-        Task<GetFilesMetadataResponse> GetFilesMetadataAsync(GetFilesMetadataRequest request);
+        Task<GetFileMetadataResponse> GetFileMetadataAsync(GetFileMetadataRequest request);
     }
 }

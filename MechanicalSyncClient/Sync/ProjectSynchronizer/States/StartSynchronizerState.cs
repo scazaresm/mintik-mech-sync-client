@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 {
-    class StopSynchronizerState : ProjectSynchronizerState
+    public class StartSynchronizerState : ProjectSynchronizerState
     {
-        public override async Task RunTransitionLogicAsync()
+        public override Task RunTransitionLogicAsync()
         {
-            await Task.Delay(100);
+            throw new NotImplementedException();
         }
 
         public override void UpdateUI()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

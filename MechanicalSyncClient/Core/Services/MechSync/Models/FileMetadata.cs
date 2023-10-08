@@ -17,5 +17,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public string FileChecksum { get; set; }
         public long FileSize { get; set; }
         public DateTime UploadedAt { get; set; }
+
+        public string Error { get; set; }
     }
 }
