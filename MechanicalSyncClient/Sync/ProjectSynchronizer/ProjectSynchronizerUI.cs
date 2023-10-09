@@ -14,6 +14,7 @@ namespace MechanicalSyncApp.UI
 
         // Form components
         public ListView FileViewerListView { get; set; }
+        public ToolStrip SynchronizerToolStrip { get; set; }
         public ToolStripStatusLabel StatusLabel { get; set; }
         public ToolStripButton StartWorkingButton { get; set; }
         public ToolStripButton StopWorkingButton { get; set; }

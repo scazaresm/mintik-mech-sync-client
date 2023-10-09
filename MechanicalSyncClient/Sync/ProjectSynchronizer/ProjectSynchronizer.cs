@@ -15,7 +15,6 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer
     {
         public IMechSyncServiceClient ServiceClient { get; set; }
         public IProjectChangeMonitor ChangeMonitor { get; private set; }
-        public IFileMetadataChecker SyncChecker { get; private set; }
 
         public Dictionary<string, FileMetadata> LocalFileIndex { get; private set; }
         public Dictionary<string, FileMetadata> RemoteFileIndex { get; private set; }
@@ -69,7 +68,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer
             UI.StartWorkingButton.Click += async (object sender, EventArgs e) => await new StartWorkingCommand(this).ExecuteAsync();
             UI.StartWorkingButton.Visible = true;
 
-            UI.StopWorkingButton.Click += (object sender, EventArgs e) => new StopWorkingCommand(this).Execute();
+            UI.StopWorkingButton.Click += async (object sender, EventArgs e) => await new StopWorkingCommand(this).ExecuteAsync();
             UI.StopWorkingButton.Visible = false;
 
         }

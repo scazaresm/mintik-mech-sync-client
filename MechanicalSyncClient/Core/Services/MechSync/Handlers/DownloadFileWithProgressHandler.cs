@@ -36,16 +36,16 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 
             var uri = new QueryUriGenerator("files", queryParameters).Generate();
 
-            using (HttpResponseMessage response = await _client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
+            using (var response = await _client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
             {
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"HTTP request failed with status code {response.StatusCode}");
                 }
 
-                using (Stream remoteStream = await response.Content.ReadAsStreamAsync())
-                using (ProgressStream progressStream = new ProgressStream(remoteStream, response.Content.Headers.ContentLength ?? 0))
-                using (Stream localStream = File.Open(_request.LocalFilename, FileMode.Create))
+                using (var remoteStream = await response.Content.ReadAsStreamAsync())
+                using (var progressStream = new ProgressStream(remoteStream, response.Content.Headers.ContentLength ?? 0))
+                using (var localStream = new FileStream(_request.LocalFilename, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, true))
                 {
                     progressStream.ProgressChanged += (bytesRead, totalBytes) =>
                     {

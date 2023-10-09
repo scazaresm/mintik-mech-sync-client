@@ -17,7 +17,6 @@ namespace MechanicalSyncApp.Core
         LocalProject LocalProject { get; }
 
         IMechSyncServiceClient ServiceClient { get; }
-        IFileMetadataChecker SyncChecker { get; }
         IProjectChangeMonitor ChangeMonitor { get; }
 
         Dictionary<string, FileMetadata> LocalFileIndex { get; }

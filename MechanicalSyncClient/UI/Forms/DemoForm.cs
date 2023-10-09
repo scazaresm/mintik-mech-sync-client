@@ -49,6 +49,7 @@ namespace MechanicalSyncApp.UI.Forms
 
             projectSynchronizerUI = new ProjectSynchronizerUI()
             {
+                SynchronizerToolStrip = SynchronizerToolStrip,
                 FileViewerListView = FileViewerListView,
                 StatusLabel = SyncStatusLabel,
                 StartWorkingButton = StartWorkingButton,

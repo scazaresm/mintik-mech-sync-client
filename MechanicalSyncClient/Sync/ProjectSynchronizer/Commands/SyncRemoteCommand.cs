@@ -23,6 +23,8 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Commands
 
         public async Task ExecuteAsync()
         {
+            synchronizer.UI.SynchronizerToolStrip.Enabled = false;
+
             synchronizer.ChangeMonitor.StopMonitoring();
             synchronizer.SetState(new IdleState());
             await synchronizer.RunTransitionLogicAsync();

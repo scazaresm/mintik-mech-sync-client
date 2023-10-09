@@ -18,6 +18,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 
             ui.SyncProgressBar.Visible = false;
             ui.StatusLabel.Text = "Remote server is synced with your local copy";
+            ui.SynchronizerToolStrip.Enabled = true;
         }
 
         public override async Task RunTransitionLogicAsync()

@@ -23,16 +23,18 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
             foreach (FileMetadata metadata in response.FileMetadata)
             {
                 Synchronizer.RemoteFileIndex.Add(metadata.RelativeFilePath, metadata);
+                await Task.Delay(10);
             }
 
-            await Task.Delay(1000);
             Synchronizer.SetState(new SyncCheckState());
-            _ = Synchronizer.RunTransitionLogicAsync();
+            await Synchronizer.RunTransitionLogicAsync();
         }
 
         public override void UpdateUI()
         {
-            Synchronizer.UI.StatusLabel.Text = "Indexing remote files...";
+            var ui = Synchronizer.UI;
+            ui.StatusLabel.Text = "Indexing remote files...";
+            ui.SynchronizerToolStrip.Enabled = false;
         }
     }
 }

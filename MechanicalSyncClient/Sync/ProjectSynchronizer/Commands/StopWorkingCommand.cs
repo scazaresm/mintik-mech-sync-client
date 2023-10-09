@@ -19,6 +19,11 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Commands
 
         public void Execute()
         {
+            throw new NotImplementedException();
+        }
+
+        public async Task ExecuteAsync()
+        {
             var ui = synchronizer.UI;
 
             ui.StopWorkingButton.Visible = false;
@@ -27,12 +32,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Commands
 
             synchronizer.ChangeMonitor.StopMonitoring();
             synchronizer.SetState(new IdleState());
-            _ = synchronizer.RunTransitionLogicAsync();
-        }
-
-        public Task ExecuteAsync()
-        {
-            throw new NotImplementedException();
+            await synchronizer.RunTransitionLogicAsync();
         }
     }
 }

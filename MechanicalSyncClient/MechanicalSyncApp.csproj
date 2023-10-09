@@ -75,15 +75,12 @@
     <Compile Include="Core\Domain\FileSyncStatus.cs" />
     <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
     <Compile Include="Core\Domain\SyncCheckSummary.cs" />
-    <Compile Include="Core\IFileMetadataChecker.cs" />
     <Compile Include="Core\IWorkspaceManager.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetFileMetadataHandler.cs" />
     <Compile Include="Core\Services\MechSync\Models\FileMetadata.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetFileMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Response\GetFileMetadataResponse.cs" />
-    <Compile Include="Sync\LocalProjectAnalyzer.cs" />
     <Compile Include="Sync\ProjectSynchronizer\Commands\StopWorkingCommand.cs" />
-    <Compile Include="Sync\FileMetadataChecker.cs" />
     <Compile Include="Sync\ProjectSyncChecker.cs" />
     <Compile Include="Sync\ProjectSynchronizer\Commands\SyncRemoteCommand.cs" />
     <Compile Include="Sync\ProjectSynchronizer\States\IdleState.cs" />

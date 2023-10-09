@@ -38,12 +38,14 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
             }
 
             Synchronizer.SetState(new IndexRemoteFilesState());
-            _ = Synchronizer.RunTransitionLogicAsync();
+            await Synchronizer.RunTransitionLogicAsync();
         }
 
         public override void UpdateUI()
         {
-            Synchronizer.UI.StatusLabel.Text = "Indexing local files...";
+            var ui = Synchronizer.UI;
+            ui.StatusLabel.Text = "Indexing local files...";
+            ui.SynchronizerToolStrip.Enabled = false;
         }
     }
 }

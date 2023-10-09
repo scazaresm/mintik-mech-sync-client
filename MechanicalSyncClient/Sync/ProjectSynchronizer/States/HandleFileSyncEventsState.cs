@@ -23,6 +23,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
         {
             var ui = Synchronizer.UI;
             ui.SyncProgressBar.Visible = true;
+            ui.SynchronizerToolStrip.Enabled = false;
             ui.StatusLabel.Text = "Syncing remote server...";
 
             if (totalEvents == 0)

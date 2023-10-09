@@ -71,7 +71,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.SyncStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.SyncProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.ProjectSincronizerToolStrip = new System.Windows.Forms.ToolStrip();
+            this.SynchronizerToolStrip = new System.Windows.Forms.ToolStrip();
             this.RefreshButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
@@ -144,7 +144,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.ProjectSincronizerToolStrip.SuspendLayout();
+            this.SynchronizerToolStrip.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -261,7 +261,7 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             this.tabPage1.Controls.Add(this.FileViewerListView);
             this.tabPage1.Controls.Add(this.statusStrip1);
-            this.tabPage1.Controls.Add(this.ProjectSincronizerToolStrip);
+            this.tabPage1.Controls.Add(this.SynchronizerToolStrip);
             this.tabPage1.ImageIndex = 0;
             this.tabPage1.Location = new System.Drawing.Point(4, 31);
             this.tabPage1.Name = "tabPage1";
@@ -340,9 +340,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.SyncProgressBar.Name = "SyncProgressBar";
             this.SyncProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
-            // ProjectSincronizerToolStrip
+            // SynchronizerToolStrip
             // 
-            this.ProjectSincronizerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SynchronizerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RefreshButton,
             this.toolStripButton1,
             this.toolStripButton5,
@@ -357,11 +357,11 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripLabel1,
             this.toolStripSeparator4,
             this.toolStripButton7});
-            this.ProjectSincronizerToolStrip.Location = new System.Drawing.Point(3, 3);
-            this.ProjectSincronizerToolStrip.Name = "ProjectSincronizerToolStrip";
-            this.ProjectSincronizerToolStrip.Size = new System.Drawing.Size(1271, 25);
-            this.ProjectSincronizerToolStrip.TabIndex = 15;
-            this.ProjectSincronizerToolStrip.Text = "toolStrip2";
+            this.SynchronizerToolStrip.Location = new System.Drawing.Point(3, 3);
+            this.SynchronizerToolStrip.Name = "SynchronizerToolStrip";
+            this.SynchronizerToolStrip.Size = new System.Drawing.Size(1271, 25);
+            this.SynchronizerToolStrip.TabIndex = 15;
+            this.SynchronizerToolStrip.Text = "toolStrip2";
             // 
             // RefreshButton
             // 
@@ -378,8 +378,8 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripButton1.Image = global::MechanicalSyncApp.Properties.Resources.download_32;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(81, 22);
-            this.toolStripButton1.Text = "Download";
+            this.toolStripButton1.Size = new System.Drawing.Size(128, 22);
+            this.toolStripButton1.Text = "Download changes";
             this.toolStripButton1.ToolTipText = "Download latest changes from remote server";
             // 
             // toolStripButton5
@@ -419,8 +419,8 @@ namespace MechanicalSyncApp.UI.Forms
             this.SyncRemoteButton.Image = global::MechanicalSyncApp.Properties.Resources.sync_24;
             this.SyncRemoteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SyncRemoteButton.Name = "SyncRemoteButton";
-            this.SyncRemoteButton.Size = new System.Drawing.Size(93, 22);
-            this.SyncRemoteButton.Text = "Sync remote";
+            this.SyncRemoteButton.Size = new System.Drawing.Size(112, 22);
+            this.SyncRemoteButton.Text = "Upload changes";
             this.SyncRemoteButton.ToolTipText = "Send your local changes to remote server";
             // 
             // toolStripButton6
@@ -1033,8 +1033,8 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.ProjectSincronizerToolStrip.ResumeLayout(false);
-            this.ProjectSincronizerToolStrip.PerformLayout();
+            this.SynchronizerToolStrip.ResumeLayout(false);
+            this.SynchronizerToolStrip.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -1081,7 +1081,7 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TreeView NavigationTree;
-        private System.Windows.Forms.ToolStrip ProjectSincronizerToolStrip;
+        private System.Windows.Forms.ToolStrip SynchronizerToolStrip;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ListView FileViewerListView;

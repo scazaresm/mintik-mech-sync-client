@@ -60,7 +60,9 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 
         public override void UpdateUI()
         {
-            Synchronizer.UI.StatusLabel.Text = "Checking sync...";
+            var ui = Synchronizer.UI;
+            ui.StatusLabel.Text = "Checking sync...";
+            ui.SynchronizerToolStrip.Enabled = false;
         }
 
         private void EnqueueCreatedFiles(List<FileMetadata> createdFiles)
