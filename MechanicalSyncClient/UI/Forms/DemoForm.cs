@@ -68,7 +68,7 @@ namespace MechanicalSyncApp.UI.Forms
                 return;
             }
             projectSynchronizer.SetState(new SyncCheckState());
-            _ = projectSynchronizer.RunTransitionLogicAsync();
+            _ = projectSynchronizer.RunStepAsync();
             projectSynchronizer.ChangeMonitor.StartMonitoring();
         }
 

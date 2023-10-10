@@ -24,15 +24,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Commands
 
         public async Task ExecuteAsync()
         {
-            var ui = synchronizer.UI;
-
-            ui.StartWorkingButton.Visible = false;
-            ui.StopWorkingButton.Visible = true;
-            ui.SyncRemoteButton.Visible = true;
-
-            synchronizer.ChangeMonitor.StartMonitoring();
-            synchronizer.SetState(new IndexLocalFiles());
-            await synchronizer.RunTransitionLogicAsync();
+            await synchronizer.StartMonitoringEvents();
         }
     }
 }

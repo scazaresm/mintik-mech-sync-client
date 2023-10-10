@@ -16,6 +16,6 @@ namespace MechanicalSyncApp.Core
         }
 
         public abstract void UpdateUI();
-        public abstract Task RunTransitionLogicAsync();
+        public abstract Task RunAsync();
     }
 }

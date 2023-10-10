@@ -12,16 +12,26 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 {
     public class IndexLocalFiles : ProjectSynchronizerState
     {
-        public override async Task RunTransitionLogicAsync()
-        {
-            string[] allLocalFiles = Directory.GetFiles(Synchronizer.LocalProject.LocalDirectory, "*.*", SearchOption.AllDirectories);
+        private int indexedFiles = 0;
+        private int totalFiles = 0;
 
+        public override async Task RunAsync()
+        {
+            Synchronizer.UI.StatusLabel.Text = "Listing files in local directory...";
+            string[] allLocalFiles = Directory.GetFiles(Synchronizer.LocalProject.LocalDirectory, "*.*", SearchOption.AllDirectories);
+            totalFiles = allLocalFiles.Length;
+            indexedFiles = 0;
+
+            Synchronizer.UI.SyncProgressBar.Visible = true;
+            Synchronizer.UI.SyncProgressBar.Value = 0;
             Synchronizer.LocalFileIndex.Clear();
             foreach (string fullFilePath in allLocalFiles)
             {
                 string fileName = Path.GetFileName(fullFilePath);
                 string relativeFilePath = fullFilePath.Replace(Synchronizer.LocalProject.LocalDirectory + Path.DirectorySeparatorChar, "");
                 relativeFilePath = relativeFilePath.Replace(Path.DirectorySeparatorChar, '/');
+
+                Synchronizer.UI.StatusLabel.Text = $"Indexing {relativeFilePath}";
 
                 // ommit lock files and duplicates
                 if (fileName.StartsWith("~$"))
@@ -35,17 +45,17 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
                 };
 
                 Synchronizer.LocalFileIndex.Add(relativeFilePath, metadata);
-            }
+                indexedFiles++;
 
-            Synchronizer.SetState(new IndexRemoteFilesState());
-            await Synchronizer.RunTransitionLogicAsync();
+                int progress = (int)((double)indexedFiles / totalFiles * 100.0);
+                if (progress >= 0 && progress <= 100)
+                    Synchronizer.UI.SyncProgressBar.Value = progress;
+            }
         }
 
         public override void UpdateUI()
         {
             var ui = Synchronizer.UI;
-            ui.StatusLabel.Text = "Indexing local files...";
-            ui.SynchronizerToolStrip.Enabled = false;
         }
     }
 }

@@ -16,8 +16,8 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
         private FileChangedEventHandler fileChangedHandler;
         private FileDeletedEventHandler fileDeletedHandler;
 
-        private long totalEvents;
-        private long handledEvents;
+        private long totalEvents = 0;
+        private long handledEvents = 0;
 
         public override void UpdateUI()
         {
@@ -34,25 +34,25 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
             }
 
             int progress = (int)((double)handledEvents / totalEvents * 100.0);
-            if(progress <= 100)
+            if(progress >= 0 && progress <= 100)
                 ui.SyncProgressBar.Value = progress;
         }
 
-        public override async Task RunTransitionLogicAsync()
+        public override async Task RunAsync()
         {
             var client = Synchronizer.ServiceClient;
             var monitor = Synchronizer.ChangeMonitor;
 
-            // initialize chain of handlers
-            fileCreatedHandler = new FileCreatedEventHandler(client, this);
-            fileChangedHandler = new FileChangedEventHandler(client, this);
-            fileDeletedHandler = new FileDeletedEventHandler(client, this);
-
-            fileCreatedHandler.NextHandler = fileChangedHandler;
-            fileChangedHandler.NextHandler = fileDeletedHandler;
-
             try
             {
+                // initialize chain of handlers
+                fileCreatedHandler = new FileCreatedEventHandler(client, this);
+                fileChangedHandler = new FileChangedEventHandler(client, this);
+                fileDeletedHandler = new FileDeletedEventHandler(client, this);
+
+                fileCreatedHandler.NextHandler = fileChangedHandler;
+                fileChangedHandler.NextHandler = fileDeletedHandler;
+
                 if (totalEvents == 0 && handledEvents == 0)
                 {
                     totalEvents = Synchronizer.ChangeMonitor.GetTotalInQueue();
@@ -66,6 +66,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
                 var nextEvent = monitor.DequeueEvent();
                 if (nextEvent != null)
                 {
+                    Synchronizer.UI.StatusLabel.Text = $"Syncing {nextEvent.RelativePath}";
                     await fileCreatedHandler.HandleAsync(nextEvent);
                     handledEvents++;
                 }
@@ -74,16 +75,18 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
             {
                 Console.WriteLine(ex);
             }
-
-            if (monitor.IsEventQueueEmpty())
+            finally
             {
-                Synchronizer.SetState(new MonitorFileSyncEventsState());
-                _ = Synchronizer.RunTransitionLogicAsync();
-            }
-            else
-            {
-                Synchronizer.SetState(this);
-                _ = Synchronizer.RunTransitionLogicAsync();
+                if (monitor.IsEventQueueEmpty())
+                {
+                    Synchronizer.SetState(new MonitorFileSyncEventsState());
+                    _ = Synchronizer.RunStepAsync();
+                }
+                else
+                {
+                    Synchronizer.SetState(this);
+                    _ = Synchronizer.RunStepAsync();
+                }
             }
         }
     }

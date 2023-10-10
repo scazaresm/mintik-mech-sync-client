@@ -13,15 +13,13 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
         public override void UpdateUI()
         {
             var ui = Synchronizer.UI;
-            if (ui == null)
-                return;
 
             ui.SyncProgressBar.Visible = false;
-            ui.StatusLabel.Text = "Remote server is synced with your local copy";
             ui.SynchronizerToolStrip.Enabled = true;
+            ui.StatusLabel.Text = "Remote server is synced with your local copy";
         }
 
-        public override async Task RunTransitionLogicAsync()
+        public override async Task RunAsync()
         {
             if (Synchronizer.ChangeMonitor.IsEventQueueEmpty())
             {
@@ -31,13 +29,13 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
                     Synchronizer.SetState(new IdleState());
 
                 await Task.Delay(1000);
-                _ = Synchronizer.RunTransitionLogicAsync();
+                _ = Synchronizer.RunStepAsync();
             }
             else
             {
                 Synchronizer.SetState(new HandleFileSyncEventsState());
                 await Task.Delay(1000);
-                _ = Synchronizer.RunTransitionLogicAsync();
+                _ = Synchronizer.RunStepAsync();
             }
         }
     }

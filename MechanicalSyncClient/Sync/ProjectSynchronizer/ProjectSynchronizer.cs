@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Sync.ProjectSynchronizer.Commands;
+using MechanicalSyncApp.Sync.ProjectSynchronizer.States;
 using MechanicalSyncApp.UI;
 using System;
 using System.Collections.Generic;
@@ -79,12 +80,69 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer
                 state.UpdateUI();
         }
 
-        public async Task RunTransitionLogicAsync()
+        public async Task RunStepAsync()
         {
             if (state != null)
-                await state.RunTransitionLogicAsync();
+                await state.RunAsync();
         }
 
+        public async Task StartMonitoringEvents()
+        {
+            UI.SynchronizerToolStrip.Enabled = false;
+            UI.StartWorkingButton.Visible = false;
+            UI.StopWorkingButton.Visible = true;
+            UI.SyncRemoteButton.Visible = true;
+
+            SetState(new IndexLocalFiles());
+            await RunStepAsync();
+
+            SetState(new IndexRemoteFilesState());
+            await RunStepAsync();
+
+            SetState(new SyncCheckState());
+            await RunStepAsync();
+
+            ChangeMonitor.StartMonitoring();
+
+            SetState(new HandleFileSyncEventsState());
+            _ = RunStepAsync();
+        }
+
+        public async Task StopMonitoringEvents()
+        {
+            UI.StopWorkingButton.Visible = false;
+            UI.SyncRemoteButton.Visible = false;
+            UI.StartWorkingButton.Visible = true;
+
+            ChangeMonitor.StopMonitoring();
+            SetState(new IdleState());
+            await RunStepAsync();
+        }
+
+        public async Task Sync()
+        {
+            UI.SyncRemoteButton.Enabled = false;
+            UI.SynchronizerToolStrip.Enabled = false;
+            UI.SyncRemoteButton.Enabled = true;
+            ChangeMonitor.StopMonitoring();
+
+            SetState(new IdleState());
+            await RunStepAsync();
+
+            SetState(new IndexLocalFiles());
+            await RunStepAsync();
+
+            SetState(new IndexRemoteFilesState());
+            await RunStepAsync();
+
+            SetState(new SyncCheckState());
+            await RunStepAsync();
+
+            ChangeMonitor.StartMonitoring();
+
+            SetState(new HandleFileSyncEventsState());
+            _ = RunStepAsync();
+        }
 
         protected virtual void Dispose(bool disposing)
         {

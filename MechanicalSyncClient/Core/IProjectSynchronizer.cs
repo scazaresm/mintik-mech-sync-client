@@ -25,7 +25,12 @@ namespace MechanicalSyncApp.Core
         // State related methods
         ProjectSynchronizerState GetState();
         void SetState(ProjectSynchronizerState state);
-        Task RunTransitionLogicAsync();
+        Task RunStepAsync();
+
+        // Business logic
+        Task StartMonitoringEvents();
+        Task StopMonitoringEvents();
+        Task Sync();
 
         // UI related methods
         void InitializeUI();

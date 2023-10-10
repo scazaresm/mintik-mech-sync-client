@@ -9,9 +9,9 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 {
     class IdleState : ProjectSynchronizerState
     {
-        public override async Task RunTransitionLogicAsync()
+        public override async Task RunAsync()
         {
-            await Task.Delay(500);
+            await Task.Delay(1000);
         }
 
         public override void UpdateUI()

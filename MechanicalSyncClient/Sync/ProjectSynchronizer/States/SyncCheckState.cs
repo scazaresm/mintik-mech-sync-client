@@ -15,7 +15,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 {
     public class SyncCheckState : ProjectSynchronizerState
     {
-        public override async Task RunTransitionLogicAsync()
+        public override async Task RunAsync()
         {
             try
             {
@@ -49,8 +49,6 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
                 EnqueueDeletedFiles(summary.DeletedFiles);
 
                 await Task.Delay(1000);
-                Synchronizer.SetState(new HandleFileSyncEventsState());
-                _ = Synchronizer.RunTransitionLogicAsync();
             }
             catch(Exception ex)
             {

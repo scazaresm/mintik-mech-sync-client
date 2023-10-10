@@ -11,30 +11,27 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.States
 {
     public class IndexRemoteFilesState : ProjectSynchronizerState
     {
-        public override async Task RunTransitionLogicAsync()
+        public override async Task RunAsync()
         {
+            // get metadata from server, i.e., a list of all the files on this version and its metadata
             var request = new GetFileMetadataRequest()
             {
                 VersionId = Synchronizer.LocalProject.RemoteVersionId,
             };
             var response = await Synchronizer.ServiceClient.GetFileMetadataAsync(request);
 
+            // index each remote file to compare with local
             Synchronizer.RemoteFileIndex.Clear();
             foreach (FileMetadata metadata in response.FileMetadata)
             {
                 Synchronizer.RemoteFileIndex.Add(metadata.RelativeFilePath, metadata);
-                await Task.Delay(10);
             }
-
-            Synchronizer.SetState(new SyncCheckState());
-            await Synchronizer.RunTransitionLogicAsync();
         }
 
         public override void UpdateUI()
         {
             var ui = Synchronizer.UI;
             ui.StatusLabel.Text = "Indexing remote files...";
-            ui.SynchronizerToolStrip.Enabled = false;
         }
     }
 }

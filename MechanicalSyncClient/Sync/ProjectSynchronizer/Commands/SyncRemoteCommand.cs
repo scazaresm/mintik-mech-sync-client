@@ -23,17 +23,7 @@ namespace MechanicalSyncApp.Sync.ProjectSynchronizer.Commands
 
         public async Task ExecuteAsync()
         {
-            synchronizer.UI.SynchronizerToolStrip.Enabled = false;
-
-            synchronizer.ChangeMonitor.StopMonitoring();
-            synchronizer.SetState(new IdleState());
-            await synchronizer.RunTransitionLogicAsync();
-
-            await Task.Delay(1000);
-
-            synchronizer.ChangeMonitor.StartMonitoring();
-            synchronizer.SetState(new IndexLocalFiles());
-            _ = synchronizer.RunTransitionLogicAsync();
+            await synchronizer.Sync();
         }
     }
 }
