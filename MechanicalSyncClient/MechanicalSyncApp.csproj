@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="eDrawings.Interop.EModelMarkupControl">
+      <HintPath>..\..\..\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelMarkupControl.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="eDrawings.Interop.EModelViewControl">
       <HintPath>..\..\..\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelViewControl.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -80,6 +84,7 @@
     <Compile Include="Core\Services\MechSync\Models\FileMetadata.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetFileMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Response\GetFileMetadataResponse.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Version.cs" />
     <Compile Include="Sync\ProjectSynchronizer\Commands\StopWorkingCommand.cs" />
     <Compile Include="Sync\ProjectSyncChecker.cs" />
     <Compile Include="Sync\ProjectSynchronizer\Commands\SyncRemoteCommand.cs" />
@@ -87,7 +92,7 @@
     <Compile Include="Sync\ProjectSynchronizer\Commands\StartWorkingCommand.cs" />
     <Compile Include="Sync\ProjectSynchronizer\States\IndexLocalFiles.cs" />
     <Compile Include="Sync\ProjectSynchronizer\States\IndexRemoteFilesState.cs" />
-    <Compile Include="UI\DesignViewer.cs" />
+    <Compile Include="UI\DesignViewerControl.cs" />
     <Compile Include="UI\Forms\DesignViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -253,6 +258,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\find-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tape-measure-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\move-icon-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate-icon-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cursor-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zoom-fit-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zoom-32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

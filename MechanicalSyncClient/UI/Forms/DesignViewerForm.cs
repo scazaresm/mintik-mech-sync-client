@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eDrawings.Interop.EModelMarkupControl;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,7 @@ namespace MechanicalSyncApp.UI.Forms
     public partial class DesignViewerForm : Form
     {
         private readonly string filePath;
+        private DesignViewerControl designViewerControl;
 
         public DesignViewerForm(string filePath)
         {
@@ -23,9 +25,52 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void DesignViewerForm_Load(object sender, EventArgs e)
         {
-            var designViewer = new DesignViewer(filePath);
-            Controls.Add(designViewer.HostControl);
+            designViewerControl = new DesignViewerControl(filePath, DesignViewer_OpenDocError);
+            ViewerPanel.Controls.Add(designViewerControl.HostControl);
             Text = Path.GetFileName(filePath);
+        }
+
+        private void DesignViewer_OpenDocError(string FileName, int ErrorCode, string ErrorString)
+        {
+            CloseForm();
+        }
+
+        public void CloseForm()
+        {
+            if (InvokeRequired)
+                Invoke(new Action(CloseForm));
+            else
+                Close();
+        }
+
+        private void MeasureButton_Click(object sender, EventArgs e)
+        {
+            designViewerControl.SetMeasureOperator();
+        }
+
+        private void PanButton_Click(object sender, EventArgs e)
+        {
+            designViewerControl.SetPanOperator();
+        }
+
+        private void RotateButton_Click(object sender, EventArgs e)
+        {
+            designViewerControl.SetRotateOperator();
+        }
+
+        private void SelectButton_Click(object sender, EventArgs e)
+        {
+            designViewerControl.SetSelectOperator();
+        }
+
+        private void ZoomToAreaButton_Click(object sender, EventArgs e)
+        {
+            designViewerControl.SetZoomToAreaOperator();
+        }
+
+        private void ZoomButton_Click(object sender, EventArgs e)
+        {
+            designViewerControl.SetZoomOperator();
         }
     }
 }

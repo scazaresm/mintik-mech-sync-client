@@ -93,6 +93,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cursor_32 {
+            get {
+                object obj = ResourceManager.GetObject("cursor-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap download_32 {
             get {
                 object obj = ResourceManager.GetObject("download-32", resourceCulture);
@@ -163,6 +173,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap move_icon_32 {
+            get {
+                object obj = ResourceManager.GetObject("move-icon-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap open_folder_24 {
             get {
                 object obj = ResourceManager.GetObject("open-folder-24", resourceCulture);
@@ -186,6 +206,16 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap refresh_icon_24 {
             get {
                 object obj = ResourceManager.GetObject("refresh-icon-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rotate_icon_32 {
+            get {
+                object obj = ResourceManager.GetObject("rotate-icon-32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -243,6 +273,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap tape_measure_32 {
+            get {
+                object obj = ResourceManager.GetObject("tape-measure-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap thumbs_down_24 {
             get {
                 object obj = ResourceManager.GetObject("thumbs-down-24", resourceCulture);
@@ -256,6 +296,26 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap thumbs_up_24 {
             get {
                 object obj = ResourceManager.GetObject("thumbs-up-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap zoom_32 {
+            get {
+                object obj = ResourceManager.GetObject("zoom-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap zoom_fit_32 {
+            get {
+                object obj = ResourceManager.GetObject("zoom-fit-32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

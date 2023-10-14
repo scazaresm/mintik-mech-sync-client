@@ -28,7 +28,7 @@ namespace MechanicalSyncApp.Core.Services.Authentication
         private AuthenticationServiceClient()
         {
             _restClient = new HttpClient();
-            _restClient.BaseAddress = new Uri("http://localhost/authentication-service/");
+            _restClient.BaseAddress = new Uri("http://localhost/api/authentication/");
             _restClient.Timeout = TimeSpan.FromSeconds(5);
         }
         #endregion

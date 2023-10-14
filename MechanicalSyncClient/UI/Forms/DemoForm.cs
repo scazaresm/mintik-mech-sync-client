@@ -42,8 +42,8 @@ namespace MechanicalSyncApp.UI.Forms
         private void InitSynchronizerButton_Click(object sender, EventArgs e)
         {
             localProject = new LocalProject(
-                "651f63b58ab79706cf22efbd", 
-                "651f63b58ab79706cf22efbf", 
+                "652a2741a09071baa0b0d9e0",
+                "652a274ba09071baa0b0d9e2", 
                 @"C:\sync_demo"
             );
 
@@ -88,7 +88,7 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 var response = await AuthenticationServiceClient.Instance.LoginAsync(new LoginRequest()
                 {
-                    Username = "sergio@foo.com",
+                    Username = "sergio@demo.com",
                     Password = "12345678"
                 });
                 MessageBox.Show(AuthenticationServiceClient.Instance.UserDetails.Username);
@@ -133,12 +133,6 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-
-        private async void AnalyzeLocalButton_Click(object sender, EventArgs e)
-        {
-  
         }
 
         private async void DownloadProgressButton_Click(object sender, EventArgs e)

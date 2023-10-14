@@ -31,33 +31,35 @@ namespace MechanicalSyncApp.UI.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DemoForm));
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("220214NY-OBERG SML HEAD TOOLING");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Owned by me", new System.Windows.Forms.TreeNode[] {
-            treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Owned by others");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Ongoing", new System.Windows.Forms.TreeNode[] {
-            treeNode9,
-            treeNode10});
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("2023");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("2024");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Published", new System.Windows.Forms.TreeNode[] {
-            treeNode12,
-            treeNode13});
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("220214NY-OBERG SML HEAD TOOLING V1");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Owned by me", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("220224NY-LEAK TEST V2");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Owned by others", new System.Windows.Forms.TreeNode[] {
+            treeNode3});
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Ongoing", new System.Windows.Forms.TreeNode[] {
+            treeNode2,
+            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("2023");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("2024");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Published", new System.Windows.Forms.TreeNode[] {
+            treeNode6,
+            treeNode7});
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Deleted",
             "other"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("email_print.pdf", 0);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Irving Martínez", 0);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Gustavo Avila", 0);
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("email_print.pdf", 0);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Irving Martínez", 0);
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Gustavo Avila", 0);
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.InitSynchronizerButton = new System.Windows.Forms.Button();
             this.LoginButton = new System.Windows.Forms.Button();
             this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
@@ -215,7 +217,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
             this.splitContainer1.Size = new System.Drawing.Size(1385, 706);
-            this.splitContainer1.SplitterDistance = 96;
+            this.splitContainer1.SplitterDistance = 303;
             this.splitContainer1.TabIndex = 16;
             // 
             // NavigationTree
@@ -223,24 +225,26 @@ namespace MechanicalSyncApp.UI.Forms
             this.NavigationTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.NavigationTree.Location = new System.Drawing.Point(0, 0);
             this.NavigationTree.Name = "NavigationTree";
-            treeNode8.Name = "Node2";
-            treeNode8.Text = "220214NY-OBERG SML HEAD TOOLING";
-            treeNode9.Name = "Node3";
-            treeNode9.Text = "Owned by me";
-            treeNode10.Name = "Node6";
-            treeNode10.Text = "Owned by others";
-            treeNode11.Name = "Node0";
-            treeNode11.Text = "Ongoing";
-            treeNode12.Name = "Node4";
-            treeNode12.Text = "2023";
-            treeNode13.Name = "Node5";
-            treeNode13.Text = "2024";
-            treeNode14.Name = "Node1";
-            treeNode14.Text = "Published";
+            treeNode1.Name = "Node2";
+            treeNode1.Text = "220214NY-OBERG SML HEAD TOOLING V1";
+            treeNode2.Name = "Node3";
+            treeNode2.Text = "Owned by me";
+            treeNode3.Name = "Node1";
+            treeNode3.Text = "220224NY-LEAK TEST V2";
+            treeNode4.Name = "Node6";
+            treeNode4.Text = "Owned by others";
+            treeNode5.Name = "Node0";
+            treeNode5.Text = "Ongoing";
+            treeNode6.Name = "Node4";
+            treeNode6.Text = "2023";
+            treeNode7.Name = "Node5";
+            treeNode7.Text = "2024";
+            treeNode8.Name = "Node1";
+            treeNode8.Text = "Published";
             this.NavigationTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode11,
-            treeNode14});
-            this.NavigationTree.Size = new System.Drawing.Size(96, 706);
+            treeNode5,
+            treeNode8});
+            this.NavigationTree.Size = new System.Drawing.Size(303, 706);
             this.NavigationTree.TabIndex = 0;
             // 
             // tabControl1
@@ -254,7 +258,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1285, 681);
+            this.tabControl1.Size = new System.Drawing.Size(1078, 681);
             this.tabControl1.TabIndex = 16;
             // 
             // tabPage1
@@ -266,7 +270,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage1.Location = new System.Drawing.Point(4, 31);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1277, 646);
+            this.tabPage1.Size = new System.Drawing.Size(1070, 646);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Design files";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -277,25 +281,25 @@ namespace MechanicalSyncApp.UI.Forms
             this.columnHeader1,
             this.columnHeader2});
             this.FileViewerListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            listViewGroup4.Header = "Assemblies";
-            listViewGroup4.Name = "assembliesGroup";
-            listViewGroup5.Header = "Parts";
-            listViewGroup5.Name = "partsGroup";
-            listViewGroup6.Header = "Drawings";
-            listViewGroup6.Name = "drawingsGroup";
+            listViewGroup1.Header = "Assemblies";
+            listViewGroup1.Name = "assembliesGroup";
+            listViewGroup2.Header = "Parts";
+            listViewGroup2.Name = "partsGroup";
+            listViewGroup3.Header = "Drawings";
+            listViewGroup3.Name = "drawingsGroup";
             this.FileViewerListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4,
-            listViewGroup5,
-            listViewGroup6});
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
             this.FileViewerListView.HideSelection = false;
-            listViewItem6.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.FileViewerListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem6,
-            listViewItem7});
+            listViewItem1,
+            listViewItem2});
             this.FileViewerListView.Location = new System.Drawing.Point(3, 28);
             this.FileViewerListView.MultiSelect = false;
             this.FileViewerListView.Name = "FileViewerListView";
-            this.FileViewerListView.Size = new System.Drawing.Size(1271, 593);
+            this.FileViewerListView.Size = new System.Drawing.Size(1064, 593);
             this.FileViewerListView.StateImageList = this.FileSyncStatusIcons;
             this.FileViewerListView.TabIndex = 16;
             this.FileViewerListView.TileSize = new System.Drawing.Size(150, 30);
@@ -322,7 +326,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.statusStrip1.Location = new System.Drawing.Point(3, 621);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1271, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1064, 22);
             this.statusStrip1.TabIndex = 17;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -359,7 +363,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripButton7});
             this.SynchronizerToolStrip.Location = new System.Drawing.Point(3, 3);
             this.SynchronizerToolStrip.Name = "SynchronizerToolStrip";
-            this.SynchronizerToolStrip.Size = new System.Drawing.Size(1271, 25);
+            this.SynchronizerToolStrip.Size = new System.Drawing.Size(1064, 25);
             this.SynchronizerToolStrip.TabIndex = 15;
             this.SynchronizerToolStrip.Text = "toolStrip2";
             // 
@@ -455,8 +459,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             this.toolStripLabel1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(113, 22);
-            this.toolStripLabel1.Text = "Ongoing version 1.0";
+            this.toolStripLabel1.Size = new System.Drawing.Size(104, 22);
+            this.toolStripLabel1.Text = "Ongoing version 1";
             // 
             // toolStripSeparator4
             // 
@@ -480,7 +484,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage2.Location = new System.Drawing.Point(4, 31);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1277, 646);
+            this.tabPage2.Size = new System.Drawing.Size(1070, 646);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Design review";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -507,8 +511,8 @@ namespace MechanicalSyncApp.UI.Forms
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl2);
-            this.splitContainer2.Size = new System.Drawing.Size(1271, 615);
-            this.splitContainer2.SplitterDistance = 215;
+            this.splitContainer2.Size = new System.Drawing.Size(1064, 615);
+            this.splitContainer2.SplitterDistance = 179;
             this.splitContainer2.TabIndex = 4;
             // 
             // label5
@@ -569,9 +573,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.listView1.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
-            listViewItem1.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem3});
             this.listView1.LargeImageList = this.imageList1;
             this.listView1.Location = new System.Drawing.Point(7, 307);
             this.listView1.Name = "listView1";
@@ -592,10 +596,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.ReviewersListView.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.ReviewersListView.FullRowSelect = true;
             this.ReviewersListView.HideSelection = false;
-            listViewItem2.StateImageIndex = 0;
+            listViewItem4.StateImageIndex = 0;
             this.ReviewersListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2,
-            listViewItem3});
+            listViewItem4,
+            listViewItem5});
             this.ReviewersListView.LargeImageList = this.ReviewerListImages;
             this.ReviewersListView.Location = new System.Drawing.Point(7, 49);
             this.ReviewersListView.Name = "ReviewersListView";
@@ -627,7 +631,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1052, 615);
+            this.tabControl2.Size = new System.Drawing.Size(881, 615);
             this.tabControl2.TabIndex = 1;
             // 
             // tabPage5
@@ -637,7 +641,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage5.Location = new System.Drawing.Point(4, 31);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1044, 580);
+            this.tabPage5.Size = new System.Drawing.Size(873, 580);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Change requests";
             this.tabPage5.ToolTipText = "Change requests left by reviewers";
@@ -657,7 +661,7 @@ namespace MechanicalSyncApp.UI.Forms
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer3.Size = new System.Drawing.Size(1038, 574);
+            this.splitContainer3.Size = new System.Drawing.Size(867, 574);
             this.splitContainer3.SplitterDistance = 455;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -674,7 +678,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(1038, 455);
+            this.dataGridView1.Size = new System.Drawing.Size(867, 455);
             this.dataGridView1.TabIndex = 0;
             // 
             // Column1
@@ -686,8 +690,8 @@ namespace MechanicalSyncApp.UI.Forms
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle1;
             this.Column2.HeaderText = "Required change";
             this.Column2.Name = "Column2";
             this.Column2.Width = 500;
@@ -704,8 +708,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // Column4
             // 
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle2;
             this.Column4.HeaderText = "Designer comments";
             this.Column4.Name = "Column4";
             this.Column4.Width = 300;
@@ -718,7 +722,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(1038, 115);
+            this.textBox1.Size = new System.Drawing.Size(867, 115);
             this.textBox1.TabIndex = 0;
             // 
             // tabPage6
@@ -805,7 +809,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripLabel2});
             this.DesignReviewToolStrip.Location = new System.Drawing.Point(3, 3);
             this.DesignReviewToolStrip.Name = "DesignReviewToolStrip";
-            this.DesignReviewToolStrip.Size = new System.Drawing.Size(1271, 25);
+            this.DesignReviewToolStrip.Size = new System.Drawing.Size(1064, 25);
             this.DesignReviewToolStrip.TabIndex = 3;
             this.DesignReviewToolStrip.Text = "toolStrip2";
             // 
@@ -849,7 +853,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage3.ImageIndex = 2;
             this.tabPage3.Location = new System.Drawing.Point(4, 31);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1277, 646);
+            this.tabPage3.Size = new System.Drawing.Size(1170, 646);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "3D Review";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -863,7 +867,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripLabel4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1277, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1170, 25);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip2";
             // 
@@ -907,7 +911,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage4.ImageIndex = 3;
             this.tabPage4.Location = new System.Drawing.Point(4, 31);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1277, 646);
+            this.tabPage4.Size = new System.Drawing.Size(1170, 646);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Drawing review";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -921,7 +925,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripLabel5});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(1277, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(1170, 25);
             this.toolStrip2.TabIndex = 4;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -977,7 +981,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1285, 25);
+            this.panel2.Size = new System.Drawing.Size(1078, 25);
             this.panel2.TabIndex = 18;
             // 
             // button2
@@ -985,7 +989,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.button2.Dock = System.Windows.Forms.DockStyle.Right;
             this.button2.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(1190, 0);
+            this.button2.Location = new System.Drawing.Point(983, 0);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(95, 25);
             this.button2.TabIndex = 0;
