@@ -14,6 +14,13 @@ namespace MechanicalSyncApp.Core.Domain
         public List<FileMetadata> ChangedFiles { get; set; }  // existing in both local and remote, but different (checksum mismatch)
         public List<FileMetadata> SyncedFiles { get; set; }   // existing in both local and remote, with exactly same checksum
 
+        public bool HasChanges {
+            get
+            {
+                return ChangedFiles.Count > 0 || DeletedFiles.Count > 0 || CreatedFiles.Count > 0;
+            }
+        }
+
         public SyncCheckSummary()
         {
             SyncedFiles = new List<FileMetadata>();

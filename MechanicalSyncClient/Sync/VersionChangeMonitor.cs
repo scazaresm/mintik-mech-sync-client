@@ -12,7 +12,7 @@ namespace MechanicalSyncApp.Sync
         private FileSystemWatcher watcher;
         private bool disposedValue;
 
-        public LocalVersion Version { get; }
+        public OngoingVersion Version { get; }
         public string FileFilter { get; }
 
         private readonly object eventQueueLock = new object();
@@ -20,7 +20,7 @@ namespace MechanicalSyncApp.Sync
 
         private bool monitoring;
 
-        public VersionChangeMonitor(LocalVersion version, string fileFilter)
+        public VersionChangeMonitor(OngoingVersion version, string fileFilter)
         {
             if (version is null)
             {
@@ -141,7 +141,7 @@ namespace MechanicalSyncApp.Sync
             {
                 Version = Version,
                 EventType = FileSyncEventType.Created,
-                RelativePath = e.Name,
+                RelativeFilePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
             });
@@ -154,7 +154,7 @@ namespace MechanicalSyncApp.Sync
             {
                 Version = Version,
                 EventType = FileSyncEventType.Deleted,
-                RelativePath = e.Name,
+                RelativeFilePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
             });
@@ -167,7 +167,7 @@ namespace MechanicalSyncApp.Sync
             {
                 Version = Version,
                 EventType = FileSyncEventType.Changed,
-                RelativePath = e.Name,
+                RelativeFilePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
             });
@@ -180,7 +180,7 @@ namespace MechanicalSyncApp.Sync
             {
                 Version = Version,
                 EventType = FileSyncEventType.Renamed,
-                RelativePath = e.Name,
+                RelativeFilePath = e.Name,
                 FullPath = e.FullPath,
                 RaiseDateTime = DateTime.Now
             });

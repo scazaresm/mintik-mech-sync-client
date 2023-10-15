@@ -16,7 +16,7 @@ namespace MechanicalSyncApp.Core
 
         VersionSynchronizerUI UI { get; }
 
-        LocalVersion Version { get; }
+        OngoingVersion Version { get; }
 
         IMechSyncServiceClient ServiceClient { get; }
         IVersionChangeMonitor ChangeMonitor { get; }
@@ -30,9 +30,9 @@ namespace MechanicalSyncApp.Core
         Task RunStepAsync();
 
         // Business logic
-        Task StartMonitoringEvents();
-        Task StopMonitoringEvents();
-        Task Sync();
+        Task WorkOnlineAsync();
+        Task WorkOfflineAsync();
+        Task SynchronizeVersionAsync();
 
         // UI related methods
         void InitializeUI();

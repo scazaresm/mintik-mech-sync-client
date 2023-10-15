@@ -3,12 +3,7 @@ using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.UI.Forms;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI
@@ -16,15 +11,19 @@ namespace MechanicalSyncApp.UI
     public class FileListViewControl : IFileListViewControl
     {
         private string localDirectory;
+        private readonly string extensionFilter;
+        private readonly IVersionChangeMonitor changeMonitor;
         private bool disposedValue;
 
         public ListView AttachedListView { get; private set; }
 
         public DictionaryListViewAdapter FileLookup { get; private set; }
 
-        public FileListViewControl(string localDirectory)
+        public FileListViewControl(string localDirectory, string extensionFilter, IVersionChangeMonitor changeMonitor)
         {
             this.localDirectory = localDirectory ?? throw new ArgumentNullException(nameof(localDirectory));
+            this.extensionFilter = extensionFilter ?? throw new ArgumentNullException(nameof(extensionFilter));
+            this.changeMonitor = changeMonitor ?? throw new ArgumentNullException(nameof(changeMonitor));
             AttachListView(new ListView());
         }
 
@@ -40,7 +39,11 @@ namespace MechanicalSyncApp.UI
         {
             if (!FileLookup.ContainsKey(filePath))
                 FileLookup.Add(filePath, BuildDefaultListViewItem(filePath));
-            SetSyncingStatusToFile(filePath);
+
+            if (changeMonitor.IsMonitoring())
+                SetSyncingStatusToFile(filePath);
+            else
+                SetOfflineStatusToFile(filePath);
         }
 
         public void RemoveDeletedFile(string filePath)
@@ -87,6 +90,24 @@ namespace MechanicalSyncApp.UI
             }
         }
 
+        public void SetOfflineStatusToFile(string filePath)
+        {
+            if (FileLookup.ContainsKey(filePath))
+            {
+                ListViewItem fileListViewItem = FileLookup[filePath];
+                fileListViewItem.StateImageIndex = -1;
+                if (fileListViewItem.SubItems.Count == 1)
+                {
+                    fileListViewItem.SubItems.Add("Offline");
+                    fileListViewItem.SubItems.Add(filePath);
+                }
+                else
+                {
+                    fileListViewItem.SubItems[1].Text = "Offline";
+                }
+            }
+        }
+
         public void SetErrorStatusToFile(string filePath)
         {
             if (FileLookup.ContainsKey(filePath))
@@ -119,11 +140,21 @@ namespace MechanicalSyncApp.UI
 
             foreach (string localFile in allLocalFiles)
             {
+                // skip lock files
                 if (Path.GetFileName(localFile).StartsWith("~$"))
                     continue;
 
+                // skip extensions not allowed by the extension filter
+                var fileExtension = Path.GetExtension(localFile);
+                if (!extensionFilter.ToLower().Contains(fileExtension.ToLower()))
+                    continue;
+
                 FileLookup.Add(localFile, BuildDefaultListViewItem(localFile));
-                SetSyncedStatusToFile(localFile);
+
+                if (changeMonitor.IsMonitoring())
+                    SetSyncedStatusToFile(localFile);
+                else
+                    SetOfflineStatusToFile(localFile);
             }
             AttachedListView.Enabled = true;
         }
@@ -164,7 +195,7 @@ namespace MechanicalSyncApp.UI
             if (selectedItem != null)
             {
                 string filePath = selectedItem.SubItems[2].Text;
-                var designViewerForm = new DesignViewerForm(filePath);
+                var designViewerForm = new DesignFileViewerForm(filePath);
                 designViewerForm.Show();
             }
         }

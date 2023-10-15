@@ -42,7 +42,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 return;
             }
 
-            var fileViewer = sourceState.Synchronizer.UI.FileViewer;
+            var synchronizer = sourceState.Synchronizer;
+            var fileViewer = synchronizer.UI.FileViewer;
             try
             {
                 // no need to handle directory change events, only files
@@ -53,7 +54,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 if (NextEventOverwritesThis(fileSyncEvent))
                     return;
 
-                fileViewer.SetSyncingStatusToFile(fileSyncEvent.FullPath);
+                if (synchronizer.ChangeMonitor.IsMonitoring())
+                    fileViewer.SetSyncingStatusToFile(fileSyncEvent.FullPath);
 
                 await Task.Delay(50); // avoid overloading the server
                 await Task.Factory.StartNew(async () =>
@@ -61,11 +63,13 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                     await client.UploadFileAsync(new UploadFileRequest
                     {
                         LocalFilePath = fileSyncEvent.FullPath,
-                        RelativeFilePath = fileSyncEvent.RelativePath.Replace(Path.DirectorySeparatorChar, '/'),
+                        RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/'),
                         ProjectId = fileSyncEvent.Version.RemoteProject.Id
                     });
                 }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-                fileViewer.SetSyncedStatusToFile(fileSyncEvent.FullPath);
+
+                if(synchronizer.ChangeMonitor.IsMonitoring())
+                    fileViewer.SetSyncedStatusToFile(fileSyncEvent.FullPath);
             }
             catch (Exception ex)
             {

@@ -91,18 +91,16 @@
     <Compile Include="Core\Services\MechSync\Models\Response\GetMyOngoingVersionsResponse.cs" />
     <Compile Include="Core\Services\MechSync\Models\Version.cs" />
     <Compile Include="Core\Services\MechSync\Models\VersionOwner.cs" />
-    <Compile Include="Sync\VersionSynchronizer\Commands\StopWorkingCommand.cs" />
-    <Compile Include="Sync\VersionSynchronizer\Commands\SyncRemoteCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IdleState.cs" />
-    <Compile Include="Sync\VersionSynchronizer\Commands\StartWorkingCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IndexLocalFiles.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IndexRemoteFilesState.cs" />
-    <Compile Include="UI\DesignViewerControl.cs" />
-    <Compile Include="UI\Forms\DesignViewerForm.cs">
+    <Compile Include="Sync\VersionSynchronizer\States\ProcessSyncCheckSummaryState.cs" />
+    <Compile Include="UI\DesignFileViewerControl.cs" />
+    <Compile Include="UI\Forms\DesignFileViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\DesignViewerForm.Designer.cs">
-      <DependentUpon>DesignViewerForm.cs</DependentUpon>
+    <Compile Include="UI\Forms\DesignFileViewerForm.Designer.cs">
+      <DependentUpon>DesignFileViewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\IUserInterfaceCommand.cs" />
     <Compile Include="UI\Forms\LoginForm.cs">
@@ -134,7 +132,7 @@
     <Compile Include="Core\Domain\FileSyncEvent.cs" />
     <Compile Include="Core\Domain\FileSyncEventState.cs" />
     <Compile Include="Core\Domain\FileSyncEventType.cs" />
-    <Compile Include="Core\Domain\LocalVersion.cs" />
+    <Compile Include="Core\Domain\OngoingVersion.cs" />
     <Compile Include="Core\IVersionChangeMonitor.cs" />
     <Compile Include="Core\IVersionSynchronizer.cs" />
     <Compile Include="Core\Util\JsonUtils.cs" />
@@ -172,8 +170,8 @@
     <EmbeddedResource Include="UI\Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\DesignViewerForm.resx">
-      <DependentUpon>DesignViewerForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Forms\DesignFileViewerForm.resx">
+      <DependentUpon>DesignFileViewerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\LocalProjectForm.resx">
       <DependentUpon>LocalProjectForm.cs</DependentUpon>

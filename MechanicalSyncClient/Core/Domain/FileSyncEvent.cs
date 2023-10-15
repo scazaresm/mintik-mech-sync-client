@@ -4,9 +4,9 @@ namespace MechanicalSyncApp.Core.Domain
 {
     public class FileSyncEvent
     {
-        public LocalVersion Version { get; set; }
+        public OngoingVersion Version { get; set; }
 
-        public string RelativePath { get; set; }
+        public string RelativeFilePath { get; set; }
         public string FullPath { get; set; }
 
         public DateTime RaiseDateTime { get; set; }

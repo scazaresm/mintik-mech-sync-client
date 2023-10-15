@@ -2,13 +2,13 @@
 
 namespace MechanicalSyncApp.Core.Domain
 {
-    public class LocalVersion
+    public class OngoingVersion
     {
         public Version RemoteVersion { get; }
         public Project RemoteProject { get; }
         public string LocalDirectory { get; }
 
-        public LocalVersion(Version remoteVersion, Project remoteProject, string localDirectory)
+        public OngoingVersion(Version remoteVersion, Project remoteProject, string localDirectory)
         {
             RemoteVersion = remoteVersion ?? throw new System.ArgumentNullException(nameof(remoteVersion));
             RemoteProject = remoteProject ?? throw new System.ArgumentNullException(nameof(remoteProject));

@@ -2,7 +2,6 @@
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI;
 using System;
@@ -25,11 +24,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         private VersionSynchronizerState state;
         private bool disposedValue;
 
-        public LocalVersion Version { get; }
+        public OngoingVersion Version { get; }
 
         public string FileExtensionFilter { get; private set; } = "*.sldasm | *.sldprt | *.slddrw";
 
-        public VersionSynchronizer(LocalVersion version, VersionSynchronizerUI ui)
+        public VersionSynchronizer(OngoingVersion version, VersionSynchronizerUI ui)
         {
             if (version is null)
             {
@@ -53,37 +52,26 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             return state;
         }
 
-        public void SetState(VersionSynchronizerState state)
-        {
-            this.state = state ?? throw new ArgumentNullException(nameof(state));
-            this.state.SetSynchronizer(this);
-            this.state.UpdateUI();
-        }
-
         public void InitializeUI()
         {
             UI.ProjectFolderNameLabel.Text = Version.RemoteProject.FolderName;
-            UI.InitializeFileViewer(Version);
+            UI.InitializeFileViewer(Version, ChangeMonitor);
         
             UI.FileViewer.AttachListView(UI.FileViewerListView);
             UI.FileViewerListView.SetDoubleBuffered();
 
             UI.SyncProgressBar.Visible = false;
-            UI.SyncRemoteButton.Visible = false;
+            UI.SyncRemoteButton.Visible = true;
             UI.SyncRemoteButton.Click += SyncRemoteButton_Click;
 
-            UI.StartWorkingButton.Click += StartWorkingButton_Click;
-            UI.StartWorkingButton.Visible = true;
+            UI.WorkOnlineButton.Click += WorkOnlineButton_Click;
+            UI.WorkOnlineButton.Visible = true;
 
-            UI.StopWorkingButton.Click += StopWorkingButton_Click;
-            UI.StopWorkingButton.Visible = false;
+            UI.WorkOfflineButton.Click += WorkOfflineButton_Click;
+            UI.WorkOfflineButton.Visible = false;
 
             UI.RefreshLocalFilesButton.Click += RefreshLocalFilesButton_Click;
-        }
-
-        private void RefreshLocalFilesButton_Click(object sender, EventArgs e)
-        {
-            UI.FileViewer.PopulateFiles();
+            UI.CloseVersionButton.Click += CloseVersionButton_Click;
         }
 
         public void UpdateUI()
@@ -92,18 +80,25 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 state.UpdateUI();
         }
 
+        public void SetState(VersionSynchronizerState state)
+        {
+            this.state = state ?? throw new ArgumentNullException(nameof(state));
+            this.state.SetSynchronizer(this);
+            this.state.UpdateUI();
+        }
+
         public async Task RunStepAsync()
         {
             if (state != null)
                 await state.RunAsync();
         }
 
-        public async Task StartMonitoringEvents()
+        public async Task WorkOnlineAsync()
         {
             UI.SynchronizerToolStrip.Enabled = false;
-            UI.StartWorkingButton.Visible = false;
-            UI.StopWorkingButton.Visible = true;
-            UI.SyncRemoteButton.Visible = true;
+            UI.WorkOnlineButton.Visible = false;
+            UI.WorkOfflineButton.Visible = true;
+            UI.SyncRemoteButton.Visible = false;
 
             SetState(new IndexLocalFiles());
             await RunStepAsync();
@@ -111,31 +106,49 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             SetState(new IndexRemoteFilesState());
             await RunStepAsync();
 
-            SetState(new SyncCheckState());
+            var syncCheckState = new SyncCheckState();
+            SetState(syncCheckState);
             await RunStepAsync();
 
+            if(syncCheckState.Summary.HasChanges)
+            {
+                var response = MessageBox.Show("Apply sync changes?", "Validate changes", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (response != DialogResult.Yes)
+                {
+                    await WorkOfflineAsync();
+                    return;
+                }
+                SetState(new ProcessSyncCheckSummaryState(syncCheckState.Summary));
+                await RunStepAsync();
+            }
+
             ChangeMonitor.StartMonitoring();
+            UI.FileViewer.PopulateFiles();
 
             SetState(new HandleFileSyncEventsState());
             _ = RunStepAsync();
         }
 
-        public async Task StopMonitoringEvents()
+        public async Task WorkOfflineAsync()
         {
-            UI.StopWorkingButton.Visible = false;
-            UI.SyncRemoteButton.Visible = false;
-            UI.StartWorkingButton.Visible = true;
+            UI.SynchronizerToolStrip.Enabled = true;
+            UI.WorkOfflineButton.Visible = false;
+            UI.WorkOnlineButton.Visible = true;
+            UI.SyncRemoteButton.Visible = true;
 
             ChangeMonitor.StopMonitoring();
+            UI.FileViewer.PopulateFiles();
+
             SetState(new IdleState());
             await RunStepAsync();
         }
 
-        public async Task Sync()
+        public async Task SynchronizeVersionAsync()
         {
             UI.SyncRemoteButton.Enabled = false;
             UI.SynchronizerToolStrip.Enabled = false;
             UI.SyncRemoteButton.Enabled = true;
+
             ChangeMonitor.StopMonitoring();
 
             SetState(new IdleState());
@@ -147,36 +160,76 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             SetState(new IndexRemoteFilesState());
             await RunStepAsync();
 
-            SetState(new SyncCheckState());
+            var syncCheckState = new SyncCheckState();
+            SetState(syncCheckState);
             await RunStepAsync();
 
-            ChangeMonitor.StartMonitoring();
+            if (syncCheckState.Summary.HasChanges)
+            {
+                var response = MessageBox.Show("Apply sync changes?", "Validate changes", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (response != DialogResult.Yes)
+                {
+                    await WorkOfflineAsync();
+                    return;
+                }
+                SetState(new ProcessSyncCheckSummaryState(syncCheckState.Summary));
+                await RunStepAsync();
+            }
 
             SetState(new HandleFileSyncEventsState());
-            _ = RunStepAsync();
+            await RunStepAsync();
+
+            MessageBox.Show("Synched!");
+            UI.SynchronizerToolStrip.Enabled = true;
         }
 
-        private async void StartWorkingButton_Click(object sender, EventArgs e)
+        private void WorkOnlineButton_Click(object sender, EventArgs e)
         {
-            await new StartWorkingCommand(this).ExecuteAsync();
+            _ = WorkOnlineAsync();
         }
 
-        private async void SyncRemoteButton_Click(object sender, EventArgs e)
+        private void SyncRemoteButton_Click(object sender, EventArgs e)
         {
-            await new SyncRemoteCommand(this).ExecuteAsync();
+            _ = SynchronizeVersionAsync();
         }
 
-        private async void StopWorkingButton_Click(object sender, EventArgs e)
+        private void WorkOfflineButton_Click(object sender, EventArgs e)
         {
-            await new StopWorkingCommand(this).ExecuteAsync();
+            _ = WorkOfflineAsync();
+        }
+
+        private void RefreshLocalFilesButton_Click(object sender, EventArgs e)
+        {
+            UI.FileViewer.PopulateFiles();
+        }
+
+        private async void CloseVersionButton_Click(object sender, EventArgs e)
+        {
+            if(ChangeMonitor.IsMonitoring())
+            {
+                var response = MessageBox.Show(
+                    "You are currently working online on this version, are you sure to go offline and close it?",
+                    "Close version",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (response != DialogResult.Yes)
+                    return;
+
+                await WorkOfflineAsync();
+            }
+            UI.MainSplitContainer.Panel2Collapsed = true;
+            UI.MainSplitContainer.Panel1Collapsed = false;
         }
 
         private void RemoveEventListeners()
         {
-            UI.StartWorkingButton.Click -= StartWorkingButton_Click;
-            UI.StopWorkingButton.Click -= StopWorkingButton_Click;
+            UI.WorkOnlineButton.Click -= WorkOnlineButton_Click;
+            UI.WorkOfflineButton.Click -= WorkOfflineButton_Click;
             UI.SyncRemoteButton.Click -= SyncRemoteButton_Click;
             UI.RefreshLocalFilesButton.Click -= RefreshLocalFilesButton_Click;
+            UI.CloseVersionButton.Click -= CloseVersionButton_Click;
         }
 
         #region Dispose pattern

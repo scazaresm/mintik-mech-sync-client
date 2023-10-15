@@ -39,26 +39,26 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 return;
             }
 
-            var fileViewer = sourceState.Synchronizer.UI.FileViewer;
+            var synchronizer = sourceState.Synchronizer;
+            var fileViewer = synchronizer.UI.FileViewer;
             try
             {
-                fileViewer.SetSyncingStatusToFile(fileSyncEvent.FullPath);
+                var targetFiles = await DetermineTargetFilesAsync(fileSyncEvent);
+
+                foreach (var target in targetFiles)
+                    fileViewer.SetSyncingStatusToFile(target);
+
                 await Task.Delay(100); // avoid overloading the server
+
+                // if RelativeFilePath is a directory, all its contents will be removed in server
                 await client.DeleteFileAsync(new DeleteFileRequest
                 {
-                    RelativeFilePath = fileSyncEvent.RelativePath.Replace(Path.DirectorySeparatorChar, '/'),
+                    RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/'),
                     ProjectId = fileSyncEvent.Version.RemoteProject.Id
                 });
 
-                // if we deleted a directory and its contents, we need to repopulate files in viewer
-                if (!Path.HasExtension(fileSyncEvent.FullPath))
-                {
-                    fileViewer.PopulateFiles();
-                }
-                else
-                {
-                    fileViewer.RemoveDeletedFile(fileSyncEvent.FullPath);
-                }
+                foreach(var target in targetFiles)
+                    fileViewer.RemoveDeletedFile(target);
             }
             catch (Exception ex)
             {
@@ -69,6 +69,42 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
         public Task HandleAsync(FileSyncEvent fileSyncEvent, int retryLimit)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task<List<string>> DetermineTargetFilesAsync(FileSyncEvent fileSyncEvent)
+        {
+            var synchronizer = sourceState.Synchronizer;
+            var targetIsDirectory = !Path.HasExtension(fileSyncEvent.FullPath);
+            var filesToDelete = new List<string>();
+
+            if (targetIsDirectory)
+            {
+                // get server file metadata for this version
+                var request = new GetFileMetadataRequest()
+                {
+                    VersionId = synchronizer.Version.RemoteVersion.Id
+                };
+                var fileMetadataResponse = await synchronizer.ServiceClient.GetFileMetadataAsync(request);
+
+                // determine which files are inside the target directory
+                foreach (var fileMetadata in fileMetadataResponse.FileMetadata)
+                {
+                    bool isFileInTargetDirectory = fileMetadata.RelativeFilePath.StartsWith(fileSyncEvent.RelativeFilePath);
+                    if (isFileInTargetDirectory)
+                    {
+                        var localFilePath = Path.Combine(
+                            synchronizer.Version.LocalDirectory, 
+                            fileMetadata.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar)
+                        );
+                        filesToDelete.Add(localFilePath);
+                    }
+                }
+            }
+            else
+            {
+                filesToDelete.Add(fileSyncEvent.FullPath);
+            }
+            return filesToDelete;
         }
 
     }

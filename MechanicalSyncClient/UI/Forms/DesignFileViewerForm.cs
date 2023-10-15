@@ -12,12 +12,12 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
 {
-    public partial class DesignViewerForm : Form
+    public partial class DesignFileViewerForm : Form
     {
         private readonly string filePath;
-        private DesignViewerControl designViewerControl;
+        private DesignFileViewerControl designViewerControl;
 
-        public DesignViewerForm(string filePath)
+        public DesignFileViewerForm(string filePath)
         {
             InitializeComponent();
             this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
@@ -25,7 +25,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void DesignViewerForm_Load(object sender, EventArgs e)
         {
-            designViewerControl = new DesignViewerControl(filePath, DesignViewerControl_OpenDocError);
+            designViewerControl = new DesignFileViewerControl(filePath, DesignViewerControl_OpenDocError);
             ViewerPanel.Controls.Add(designViewerControl.HostControl);
             Text = Path.GetFileName(filePath);
         }

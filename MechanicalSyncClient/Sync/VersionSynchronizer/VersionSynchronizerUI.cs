@@ -1,4 +1,5 @@
-﻿using MechanicalSyncApp.Core.Domain;
+﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.UI;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 {
     public class VersionSynchronizerUI : IDisposable
     {
-        private bool disposedValue;
-
         public FileListViewControl FileViewer { get; private set; }
 
         // Form components
@@ -21,19 +20,27 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public ToolStrip SynchronizerToolStrip { get; set; }
         public ToolStripStatusLabel StatusLabel { get; set; }
         public ToolStripButton RefreshLocalFilesButton { get; set; }
-        public ToolStripButton StartWorkingButton { get; set; }
-        public ToolStripButton StopWorkingButton { get; set; }
+        public ToolStripButton WorkOnlineButton { get; set; }
+        public ToolStripButton WorkOfflineButton { get; set; }
         public ToolStripButton SyncRemoteButton { get; set; }
+        public Button CloseVersionButton { get; set; }
         public ToolStripProgressBar SyncProgressBar { get; set; }
+        public SplitContainer MainSplitContainer { get; set; }
 
-        public void InitializeFileViewer(LocalVersion version)
+        public void InitializeFileViewer(OngoingVersion version, IVersionChangeMonitor changeMonitor)
         {
             if (version is null)
             {
                 throw new ArgumentNullException(nameof(version));
             }
+
+            if (changeMonitor is null)
+            {
+                throw new ArgumentNullException(nameof(changeMonitor));
+            }
+
             DisposeFileViewer();
-            FileViewer = new FileListViewControl(version.LocalDirectory);
+            FileViewer = new FileListViewControl(version.LocalDirectory, "*.sldasm | *.sldprt | *.slddrw", changeMonitor);
         }
 
         private void DisposeFileViewer()
@@ -46,6 +53,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         }
 
         #region Dispose pattern
+
+        private bool disposedValue;
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

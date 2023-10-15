@@ -12,9 +12,9 @@ namespace MechanicalSyncApp.UI
 {
     public class OpenVersionEventArgs : EventArgs
     {
-        public LocalVersion Version { get; private set; }
+        public OngoingVersion Version { get; private set; }
 
-        public OpenVersionEventArgs(LocalVersion version)
+        public OpenVersionEventArgs(OngoingVersion version)
         {
             Version = version;
         }
@@ -26,14 +26,13 @@ namespace MechanicalSyncApp.UI
 
         private readonly IMechSyncServiceClient serviceClient;
 
-        private TreeNode myWorkspaceNode;
-        private TreeNode othersWorkspaceNode;
+        private TreeNode myWorkNode;
 
         private Dictionary<string, Project> projectCache = new Dictionary<string, Project>();
 
         public TreeView AttachedTreeView { get; private set; }
 
-        public VersionExplorerControl(IMechSyncServiceClient serviceClient)
+        public VersionExplorerControl(IMechSyncServiceClient serviceClient, string workspaceDirectory)
         {
             this.serviceClient = serviceClient ?? throw new ArgumentNullException(nameof(serviceClient));
             AttachTreeView(new TreeView());
@@ -42,24 +41,23 @@ namespace MechanicalSyncApp.UI
         public void AttachTreeView(TreeView treeView)
         {
             AttachedTreeView = treeView ?? throw new ArgumentNullException(nameof(treeView));
-            myWorkspaceNode = new TreeNode("My workspace");
+            myWorkNode = new TreeNode("My work");
 
-            AttachedTreeView.Nodes.Add(myWorkspaceNode);
+            AttachedTreeView.Nodes.Add(myWorkNode);
 
             AttachedTreeView.NodeMouseDoubleClick += AttachedTreeView_NodeMouseDoubleClick;
         }
 
         public void Refresh()
         {
-            _ = FetchMyWorkspaceAsync();
+            _ = FetchMyWorkAsync();
         }
-
 
         private void AttachedTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if(e.Node.Tag is LocalVersion)
+            if(e.Node.Tag is OngoingVersion)
             {
-                var version = (LocalVersion)e.Node.Tag;
+                var version = (OngoingVersion)e.Node.Tag;
                 OnOpenVersion(new OpenVersionEventArgs(version));
             }
         }
@@ -69,11 +67,11 @@ namespace MechanicalSyncApp.UI
             OpenVersion?.Invoke(this, e);
         }
 
-        private async Task FetchMyWorkspaceAsync()
+        private async Task FetchMyWorkAsync()
         {
             var response = await serviceClient.GetMyOngoingVersionsAsync();
 
-            myWorkspaceNode.Nodes.Clear();
+            myWorkNode.Nodes.Clear();
             foreach(var remoteVersion in response.MyOngoingVersions)
             {
                 if(!projectCache.ContainsKey(remoteVersion.ProjectId))
@@ -81,14 +79,14 @@ namespace MechanicalSyncApp.UI
                     var project = await serviceClient.GetProjectAsync(remoteVersion.ProjectId);
                     projectCache.Add(remoteVersion.ProjectId, project);
                 }
-                var localVersion = new LocalVersion(
+                var localVersion = new OngoingVersion(
                     remoteVersion, 
                     projectCache[remoteVersion.ProjectId],
                     @"C:\sync_demo"
                 );
                 var versionNode = new TreeNode(localVersion.ToString());
                 versionNode.Tag = localVersion;
-                myWorkspaceNode.Nodes.Add(versionNode);
+                myWorkNode.Nodes.Add(versionNode);
             }
         }
     }

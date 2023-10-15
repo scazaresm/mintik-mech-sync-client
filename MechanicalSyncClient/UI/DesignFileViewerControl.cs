@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI
 {
-    public class DesignViewerControl
+    public class DesignFileViewerControl
     {
         private readonly string filePath;
 
@@ -45,7 +45,7 @@ namespace MechanicalSyncApp.UI
 
         public EDrawingsHost HostControl { get; private set; }
 
-        public DesignViewerControl(string filePath, _IEModelViewControlEvents_OnFailedLoadingDocumentEventHandler onFailedLoadingDocument)
+        public DesignFileViewerControl(string filePath, _IEModelViewControlEvents_OnFailedLoadingDocumentEventHandler onFailedLoadingDocument)
         {
             this.filePath = filePath;
 

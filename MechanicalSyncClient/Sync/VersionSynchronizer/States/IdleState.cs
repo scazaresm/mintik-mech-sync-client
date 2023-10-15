@@ -16,7 +16,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
         public override void UpdateUI()
         {
-            Synchronizer.UI.StatusLabel.Text = "Working offline.";
+            var ui = Synchronizer.UI;
+            ui.SyncProgressBar.Visible = false;
+            ui.SyncRemoteButton.Visible = true;
+            ui.StatusLabel.Text = "Working offline, remember to sync the remote server frequently";
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace MechanicalSyncApp.UI.Forms
 {
-    partial class DesignViewerForm
+    partial class DesignFileViewerForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@ namespace MechanicalSyncApp.UI.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DesignViewerForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DesignFileViewerForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();

@@ -1,4 +1,6 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Domain;
+using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using System;
@@ -15,7 +17,7 @@ namespace MechanicalSyncApp.UI.Forms
         public MainForm()
         {
             InitializeComponent();
-            versionExplorer = new VersionExplorerControl(MechSyncServiceClient.Instance);
+            versionExplorer = new VersionExplorerControl(MechSyncServiceClient.Instance, @"C:\sync_demo");
             versionExplorer.AttachTreeView(VersionExplorerTreeView);
             versionExplorer.OpenVersion += VersionExplorer_OpenVersion;
         }
@@ -27,12 +29,19 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void VersionExplorer_OpenVersion(object sender, OpenVersionEventArgs e)
         {
+            var version = e.Version;
+            OpenVersionSynchronizer(version);
+        }
+
+        private void OpenVersionSynchronizer(OngoingVersion version)
+        {
+            if (version is null)
+            {
+                throw new ArgumentNullException(nameof(version));
+            }
+
             if (synchronizer != null)
             {
-                // version is already open, do nothing
-                if (synchronizer.Version.RemoteVersion.Id == e.Version.RemoteVersion.Id)
-                    return;
-
                 // need to open another version, dispose the one which is currently open
                 synchronizer.Dispose();
                 synchronizer = null;
@@ -43,16 +52,19 @@ namespace MechanicalSyncApp.UI.Forms
                 SynchronizerToolStrip = SynchronizerToolStrip,
                 FileViewerListView = FileViewerListView,
                 StatusLabel = SyncStatusLabel,
-                StartWorkingButton = StartWorkingButton,
-                StopWorkingButton = StopWorkingButton,
+                WorkOnlineButton = WorkOnlineButton,
+                WorkOfflineButton = WorkOfflineButton,
                 SyncRemoteButton = SyncRemoteButton,
                 RefreshLocalFilesButton = RefreshLocalFilesButton,
+                CloseVersionButton = CloseVersionButton,
                 SyncProgressBar = SyncProgressBar,
+                MainSplitContainer = MainSplitContainer,
             };
 
-            // open the version and show the panel with controls
-            synchronizer = new VersionSynchronizer(e.Version, synchronizerUI);
+            // open the version and show the panel with related controls
+            synchronizer = new VersionSynchronizer(version, synchronizerUI);
             MainSplitContainer.Panel2Collapsed = false;
+            MainSplitContainer.Panel1Collapsed = true;
         }
 
         private void DemoForm_Load(object sender, EventArgs e)

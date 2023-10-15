@@ -65,7 +65,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                 var nextEvent = monitor.DequeueEvent();
                 if (nextEvent != null)
                 {
-                    Synchronizer.UI.StatusLabel.Text = $"Syncing {nextEvent.RelativePath}";
+                    Synchronizer.UI.StatusLabel.Text = $"Syncing {nextEvent.RelativeFilePath}";
                     await fileCreatedHandler.HandleAsync(nextEvent);
                     handledEvents++;
                 }
@@ -78,7 +78,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             {
                 if (monitor.IsEventQueueEmpty())
                 {
-                    Synchronizer.SetState(new MonitorFileSyncEventsState());
+                    if (monitor.IsMonitoring())
+                        Synchronizer.SetState(new MonitorFileSyncEventsState());
+                    else
+                        Synchronizer.SetState(new IdleState());
+
                     _ = Synchronizer.RunStepAsync();
                 }
                 else
