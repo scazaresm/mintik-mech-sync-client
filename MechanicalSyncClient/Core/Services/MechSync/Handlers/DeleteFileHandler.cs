@@ -32,15 +32,15 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
             HttpResponseMessage response = await client.DeleteAsync(uri);
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var responseJson = JsonConvert.DeserializeObject<DeleteFileResponse>(responseContent);
 
             if (!response.IsSuccessStatusCode)
             {
+                var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
                 throw new HttpRequestException(
-                    $"HTTP request failed with status code {response.StatusCode}: {responseJson.Error}"
+                    $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
                 );
             }
-            return responseJson;
+            return JsonConvert.DeserializeObject<DeleteFileResponse>(responseContent);
         }
     }
 }

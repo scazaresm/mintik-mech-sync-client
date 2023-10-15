@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models.Response
 {
-    public class DeleteFileResponse
+    public class ErrorResponse
     {
-        public string Message { get; set; }
+        public string Error { get; set; }
     }
 }

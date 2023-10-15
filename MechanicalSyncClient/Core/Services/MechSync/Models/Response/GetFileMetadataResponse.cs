@@ -11,7 +11,5 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models.Response
         public string ProjectId { get; set; }
         public string VersionId { get; set; }
         public List<FileMetadata> FileMetadata { get; set; }
-
-        public string Error { get; set; }
     }
 }

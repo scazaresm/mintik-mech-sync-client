@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models
 {
-    public class FileMetadata
+    public class Project
     {
         [JsonProperty("_id")]
         public string Id { get; set; }
 
-        public string FullFilePath { get; set; }
-        public string RelativeFilePath { get; set; }
-        public string FileChecksum { get; set; }
-        public long FileSize { get; set; }
-        public DateTime UploadedAt { get; set; }
+        public string CreatedBy { get; set; }
+        public string FolderName { get; set; }
+        public string RelativeEquipmentPath { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

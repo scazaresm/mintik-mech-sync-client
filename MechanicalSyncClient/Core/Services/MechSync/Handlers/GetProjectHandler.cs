@@ -1,6 +1,5 @@
-﻿using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
-using MechanicalSyncApp.Core.Util;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,27 +10,21 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 {
-    public class GetFileMetadataHandler
+    public class GetProjectHandler
     {
         private readonly HttpClient client;
-        private readonly GetFileMetadataRequest request;
+        private readonly string projectId;
 
-        public GetFileMetadataHandler(HttpClient client, GetFileMetadataRequest request)
+        public GetProjectHandler(HttpClient client, string projectId)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
-            this.request = request ?? throw new ArgumentNullException(nameof(request));
+            this.projectId = projectId ?? throw new ArgumentNullException(nameof(projectId));
         }
-
-        public async Task<GetFileMetadataResponse> HandleAsync()
+        
+        public async Task<Project> HandleAsync()
         {
-            var queryParameters = new Dictionary<string, string>
-            {
-                { "versionId", request.VersionId },
-            };
-            if (request.RelativeFilePath != null)
-                queryParameters.Add("relativeFilePath", request.RelativeFilePath);
+            string uri = $"projects/{projectId}";
 
-            var uri = new QueryUriGenerator("files/metadata", queryParameters).Generate();
             HttpResponseMessage response = await client.GetAsync(uri);
             var responseContent = await response.Content.ReadAsStringAsync();
 
@@ -42,7 +35,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                     $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
                 );
             }
-            return JsonConvert.DeserializeObject<GetFileMetadataResponse>(responseContent);
+            return JsonConvert.DeserializeObject<Project>(responseContent);
         }
     }
 }

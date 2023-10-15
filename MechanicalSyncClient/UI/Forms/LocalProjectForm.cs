@@ -8,7 +8,7 @@ namespace MechanicalSyncApp
 {
     public partial class LocalProjectForm : Form
     {
-        private ProjectChangeMonitor monitor;
+        private VersionChangeMonitor monitor;
 
         public LocalProjectForm()
         {

@@ -38,6 +38,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             _fileClient = new HttpClient();
             _fileClient.BaseAddress = new Uri("http://localhost/api/mech-sync/");
             _fileClient.Timeout = TimeSpan.FromSeconds(120);
+
+            _ = RefreshAuthTokenAsync();
         }
         #endregion
 
@@ -56,21 +58,18 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
         public async Task DownloadFileAsync(DownloadFileRequest request, Action<int> progressCallback)
         {
-            await RefreshAuthTokenAsync();
             var handler = new DownloadFileWithProgressHandler(_fileClient, request, progressCallback);
             await handler.HandleAsync();
         }
 
         public async Task DownloadFileAsync(DownloadFileRequest request)
         {
-            await RefreshAuthTokenAsync();
             var handler = new DownloadFileHandler(_fileClient, request);
             await handler.HandleAsync();
         }
 
         public async Task<FileMetadata> UploadFileAsync(UploadFileRequest request)
         {
-            await RefreshAuthTokenAsync();
             var handler = new UploadFileHandler(_fileClient, request);
             var response = await handler.HandleAsync();
             return response;
@@ -78,7 +77,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
         public async Task<DeleteFileResponse> DeleteFileAsync(DeleteFileRequest request)
         {
-            await RefreshAuthTokenAsync();
             var handler = new DeleteFileHandler(_fileClient, request);
             var response = await handler.HandleAsync();
             return response;
@@ -86,10 +84,19 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
         public async Task<GetFileMetadataResponse> GetFileMetadataAsync(GetFileMetadataRequest request)
         {
-            await RefreshAuthTokenAsync();
-            var handler = new GetFileMetadataHandler(_fileClient, request);
+            var handler = new GetFileMetadataHandler(_restClient, request);
             var response = await handler.HandleAsync();
             return response;
+        }
+
+        public async Task<GetMyOngoingVersionsResponse> GetMyOngoingVersionsAsync()
+        {
+            return await new GetMyOngoingVersionsHandler(_restClient).HandleAsync();
+        }
+
+        public async Task<Project> GetProjectAsync(string projectId)
+        {
+            return await new GetProjectHandler(_restClient, projectId).HandleAsync();
         }
 
         #region Disposing pattern

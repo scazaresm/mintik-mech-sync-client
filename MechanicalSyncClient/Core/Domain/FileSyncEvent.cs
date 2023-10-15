@@ -4,7 +4,7 @@ namespace MechanicalSyncApp.Core.Domain
 {
     public class FileSyncEvent
     {
-        public LocalProject LocalProject { get; set; }
+        public LocalVersion Version { get; set; }
 
         public string RelativePath { get; set; }
         public string FullPath { get; set; }

@@ -25,12 +25,12 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void DesignViewerForm_Load(object sender, EventArgs e)
         {
-            designViewerControl = new DesignViewerControl(filePath, DesignViewer_OpenDocError);
+            designViewerControl = new DesignViewerControl(filePath, DesignViewerControl_OpenDocError);
             ViewerPanel.Controls.Add(designViewerControl.HostControl);
             Text = Path.GetFileName(filePath);
         }
 
-        private void DesignViewer_OpenDocError(string FileName, int ErrorCode, string ErrorString)
+        private void DesignViewerControl_OpenDocError(string FileName, int ErrorCode, string ErrorString)
         {
             CloseForm();
         }

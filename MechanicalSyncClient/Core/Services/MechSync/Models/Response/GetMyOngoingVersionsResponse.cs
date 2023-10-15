@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models.Response
 {
-    public class DeleteFileResponse
+    public class GetMyOngoingVersionsResponse
     {
-        public string Message { get; set; }
+        public List<Version> MyOngoingVersions { get; set; }
     }
 }

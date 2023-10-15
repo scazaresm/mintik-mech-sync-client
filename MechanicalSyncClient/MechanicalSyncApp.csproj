@@ -79,19 +79,24 @@
     <Compile Include="Core\Domain\FileSyncStatus.cs" />
     <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
     <Compile Include="Core\Domain\SyncCheckSummary.cs" />
-    <Compile Include="Core\IWorkspaceManager.cs" />
+    <Compile Include="Core\IFileListViewControl.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetFileMetadataHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetMyOngoingVersionsHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetProjectHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Response\ErrorResponse.cs" />
     <Compile Include="Core\Services\MechSync\Models\FileMetadata.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Project.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetFileMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Response\GetFileMetadataResponse.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Response\GetMyOngoingVersionsResponse.cs" />
     <Compile Include="Core\Services\MechSync\Models\Version.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\Commands\StopWorkingCommand.cs" />
-    <Compile Include="Sync\ProjectSyncChecker.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\Commands\SyncRemoteCommand.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\IdleState.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\Commands\StartWorkingCommand.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\IndexLocalFiles.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\IndexRemoteFilesState.cs" />
+    <Compile Include="Core\Services\MechSync\Models\VersionOwner.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\StopWorkingCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\SyncRemoteCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\States\IdleState.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\StartWorkingCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\States\IndexLocalFiles.cs" />
+    <Compile Include="Sync\VersionSynchronizer\States\IndexRemoteFilesState.cs" />
     <Compile Include="UI\DesignViewerControl.cs" />
     <Compile Include="UI\Forms\DesignViewerForm.cs">
       <SubType>Form</SubType>
@@ -100,8 +105,14 @@
       <DependentUpon>DesignViewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\IUserInterfaceCommand.cs" />
+    <Compile Include="UI\Forms\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ListViewExtensions.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\ProjectSynchronizerUI.cs" />
+    <Compile Include="Sync\VersionSynchronizer\VersionSynchronizerUI.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DeleteFileHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DownloadFileHandler.cs" />
     <Compile Include="Core\Services\Authentication\AuthenticationServiceClient.cs" />
@@ -118,14 +129,14 @@
     <Compile Include="Core\Services\MechSync\Models\Response\DeleteFileResponse.cs" />
     <Compile Include="Core\Services\Authentication\Models\UserDetails.cs" />
     <Compile Include="Core\Services\Authentication\IAuthenticationServiceClient.cs" />
-    <Compile Include="Core\ProjectSynchronizerState.cs" />
+    <Compile Include="Core\VersionSynchronizerState.cs" />
     <Compile Include="Core\Util\QueryUriGenerator.cs" />
     <Compile Include="Core\Domain\FileSyncEvent.cs" />
     <Compile Include="Core\Domain\FileSyncEventState.cs" />
     <Compile Include="Core\Domain\FileSyncEventType.cs" />
-    <Compile Include="Core\Domain\LocalProject.cs" />
-    <Compile Include="Core\IProjectChangeMonitor.cs" />
-    <Compile Include="Core\IProjectSynchronizer.cs" />
+    <Compile Include="Core\Domain\LocalVersion.cs" />
+    <Compile Include="Core\IVersionChangeMonitor.cs" />
+    <Compile Include="Core\IVersionSynchronizer.cs" />
     <Compile Include="Core\Util\JsonUtils.cs" />
     <Compile Include="Core\Util\Sha256ChecksumCalculator.cs" />
     <Compile Include="Core\Util\IChecksumCalculator.cs" />
@@ -134,20 +145,20 @@
     <Compile Include="Core\Services\MechSync\Handlers\DownloadFileWithProgressHandler.cs" />
     <Compile Include="Core\IFileSyncEventHandler.cs" />
     <Compile Include="Core\Util\DictionaryListViewAdapter.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\EventHandlers\FileChangedEventHandler.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\EventHandlers\FileCreatedEventHandler.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\EventHandlers\FileDeletedEventHandler.cs" />
-    <Compile Include="Sync\ProjectChangeMonitor.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\ProjectSynchronizer.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\MonitorFileSyncEventsState.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\HandleFileSyncEventsState.cs" />
-    <Compile Include="Sync\ProjectSynchronizer\States\SyncCheckState.cs" />
-    <Compile Include="UI\FileViewer.cs" />
-    <Compile Include="UI\Forms\DemoForm.cs">
+    <Compile Include="Sync\VersionSynchronizer\EventHandlers\FileChangedEventHandler.cs" />
+    <Compile Include="Sync\VersionSynchronizer\EventHandlers\FileCreatedEventHandler.cs" />
+    <Compile Include="Sync\VersionSynchronizer\EventHandlers\FileDeletedEventHandler.cs" />
+    <Compile Include="Sync\VersionChangeMonitor.cs" />
+    <Compile Include="Sync\VersionSynchronizer\VersionSynchronizer.cs" />
+    <Compile Include="Sync\VersionSynchronizer\States\MonitorFileSyncEventsState.cs" />
+    <Compile Include="Sync\VersionSynchronizer\States\HandleFileSyncEventsState.cs" />
+    <Compile Include="Sync\VersionSynchronizer\States\SyncCheckState.cs" />
+    <Compile Include="UI\FileListViewControl.cs" />
+    <Compile Include="UI\Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\DemoForm.Designer.cs">
-      <DependentUpon>DemoForm.cs</DependentUpon>
+    <Compile Include="UI\Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\LocalProjectForm.cs">
       <SubType>Form</SubType>
@@ -157,14 +168,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Forms\MainForm.Designer.cs">
+    <Compile Include="UI\VersionExplorerControl.cs" />
+    <EmbeddedResource Include="UI\Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="UI\Forms\DemoForm.resx">
-      <DependentUpon>DemoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\DesignViewerForm.resx">
       <DependentUpon>DesignViewerForm.cs</DependentUpon>
@@ -182,8 +188,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\Forms\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Forms\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

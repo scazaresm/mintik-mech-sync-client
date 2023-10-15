@@ -31,9 +31,16 @@ namespace MechanicalSyncApp.Core.Services.Authentication.Handlers
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new HttpRequestException(
-                    $"HTTP request failed with status code {response.StatusCode}"
-                ); ;
+                switch(response.StatusCode)
+                {
+                    case System.Net.HttpStatusCode.Unauthorized:
+                        throw new UnauthorizedAccessException("Invalid credentials");
+
+                    default:
+                        throw new HttpRequestException(
+                            $"HTTP request failed with status code {response.StatusCode}"
+                        ); ;
+                }
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();

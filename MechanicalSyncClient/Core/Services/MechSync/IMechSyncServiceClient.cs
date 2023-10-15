@@ -17,5 +17,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task<DeleteFileResponse> DeleteFileAsync(DeleteFileRequest request);
 
         Task<GetFileMetadataResponse> GetFileMetadataAsync(GetFileMetadataRequest request);
+
+        Task<GetMyOngoingVersionsResponse> GetMyOngoingVersionsAsync();
+        Task<Project> GetProjectAsync(string projectId);
     }
 }

@@ -38,15 +38,15 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 
                         var response = await client.PostAsync("files", formData);
                         var responseContent = await response.Content.ReadAsStringAsync();
-                        var responseJson = JsonConvert.DeserializeObject<FileMetadata>(responseContent);
 
                         if (!response.IsSuccessStatusCode)
                         {
+                            var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
                             throw new HttpRequestException(
-                                $"HTTP request failed with status code {response.StatusCode}, {responseJson.Error}"
+                                $"HTTP request failed with status code {response.StatusCode}, {errorJson.Error}"
                             );
                         }
-                        return responseJson;
+                        return JsonConvert.DeserializeObject<FileMetadata>(responseContent); ;
                     }
                 }
             }

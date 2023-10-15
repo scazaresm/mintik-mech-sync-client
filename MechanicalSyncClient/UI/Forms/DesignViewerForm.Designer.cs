@@ -29,14 +29,15 @@ namespace MechanicalSyncApp.UI.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DesignViewerForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.ViewerPanel = new System.Windows.Forms.Panel();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.PanButton = new System.Windows.Forms.ToolStripButton();
             this.SelectButton = new System.Windows.Forms.ToolStripButton();
             this.ZoomToAreaButton = new System.Windows.Forms.ToolStripButton();
             this.ZoomButton = new System.Windows.Forms.ToolStripButton();
+            this.ViewerPanel = new System.Windows.Forms.Panel();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,14 +57,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStrip1.Size = new System.Drawing.Size(823, 39);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // ViewerPanel
-            // 
-            this.ViewerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ViewerPanel.Location = new System.Drawing.Point(0, 0);
-            this.ViewerPanel.Name = "ViewerPanel";
-            this.ViewerPanel.Size = new System.Drawing.Size(823, 526);
-            this.ViewerPanel.TabIndex = 1;
             // 
             // toolStripButton1
             // 
@@ -135,6 +128,14 @@ namespace MechanicalSyncApp.UI.Forms
             this.ZoomButton.Text = "Zoom";
             this.ZoomButton.Click += new System.EventHandler(this.ZoomButton_Click);
             // 
+            // ViewerPanel
+            // 
+            this.ViewerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ViewerPanel.Location = new System.Drawing.Point(0, 0);
+            this.ViewerPanel.Name = "ViewerPanel";
+            this.ViewerPanel.Size = new System.Drawing.Size(823, 526);
+            this.ViewerPanel.TabIndex = 1;
+            // 
             // DesignViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -143,6 +144,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.ClientSize = new System.Drawing.Size(823, 565);
             this.Controls.Add(this.ViewerPanel);
             this.Controls.Add(this.toolStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DesignViewerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DesignViewerForm";
