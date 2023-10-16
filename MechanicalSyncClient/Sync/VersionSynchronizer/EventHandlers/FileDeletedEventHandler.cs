@@ -89,13 +89,13 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 // determine which files are inside the target directory
                 foreach (var fileMetadata in fileMetadataResponse.FileMetadata)
                 {
-                    bool isFileInTargetDirectory = fileMetadata.RelativeFilePath.StartsWith(fileSyncEvent.RelativeFilePath);
+                    // paths in metadata are linux-based (server-side paths), make it Windows-based
+                    var remoteRelativePath = fileMetadata.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar);
+
+                    bool isFileInTargetDirectory = remoteRelativePath.StartsWith(fileSyncEvent.RelativeFilePath);
                     if (isFileInTargetDirectory)
                     {
-                        var localFilePath = Path.Combine(
-                            synchronizer.Version.LocalDirectory, 
-                            fileMetadata.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar)
-                        );
+                        var localFilePath = Path.Combine(synchronizer.Version.LocalDirectory, remoteRelativePath);
                         targetFiles.Add(localFilePath);
                     }
                 }

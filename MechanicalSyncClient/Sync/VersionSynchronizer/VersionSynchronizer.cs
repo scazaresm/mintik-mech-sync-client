@@ -224,6 +224,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
                 await WorkOfflineAsync();
             }
+            Dispose();
             UI.MainSplitContainer.Panel2Collapsed = true;
             UI.MainSplitContainer.Panel1Collapsed = false;
         }
