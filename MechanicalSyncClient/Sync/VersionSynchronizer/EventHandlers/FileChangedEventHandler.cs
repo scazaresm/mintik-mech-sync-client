@@ -57,7 +57,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 if (synchronizer.ChangeMonitor.IsMonitoring())
                     fileViewer.SetSyncingStatusToFile(fileSyncEvent.FullPath);
 
-                await Task.Delay(10); // avoid overloading the server
                 await Task.Factory.StartNew(async () =>
                 {
                     await client.UploadFileAsync(new UploadFileRequest

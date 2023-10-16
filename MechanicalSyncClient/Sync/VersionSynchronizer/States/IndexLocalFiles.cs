@@ -12,55 +12,33 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
     public class IndexLocalFiles : VersionSynchronizerState
     {
-        private int indexedFiles = 0;
-        private int totalFiles = 0;
-
         public override async Task RunAsync()
         {
-            Synchronizer.UI.StatusLabel.Text = "Listing files in local directory...";
-            string[] allLocalFiles = Directory.GetFiles(Synchronizer.Version.LocalDirectory, "*.*", SearchOption.AllDirectories);
-            totalFiles = allLocalFiles.Length;
-            indexedFiles = 0;
+            var indexer = new ConcurrentLocalFileIndexer(Synchronizer.Version.LocalDirectory, Synchronizer.FileExtensionFilter);
+            indexer.ProgressChanged += Indexer_ProgressChanged;
 
-            Synchronizer.UI.SyncProgressBar.Visible = true;
-            Synchronizer.UI.SyncProgressBar.Value = 0;
-            Synchronizer.LocalFileIndex.Clear();
-            foreach (string fullFilePath in allLocalFiles)
+            var ui = Synchronizer.UI;
+            ui.SyncProgressBar.Visible = true;
+            await indexer.IndexAsync();
+            ui.SyncProgressBar.Visible = false;
+
+            Synchronizer.LocalFileIndex = indexer.FileIndex;
+        }
+
+        private void Indexer_ProgressChanged(object sender, int progress)
+        {
+            var ui = Synchronizer.UI;
+
+            ui.SynchronizerToolStrip.BeginInvoke((Action)(() =>
             {
-                string fileName = Path.GetFileName(fullFilePath);
-                string fileExtension = $"*{Path.GetExtension(fullFilePath)}";
-
-                // ommit lock files
-                if (fileName.StartsWith("~$"))
-                    continue;
-
-                // ommit files not matching allowed extensions
-                if (!Synchronizer.FileExtensionFilter.ToLower().Contains(fileExtension.ToLower()))
-                    continue;
-
-                string relativeFilePath = fullFilePath.Replace(Synchronizer.Version.LocalDirectory + Path.DirectorySeparatorChar, "");
-                relativeFilePath = relativeFilePath.Replace(Path.DirectorySeparatorChar, '/');
-
-                Synchronizer.UI.StatusLabel.Text = $"Indexing {relativeFilePath}";
-
-                var fileChecksum = await new Sha256ChecksumCalculator().CalculateChecksumAsync(fullFilePath);
-                var metadata = new FileMetadata()
-                {
-                    FileChecksum = fileChecksum,
-                    RelativeFilePath = relativeFilePath
-                };
-
-                Synchronizer.LocalFileIndex.Add(relativeFilePath, metadata);
-                indexedFiles++;
-
-                int progress = (int)((double)indexedFiles / totalFiles * 100.0);
-                if (progress >= 0 && progress <= 100)
-                    Synchronizer.UI.SyncProgressBar.Value = progress;
-            }
+                ui.SyncProgressBar.Value = progress;
+            }));
         }
 
         public override void UpdateUI()
         {
+            var ui = Synchronizer.UI;
+            ui.StatusLabel.Text = "Indexing local files...";
         }
     }
 }

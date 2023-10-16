@@ -23,7 +23,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public ToolStripButton WorkOnlineButton { get; set; }
         public ToolStripButton WorkOfflineButton { get; set; }
         public ToolStripButton SyncRemoteButton { get; set; }
-        public Button CloseVersionButton { get; set; }
+        public ToolStripButton CloseVersionButton { get; set; }
         public ToolStripProgressBar SyncProgressBar { get; set; }
         public SplitContainer MainSplitContainer { get; set; }
 

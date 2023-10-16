@@ -16,7 +16,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
             ui.SyncProgressBar.Visible = false;
             ui.SynchronizerToolStrip.Enabled = true;
-            ui.StatusLabel.Text = "Working online, remote server is currently synced with your local copy";
+            ui.StatusLabel.Text = "Working online, remote is synced with local";
         }
 
         public override async Task RunAsync()

@@ -76,6 +76,5 @@ namespace MechanicalSyncApp.UI.Forms
         {
             Application.Exit();
         }
-
     }
 }

@@ -19,7 +19,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             var ui = Synchronizer.UI;
             ui.SyncProgressBar.Visible = false;
             ui.SyncRemoteButton.Visible = true;
-            ui.StatusLabel.Text = "Working offline, remember to sync the remote server frequently";
+            ui.StatusLabel.Text = "Working offline, remember to sync frequently";
         }
     }
 }

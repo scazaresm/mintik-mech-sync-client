@@ -26,7 +26,7 @@ namespace MechanicalSyncApp.UI
 
         private readonly IMechSyncServiceClient serviceClient;
 
-        private TreeNode myWorkNode;
+        private TreeNode myWorkspaceNode;
 
         private Dictionary<string, Project> projectCache = new Dictionary<string, Project>();
 
@@ -41,9 +41,9 @@ namespace MechanicalSyncApp.UI
         public void AttachTreeView(TreeView treeView)
         {
             AttachedTreeView = treeView ?? throw new ArgumentNullException(nameof(treeView));
-            myWorkNode = new TreeNode("My work");
+            myWorkspaceNode = new TreeNode("My Workspace");
 
-            AttachedTreeView.Nodes.Add(myWorkNode);
+            AttachedTreeView.Nodes.Add(myWorkspaceNode);
 
             AttachedTreeView.NodeMouseDoubleClick += AttachedTreeView_NodeMouseDoubleClick;
         }
@@ -71,7 +71,7 @@ namespace MechanicalSyncApp.UI
         {
             var response = await serviceClient.GetMyOngoingVersionsAsync();
 
-            myWorkNode.Nodes.Clear();
+            myWorkspaceNode.Nodes.Clear();
             foreach(var remoteVersion in response.MyOngoingVersions)
             {
                 if(!projectCache.ContainsKey(remoteVersion.ProjectId))
@@ -86,7 +86,7 @@ namespace MechanicalSyncApp.UI
                 );
                 var versionNode = new TreeNode(localVersion.ToString());
                 versionNode.Tag = localVersion;
-                myWorkNode.Nodes.Add(versionNode);
+                myWorkspaceNode.Nodes.Add(versionNode);
             }
         }
     }

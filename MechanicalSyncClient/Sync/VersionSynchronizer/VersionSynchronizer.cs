@@ -5,6 +5,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +17,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public IMechSyncServiceClient ServiceClient { get; set; }
         public IVersionChangeMonitor ChangeMonitor { get; private set; }
 
-        public Dictionary<string, FileMetadata> LocalFileIndex { get; private set; }
+        public ConcurrentDictionary<string, FileMetadata> LocalFileIndex { get; set; }
         public Dictionary<string, FileMetadata> RemoteFileIndex { get; private set; }
 
         public VersionSynchronizerUI UI { get; private set; }
@@ -39,7 +40,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI = ui ?? throw new ArgumentNullException(nameof(ui));
             ChangeMonitor = new VersionChangeMonitor(version, FileExtensionFilter);
             ServiceClient = MechSyncServiceClient.Instance;
-            LocalFileIndex = new Dictionary<string, FileMetadata>();
+            LocalFileIndex = new ConcurrentDictionary<string, FileMetadata>();
             RemoteFileIndex = new Dictionary<string, FileMetadata>();
             InitializeUI();
 
@@ -54,7 +55,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public void InitializeUI()
         {
-            UI.ProjectFolderNameLabel.Text = Version.RemoteProject.FolderName;
+            UI.ProjectFolderNameLabel.Text = $"{Version.RemoteProject.FolderName} V{Version.RemoteVersion.Major} (Ongoing changes)";
             UI.InitializeFileViewer(Version, ChangeMonitor);
         
             UI.FileViewer.AttachListView(UI.FileViewerListView);

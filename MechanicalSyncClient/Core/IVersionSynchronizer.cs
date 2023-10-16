@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace MechanicalSyncApp.Core
         IMechSyncServiceClient ServiceClient { get; }
         IVersionChangeMonitor ChangeMonitor { get; }
 
-        Dictionary<string, FileMetadata> LocalFileIndex { get; }
+        ConcurrentDictionary<string, FileMetadata> LocalFileIndex { get; set; }
         Dictionary<string, FileMetadata> RemoteFileIndex { get; }
 
         // State related methods

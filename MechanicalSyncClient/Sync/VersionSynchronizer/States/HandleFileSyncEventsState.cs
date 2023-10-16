@@ -35,7 +35,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             var monitor = Synchronizer.ChangeMonitor;
             try
             {
-                totalEvents = Synchronizer.ChangeMonitor.GetTotalInQueue();
+                totalEvents = monitor.GetTotalInQueue();
                 handledEvents = 0;
                 Console.WriteLine($"Starting to handle {totalEvents} events.");
 

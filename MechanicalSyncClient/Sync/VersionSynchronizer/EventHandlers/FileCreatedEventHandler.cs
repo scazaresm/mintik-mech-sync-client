@@ -49,8 +49,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 // display the new file icon in the viewer
                 fileViewer.AddCreatedFile(fileSyncEvent.FullPath);
 
-                await Task.Delay(10); // avoid overloading the server
-
                 // no need to handle this event if the next will overwrite it
                 if (NextEventOverwritesThis(fileSyncEvent))
                     return;

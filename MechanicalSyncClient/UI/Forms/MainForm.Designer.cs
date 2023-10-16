@@ -31,21 +31,21 @@ namespace MechanicalSyncApp.UI.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Deleted",
             "other"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("email_print.pdf", 0);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Irving Martínez", 0);
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("Gustavo Avila", 0);
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("email_print.pdf", 0);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Irving Martínez", 0);
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("Gustavo Avila", 0);
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.VersionExplorerTreeView = new System.Windows.Forms.TreeView();
@@ -70,10 +70,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInWindowsExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -123,8 +119,8 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
             this.ProjectTabImages = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
-            this.CloseVersionButton = new System.Windows.Forms.Button();
             this.ProjectFolderNameLabel = new System.Windows.Forms.Label();
+            this.CloseVersionButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
@@ -248,21 +244,21 @@ namespace MechanicalSyncApp.UI.Forms
             this.columnHeader1,
             this.columnHeader2});
             this.FileViewerListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            listViewGroup4.Header = "Assemblies";
-            listViewGroup4.Name = "assembliesGroup";
-            listViewGroup5.Header = "Parts";
-            listViewGroup5.Name = "partsGroup";
-            listViewGroup6.Header = "Drawings";
-            listViewGroup6.Name = "drawingsGroup";
+            listViewGroup1.Header = "Assemblies";
+            listViewGroup1.Name = "assembliesGroup";
+            listViewGroup2.Header = "Parts";
+            listViewGroup2.Name = "partsGroup";
+            listViewGroup3.Header = "Drawings";
+            listViewGroup3.Name = "drawingsGroup";
             this.FileViewerListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4,
-            listViewGroup5,
-            listViewGroup6});
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
             this.FileViewerListView.HideSelection = false;
-            listViewItem5.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
             this.FileViewerListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem5,
-            listViewItem6});
+            listViewItem3,
+            listViewItem4});
             this.FileViewerListView.Location = new System.Drawing.Point(3, 28);
             this.FileViewerListView.MultiSelect = false;
             this.FileViewerListView.Name = "FileViewerListView";
@@ -314,17 +310,14 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             this.SynchronizerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RefreshLocalFilesButton,
+            this.toolStripDropDownButton1,
             this.toolStripButton5,
             this.toolStripSeparator1,
-            this.WorkOnlineButton,
-            this.WorkOfflineButton,
             this.SyncRemoteButton,
-            this.toolStripDropDownButton1,
+            this.CloseVersionButton,
             this.toolStripSeparator2,
-            this.toolStripLabel3,
-            this.toolStripSeparator3,
-            this.toolStripLabel1,
-            this.toolStripSeparator4,
+            this.WorkOfflineButton,
+            this.WorkOnlineButton,
             this.toolStripButton7});
             this.SynchronizerToolStrip.Location = new System.Drawing.Point(3, 3);
             this.SynchronizerToolStrip.Name = "SynchronizerToolStrip";
@@ -357,6 +350,7 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // WorkOnlineButton
             // 
+            this.WorkOnlineButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.WorkOnlineButton.Image = global::MechanicalSyncApp.Properties.Resources.start_32;
             this.WorkOnlineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.WorkOnlineButton.Name = "WorkOnlineButton";
@@ -366,6 +360,7 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // WorkOfflineButton
             // 
+            this.WorkOfflineButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.WorkOfflineButton.Image = global::MechanicalSyncApp.Properties.Resources.stop_32;
             this.WorkOfflineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.WorkOfflineButton.Name = "WorkOfflineButton";
@@ -384,7 +379,6 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // toolStripDropDownButton1
             // 
-            this.toolStripDropDownButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyToClipboardToolStripMenuItem,
             this.openInWindowsExplorerToolStripMenuItem});
@@ -411,31 +405,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel3
-            // 
-            this.toolStripLabel3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(102, 22);
-            this.toolStripLabel3.Text = "You are the owner";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(117, 22);
-            this.toolStripLabel1.Text = "Ongoing changes V1";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButton7
             // 
@@ -543,9 +512,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.listView1.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
-            listViewItem1.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem5});
             this.listView1.LargeImageList = this.imageList1;
             this.listView1.Location = new System.Drawing.Point(7, 307);
             this.listView1.Name = "listView1";
@@ -566,10 +535,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.ReviewersListView.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.ReviewersListView.FullRowSelect = true;
             this.ReviewersListView.HideSelection = false;
-            listViewItem2.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.ReviewersListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2,
-            listViewItem7});
+            listViewItem1,
+            listViewItem6});
             this.ReviewersListView.LargeImageList = this.ReviewerListImages;
             this.ReviewersListView.Location = new System.Drawing.Point(7, 49);
             this.ReviewersListView.Name = "ReviewersListView";
@@ -660,8 +629,8 @@ namespace MechanicalSyncApp.UI.Forms
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle13;
             this.Column2.HeaderText = "Required change";
             this.Column2.Name = "Column2";
             this.Column2.Width = 500;
@@ -678,8 +647,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // Column4
             // 
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle14;
             this.Column4.HeaderText = "Designer comments";
             this.Column4.Name = "Column4";
             this.Column4.Width = 300;
@@ -946,7 +915,6 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.CloseVersionButton);
             this.panel2.Controls.Add(this.ProjectFolderNameLabel);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
@@ -954,29 +922,25 @@ namespace MechanicalSyncApp.UI.Forms
             this.panel2.Size = new System.Drawing.Size(1085, 25);
             this.panel2.TabIndex = 18;
             // 
-            // CloseVersionButton
-            // 
-            this.CloseVersionButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CloseVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
-            this.CloseVersionButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.CloseVersionButton.Location = new System.Drawing.Point(988, 0);
-            this.CloseVersionButton.Name = "CloseVersionButton";
-            this.CloseVersionButton.Size = new System.Drawing.Size(97, 25);
-            this.CloseVersionButton.TabIndex = 0;
-            this.CloseVersionButton.Text = "Close version";
-            this.CloseVersionButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CloseVersionButton.UseVisualStyleBackColor = true;
-            // 
             // ProjectFolderNameLabel
             // 
-            this.ProjectFolderNameLabel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ProjectFolderNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ProjectFolderNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ProjectFolderNameLabel.Location = new System.Drawing.Point(0, 0);
             this.ProjectFolderNameLabel.Name = "ProjectFolderNameLabel";
-            this.ProjectFolderNameLabel.Size = new System.Drawing.Size(741, 25);
+            this.ProjectFolderNameLabel.Size = new System.Drawing.Size(1085, 25);
             this.ProjectFolderNameLabel.TabIndex = 17;
             this.ProjectFolderNameLabel.Text = "220214NY-OBERG SML HEAD TOOLING";
             this.ProjectFolderNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // CloseVersionButton
+            // 
+            this.CloseVersionButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.CloseVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
+            this.CloseVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CloseVersionButton.Name = "CloseVersionButton";
+            this.CloseVersionButton.Size = new System.Drawing.Size(56, 22);
+            this.CloseVersionButton.Text = "Close";
             // 
             // MainForm
             // 
@@ -1050,7 +1014,6 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.Label ProjectFolderNameLabel;
         private System.Windows.Forms.ToolStripButton SyncRemoteButton;
         private System.Windows.Forms.ToolStripButton RefreshLocalFilesButton;
@@ -1060,7 +1023,6 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton WorkOfflineButton;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button CloseVersionButton;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel SyncStatusLabel;
         private System.Windows.Forms.ToolStripButton WorkOnlineButton;
@@ -1096,8 +1058,6 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox2;
@@ -1113,11 +1073,11 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInWindowsExplorerToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripButton RefreshVersionsButton;
+        private System.Windows.Forms.ToolStripButton CloseVersionButton;
     }
 }
