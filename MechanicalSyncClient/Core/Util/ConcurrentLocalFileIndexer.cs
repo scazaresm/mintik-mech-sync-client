@@ -19,6 +19,9 @@ namespace MechanicalSyncApp.Core.Util
         private readonly string directoryPath;
         private readonly string fileExtensionFilter;
 
+        private int totalFileCount = 0;
+        private int completedFileCount = 0;
+
         private ConcurrentQueue<string> fileQueue = new ConcurrentQueue<string>();
 
         public ConcurrentDictionary<string, FileMetadata> FileIndex { get; private set; } = new ConcurrentDictionary<string, FileMetadata>();
@@ -33,9 +36,52 @@ namespace MechanicalSyncApp.Core.Util
 
         public async Task IndexAsync()
         {
-            int totalFileCount = 0;
-            int completedFileCount = 0;
+            totalFileCount = 0;
+            completedFileCount = 0;
+            FileIndex.Clear();
+            EnqueueLocalFiles();
 
+            var tasks = new Task[THREADS_COUNT];
+
+            for (int i = 0; i < THREADS_COUNT; i++)
+            {
+                tasks[i] = Task.Run(async () =>
+                {
+                    string filePath;
+                    while (fileQueue.TryDequeue(out filePath))
+                    {
+                        await IndexFileAsync(filePath);
+
+                        Interlocked.Increment(ref completedFileCount);
+                        int progressPercentage = (int)((double)completedFileCount / totalFileCount * 100);
+                        ProgressChanged?.Invoke(this, progressPercentage);
+                    }
+                    return Task.CompletedTask;
+                });
+            }
+            await Task.WhenAll(tasks);
+        }
+
+        private async Task IndexFileAsync(string filePath)
+        {
+            var fileChecksum = await new Sha256ChecksumCalculator().CalculateChecksumAsync(filePath);
+
+            string relativeFilePath = filePath.Replace(directoryPath + Path.DirectorySeparatorChar, "");
+            relativeFilePath = relativeFilePath.Replace(Path.DirectorySeparatorChar, '/');
+
+            var metadata = new FileMetadata()
+            {
+                FileChecksum = fileChecksum,
+                RelativeFilePath = relativeFilePath
+            };
+            if (!FileIndex.ContainsKey(filePath))
+            {
+                FileIndex.TryAdd(relativeFilePath, metadata);
+            }
+        }
+
+        private void EnqueueLocalFiles()
+        {
             foreach (string filePath in Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories))
             {
                 string fileName = Path.GetFileName(filePath);
@@ -52,41 +98,6 @@ namespace MechanicalSyncApp.Core.Util
                 fileQueue.Enqueue(filePath);
                 totalFileCount++;
             }
-
-            var tasks = new Task[THREADS_COUNT];
-
-            FileIndex.Clear();
-            for (int i = 0; i < THREADS_COUNT; i++)
-            {
-                tasks[i] = Task.Run(async () =>
-                {
-                    string filePath;
-                    while (fileQueue.TryDequeue(out filePath))
-                    {
-                        var fileChecksum = await new Sha256ChecksumCalculator().CalculateChecksumAsync(filePath);
-
-                        string relativeFilePath = filePath.Replace(directoryPath + Path.DirectorySeparatorChar, "");
-                        relativeFilePath = relativeFilePath.Replace(Path.DirectorySeparatorChar, '/');
-
-                        var metadata = new FileMetadata()
-                        {
-                            FileChecksum = fileChecksum,
-                            RelativeFilePath = relativeFilePath
-                        };
-                        if (!FileIndex.ContainsKey(filePath))
-                        {
-                            FileIndex.TryAdd(relativeFilePath, metadata);
-                        }
-
-                        Interlocked.Increment(ref completedFileCount);
-                        int progressPercentage = (int)((double)completedFileCount / totalFileCount * 100);
-                        ProgressChanged?.Invoke(this, progressPercentage);
-                    }
-                    return Task.CompletedTask;
-                });
-            }
-            await Task.WhenAll(tasks);
         }
-
     }
 }
