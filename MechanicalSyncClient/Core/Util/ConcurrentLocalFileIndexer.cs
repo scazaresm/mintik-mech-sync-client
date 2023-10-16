@@ -74,10 +74,7 @@ namespace MechanicalSyncApp.Core.Util
                 FileChecksum = fileChecksum,
                 RelativeFilePath = relativeFilePath
             };
-            if (!FileIndex.ContainsKey(filePath))
-            {
-                FileIndex.TryAdd(relativeFilePath, metadata);
-            }
+            FileIndex.TryAdd(relativeFilePath, metadata);
         }
 
         private void EnqueueLocalFiles()
