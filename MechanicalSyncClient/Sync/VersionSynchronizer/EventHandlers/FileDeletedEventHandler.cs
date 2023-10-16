@@ -48,7 +48,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 foreach (var target in targetFiles)
                     fileViewer.SetSyncingStatusToFile(target);
 
-                await Task.Delay(100); // avoid overloading the server
+                await Task.Delay(10); // avoid overloading the server
 
                 // if RelativeFilePath is a directory, all its contents will be removed in server
                 await client.DeleteFileAsync(new DeleteFileRequest
@@ -75,7 +75,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
         {
             var synchronizer = sourceState.Synchronizer;
             var targetIsDirectory = !Path.HasExtension(fileSyncEvent.FullPath);
-            var filesToDelete = new List<string>();
+            var targetFiles = new List<string>();
 
             if (targetIsDirectory)
             {
@@ -96,15 +96,15 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                             synchronizer.Version.LocalDirectory, 
                             fileMetadata.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar)
                         );
-                        filesToDelete.Add(localFilePath);
+                        targetFiles.Add(localFilePath);
                     }
                 }
             }
             else
             {
-                filesToDelete.Add(fileSyncEvent.FullPath);
+                targetFiles.Add(fileSyncEvent.FullPath);
             }
-            return filesToDelete;
+            return targetFiles;
         }
 
     }

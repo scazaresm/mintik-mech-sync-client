@@ -37,11 +37,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         {
             foreach (var file in createdFiles)
             {
+                string fullPath = Path.Combine(
+                    Synchronizer.Version.LocalDirectory, 
+                    file.RelativeFilePath
+                ).Replace('/', Path.DirectorySeparatorChar);
+
                 Synchronizer.ChangeMonitor.EnqueueEvent(new FileSyncEvent
                 {
                     EventType = FileSyncEventType.Created,
                     Version = Synchronizer.Version,
-                    FullPath = Path.Combine(Synchronizer.Version.LocalDirectory, file.RelativeFilePath),
+                    FullPath = fullPath,
                     RelativeFilePath = file.RelativeFilePath,
                     RaiseDateTime = DateTime.Now,
                     EventState = FileSyncEventState.Queued
@@ -53,11 +58,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         {
             foreach (var file in changedFiles)
             {
+                string fullPath = Path.Combine(
+                    Synchronizer.Version.LocalDirectory,
+                    file.RelativeFilePath
+                ).Replace('/', Path.DirectorySeparatorChar);
+
                 Synchronizer.ChangeMonitor.EnqueueEvent(new FileSyncEvent
                 {
                     EventType = FileSyncEventType.Changed,
                     Version = Synchronizer.Version,
-                    FullPath = Path.Combine(Synchronizer.Version.LocalDirectory, file.RelativeFilePath),
+                    FullPath = fullPath,
                     RelativeFilePath = file.RelativeFilePath,
                     RaiseDateTime = DateTime.Now,
                     EventState = FileSyncEventState.Queued
@@ -69,11 +79,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         {
             foreach (var file in deletedFiles)
             {
+                string fullPath = Path.Combine(
+                    Synchronizer.Version.LocalDirectory,
+                    file.RelativeFilePath
+                ).Replace('/', Path.DirectorySeparatorChar);
+
                 Synchronizer.ChangeMonitor.EnqueueEvent(new FileSyncEvent
                 {
                     EventType = FileSyncEventType.Deleted,
                     Version = Synchronizer.Version,
-                    FullPath = Path.Combine(Synchronizer.Version.LocalDirectory, file.RelativeFilePath),
+                    FullPath = fullPath,
                     RelativeFilePath = file.RelativeFilePath,
                     RaiseDateTime = DateTime.Now,
                     EventState = FileSyncEventState.Queued

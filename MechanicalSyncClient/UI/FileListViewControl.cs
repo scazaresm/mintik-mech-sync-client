@@ -37,6 +37,7 @@ namespace MechanicalSyncApp.UI
 
         public void AddCreatedFile(string filePath)
         {
+            filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
             if (!FileLookup.ContainsKey(filePath))
                 FileLookup.Add(filePath, BuildDefaultListViewItem(filePath));
 
@@ -48,6 +49,7 @@ namespace MechanicalSyncApp.UI
 
         public void RemoveDeletedFile(string filePath)
         {
+            filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
             if (FileLookup.ContainsKey(filePath))
             {
                 FileLookup.Remove(filePath);
@@ -56,6 +58,7 @@ namespace MechanicalSyncApp.UI
 
         public void SetSyncingStatusToFile(string filePath)
         {
+            filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
             if (FileLookup.ContainsKey(filePath))
             {
                 ListViewItem fileListViewItem = FileLookup[filePath];
@@ -74,6 +77,7 @@ namespace MechanicalSyncApp.UI
 
         public void SetSyncedStatusToFile(string filePath)
         {
+            filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
             if (FileLookup.ContainsKey(filePath))
             {
                 ListViewItem fileListViewItem = FileLookup[filePath];
@@ -92,6 +96,7 @@ namespace MechanicalSyncApp.UI
 
         public void SetOfflineStatusToFile(string filePath)
         {
+            filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
             if (FileLookup.ContainsKey(filePath))
             {
                 ListViewItem fileListViewItem = FileLookup[filePath];
@@ -110,6 +115,7 @@ namespace MechanicalSyncApp.UI
 
         public void SetErrorStatusToFile(string filePath)
         {
+            filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
             if (FileLookup.ContainsKey(filePath))
             {
                 ListViewItem fileListViewItem = FileLookup[filePath];

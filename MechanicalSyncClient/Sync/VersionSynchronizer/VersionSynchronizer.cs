@@ -179,7 +179,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             SetState(new HandleFileSyncEventsState());
             await RunStepAsync();
 
-            MessageBox.Show("Synched!");
+            MessageBox.Show(
+                "The remote server is now synced with your local copy.", 
+                "Successfully synced remote",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
             UI.SynchronizerToolStrip.Enabled = true;
         }
 

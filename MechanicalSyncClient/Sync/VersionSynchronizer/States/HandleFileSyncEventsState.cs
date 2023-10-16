@@ -83,12 +83,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                     else
                         Synchronizer.SetState(new IdleState());
 
-                    _ = Synchronizer.RunStepAsync();
+                    await Synchronizer.RunStepAsync();
                 }
                 else
                 {
                     Synchronizer.SetState(this);
-                    _ = Synchronizer.RunStepAsync();
+                    await Synchronizer.RunStepAsync();
                 }
             }
         }
