@@ -14,7 +14,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
     {
         public FileListViewControl FileViewer { get; private set; }
 
-        // Form components
+        #region Form Components
+
         public Label ProjectFolderNameLabel { get; set; }
         public ListView FileViewerListView { get; set; }
         public ToolStrip SynchronizerToolStrip { get; set; }
@@ -27,17 +28,15 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public ToolStripProgressBar SyncProgressBar { get; set; }
         public SplitContainer MainSplitContainer { get; set; }
 
+        #endregion
+
         public void InitializeFileViewer(OngoingVersion version, IVersionChangeMonitor changeMonitor)
         {
             if (version is null)
-            {
                 throw new ArgumentNullException(nameof(version));
-            }
 
             if (changeMonitor is null)
-            {
                 throw new ArgumentNullException(nameof(changeMonitor));
-            }
 
             DisposeFileViewer();
             FileViewer = new FileListViewControl(version.LocalDirectory, "*.sldasm | *.sldprt | *.slddrw", changeMonitor);

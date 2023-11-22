@@ -31,12 +31,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
         public async Task HandleAsync(FileSyncEvent fileSyncEvent)
         {
             if (fileSyncEvent is null)
-            {
                 throw new ArgumentNullException(nameof(fileSyncEvent));
-            }
 
+            // this handler is exclusive for file change events
             if (fileSyncEvent.EventType != FileSyncEventType.Changed)
             {
+                // delegate responsibility to the next handler in the chain
                 if (NextHandler != null)
                     await NextHandler.HandleAsync(fileSyncEvent);
                 return;
@@ -57,15 +57,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 if (synchronizer.ChangeMonitor.IsMonitoring())
                     fileViewer.SetSyncingStatusToFile(fileSyncEvent.FullPath);
 
-                await Task.Factory.StartNew(async () =>
+                await client.UploadFileAsync(new UploadFileRequest
                 {
-                    await client.UploadFileAsync(new UploadFileRequest
-                    {
-                        LocalFilePath = fileSyncEvent.FullPath,
-                        RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/'),
-                        ProjectId = fileSyncEvent.Version.RemoteProject.Id
-                    });
-                }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                    LocalFilePath = fileSyncEvent.FullPath,
+                    RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/'),
+                    ProjectId = fileSyncEvent.Version.RemoteProject.Id
+                });
 
                 if(synchronizer.ChangeMonitor.IsMonitoring())
                     fileViewer.SetSyncedStatusToFile(fileSyncEvent.FullPath);

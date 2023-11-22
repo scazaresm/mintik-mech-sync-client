@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
@@ -13,10 +14,18 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         public override void UpdateUI()
         {
             var ui = Synchronizer.UI;
+            ui.StatusLabel.Text = "Working online, changes to your local folder will be pushed to server in real time...";
 
             ui.SyncProgressBar.Visible = false;
             ui.SynchronizerToolStrip.Enabled = true;
-            ui.StatusLabel.Text = "Working online, remote is synced with local";
+
+            ui.SyncRemoteButton.Enabled = false;
+            ui.SyncRemoteButton.Visible = true;
+
+            ui.WorkOnlineButton.Visible = false;
+
+            ui.WorkOfflineButton.Enabled = true;
+            ui.WorkOfflineButton.Visible = true;
         }
 
         public override async Task RunAsync()
@@ -34,8 +43,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             else
             {
                 Synchronizer.SetState(new HandleFileSyncEventsState());
-                await Task.Delay(1000);
-                _ = Synchronizer.RunStepAsync();
+                await Synchronizer.RunStepAsync();
             }
         }
     }

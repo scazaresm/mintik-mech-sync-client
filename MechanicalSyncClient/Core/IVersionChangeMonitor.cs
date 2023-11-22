@@ -10,6 +10,7 @@ namespace MechanicalSyncApp.Core
 {
     public interface IVersionChangeMonitor : IDisposable
     {
+        void Initialize();
         void StartMonitoring();
         bool IsMonitoring();
         void StopMonitoring();

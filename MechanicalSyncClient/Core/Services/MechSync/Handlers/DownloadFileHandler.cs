@@ -36,9 +36,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
             using (var response = await _client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
             {
                 if (!response.IsSuccessStatusCode)
-                {
                     throw new HttpRequestException($"HTTP request failed with status code {response.StatusCode}");
-                }
 
                 using (var remoteStream = await response.Content.ReadAsStreamAsync())
                 using (var localStream = new FileStream(_request.LocalFilename, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, true))

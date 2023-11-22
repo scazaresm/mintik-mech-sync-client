@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Core
 {
@@ -30,10 +31,13 @@ namespace MechanicalSyncApp.Core
         void SetState(VersionSynchronizerState state);
         Task RunStepAsync();
 
-        // Business logic
+        // Commands
+        Task OpenVersionAsync(Label statusText, ProgressBar progress);
         Task WorkOnlineAsync();
         Task WorkOfflineAsync();
-        Task SynchronizeVersionAsync();
+        Task SyncRemoteAsync();
+
+        Task CloseVersionAsync();
 
         // UI related methods
         void InitializeUI();

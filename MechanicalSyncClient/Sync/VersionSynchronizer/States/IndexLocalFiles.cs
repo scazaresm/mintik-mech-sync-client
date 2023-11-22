@@ -39,6 +39,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         {
             var ui = Synchronizer.UI;
             ui.StatusLabel.Text = "Indexing local files...";
+            ui.SynchronizerToolStrip.Enabled = false;
         }
     }
 }

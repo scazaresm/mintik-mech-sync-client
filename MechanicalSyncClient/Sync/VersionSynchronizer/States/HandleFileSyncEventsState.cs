@@ -1,11 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
@@ -18,14 +14,25 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         private long totalEvents;
         private long handledEvents;
 
+        private bool syncErrorOccurred = false;
+
         public override void UpdateUI()
         {
             var ui = Synchronizer.UI;
             ui.SyncProgressBar.Visible = true;
-            ui.SynchronizerToolStrip.Enabled = false;
             ui.StatusLabel.Text = "Syncing remote server...";
             ui.SyncProgressBar.Value = 0;
             ui.SyncProgressBar.Visible = true;
+
+            ui.SynchronizerToolStrip.Enabled = true;
+
+            ui.SyncRemoteButton.Visible = true;
+            ui.SyncRemoteButton.Enabled = false;
+
+            ui.WorkOnlineButton.Visible = false;
+
+            ui.WorkOfflineButton.Enabled = Synchronizer.ChangeMonitor.IsMonitoring();
+            ui.WorkOfflineButton.Visible = true;
         }
 
         public override async Task RunAsync()
@@ -33,6 +40,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             InitializeChainOfHandlers();
 
             var monitor = Synchronizer.ChangeMonitor;
+            var ui = Synchronizer.UI;
             try
             {
                 totalEvents = monitor.GetTotalInQueue();
@@ -41,31 +49,42 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
                 while (!monitor.IsEventQueueEmpty())
                 {
-                    var nextEvent = monitor.DequeueEvent();
+                    var nextEvent = monitor.PeekNextEvent();
                     if (nextEvent != null)
                     {
-                        Synchronizer.UI.StatusLabel.Text = $"Syncing {nextEvent.RelativeFilePath}";
+                        if(syncErrorOccurred)
+                            ui.StatusLabel.Text = "Failed to synchronize remote server, retrying...";
+                        else
+                            ui.StatusLabel.Text = $"Syncing {nextEvent.RelativeFilePath}";
+
                         await fileCreatedHandler.HandleAsync(nextEvent);
                         handledEvents++;
+                        monitor.DequeueEvent();
                     }
                     UpdateProgress();
+                    syncErrorOccurred = false;
                 }
+                ui.SyncProgressBar.Visible = false;
+                ui.SyncProgressBar.Value = 0;
             }
             catch (Exception ex)
             {
+                syncErrorOccurred = true;
                 Console.WriteLine(ex);
             }
             finally
             {
-                var ui = Synchronizer.UI;
-                ui.SyncProgressBar.Value = 0;
-                ui.SyncProgressBar.Visible = false;
-
-                if (monitor.IsMonitoring())
-                    Synchronizer.SetState(new MonitorFileSyncEventsState());
+                if (monitor.IsMonitoring() && syncErrorOccurred)
+                {
+                    // we still in online mode but an error occurred, let's retry
+                    Synchronizer.SetState(this);
+                }
                 else
-                    Synchronizer.SetState(new IdleState());
+                { 
+                    // TODO: write sync history
 
+                    Synchronizer.SetState(new MonitorFileSyncEventsState());
+                }
                 _ = Synchronizer.RunStepAsync();
             }
         }
@@ -89,8 +108,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             // consider new events as they arrive, new + handled = total events
             totalEvents = Synchronizer.ChangeMonitor.GetTotalInQueue() + handledEvents;
 
-            int progress = (int)((double)handledEvents / totalEvents * 100.0);
-            if (progress >= 0 && progress <= 100)
+            // compute progress, check division by zero
+            int progress = totalEvents > 0 
+                ? (int)((double)handledEvents / totalEvents * 100.0) 
+                : 0;
+
+            if (ui.SyncProgressBar != null && progress >= 0 && progress <= 100)
                 ui.SyncProgressBar.Value = progress;
         }
     }

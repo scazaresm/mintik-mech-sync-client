@@ -21,31 +21,33 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         {
             try
             {
-                var localFileIndex = Synchronizer.LocalFileIndex;
-                var remoteFileIndex = Synchronizer.RemoteFileIndex;
-                Summary = new SyncCheckSummary();
-
-                foreach (KeyValuePair<string, FileMetadata> localFile in localFileIndex)
+                await Task.Run(() =>
                 {
-                    if (remoteFileIndex.ContainsKey(localFile.Key))
-                        if (remoteFileIndex[localFile.Key].FileChecksum == localFile.Value.FileChecksum)
-                            // Synced: file exists in both local and remote, and checksum is equals
-                            Summary.SyncedFiles.Add(remoteFileIndex[localFile.Key]);
+                    var localFileIndex = Synchronizer.LocalFileIndex;
+                    var remoteFileIndex = Synchronizer.RemoteFileIndex;
+                    Summary = new SyncCheckSummary();
+
+                    foreach (KeyValuePair<string, FileMetadata> localFile in localFileIndex)
+                    {
+                        if (remoteFileIndex.ContainsKey(localFile.Key))
+                            if (remoteFileIndex[localFile.Key].FileChecksum == localFile.Value.FileChecksum)
+                                // Synced: file exists in both local and remote, and checksum is equals
+                                Summary.SyncedFiles.Add(remoteFileIndex[localFile.Key]);
+                            else
+                                // Unsynced: file exists in both local and remote but checksum is different
+                                Summary.ChangedFiles.Add(remoteFileIndex[localFile.Key]);
                         else
-                            // Unsynced: file exists in both local and remote but checksum is different
-                            Summary.ChangedFiles.Add(remoteFileIndex[localFile.Key]);
-                    else
-                        // Created: file exists in local but not in remote
-                        Summary.CreatedFiles.Add(localFile.Value);
-                }
+                            // Created: file exists in local but not in remote
+                            Summary.CreatedFiles.Add(localFile.Value);
+                    }
 
-                // check for deleted files
-                IEnumerable<string> existingInRemoteButNotInLocal = remoteFileIndex.Keys.Except(localFileIndex.Keys);
-                foreach (string deletedFileKey in existingInRemoteButNotInLocal)
-                {
-                    Summary.DeletedFiles.Add(remoteFileIndex[deletedFileKey]);
-                }
-                await Task.Delay(500);
+                    // check for deleted files
+                    IEnumerable<string> existingInRemoteButNotInLocal = remoteFileIndex.Keys.Except(localFileIndex.Keys);
+                    foreach (string deletedFileKey in existingInRemoteButNotInLocal)
+                    {
+                        Summary.DeletedFiles.Add(remoteFileIndex[deletedFileKey]);
+                    }
+                });
             }
             catch (Exception ex)
             {

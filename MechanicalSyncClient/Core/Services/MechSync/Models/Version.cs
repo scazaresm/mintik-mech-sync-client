@@ -22,5 +22,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public DateTime CreatedAt { get; set; }
         public List<VersionOwner> OwnerHistory { get; set; }
         public List<FileMetadata> FinalFileMetadata { get; set; }
+        public bool DownloadRequired { get; set; }
     }
 }

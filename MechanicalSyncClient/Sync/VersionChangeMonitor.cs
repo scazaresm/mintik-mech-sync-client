@@ -35,8 +35,19 @@ namespace MechanicalSyncApp.Sync
             Version = version;
             FileFilter = fileFilter;
             ChangeEventQueue = new Queue<FileSyncEvent>();
+        }
 
-            InitializeFileSystemWatcher();
+        public void Initialize()
+        {
+            watcher = new FileSystemWatcher()
+            {
+                Path = Version.LocalDirectory,
+                IncludeSubdirectories = true
+            };
+            watcher.Created += new FileSystemEventHandler(OnFileCreated);
+            watcher.Deleted += new FileSystemEventHandler(OnFileDeleted);
+            watcher.Renamed += new RenamedEventHandler(OnFileRenamed);
+            watcher.Changed += new FileSystemEventHandler(OnFileChanged);
         }
 
         public bool IsEventQueueEmpty()
@@ -107,7 +118,8 @@ namespace MechanicalSyncApp.Sync
         {
             lock (eventQueueLock)
             {
-                watcher.EnableRaisingEvents = false;
+                if(watcher != null)
+                    watcher.EnableRaisingEvents = false;
                 monitoring = false;
             }
         }
@@ -117,18 +129,7 @@ namespace MechanicalSyncApp.Sync
             return monitoring;
         }
 
-        private void InitializeFileSystemWatcher()
-        {
-            watcher = new FileSystemWatcher()
-            {
-                Path = Version.LocalDirectory,
-                IncludeSubdirectories = true
-            };
-            watcher.Created += new FileSystemEventHandler(OnFileCreated);
-            watcher.Deleted += new FileSystemEventHandler(OnFileDeleted);
-            watcher.Renamed += new RenamedEventHandler(OnFileRenamed);
-            watcher.Changed += new FileSystemEventHandler(OnFileChanged);
-        }
+
 
 
 
@@ -195,7 +196,8 @@ namespace MechanicalSyncApp.Sync
                 if (disposing)
                 {
                     StopMonitoring();
-                    watcher.Dispose();
+                    if(watcher != null)
+                        watcher.Dispose();
                 }
                 disposedValue = true;
             }

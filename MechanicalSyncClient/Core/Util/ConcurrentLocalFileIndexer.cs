@@ -14,7 +14,7 @@ namespace MechanicalSyncApp.Core.Util
 {
     public class ConcurrentLocalFileIndexer
     {
-        private const int THREADS_COUNT = 3;
+        private const int THREADS_COUNT = 6;
 
         private readonly string directoryPath;
         private readonly string fileExtensionFilter;

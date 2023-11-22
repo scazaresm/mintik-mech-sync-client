@@ -28,12 +28,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
         public async Task HandleAsync(FileSyncEvent fileSyncEvent)
         {
             if (fileSyncEvent is null)
-            {
                 throw new ArgumentNullException(nameof(fileSyncEvent));
-            }
 
+            // this handler is exclusive for file deleted events
             if (fileSyncEvent.EventType != FileSyncEventType.Deleted)
             {
+                // delegate responsibility to the next handler in the chain
                 if (NextHandler != null)
                     await NextHandler.HandleAsync(fileSyncEvent);
                 return;
@@ -47,8 +47,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
 
                 foreach (var target in targetFiles)
                     fileViewer.SetSyncingStatusToFile(target);
-
-                await Task.Delay(10); // avoid overloading the server
 
                 // if RelativeFilePath is a directory, all its contents will be removed in server
                 await client.DeleteFileAsync(new DeleteFileRequest
@@ -74,7 +72,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
         private async Task<List<string>> DetermineTargetFilesAsync(FileSyncEvent fileSyncEvent)
         {
             var synchronizer = sourceState.Synchronizer;
-            var targetIsDirectory = !Path.HasExtension(fileSyncEvent.FullPath);
+            var target = fileSyncEvent.FullPath;
+            var targetIsDirectory = !Path.HasExtension(target);
             var targetFiles = new List<string>();
 
             if (targetIsDirectory)
@@ -102,7 +101,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             }
             else
             {
-                targetFiles.Add(fileSyncEvent.FullPath);
+                targetFiles.Add(target);
             }
             return targetFiles;
         }

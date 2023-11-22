@@ -17,9 +17,18 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         public override void UpdateUI()
         {
             var ui = Synchronizer.UI;
-            ui.SyncProgressBar.Visible = false;
-            ui.SyncRemoteButton.Visible = true;
             ui.StatusLabel.Text = "Working offline, remember to sync frequently";
+            ui.SyncProgressBar.Visible = false;
+
+            ui.SynchronizerToolStrip.Enabled = true;
+
+            ui.SyncRemoteButton.Enabled = true;
+            ui.SyncRemoteButton.Visible = true;
+
+            ui.WorkOnlineButton.Visible = true;
+            ui.WorkOnlineButton.Enabled = true;
+
+            ui.WorkOfflineButton.Visible = false;
         }
     }
 }

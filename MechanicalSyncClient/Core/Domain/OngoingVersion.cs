@@ -1,18 +1,29 @@
 ﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
+using System.IO;
 
 namespace MechanicalSyncApp.Core.Domain
 {
     public class OngoingVersion
     {
+        private const string MY_WORK_FOLDER_NAME = "My Work";
+
         public Version RemoteVersion { get; }
         public Project RemoteProject { get; }
         public string LocalDirectory { get; }
 
-        public OngoingVersion(Version remoteVersion, Project remoteProject, string localDirectory)
+        public OngoingVersion(Version remoteVersion, Project remoteProject, string workspaceDirectory)
         {
             RemoteVersion = remoteVersion ?? throw new System.ArgumentNullException(nameof(remoteVersion));
             RemoteProject = remoteProject ?? throw new System.ArgumentNullException(nameof(remoteProject));
-            LocalDirectory = localDirectory ?? throw new System.ArgumentNullException(nameof(localDirectory));
+
+            if(workspaceDirectory == null)
+                throw new System.ArgumentNullException(nameof(workspaceDirectory));
+
+            LocalDirectory = Path.Combine(
+                workspaceDirectory,
+                MY_WORK_FOLDER_NAME,
+                ToString()
+            );
         }
 
         public override string ToString()

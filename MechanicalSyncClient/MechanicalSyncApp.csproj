@@ -14,6 +14,21 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -37,15 +52,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="eDrawings.Interop.EModelMarkupControl">
-      <HintPath>..\..\..\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelMarkupControl.dll</HintPath>
+      <HintPath>C:\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelMarkupControl.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="eDrawings.Interop.EModelViewControl">
-      <HintPath>..\..\..\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelViewControl.dll</HintPath>
+      <HintPath>C:\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelViewControl.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -92,6 +108,12 @@
     <Compile Include="Core\Services\MechSync\Models\Response\GetMyOngoingVersionsResponse.cs" />
     <Compile Include="Core\Services\MechSync\Models\Version.cs" />
     <Compile Include="Core\Services\MechSync\Models\VersionOwner.cs" />
+    <Compile Include="Core\VersionSynchronizerCommandAsync.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\SyncRemoteCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\WorkOfflineCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\WorkOnlineCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IdleState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IndexLocalFiles.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IndexRemoteFilesState.cs" />
@@ -104,6 +126,12 @@
       <DependentUpon>DesignFileViewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\IUserInterfaceCommand.cs" />
+    <Compile Include="UI\Forms\OpenVersionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\OpenVersionForm.Designer.cs">
+      <DependentUpon>OpenVersionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,7 +195,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\VersionExplorerControl.cs" />
+    <Compile Include="UI\WorkspaceTreeView.cs" />
+    <EmbeddedResource Include="UI\Forms\OpenVersionForm.resx">
+      <DependentUpon>OpenVersionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -281,6 +312,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\zoom-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

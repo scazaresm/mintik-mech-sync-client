@@ -32,12 +32,12 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             AuthenticationService = AuthenticationServiceClient.Instance;
 
             _restClient = new HttpClient();
-            _restClient.BaseAddress = new Uri("http://localhost/api/mech-sync/");
+            _restClient.BaseAddress = new Uri("http://192.168.100.6/api/mech-sync/");
             _restClient.Timeout = TimeSpan.FromSeconds(5);
 
             _fileClient = new HttpClient();
-            _fileClient.BaseAddress = new Uri("http://localhost/api/mech-sync/");
-            _fileClient.Timeout = TimeSpan.FromSeconds(120);
+            _fileClient.BaseAddress = new Uri("http://192.168.100.6/api/mech-sync/");
+            _fileClient.Timeout = TimeSpan.FromSeconds(5);
 
             _ = RefreshAuthTokenAsync();
         }

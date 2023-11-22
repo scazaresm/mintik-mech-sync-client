@@ -13,7 +13,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
     {
         public override async Task RunAsync()
         {
-            // get metadata from server, i.e., a list of all the files on this version and its metadata
+            // get metadata from server, i.e., list all the files on this version and its metadata
             var request = new GetFileMetadataRequest()
             {
                 VersionId = Synchronizer.Version.RemoteVersion.Id,
@@ -32,6 +32,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         {
             var ui = Synchronizer.UI;
             ui.StatusLabel.Text = "Indexing remote files...";
+            ui.SynchronizerToolStrip.Enabled = false;
         }
     }
 }
