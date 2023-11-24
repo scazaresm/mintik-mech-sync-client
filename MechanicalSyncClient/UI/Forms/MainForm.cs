@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
+using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
 using System;
@@ -52,6 +53,7 @@ namespace MechanicalSyncApp.UI.Forms
                     SyncRemoteButton = SyncRemoteButton,
                     RefreshLocalFilesButton = RefreshLocalFilesButton,
                     CloseVersionButton = CloseVersionButton,
+                    TransferOwnershipButton = TransferOwnershipButton,
                     SyncProgressBar = SyncProgressBar,
                     MainSplitContainer = MainSplitContainer,
                 };

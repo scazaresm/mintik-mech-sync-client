@@ -15,9 +15,9 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task DownloadFileAsync(DownloadFileRequest request);
         Task<FileMetadata> UploadFileAsync(UploadFileRequest request);
         Task<DeleteFileResponse> DeleteFileAsync(DeleteFileRequest request);
-
         Task<GetFileMetadataResponse> GetFileMetadataAsync(GetFileMetadataRequest request);
-
+        Task<Models.Version> TransferVersionOwnershipAsync(TransferVersionOwnershipRequest request);
+        Task<Models.Version> AcknowledgeVersionOwnershipAsync(AcknowledgeVersionOwnershipRequest request);
         Task<GetMyOngoingVersionsResponse> GetMyOngoingVersionsAsync();
         Task<Project> GetProjectAsync(string projectId);
     }

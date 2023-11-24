@@ -92,6 +92,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Services\MechSync\Handlers\AcknowledgeVersionOwnershipHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\TransferVersionOwnershipHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\AcknowledgeVersionOwnershipRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\TransferVersionOwnershipRequest.cs" />
     <Compile Include="Core\Util\ConcurrentLocalFileIndexer.cs" />
     <Compile Include="Core\Domain\FileSyncStatus.cs" />
     <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
@@ -112,8 +116,12 @@
     <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\SyncRemoteCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\TransferOwnershipCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\WorkOfflineCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\WorkOnlineCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Exceptions\NotVersionOwnerException.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Exceptions\VersionFolderAlreadyExistsException.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Exceptions\VersionOwnershipNotAcknowledgedException.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IdleState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IndexLocalFiles.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IndexRemoteFilesState.cs" />
@@ -137,6 +145,12 @@
     </Compile>
     <Compile Include="UI\Forms\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\UserSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\UserSelectorForm.Designer.cs">
+      <DependentUpon>UserSelectorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ListViewExtensions.cs" />
     <Compile Include="Sync\VersionSynchronizer\VersionSynchronizerUI.cs" />
@@ -220,6 +234,9 @@
     </Compile>
     <EmbeddedResource Include="UI\Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\UserSelectorForm.resx">
+      <DependentUpon>UserSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -324,6 +341,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\users-change-icon-24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -24,7 +24,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             Synchronizer.RemoteFileIndex.Clear();
             foreach (FileMetadata metadata in response.FileMetadata)
             {
-                Synchronizer.RemoteFileIndex.Add(metadata.RelativeFilePath, metadata);
+                Synchronizer.RemoteFileIndex.TryAdd(metadata.RelativeFilePath, metadata);
             }
         }
 

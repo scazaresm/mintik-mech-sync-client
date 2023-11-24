@@ -24,7 +24,7 @@ namespace MechanicalSyncApp.Core
         IVersionChangeMonitor ChangeMonitor { get; }
 
         ConcurrentDictionary<string, FileMetadata> LocalFileIndex { get; set; }
-        Dictionary<string, FileMetadata> RemoteFileIndex { get; }
+        ConcurrentDictionary<string, FileMetadata> RemoteFileIndex { get; }
 
         // State related methods
         VersionSynchronizerState GetState();
@@ -36,8 +36,8 @@ namespace MechanicalSyncApp.Core
         Task WorkOnlineAsync();
         Task WorkOfflineAsync();
         Task SyncRemoteAsync();
-
         Task CloseVersionAsync();
+        Task TransferOwnershipAsync();
 
         // UI related methods
         void InitializeUI();

@@ -21,9 +21,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
         public override async Task RunAsync()
         {
-            EnqueueCreatedFiles(summary.CreatedFiles);
-            EnqueueChangedFiles(summary.ChangedFiles);
-            EnqueueDeletedFiles(summary.DeletedFiles);
+            EnqueueFileSyncEvents(summary.CreatedFiles, FileSyncEventType.Created);
+            EnqueueFileSyncEvents(summary.ChangedFiles, FileSyncEventType.Changed);
+            EnqueueFileSyncEvents(summary.DeletedFiles, FileSyncEventType.Deleted);
             await Task.Delay(500);
         }
 
@@ -33,9 +33,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             ui.StatusLabel.Text = "Processing sync check summary...";
         }
 
-        private void EnqueueCreatedFiles(List<FileMetadata> createdFiles)
+        private void EnqueueFileSyncEvents(List<FileMetadata> targetFiles, FileSyncEventType eventType)
         {
-            foreach (var file in createdFiles)
+            foreach (var file in targetFiles)
             {
                 string fullPath = Path.Combine(
                     Synchronizer.Version.LocalDirectory, 
@@ -44,49 +44,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
                 Synchronizer.ChangeMonitor.EnqueueEvent(new FileSyncEvent
                 {
-                    EventType = FileSyncEventType.Created,
-                    Version = Synchronizer.Version,
-                    FullPath = fullPath,
-                    RelativeFilePath = file.RelativeFilePath,
-                    RaiseDateTime = DateTime.Now,
-                    EventState = FileSyncEventState.Queued
-                });
-            }
-        }
-
-        private void EnqueueChangedFiles(List<FileMetadata> changedFiles)
-        {
-            foreach (var file in changedFiles)
-            {
-                string fullPath = Path.Combine(
-                    Synchronizer.Version.LocalDirectory,
-                    file.RelativeFilePath
-                ).Replace('/', Path.DirectorySeparatorChar);
-
-                Synchronizer.ChangeMonitor.EnqueueEvent(new FileSyncEvent
-                {
-                    EventType = FileSyncEventType.Changed,
-                    Version = Synchronizer.Version,
-                    FullPath = fullPath,
-                    RelativeFilePath = file.RelativeFilePath,
-                    RaiseDateTime = DateTime.Now,
-                    EventState = FileSyncEventState.Queued
-                });
-            }
-        }
-
-        private void EnqueueDeletedFiles(List<FileMetadata> deletedFiles)
-        {
-            foreach (var file in deletedFiles)
-            {
-                string fullPath = Path.Combine(
-                    Synchronizer.Version.LocalDirectory,
-                    file.RelativeFilePath
-                ).Replace('/', Path.DirectorySeparatorChar);
-
-                Synchronizer.ChangeMonitor.EnqueueEvent(new FileSyncEvent
-                {
-                    EventType = FileSyncEventType.Deleted,
+                    EventType = eventType,
                     Version = Synchronizer.Version,
                     FullPath = fullPath,
                     RelativeFilePath = file.RelativeFilePath,

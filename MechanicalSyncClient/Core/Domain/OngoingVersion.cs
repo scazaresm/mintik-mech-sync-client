@@ -7,9 +7,9 @@ namespace MechanicalSyncApp.Core.Domain
     {
         private const string MY_WORK_FOLDER_NAME = "My Work";
 
-        public Version RemoteVersion { get; }
-        public Project RemoteProject { get; }
-        public string LocalDirectory { get; }
+        public Version RemoteVersion { get; set; }
+        public Project RemoteProject { get; set; }
+        public string LocalDirectory { get; set; }
 
         public OngoingVersion(Version remoteVersion, Project remoteProject, string workspaceDirectory)
         {

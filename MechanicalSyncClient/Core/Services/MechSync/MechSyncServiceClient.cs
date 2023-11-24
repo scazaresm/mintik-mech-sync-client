@@ -37,7 +37,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
             _fileClient = new HttpClient();
             _fileClient.BaseAddress = new Uri("http://192.168.100.6/api/mech-sync/");
-            _fileClient.Timeout = TimeSpan.FromSeconds(5);
+            _fileClient.Timeout = TimeSpan.FromSeconds(120);
 
             _ = RefreshAuthTokenAsync();
         }
@@ -97,6 +97,16 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         public async Task<Project> GetProjectAsync(string projectId)
         {
             return await new GetProjectHandler(_restClient, projectId).HandleAsync();
+        }
+
+        public async Task<Models.Version> TransferVersionOwnershipAsync(TransferVersionOwnershipRequest request)
+        {
+            return await new TransferVersionOwnershipHandler(_restClient, request).HandleAsync();
+        }
+
+        public async Task<Models.Version> AcknowledgeVersionOwnershipAsync(AcknowledgeVersionOwnershipRequest request)
+        {
+            return await new AcknowledgeVersionOwnershipHandler(_restClient, request).HandleAsync();
         }
 
         #region Disposing pattern

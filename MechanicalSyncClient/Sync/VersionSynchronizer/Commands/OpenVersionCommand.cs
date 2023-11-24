@@ -1,8 +1,10 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
+using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using Microsoft.VisualBasic.FileIO;
 using System.Collections.Generic;
@@ -14,23 +16,6 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
-    public class VersionFolderAlreadyExistsException : System.Exception
-    {
-        public VersionFolderAlreadyExistsException()
-        {
-        }
-
-        public VersionFolderAlreadyExistsException(string message)
-            : base(message)
-        {
-        }
-
-        public VersionFolderAlreadyExistsException(string message, System.Exception inner)
-            : base(message, inner)
-        {
-        }
-    }
-
     public class OpenVersionCommand : VersionSynchronizerCommandAsync
     {
         private const string ONGOING_VERSION_FOLDER_NAME = "Ongoing";
@@ -41,7 +26,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         public VersionSynchronizer Synchronizer { get; }
         public Version RemoteVersion { get; }
         public OngoingVersion LocalVersion { get; }
-        public MechSyncServiceClient ServiceClient { get; }
+        public IMechSyncServiceClient ServiceClient { get; }
 
 
         public OpenVersionCommand(VersionSynchronizer synchronizer, Label status, ProgressBar progress)
@@ -52,14 +37,21 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             LocalVersion = Synchronizer.Version;
             RemoteVersion = Synchronizer.Version.RemoteVersion;
+            ServiceClient = Synchronizer.ServiceClient;
         }
 
         public async Task RunAsync()
         {
             status.Text = "Starting...";
 
+            if (IsNotVersionOwnerAnymore)
+                HandleNotVersionOwner();
+
             if (ShallDownloadFiles)
             {
+                if (ShallAcknowledgeOwnership)
+                    await AcknowledgeVersionOwnershipAsync();
+
                 if(ShallRemoveExistingFolder)
                     await MoveExistingFolderToRecycleBinAsync();
     
@@ -77,6 +69,18 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.InitializeUI();
                 Synchronizer.ChangeMonitor.Initialize();
             }
+        }
+
+        private void HandleNotVersionOwner()
+        {
+            var nextOwnerUsername = Synchronizer.Version.RemoteVersion.NextOwner.Username;
+            MessageBox.Show(
+                $"Cannot open this version because it was transferred to {nextOwnerUsername}, waiting for ownership acknowledge.",
+                "Ownership transfer in progress",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            );
+            throw new NotVersionOwnerException();
         }
 
         private async Task CheckLocalCopyAsync()
@@ -118,16 +122,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         private async Task MoveExistingFolderToRecycleBinAsync()
         {
-            var response = MessageBox.Show(
-                $"A folder for this version already exists at {LocalVersion.LocalDirectory}, the folder and its contents will be sent to recycle bin and most recent files will be downloaded from server.{System.Environment.NewLine}" +
-                $"{System.Environment.NewLine}Do you want to proceed?",
-                "Folder already exists",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
-            );
-            if (response != DialogResult.Yes)
-                throw new VersionFolderAlreadyExistsException($"A folder for this version already exists at {LocalVersion.LocalDirectory}.");
-
             status.Text = $"Moving {LocalVersion.LocalDirectory} to recycle bin...";
             await Task.Run(() => FileSystem.DeleteDirectory(
                 LocalVersion.LocalDirectory, 
@@ -176,10 +170,49 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             }
         }
 
+        private async Task AcknowledgeVersionOwnershipAsync()
+        {
+            var ownerUsername = Synchronizer.Version.RemoteVersion.Owner.Username;
+
+            var confirmation = MessageBox.Show(
+                $"This version was previously owned by {ownerUsername} but now was transferred to you, a copy will be downloaded to your computer so you can start working.",
+                "Acknowledge version ownership",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Information
+            );
+
+            if (confirmation != DialogResult.OK)
+                throw new VersionOwnershipNotAcknowledgedException();
+
+            Synchronizer.Version.RemoteVersion = await ServiceClient.AcknowledgeVersionOwnershipAsync(
+                new AcknowledgeVersionOwnershipRequest() { VersionId = RemoteVersion.Id }
+            );
+        }
+
+        public bool IsNotVersionOwnerAnymore
+        {
+            get
+            {
+                // loged user is current owner but there is a next owner assigned
+                var username = AuthenticationServiceClient.Instance.UserDetails.Username;
+                return RemoteVersion.Owner.Username == username && RemoteVersion.NextOwner != null;
+            }
+        }
+
+        public bool ShallAcknowledgeOwnership { 
+            get 
+            {
+                // logged user is not current owner but is assigned as next owner
+                var username = AuthenticationServiceClient.Instance.UserDetails.Username;
+                return RemoteVersion.Owner.Username != username && RemoteVersion.NextOwner.Username == username;
+            }
+        }    
+
         public bool ShallDownloadFiles { 
-            get {
-                // directory doesn't exist or DownloadRequired flag is enabled in server
-                return !Directory.Exists(LocalVersion.LocalDirectory) || RemoteVersion.DownloadRequired;      
+            get 
+            {
+                // directory doesn't exist or user was just assigned as owner
+                return !Directory.Exists(LocalVersion.LocalDirectory) || ShallAcknowledgeOwnership;      
             } 
         }
 

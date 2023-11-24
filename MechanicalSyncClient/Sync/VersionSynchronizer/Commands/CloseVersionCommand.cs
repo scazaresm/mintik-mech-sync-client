@@ -36,6 +36,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 await Synchronizer.WorkOfflineAsync();
             }
             Synchronizer.Dispose();
+            Synchronizer = null;
+
             UI.MainSplitContainer.Panel2Collapsed = true;
             UI.MainSplitContainer.Panel1Collapsed = false;
         }

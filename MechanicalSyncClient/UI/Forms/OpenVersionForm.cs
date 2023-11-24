@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
+using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,6 +42,20 @@ namespace MechanicalSyncApp.UI.Forms
                 Console.WriteLine(ex.Message);
 
                 // abort if folder already exists and user didn't accept moving it to recycle bin
+                DialogResult = DialogResult.Abort;
+            }
+            catch (VersionOwnershipNotAcknowledgedException ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                // abort if user did not acknowledge version ownership
+                DialogResult = DialogResult.Abort;
+            }
+            catch(NotVersionOwnerException ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                // abort if user is not owner
                 DialogResult = DialogResult.Abort;
             }
         }

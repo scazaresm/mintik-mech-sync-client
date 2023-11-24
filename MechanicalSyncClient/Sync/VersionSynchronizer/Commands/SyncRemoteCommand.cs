@@ -13,6 +13,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
     {
         public VersionSynchronizer Synchronizer { get; private set; }
 
+        public bool ConfirmBeforeSync { get; set; } = true;
+        public bool NotifyWhenComplete { get; set; } = true;
+
         public SyncRemoteCommand(VersionSynchronizer synchronizer)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
@@ -27,10 +30,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.SetState(new IdleState());
                 await Synchronizer.RunStepAsync();
 
-                Synchronizer.SetState(new IndexLocalFiles());
+                Synchronizer.SetState(new IndexRemoteFilesState());
                 await Synchronizer.RunStepAsync();
 
-                Synchronizer.SetState(new IndexRemoteFilesState());
+                Synchronizer.SetState(new IndexLocalFiles());
                 await Synchronizer.RunStepAsync();
 
                 var syncCheckState = new SyncCheckState();
@@ -39,11 +42,19 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 if (syncCheckState.Summary.HasChanges)
                 {
-                    var response = MessageBox.Show("Apply sync changes?", "Validate changes", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (response != DialogResult.Yes)
+                    if(ConfirmBeforeSync)
                     {
-                        await Synchronizer.WorkOfflineAsync();
-                        return;
+                        var response = MessageBox.Show(
+                            "Apply sync changes?", "Validate changes", 
+                            MessageBoxButtons.YesNo, 
+                            MessageBoxIcon.Question
+                        );
+
+                        if (response != DialogResult.Yes)
+                        {
+                            await Synchronizer.WorkOfflineAsync();
+                            return;
+                        }
                     }
                     Synchronizer.SetState(new ProcessSyncCheckSummaryState(syncCheckState.Summary));
                     await Synchronizer.RunStepAsync();
@@ -52,12 +63,15 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.SetState(new MonitorFileSyncEventsState());
                 await Synchronizer.RunStepAsync();
 
-                MessageBox.Show(
-                    "The remote server is already synced with your local copy.",
-                    "Synced remote",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                if(NotifyWhenComplete)
+                {
+                    MessageBox.Show(
+                        "The remote server is already synced with your local copy.",
+                        "Synced remote",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
             }
             catch (Exception ex)
             {

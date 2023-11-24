@@ -23,7 +23,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public IVersionChangeMonitor ChangeMonitor { get; private set; }
 
         public ConcurrentDictionary<string, FileMetadata> LocalFileIndex { get; set; }
-        public Dictionary<string, FileMetadata> RemoteFileIndex { get; private set; }
+        public ConcurrentDictionary<string, FileMetadata> RemoteFileIndex { get; private set; }
 
         public VersionSynchronizerUI UI { get; private set; }
 
@@ -46,43 +46,18 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             ChangeMonitor = new VersionChangeMonitor(version, FileExtensionFilter);
             ServiceClient = MechSyncServiceClient.Instance;
             LocalFileIndex = new ConcurrentDictionary<string, FileMetadata>();
-            RemoteFileIndex = new Dictionary<string, FileMetadata>();
+            RemoteFileIndex = new ConcurrentDictionary<string, FileMetadata>();
 
             SetState(new IdleState());
             _ = RunStepAsync();
         }
 
+
+        #region State management
+
         public VersionSynchronizerState GetState()
         {
             return state;
-        }
-
-        public void InitializeUI()
-        {
-            UI.ProjectFolderNameLabel.Text = $"{Version.RemoteProject.FolderName} V{Version.RemoteVersion.Major} (Ongoing changes)";
-            UI.InitializeFileViewer(Version, ChangeMonitor);
-        
-            UI.FileViewer.AttachListView(UI.FileViewerListView);
-            UI.FileViewerListView.SetDoubleBuffered();
-
-            UI.SyncProgressBar.Visible = false;
-            UI.SyncRemoteButton.Visible = true;
-            UI.SyncRemoteButton.Click += SyncRemoteButton_Click;
-
-            UI.WorkOnlineButton.Click += WorkOnlineButton_Click;
-            UI.WorkOnlineButton.Visible = true;
-
-            UI.WorkOfflineButton.Click += WorkOfflineButton_Click;
-            UI.WorkOfflineButton.Visible = false;
-
-            UI.RefreshLocalFilesButton.Click += RefreshLocalFilesButton_Click;
-            UI.CloseVersionButton.Click += CloseVersionButton_Click;
-        }
-
-        public void UpdateUI()
-        {
-            if (state != null)
-                state.UpdateUI();
         }
 
         public void SetState(VersionSynchronizerState state)
@@ -97,6 +72,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             if (state != null)
                 await state.RunAsync();
         }
+
+        #endregion
+
+        #region Commands
 
         public async Task OpenVersionAsync(Label status, ProgressBar progress)
         {
@@ -123,19 +102,57 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await new CloseVersionCommand(this).RunAsync();
         }
 
-        private void WorkOnlineButton_Click(object sender, EventArgs e)
+        public async Task TransferOwnershipAsync()
         {
-            _ = WorkOnlineAsync();
+            await new TransferOwnershipCommand(this).RunAsync();
         }
 
-        private void SyncRemoteButton_Click(object sender, EventArgs e)
+        #endregion
+
+        #region UI management
+
+        public void InitializeUI()
         {
-            _ = SyncRemoteAsync();
+            UI.ProjectFolderNameLabel.Text = $"{Version.RemoteProject.FolderName} V{Version.RemoteVersion.Major} (Ongoing changes)";
+            UI.InitializeFileViewer(Version, ChangeMonitor);
+
+            UI.FileViewer.AttachListView(UI.FileViewerListView);
+            UI.FileViewerListView.SetDoubleBuffered();
+
+            UI.SyncProgressBar.Visible = false;
+            UI.SyncRemoteButton.Visible = true;
+            UI.SyncRemoteButton.Click += SyncRemoteButton_Click;
+
+            UI.WorkOnlineButton.Click += WorkOnlineButton_Click;
+            UI.WorkOnlineButton.Visible = true;
+
+            UI.WorkOfflineButton.Click += WorkOfflineButton_Click;
+            UI.WorkOfflineButton.Visible = false;
+
+            UI.RefreshLocalFilesButton.Click += RefreshLocalFilesButton_Click;
+            UI.CloseVersionButton.Click += CloseVersionButton_Click;
+            UI.TransferOwnershipButton.Click += TransferOwnershipButton_Click;
         }
 
-        private void WorkOfflineButton_Click(object sender, EventArgs e)
+        public void UpdateUI()
         {
-            _ = WorkOfflineAsync();
+            if (state != null)
+                state.UpdateUI();
+        }
+
+        private async void WorkOnlineButton_Click(object sender, EventArgs e)
+        {
+            await WorkOnlineAsync();
+        }
+
+        private async void SyncRemoteButton_Click(object sender, EventArgs e)
+        {
+            await SyncRemoteAsync();
+        }
+
+        private async void WorkOfflineButton_Click(object sender, EventArgs e)
+        {
+            await WorkOfflineAsync();
         }
 
         private void RefreshLocalFilesButton_Click(object sender, EventArgs e)
@@ -148,7 +165,15 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await CloseVersionAsync();
         }
 
-   
+        private async void TransferOwnershipButton_Click(object sender, EventArgs e)
+        {
+            await TransferOwnershipAsync();
+        }
+
+        #endregion
+
+        #region Disposing and shutdown
+
         private void RemoveEventListeners()
         {
             UI.WorkOnlineButton.Click -= WorkOnlineButton_Click;
@@ -156,9 +181,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.SyncRemoteButton.Click -= SyncRemoteButton_Click;
             UI.RefreshLocalFilesButton.Click -= RefreshLocalFilesButton_Click;
             UI.CloseVersionButton.Click -= CloseVersionButton_Click;
+            UI.TransferOwnershipButton.Click -= TransferOwnershipButton_Click;
         }
 
-        #region Dispose pattern
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

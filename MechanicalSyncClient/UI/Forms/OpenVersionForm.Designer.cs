@@ -36,7 +36,7 @@
             // 
             // Progress
             // 
-            this.Progress.Location = new System.Drawing.Point(12, 71);
+            this.Progress.Location = new System.Drawing.Point(12, 75);
             this.Progress.Name = "Progress";
             this.Progress.Size = new System.Drawing.Size(493, 23);
             this.Progress.TabIndex = 0;
@@ -44,7 +44,7 @@
             // Status
             // 
             this.Status.AutoSize = true;
-            this.Status.Location = new System.Drawing.Point(9, 46);
+            this.Status.Location = new System.Drawing.Point(12, 55);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(35, 13);
             this.Status.TabIndex = 1;
@@ -53,16 +53,16 @@
             // OpeningLegend
             // 
             this.OpeningLegend.AutoSize = true;
-            this.OpeningLegend.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OpeningLegend.Location = new System.Drawing.Point(8, 9);
+            this.OpeningLegend.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OpeningLegend.Location = new System.Drawing.Point(12, 18);
             this.OpeningLegend.Name = "OpeningLegend";
-            this.OpeningLegend.Size = new System.Drawing.Size(75, 18);
+            this.OpeningLegend.Size = new System.Drawing.Size(69, 16);
             this.OpeningLegend.TabIndex = 2;
             this.OpeningLegend.Text = "Opening ";
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(430, 141);
+            this.CancelButton.Location = new System.Drawing.Point(430, 145);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 3;
@@ -84,7 +84,7 @@
             this.MinimizeBox = false;
             this.Name = "OpenVersionDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Open version";
+            this.Text = "nenext";
             this.Load += new System.EventHandler(this.InitializeVersionSynchronizerForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

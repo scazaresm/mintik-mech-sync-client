@@ -41,17 +41,16 @@ namespace MechanicalSyncApp.UI.Forms
             System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.WorkspaceTreeView = new System.Windows.Forms.TreeView();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.RefreshVersionsButton = new System.Windows.Forms.ToolStripButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.FileViewerListView = new System.Windows.Forms.ListView();
@@ -61,44 +60,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.SyncStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.SyncProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.SynchronizerToolStrip = new System.Windows.Forms.ToolStrip();
-            this.RefreshLocalFilesButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openInWindowsExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.SyncRemoteButton = new System.Windows.Forms.ToolStripButton();
-            this.CloseVersionButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.WorkOfflineButton = new System.Windows.Forms.ToolStripButton();
-            this.WorkOnlineButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.ReviewerListImages = new System.Windows.Forms.ImageList(this.components);
-            this.ReviewerStateImages = new System.Windows.Forms.ImageList(this.components);
-            this.ReviewArtifactsTabImages = new System.Windows.Forms.ImageList(this.components);
-            this.DesignReviewToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripComboBox3 = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
-            this.ProjectTabImages = new System.Windows.Forms.ImageList(this.components);
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.ProjectFolderNameLabel = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.designToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.drawingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -106,10 +71,16 @@ namespace MechanicalSyncApp.UI.Forms
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReviewArtifactsTabImages = new System.Windows.Forms.ImageList(this.components);
+            this.DesignReviewToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
@@ -123,6 +94,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripComboBox2 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.dataGridView5 = new System.Windows.Forms.DataGridView();
@@ -136,10 +111,36 @@ namespace MechanicalSyncApp.UI.Forms
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripComboBox2 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripComboBox3 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
+            this.ProjectTabImages = new System.Windows.Forms.ImageList(this.components);
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.ProjectFolderNameLabel = new System.Windows.Forms.Label();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.ReviewerListImages = new System.Windows.Forms.ImageList(this.components);
+            this.ReviewerStateImages = new System.Windows.Forms.ImageList(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.designToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RefreshVersionsButton = new System.Windows.Forms.ToolStripButton();
+            this.RefreshLocalFilesButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInWindowsExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.SyncRemoteButton = new System.Windows.Forms.ToolStripButton();
+            this.CloseVersionButton = new System.Windows.Forms.ToolStripButton();
+            this.WorkOfflineButton = new System.Windows.Forms.ToolStripButton();
+            this.WorkOnlineButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.TransferOwnershipButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
@@ -150,28 +151,28 @@ namespace MechanicalSyncApp.UI.Forms
             this.statusStrip1.SuspendLayout();
             this.SynchronizerToolStrip.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.DesignReviewToolStrip.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.tabControl2.SuspendLayout();
-            this.tabPage6.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.DesignReviewToolStrip.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.tabControl3.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.tabPage8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
+            this.toolStrip1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.tabControl4.SuspendLayout();
             this.tabPage9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
             this.tabPage10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).BeginInit();
-            this.toolStrip1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // FileSyncStatusIcons
@@ -201,11 +202,11 @@ namespace MechanicalSyncApp.UI.Forms
             this.MainSplitContainer.SplitterDistance = 296;
             this.MainSplitContainer.TabIndex = 16;
             // 
-            // VersionExplorerTreeView
+            // WorkspaceTreeView
             // 
             this.WorkspaceTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.WorkspaceTreeView.Location = new System.Drawing.Point(0, 25);
-            this.WorkspaceTreeView.Name = "VersionExplorerTreeView";
+            this.WorkspaceTreeView.Name = "WorkspaceTreeView";
             this.WorkspaceTreeView.Size = new System.Drawing.Size(296, 705);
             this.WorkspaceTreeView.TabIndex = 0;
             // 
@@ -218,16 +219,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStrip3.Size = new System.Drawing.Size(296, 25);
             this.toolStrip3.TabIndex = 1;
             this.toolStrip3.Text = "toolStrip3";
-            // 
-            // RefreshVersionsButton
-            // 
-            this.RefreshVersionsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.RefreshVersionsButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
-            this.RefreshVersionsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RefreshVersionsButton.Name = "RefreshVersionsButton";
-            this.RefreshVersionsButton.Size = new System.Drawing.Size(66, 22);
-            this.RefreshVersionsButton.Text = "Refresh";
-            this.RefreshVersionsButton.Click += new System.EventHandler(this.RefreshVersionsButton_Click);
             // 
             // tabControl1
             // 
@@ -337,111 +328,24 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripSeparator2,
             this.WorkOfflineButton,
             this.WorkOnlineButton,
-            this.toolStripButton7});
+            this.toolStripButton7,
+            this.TransferOwnershipButton});
             this.SynchronizerToolStrip.Location = new System.Drawing.Point(3, 3);
             this.SynchronizerToolStrip.Name = "SynchronizerToolStrip";
             this.SynchronizerToolStrip.Size = new System.Drawing.Size(1071, 25);
             this.SynchronizerToolStrip.TabIndex = 15;
             this.SynchronizerToolStrip.Text = "toolStrip2";
             // 
-            // RefreshLocalFilesButton
-            // 
-            this.RefreshLocalFilesButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
-            this.RefreshLocalFilesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RefreshLocalFilesButton.Name = "RefreshLocalFilesButton";
-            this.RefreshLocalFilesButton.Size = new System.Drawing.Size(66, 22);
-            this.RefreshLocalFilesButton.Text = "Refresh";
-            this.RefreshLocalFilesButton.ToolTipText = "Refresh local files";
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToClipboardToolStripMenuItem,
-            this.openInWindowsExplorerToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = global::MechanicalSyncApp.Properties.Resources.open_folder_24;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(129, 22);
-            this.toolStripDropDownButton1.Text = "Containing folder";
-            // 
-            // copyToClipboardToolStripMenuItem
-            // 
-            this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
-            this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.copyToClipboardToolStripMenuItem.Text = "Copy path to clipboard";
-            // 
-            // openInWindowsExplorerToolStripMenuItem
-            // 
-            this.openInWindowsExplorerToolStripMenuItem.Name = "openInWindowsExplorerToolStripMenuItem";
-            this.openInWindowsExplorerToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.openInWindowsExplorerToolStripMenuItem.Text = "Open in Windows Explorer";
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.Image = global::MechanicalSyncApp.Properties.Resources.find_32;
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(50, 22);
-            this.toolStripButton5.Text = "Find";
-            this.toolStripButton5.ToolTipText = "Find a local file by its name or path";
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // SyncRemoteButton
-            // 
-            this.SyncRemoteButton.Image = global::MechanicalSyncApp.Properties.Resources.sync_24;
-            this.SyncRemoteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SyncRemoteButton.Name = "SyncRemoteButton";
-            this.SyncRemoteButton.Size = new System.Drawing.Size(93, 22);
-            this.SyncRemoteButton.Text = "Sync remote";
-            this.SyncRemoteButton.ToolTipText = "Send your local changes to remote server";
-            // 
-            // CloseVersionButton
-            // 
-            this.CloseVersionButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.CloseVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
-            this.CloseVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CloseVersionButton.Name = "CloseVersionButton";
-            this.CloseVersionButton.Size = new System.Drawing.Size(56, 22);
-            this.CloseVersionButton.Text = "Close";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // WorkOfflineButton
-            // 
-            this.WorkOfflineButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.WorkOfflineButton.Image = global::MechanicalSyncApp.Properties.Resources.stop_32;
-            this.WorkOfflineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.WorkOfflineButton.Name = "WorkOfflineButton";
-            this.WorkOfflineButton.Size = new System.Drawing.Size(92, 22);
-            this.WorkOfflineButton.Text = "Work offline";
-            this.WorkOfflineButton.ToolTipText = "Stop monitoring your changes";
-            // 
-            // WorkOnlineButton
-            // 
-            this.WorkOnlineButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.WorkOnlineButton.Image = global::MechanicalSyncApp.Properties.Resources.start_32;
-            this.WorkOnlineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.WorkOnlineButton.Name = "WorkOnlineButton";
-            this.WorkOnlineButton.Size = new System.Drawing.Size(91, 22);
-            this.WorkOnlineButton.Text = "Work online";
-            this.WorkOnlineButton.ToolTipText = "Start monitoring your changes for automatic sync";
-            // 
-            // toolStripButton7
-            // 
-            this.toolStripButton7.Image = global::MechanicalSyncApp.Properties.Resources.merge_icon_24;
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(107, 22);
-            this.toolStripButton7.Text = "Publish version";
-            this.toolStripButton7.ToolTipText = "Publish revision changes";
             // 
             // tabPage2
             // 
@@ -456,206 +360,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage2.Text = "Design review";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "pdf-32.png");
-            // 
-            // ReviewerListImages
-            // 
-            this.ReviewerListImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewerListImages.ImageStream")));
-            this.ReviewerListImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.ReviewerListImages.Images.SetKeyName(0, "flat-user-24.png");
-            // 
-            // ReviewerStateImages
-            // 
-            this.ReviewerStateImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewerStateImages.ImageStream")));
-            this.ReviewerStateImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.ReviewerStateImages.Images.SetKeyName(0, "thumbs-up-16.png");
-            // 
-            // ReviewArtifactsTabImages
-            // 
-            this.ReviewArtifactsTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewArtifactsTabImages.ImageStream")));
-            this.ReviewArtifactsTabImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.ReviewArtifactsTabImages.Images.SetKeyName(0, "change-request-24.png");
-            this.ReviewArtifactsTabImages.Images.SetKeyName(1, "notes-icon-24.png");
-            // 
-            // DesignReviewToolStrip
-            // 
-            this.DesignReviewToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripComboBox1,
-            this.toolStripButton8,
-            this.toolStripLabel2});
-            this.DesignReviewToolStrip.Location = new System.Drawing.Point(3, 3);
-            this.DesignReviewToolStrip.Name = "DesignReviewToolStrip";
-            this.DesignReviewToolStrip.Size = new System.Drawing.Size(1071, 25);
-            this.DesignReviewToolStrip.TabIndex = 3;
-            this.DesignReviewToolStrip.Text = "toolStrip2";
-            // 
-            // toolStripComboBox1
-            // 
-            this.toolStripComboBox1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toolStripComboBox1.Items.AddRange(new object[] {
-            "All assemblies"});
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(300, 25);
-            // 
-            // toolStripButton8
-            // 
-            this.toolStripButton8.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
-            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(120, 22);
-            this.toolStripButton8.Text = "Submit for review";
-            this.toolStripButton8.ToolTipText = "Submit changes to selected reviewer for verification";
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(80, 22);
-            this.toolStripLabel2.Text = "Assembly file:";
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.tabControl3);
-            this.tabPage3.Controls.Add(this.toolStrip1);
-            this.tabPage3.ImageIndex = 2;
-            this.tabPage3.Location = new System.Drawing.Point(4, 31);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1077, 670);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "3D Review";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.tabControl4);
-            this.tabPage4.Controls.Add(this.toolStrip2);
-            this.tabPage4.ImageIndex = 3;
-            this.tabPage4.Location = new System.Drawing.Point(4, 31);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1077, 670);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Drawing review";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripComboBox3,
-            this.toolStripButton11,
-            this.toolStripLabel5});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(1077, 25);
-            this.toolStrip2.TabIndex = 4;
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // toolStripComboBox3
-            // 
-            this.toolStripComboBox3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toolStripComboBox3.Items.AddRange(new object[] {
-            "All assemblies"});
-            this.toolStripComboBox3.Name = "toolStripComboBox3";
-            this.toolStripComboBox3.Size = new System.Drawing.Size(300, 25);
-            // 
-            // toolStripButton11
-            // 
-            this.toolStripButton11.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
-            this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton11.Name = "toolStripButton11";
-            this.toolStripButton11.Size = new System.Drawing.Size(120, 22);
-            this.toolStripButton11.Text = "Submit for review";
-            this.toolStripButton11.ToolTipText = "Submit changes to selected reviewer for verification";
-            // 
-            // toolStripLabel5
-            // 
-            this.toolStripLabel5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripLabel5.Name = "toolStripLabel5";
-            this.toolStripLabel5.Size = new System.Drawing.Size(80, 22);
-            this.toolStripLabel5.Text = "Assembly file:";
-            // 
-            // ProjectTabImages
-            // 
-            this.ProjectTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ProjectTabImages.ImageStream")));
-            this.ProjectTabImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.ProjectTabImages.Images.SetKeyName(0, "folder-24.png");
-            this.ProjectTabImages.Images.SetKeyName(1, "design-32.png");
-            this.ProjectTabImages.Images.SetKeyName(2, "3d-32.png");
-            this.ProjectTabImages.Images.SetKeyName(3, "document-32.png");
-            this.ProjectTabImages.Images.SetKeyName(4, "Icon-SOLIDWORKS.png");
-            this.ProjectTabImages.Images.SetKeyName(5, "review-icon-32.png");
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.ProjectFolderNameLabel);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1085, 25);
-            this.panel2.TabIndex = 18;
-            // 
-            // ProjectFolderNameLabel
-            // 
-            this.ProjectFolderNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ProjectFolderNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProjectFolderNameLabel.Location = new System.Drawing.Point(0, 0);
-            this.ProjectFolderNameLabel.Name = "ProjectFolderNameLabel";
-            this.ProjectFolderNameLabel.Size = new System.Drawing.Size(1085, 25);
-            this.ProjectFolderNameLabel.TabIndex = 17;
-            this.ProjectFolderNameLabel.Text = "220214NY-OBERG SML HEAD TOOLING";
-            this.ProjectFolderNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1385, 24);
-            this.menuStrip1.TabIndex = 17;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reviewToolStripMenuItem});
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.testToolStripMenuItem.Text = "Project";
-            // 
-            // reviewToolStripMenuItem
-            // 
-            this.reviewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.designToolStripMenuItem,
-            this.dToolStripMenuItem,
-            this.drawingsToolStripMenuItem});
-            this.reviewToolStripMenuItem.Name = "reviewToolStripMenuItem";
-            this.reviewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reviewToolStripMenuItem.Text = "Review";
-            // 
-            // designToolStripMenuItem
-            // 
-            this.designToolStripMenuItem.Name = "designToolStripMenuItem";
-            this.designToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.designToolStripMenuItem.Text = "Design";
-            // 
-            // dToolStripMenuItem
-            // 
-            this.dToolStripMenuItem.Name = "dToolStripMenuItem";
-            this.dToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.dToolStripMenuItem.Text = "3D";
-            // 
-            // drawingsToolStripMenuItem
-            // 
-            this.drawingsToolStripMenuItem.Name = "drawingsToolStripMenuItem";
-            this.drawingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.drawingsToolStripMenuItem.Text = "Drawings";
-            // 
             // tabControl2
             // 
             this.tabControl2.Controls.Add(this.tabPage5);
@@ -667,19 +371,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(1071, 639);
             this.tabControl2.TabIndex = 1;
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.dataGridView2);
-            this.tabPage6.ImageIndex = 1;
-            this.tabPage6.Location = new System.Drawing.Point(4, 31);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1063, 604);
-            this.tabPage6.TabIndex = 1;
-            this.tabPage6.Text = "Notes";
-            this.tabPage6.ToolTipText = "Notes left by reviewers";
-            this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // tabPage5
             // 
@@ -726,8 +417,8 @@ namespace MechanicalSyncApp.UI.Forms
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle7;
             this.Column2.HeaderText = "Required change";
             this.Column2.Name = "Column2";
             this.Column2.Width = 500;
@@ -744,11 +435,24 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // Column4
             // 
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle8;
             this.Column4.HeaderText = "Designer comments";
             this.Column4.Name = "Column4";
             this.Column4.Width = 300;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.dataGridView2);
+            this.tabPage6.ImageIndex = 1;
+            this.tabPage6.Location = new System.Drawing.Point(4, 31);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(1063, 604);
+            this.tabPage6.TabIndex = 1;
+            this.tabPage6.Text = "Notes";
+            this.tabPage6.ToolTipText = "Notes left by reviewers";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // dataGridView2
             // 
@@ -782,6 +486,53 @@ namespace MechanicalSyncApp.UI.Forms
             this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn2.HeaderText = "Note";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // ReviewArtifactsTabImages
+            // 
+            this.ReviewArtifactsTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewArtifactsTabImages.ImageStream")));
+            this.ReviewArtifactsTabImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.ReviewArtifactsTabImages.Images.SetKeyName(0, "change-request-24.png");
+            this.ReviewArtifactsTabImages.Images.SetKeyName(1, "notes-icon-24.png");
+            // 
+            // DesignReviewToolStrip
+            // 
+            this.DesignReviewToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripComboBox1,
+            this.toolStripButton8,
+            this.toolStripLabel2});
+            this.DesignReviewToolStrip.Location = new System.Drawing.Point(3, 3);
+            this.DesignReviewToolStrip.Name = "DesignReviewToolStrip";
+            this.DesignReviewToolStrip.Size = new System.Drawing.Size(1071, 25);
+            this.DesignReviewToolStrip.TabIndex = 3;
+            this.DesignReviewToolStrip.Text = "toolStrip2";
+            // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboBox1.Items.AddRange(new object[] {
+            "All assemblies"});
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(300, 25);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(80, 22);
+            this.toolStripLabel2.Text = "Assembly file:";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.tabControl3);
+            this.tabPage3.Controls.Add(this.toolStrip1);
+            this.tabPage3.ImageIndex = 2;
+            this.tabPage3.Location = new System.Drawing.Point(4, 31);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1077, 670);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "3D Review";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabControl3
             // 
@@ -840,8 +591,8 @@ namespace MechanicalSyncApp.UI.Forms
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridViewTextBoxColumn5.HeaderText = "Required change";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.Width = 500;
@@ -858,8 +609,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // dataGridViewTextBoxColumn6
             // 
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridViewTextBoxColumn6.HeaderText = "Designer comments";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.Width = 300;
@@ -871,7 +622,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage8.Location = new System.Drawing.Point(4, 31);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(1063, 604);
+            this.tabPage8.Size = new System.Drawing.Size(1069, 610);
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "Notes";
             this.tabPage8.ToolTipText = "Notes left by reviewers";
@@ -889,7 +640,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.dataGridView4.Location = new System.Drawing.Point(3, 3);
             this.dataGridView4.Name = "dataGridView4";
             this.dataGridView4.RowHeadersVisible = false;
-            this.dataGridView4.Size = new System.Drawing.Size(1057, 598);
+            this.dataGridView4.Size = new System.Drawing.Size(1063, 604);
             this.dataGridView4.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn7
@@ -909,6 +660,46 @@ namespace MechanicalSyncApp.UI.Forms
             this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn9.HeaderText = "Note";
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripComboBox2,
+            this.toolStripButton1,
+            this.toolStripLabel1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1077, 25);
+            this.toolStrip1.TabIndex = 6;
+            this.toolStrip1.Text = "toolStrip2";
+            // 
+            // toolStripComboBox2
+            // 
+            this.toolStripComboBox2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboBox2.Items.AddRange(new object[] {
+            "All assemblies"});
+            this.toolStripComboBox2.Name = "toolStripComboBox2";
+            this.toolStripComboBox2.Size = new System.Drawing.Size(300, 25);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(80, 22);
+            this.toolStripLabel1.Text = "Assembly file:";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.tabControl4);
+            this.tabPage4.Controls.Add(this.toolStrip2);
+            this.tabPage4.ImageIndex = 3;
+            this.tabPage4.Location = new System.Drawing.Point(4, 31);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(1077, 670);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Drawing review";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // tabControl4
             // 
@@ -967,8 +758,8 @@ namespace MechanicalSyncApp.UI.Forms
             // dataGridViewTextBoxColumn12
             // 
             this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle11;
             this.dataGridViewTextBoxColumn12.HeaderText = "Required change";
             this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
             this.dataGridViewTextBoxColumn12.Width = 500;
@@ -985,8 +776,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // dataGridViewTextBoxColumn13
             // 
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle12;
             this.dataGridViewTextBoxColumn13.HeaderText = "Designer comments";
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             this.dataGridViewTextBoxColumn13.Width = 300;
@@ -998,7 +789,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage10.Location = new System.Drawing.Point(4, 31);
             this.tabPage10.Name = "tabPage10";
             this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage10.Size = new System.Drawing.Size(1063, 604);
+            this.tabPage10.Size = new System.Drawing.Size(1069, 610);
             this.tabPage10.TabIndex = 1;
             this.tabPage10.Text = "Notes";
             this.tabPage10.ToolTipText = "Notes left by reviewers";
@@ -1016,7 +807,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.dataGridView6.Location = new System.Drawing.Point(3, 3);
             this.dataGridView6.Name = "dataGridView6";
             this.dataGridView6.RowHeadersVisible = false;
-            this.dataGridView6.Size = new System.Drawing.Size(1057, 598);
+            this.dataGridView6.Size = new System.Drawing.Size(1063, 604);
             this.dataGridView6.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn14
@@ -1037,26 +828,244 @@ namespace MechanicalSyncApp.UI.Forms
             this.dataGridViewTextBoxColumn16.HeaderText = "Note";
             this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
             // 
-            // toolStrip1
+            // toolStrip2
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripComboBox2,
-            this.toolStripButton1,
-            this.toolStripLabel1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1077, 25);
-            this.toolStrip1.TabIndex = 6;
-            this.toolStrip1.Text = "toolStrip2";
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripComboBox3,
+            this.toolStripButton11,
+            this.toolStripLabel5});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(1077, 25);
+            this.toolStrip2.TabIndex = 4;
+            this.toolStrip2.Text = "toolStrip2";
             // 
-            // toolStripComboBox2
+            // toolStripComboBox3
             // 
-            this.toolStripComboBox2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toolStripComboBox2.Items.AddRange(new object[] {
+            this.toolStripComboBox3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboBox3.Items.AddRange(new object[] {
             "All assemblies"});
-            this.toolStripComboBox2.Name = "toolStripComboBox2";
-            this.toolStripComboBox2.Size = new System.Drawing.Size(300, 25);
+            this.toolStripComboBox3.Name = "toolStripComboBox3";
+            this.toolStripComboBox3.Size = new System.Drawing.Size(300, 25);
+            // 
+            // toolStripLabel5
+            // 
+            this.toolStripLabel5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabel5.Name = "toolStripLabel5";
+            this.toolStripLabel5.Size = new System.Drawing.Size(80, 22);
+            this.toolStripLabel5.Text = "Assembly file:";
+            // 
+            // ProjectTabImages
+            // 
+            this.ProjectTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ProjectTabImages.ImageStream")));
+            this.ProjectTabImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.ProjectTabImages.Images.SetKeyName(0, "folder-24.png");
+            this.ProjectTabImages.Images.SetKeyName(1, "design-32.png");
+            this.ProjectTabImages.Images.SetKeyName(2, "3d-32.png");
+            this.ProjectTabImages.Images.SetKeyName(3, "document-32.png");
+            this.ProjectTabImages.Images.SetKeyName(4, "Icon-SOLIDWORKS.png");
+            this.ProjectTabImages.Images.SetKeyName(5, "review-icon-32.png");
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.ProjectFolderNameLabel);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1085, 25);
+            this.panel2.TabIndex = 18;
+            // 
+            // ProjectFolderNameLabel
+            // 
+            this.ProjectFolderNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ProjectFolderNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProjectFolderNameLabel.Location = new System.Drawing.Point(0, 0);
+            this.ProjectFolderNameLabel.Name = "ProjectFolderNameLabel";
+            this.ProjectFolderNameLabel.Size = new System.Drawing.Size(1085, 25);
+            this.ProjectFolderNameLabel.TabIndex = 17;
+            this.ProjectFolderNameLabel.Text = "220214NY-OBERG SML HEAD TOOLING";
+            this.ProjectFolderNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "pdf-32.png");
+            // 
+            // ReviewerListImages
+            // 
+            this.ReviewerListImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewerListImages.ImageStream")));
+            this.ReviewerListImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.ReviewerListImages.Images.SetKeyName(0, "flat-user-24.png");
+            // 
+            // ReviewerStateImages
+            // 
+            this.ReviewerStateImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewerStateImages.ImageStream")));
+            this.ReviewerStateImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.ReviewerStateImages.Images.SetKeyName(0, "thumbs-up-16.png");
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1385, 24);
+            this.menuStrip1.TabIndex = 17;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reviewToolStripMenuItem});
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.testToolStripMenuItem.Text = "Project";
+            // 
+            // reviewToolStripMenuItem
+            // 
+            this.reviewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.designToolStripMenuItem,
+            this.dToolStripMenuItem,
+            this.drawingsToolStripMenuItem});
+            this.reviewToolStripMenuItem.Name = "reviewToolStripMenuItem";
+            this.reviewToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.reviewToolStripMenuItem.Text = "Review";
+            // 
+            // designToolStripMenuItem
+            // 
+            this.designToolStripMenuItem.Name = "designToolStripMenuItem";
+            this.designToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.designToolStripMenuItem.Text = "Design";
+            // 
+            // dToolStripMenuItem
+            // 
+            this.dToolStripMenuItem.Name = "dToolStripMenuItem";
+            this.dToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.dToolStripMenuItem.Text = "3D";
+            // 
+            // drawingsToolStripMenuItem
+            // 
+            this.drawingsToolStripMenuItem.Name = "drawingsToolStripMenuItem";
+            this.drawingsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.drawingsToolStripMenuItem.Text = "Drawings";
+            // 
+            // RefreshVersionsButton
+            // 
+            this.RefreshVersionsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.RefreshVersionsButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
+            this.RefreshVersionsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshVersionsButton.Name = "RefreshVersionsButton";
+            this.RefreshVersionsButton.Size = new System.Drawing.Size(66, 22);
+            this.RefreshVersionsButton.Text = "Refresh";
+            this.RefreshVersionsButton.Click += new System.EventHandler(this.RefreshVersionsButton_Click);
+            // 
+            // RefreshLocalFilesButton
+            // 
+            this.RefreshLocalFilesButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
+            this.RefreshLocalFilesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshLocalFilesButton.Name = "RefreshLocalFilesButton";
+            this.RefreshLocalFilesButton.Size = new System.Drawing.Size(66, 22);
+            this.RefreshLocalFilesButton.Text = "Refresh";
+            this.RefreshLocalFilesButton.ToolTipText = "Refresh local files";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToClipboardToolStripMenuItem,
+            this.openInWindowsExplorerToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = global::MechanicalSyncApp.Properties.Resources.open_folder_24;
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(129, 22);
+            this.toolStripDropDownButton1.Text = "Containing folder";
+            // 
+            // copyToClipboardToolStripMenuItem
+            // 
+            this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
+            this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.copyToClipboardToolStripMenuItem.Text = "Copy path to clipboard";
+            // 
+            // openInWindowsExplorerToolStripMenuItem
+            // 
+            this.openInWindowsExplorerToolStripMenuItem.Name = "openInWindowsExplorerToolStripMenuItem";
+            this.openInWindowsExplorerToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.openInWindowsExplorerToolStripMenuItem.Text = "Open in Windows Explorer";
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.Image = global::MechanicalSyncApp.Properties.Resources.find_32;
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(50, 22);
+            this.toolStripButton5.Text = "Find";
+            this.toolStripButton5.ToolTipText = "Find a local file by its name or path";
+            // 
+            // SyncRemoteButton
+            // 
+            this.SyncRemoteButton.Image = global::MechanicalSyncApp.Properties.Resources.sync_24;
+            this.SyncRemoteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SyncRemoteButton.Name = "SyncRemoteButton";
+            this.SyncRemoteButton.Size = new System.Drawing.Size(93, 22);
+            this.SyncRemoteButton.Text = "Sync remote";
+            this.SyncRemoteButton.ToolTipText = "Send your local changes to remote server";
+            // 
+            // CloseVersionButton
+            // 
+            this.CloseVersionButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.CloseVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
+            this.CloseVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CloseVersionButton.Name = "CloseVersionButton";
+            this.CloseVersionButton.Size = new System.Drawing.Size(56, 22);
+            this.CloseVersionButton.Text = "Close";
+            // 
+            // WorkOfflineButton
+            // 
+            this.WorkOfflineButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.WorkOfflineButton.Image = global::MechanicalSyncApp.Properties.Resources.stop_32;
+            this.WorkOfflineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.WorkOfflineButton.Name = "WorkOfflineButton";
+            this.WorkOfflineButton.Size = new System.Drawing.Size(92, 22);
+            this.WorkOfflineButton.Text = "Work offline";
+            this.WorkOfflineButton.ToolTipText = "Stop monitoring your changes";
+            // 
+            // WorkOnlineButton
+            // 
+            this.WorkOnlineButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.WorkOnlineButton.Image = global::MechanicalSyncApp.Properties.Resources.start_32;
+            this.WorkOnlineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.WorkOnlineButton.Name = "WorkOnlineButton";
+            this.WorkOnlineButton.Size = new System.Drawing.Size(91, 22);
+            this.WorkOnlineButton.Text = "Work online";
+            this.WorkOnlineButton.ToolTipText = "Start monitoring your changes for automatic sync";
+            // 
+            // toolStripButton7
+            // 
+            this.toolStripButton7.Image = global::MechanicalSyncApp.Properties.Resources.merge_icon_24;
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(107, 22);
+            this.toolStripButton7.Text = "Publish version";
+            this.toolStripButton7.ToolTipText = "Publish revision changes";
+            // 
+            // TransferOwnershipButton
+            // 
+            this.TransferOwnershipButton.Image = global::MechanicalSyncApp.Properties.Resources.users_change_icon_24;
+            this.TransferOwnershipButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TransferOwnershipButton.Name = "TransferOwnershipButton";
+            this.TransferOwnershipButton.Size = new System.Drawing.Size(126, 22);
+            this.TransferOwnershipButton.Text = "Transfer ownership";
+            this.TransferOwnershipButton.ToolTipText = "Publish revision changes";
+            // 
+            // toolStripButton8
+            // 
+            this.toolStripButton8.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
+            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton8.Name = "toolStripButton8";
+            this.toolStripButton8.Size = new System.Drawing.Size(120, 22);
+            this.toolStripButton8.Text = "Submit for review";
+            this.toolStripButton8.ToolTipText = "Submit changes to selected reviewer for verification";
             // 
             // toolStripButton1
             // 
@@ -1067,12 +1076,14 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripButton1.Text = "Submit for review";
             this.toolStripButton1.ToolTipText = "Submit changes to selected reviewer for verification";
             // 
-            // toolStripLabel1
+            // toolStripButton11
             // 
-            this.toolStripLabel1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(80, 22);
-            this.toolStripLabel1.Text = "Assembly file:";
+            this.toolStripButton11.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
+            this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton11.Name = "toolStripButton11";
+            this.toolStripButton11.Size = new System.Drawing.Size(120, 22);
+            this.toolStripButton11.Text = "Submit for review";
+            this.toolStripButton11.ToolTipText = "Submit changes to selected reviewer for verification";
             // 
             // MainForm
             // 
@@ -1101,34 +1112,34 @@ namespace MechanicalSyncApp.UI.Forms
             this.SynchronizerToolStrip.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.tabPage6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.DesignReviewToolStrip.ResumeLayout(false);
             this.DesignReviewToolStrip.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.tabControl2.ResumeLayout(false);
-            this.tabPage6.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.tabControl3.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.tabPage8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.tabControl4.ResumeLayout(false);
             this.tabPage9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
             this.tabPage10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1228,5 +1239,6 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox2;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripButton TransferOwnershipButton;
     }
 }

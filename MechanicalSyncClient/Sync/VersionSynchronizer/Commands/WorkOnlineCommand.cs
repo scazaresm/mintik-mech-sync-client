@@ -36,10 +36,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 UI.WorkOfflineButton.Visible = true;
                 UI.SyncRemoteButton.Visible = false;
 
-                Synchronizer.SetState(new IndexLocalFiles());
+                Synchronizer.SetState(new IndexRemoteFilesState());
                 await Synchronizer.RunStepAsync();
 
-                Synchronizer.SetState(new IndexRemoteFilesState());
+                Synchronizer.SetState(new IndexLocalFiles());
                 await Synchronizer.RunStepAsync();
 
                 var syncCheckState = new SyncCheckState();
