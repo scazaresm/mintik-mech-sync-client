@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models.Request
 {
-    public class AcknowledgeVersionOwnershipRequest
+    public class CreatePublishJobRequest
     {
-        public string VersionId { get; set; }
-        public string SyncChecksum { get; set; }
+        public string VersionId { get; set; }         
     }
 }

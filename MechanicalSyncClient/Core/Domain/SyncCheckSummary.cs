@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +28,25 @@ namespace MechanicalSyncApp.Core.Domain
             ChangedFiles = new List<FileMetadata>();
             DeletedFiles = new List<FileMetadata>();
             CreatedFiles = new List<FileMetadata>();
+        }
+
+        public string CalculateSyncChecksum()
+        {
+            // Combine FileChecksum values from SyncedFiles list
+            StringBuilder combinedChecksum = new StringBuilder();
+            foreach (var fileMetadata in SyncedFiles)
+                combinedChecksum.Append(fileMetadata.FileChecksum);
+
+            // Calculate SHA-256 hash of the combined checksum values
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] combinedChecksumBytes = Encoding.UTF8.GetBytes(combinedChecksum.ToString());
+                byte[] hashBytes = sha256.ComputeHash(combinedChecksumBytes);
+
+                // Convert the hash bytes to a lowercase hexadecimal string
+                string hexString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                return hexString;
+            }
         }
     }
 }

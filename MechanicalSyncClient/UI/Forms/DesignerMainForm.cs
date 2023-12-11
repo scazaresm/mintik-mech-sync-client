@@ -6,19 +6,20 @@ using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
+using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
 {
-    public partial class MainForm : Form
+    public partial class DesignerMainForm : Form
     {
         private IVersionSynchronizer synchronizer;
         private WorkspaceTreeView workspace;
         private VersionSynchronizerUI synchronizerUI;
 
-        public MainForm()
+        public DesignerMainForm()
         {
             InitializeComponent();
             workspace = new WorkspaceTreeView(MechSyncServiceClient.Instance, @"D:\sync_demo");
@@ -26,7 +27,7 @@ namespace MechanicalSyncApp.UI.Forms
             workspace.OpenVersion += Workspace_OpenVersion;
         }
 
-        private void Workspace_OpenVersion(object sender, OpenVersionEventArgs e)
+        private async void Workspace_OpenVersion(object sender, OpenVersionEventArgs e)
         {
             var version = e.Version;
             if (version is null)
@@ -53,6 +54,7 @@ namespace MechanicalSyncApp.UI.Forms
                     SyncRemoteButton = SyncRemoteButton,
                     RefreshLocalFilesButton = RefreshLocalFilesButton,
                     CloseVersionButton = CloseVersionButton,
+                    PublishVersionButton = PublishVersionButton,
                     TransferOwnershipButton = TransferOwnershipButton,
                     SyncProgressBar = SyncProgressBar,
                     MainSplitContainer = MainSplitContainer,
@@ -61,15 +63,32 @@ namespace MechanicalSyncApp.UI.Forms
                 // create a new version synchronizer
                 synchronizer = new VersionSynchronizer(version, synchronizerUI);
 
-                // show progress in a dialog...
-                var openVersionDialog = new OpenVersionDialog(synchronizer);
-
-                if (openVersionDialog.ShowDialog() == DialogResult.OK)
+                try
                 {
+                    await synchronizer.OpenVersionAsync();
                     ShowVersionExplorer();
                 }
-                else
+                catch (OpenVersionCanceledException)
                 {
+                    // abort if download cancelled
+                    synchronizer.Dispose();
+                    synchronizer = null;
+                }
+                catch (VersionFolderAlreadyExistsException)
+                {
+                    // abort if folder already exists and user didn't accept moving it to recycle bin
+                    synchronizer.Dispose();
+                    synchronizer = null;
+                }
+                catch (VersionOwnershipNotAcknowledgedException)
+                {
+                    // abort if user did not acknowledge version ownership
+                    synchronizer.Dispose();
+                    synchronizer = null;
+                }
+                catch (NotVersionOwnerException)
+                {
+                    // abort if user is not owner
                     synchronizer.Dispose();
                     synchronizer = null;
                 }
@@ -82,6 +101,8 @@ namespace MechanicalSyncApp.UI.Forms
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                 );
+                synchronizer.Dispose();
+                synchronizer = null;
             }
         }
 

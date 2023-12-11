@@ -11,7 +11,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
     public class WorkOnlineCommand : VersionSynchronizerCommandAsync
     {
-        public VersionSynchronizer Synchronizer { get; private set; }
+        public IVersionSynchronizer Synchronizer { get; private set; }
 
         public WorkOnlineCommand(VersionSynchronizer synchronizer)
         {

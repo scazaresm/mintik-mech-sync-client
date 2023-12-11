@@ -10,7 +10,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
     internal class WorkOfflineCommand : VersionSynchronizerCommandAsync
     {
-        public VersionSynchronizer Synchronizer { get; private set; }
+        public IVersionSynchronizer Synchronizer { get; private set; }
 
         public WorkOfflineCommand(VersionSynchronizer synchronizer)
         {

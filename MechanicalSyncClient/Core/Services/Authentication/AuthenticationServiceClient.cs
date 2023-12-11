@@ -4,6 +4,7 @@ using MechanicalSyncApp.Core.Services.Authentication.Models;
 using MechanicalSyncApp.Core.Services.Authentication.Models.Request;
 using MechanicalSyncApp.Core.Services.Authentication.Models.Response;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace MechanicalSyncApp.Core.Services.Authentication
         private AuthenticationServiceClient()
         {
             _restClient = new HttpClient();
-            _restClient.BaseAddress = new Uri("http://192.168.100.6/api/authentication/");
+            _restClient.BaseAddress = new Uri("http://192.168.100.10:8080/api/authentication/");
             _restClient.Timeout = TimeSpan.FromSeconds(5);
         }
         #endregion
@@ -72,6 +73,16 @@ namespace MechanicalSyncApp.Core.Services.Authentication
             _authenticationTokenDatetime = DateTime.Now;
 
             return response;
+        }
+
+        public async Task<UserDetails> GetUserDetailsAsync(string userId)
+        {
+            return await new GetUserDetailsHandler(_restClient, userId).HandleAsync();
+        }
+
+        public Task<List<UserDetails>> GetAllUserDetailsAsync()
+        {
+            return new GetAllUserDetailsHandler(_restClient).HandleAsync();
         }
 
         #region Dispose pattern

@@ -6,6 +6,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI;
+using MechanicalSyncApp.UI.Forms;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Concurrent;
@@ -77,9 +78,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         #region Commands
 
-        public async Task OpenVersionAsync(Label status, ProgressBar progress)
+        public async Task OpenVersionAsync()
         {
-            await new OpenVersionCommand(this, status, progress).RunAsync();
+            await new OpenVersionCommand(this).RunAsync();
         }
 
         public async Task WorkOnlineAsync()
@@ -100,6 +101,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public async Task CloseVersionAsync()
         {
             await new CloseVersionCommand(this).RunAsync();
+        }
+
+        public async Task PublishVersionAsync()
+        {
+            await new PublishVersionCommand(this).RunAsync();
         }
 
         public async Task TransferOwnershipAsync()
@@ -131,6 +137,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
             UI.RefreshLocalFilesButton.Click += RefreshLocalFilesButton_Click;
             UI.CloseVersionButton.Click += CloseVersionButton_Click;
+            UI.PublishVersionButton.Click += PublishVersionButton_Click;
             UI.TransferOwnershipButton.Click += TransferOwnershipButton_Click;
         }
 
@@ -165,6 +172,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await CloseVersionAsync();
         }
 
+        private async void PublishVersionButton_Click(object sender, EventArgs e)
+        {
+            await PublishVersionAsync();
+        }
+
         private async void TransferOwnershipButton_Click(object sender, EventArgs e)
         {
             await TransferOwnershipAsync();
@@ -181,6 +193,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.SyncRemoteButton.Click -= SyncRemoteButton_Click;
             UI.RefreshLocalFilesButton.Click -= RefreshLocalFilesButton_Click;
             UI.CloseVersionButton.Click -= CloseVersionButton_Click;
+            UI.PublishVersionButton.Click -= PublishVersionButton_Click;
             UI.TransferOwnershipButton.Click -= TransferOwnershipButton_Click;
         }
 

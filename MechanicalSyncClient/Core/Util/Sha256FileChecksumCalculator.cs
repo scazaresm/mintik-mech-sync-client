@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Util
 {
-    public class Sha256ChecksumCalculator : IChecksumCalculator
+    public class Sha256FileChecksumCalculator : IFileChecksumCalculator
     {
         public string CalculateChecksum(string filePath)
         {

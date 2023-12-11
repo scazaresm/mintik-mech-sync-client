@@ -20,5 +20,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task<Models.Version> AcknowledgeVersionOwnershipAsync(AcknowledgeVersionOwnershipRequest request);
         Task<GetMyOngoingVersionsResponse> GetMyOngoingVersionsAsync();
         Task<Project> GetProjectAsync(string projectId);
+        Task<PublishJob> GetPublishJobAsync(string publishJobId);
+        Task<PublishJob> CreatePublishJobAsync(CreatePublishJobRequest request);
     }
 }

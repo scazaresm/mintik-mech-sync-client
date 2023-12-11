@@ -103,6 +103,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap data_center {
+            get {
+                object obj = ResourceManager.GetObject("data-center", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap download_32 {
             get {
                 object obj = ResourceManager.GetObject("download-32", resourceCulture);
@@ -116,6 +126,36 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap download_icon_24 {
             get {
                 object obj = ResourceManager.GetObject("download-icon-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap error_icon_48 {
+            get {
+                object obj = ResourceManager.GetObject("error-icon-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap file_nok_48 {
+            get {
+                object obj = ResourceManager.GetObject("file-nok-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap file_ok_48 {
+            get {
+                object obj = ResourceManager.GetObject("file-ok-48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +223,29 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ok_icon_48 {
+            get {
+                object obj = ResourceManager.GetObject("ok-icon-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap open_folder_24 {
             get {
                 object obj = ResourceManager.GetObject("open-folder-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap paper_plane_48 {
+            get {
+                object obj = ResourceManager.GetObject("paper-plane-48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -226,6 +286,16 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap save_icon_24 {
             get {
                 object obj = ResourceManager.GetObject("save-icon-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap scheduled_48 {
+            get {
+                object obj = ResourceManager.GetObject("scheduled-48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

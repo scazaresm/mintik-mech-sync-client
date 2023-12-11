@@ -1,6 +1,6 @@
 ﻿namespace MechanicalSyncApp.UI.Forms
 {
-    partial class OpenVersionDialog
+    partial class OpenVersionProgressDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
             this.Progress = new System.Windows.Forms.ProgressBar();
             this.Status = new System.Windows.Forms.Label();
             this.OpeningLegend = new System.Windows.Forms.Label();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.CancelBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Progress
@@ -60,31 +60,34 @@
             this.OpeningLegend.TabIndex = 2;
             this.OpeningLegend.Text = "Opening ";
             // 
-            // CancelButton
+            // CancelBtn
             // 
-            this.CancelButton.Location = new System.Drawing.Point(430, 145);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 3;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelBtn.Location = new System.Drawing.Point(430, 145);
+            this.CancelBtn.Name = "CancelBtn";
+            this.CancelBtn.Size = new System.Drawing.Size(75, 23);
+            this.CancelBtn.TabIndex = 3;
+            this.CancelBtn.Text = "Cancel";
+            this.CancelBtn.UseVisualStyleBackColor = true;
+            this.CancelBtn.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // OpenVersionDialog
+            // OpenVersionProgressDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.CancelBtn;
             this.ClientSize = new System.Drawing.Size(517, 180);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.CancelBtn);
             this.Controls.Add(this.OpeningLegend);
             this.Controls.Add(this.Status);
             this.Controls.Add(this.Progress);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "OpenVersionDialog";
+            this.Name = "OpenVersionProgressDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "nenext";
+            this.Text = "Open version";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OpenVersionProgressDialog_FormClosing);
             this.Load += new System.EventHandler(this.InitializeVersionSynchronizerForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -96,6 +99,6 @@
         private System.Windows.Forms.ProgressBar Progress;
         private System.Windows.Forms.Label Status;
         private System.Windows.Forms.Label OpeningLegend;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button CancelBtn;
     }
 }

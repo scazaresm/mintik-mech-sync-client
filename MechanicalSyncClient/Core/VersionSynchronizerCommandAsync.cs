@@ -9,7 +9,7 @@ namespace MechanicalSyncApp.Core
 {
     public interface VersionSynchronizerCommandAsync
     {
-        VersionSynchronizer Synchronizer { get; }
+        IVersionSynchronizer Synchronizer { get; }
 
         Task RunAsync();
     }

@@ -31,7 +31,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
             ui.WorkOnlineButton.Visible = false;
 
-            ui.WorkOfflineButton.Enabled = Synchronizer.ChangeMonitor.IsMonitoring();
+            ui.WorkOfflineButton.Enabled = false;
             ui.WorkOfflineButton.Visible = true;
         }
 
@@ -79,11 +79,15 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                     // we still in online mode but an error occurred, let's retry
                     Synchronizer.SetState(this);
                 }
-                else
+                else if(monitor.IsMonitoring() && !syncErrorOccurred)
                 { 
-                    // TODO: write sync history
-
+                    // we still in online mode without errors, keep monitoring
                     Synchronizer.SetState(new MonitorFileSyncEventsState());
+                }
+                else
+                {
+                    // we are in offline mode, stop monitoring
+                    Synchronizer.SetState(new IdleState());
                 }
                 _ = Synchronizer.RunStepAsync();
             }

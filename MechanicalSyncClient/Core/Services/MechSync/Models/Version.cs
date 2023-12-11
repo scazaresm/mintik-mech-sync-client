@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models
 {
@@ -23,6 +20,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public DateTime CreatedAt { get; set; }
         public List<VersionOwner> OwnerHistory { get; set; }
         public List<FileMetadata> FinalFileMetadata { get; set; }
-
+        public string PublishJobId { get; set; }
     }
 }

@@ -64,7 +64,7 @@ namespace MechanicalSyncApp.Core.Util
 
         private async Task IndexFileAsync(string filePath)
         {
-            var fileChecksum = await new Sha256ChecksumCalculator().CalculateChecksumAsync(filePath);
+            var fileChecksum = await new Sha256FileChecksumCalculator().CalculateChecksumAsync(filePath);
 
             string relativeFilePath = filePath.Replace(directoryPath + Path.DirectorySeparatorChar, "");
             relativeFilePath = relativeFilePath.Replace(Path.DirectorySeparatorChar, '/');

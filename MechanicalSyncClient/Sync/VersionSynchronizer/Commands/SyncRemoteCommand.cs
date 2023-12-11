@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
     public class SyncRemoteCommand : VersionSynchronizerCommandAsync
     {
-        public VersionSynchronizer Synchronizer { get; private set; }
+        public IVersionSynchronizer Synchronizer { get; private set; }
+
+        public SyncCheckSummary Summary { get; set; }
 
         public bool ConfirmBeforeSync { get; set; } = true;
         public bool NotifyWhenComplete { get; set; } = true;
 
-        public SyncRemoteCommand(VersionSynchronizer synchronizer)
+        public SyncRemoteCommand(IVersionSynchronizer synchronizer)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
         }
@@ -40,7 +43,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.SetState(syncCheckState);
                 await Synchronizer.RunStepAsync();
 
-                if (syncCheckState.Summary.HasChanges)
+                Summary = syncCheckState.Summary;
+
+                if (Summary.HasChanges)
                 {
                     if(ConfirmBeforeSync)
                     {

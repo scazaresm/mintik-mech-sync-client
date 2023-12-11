@@ -1,7 +1,7 @@
 ﻿
 namespace MechanicalSyncApp.UI.Forms
 {
-    partial class MainForm
+    partial class DesignerMainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,23 +30,23 @@ namespace MechanicalSyncApp.UI.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DesignerMainForm));
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Deleted",
             "other"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.WorkspaceTreeView = new System.Windows.Forms.TreeView();
@@ -136,7 +136,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.CloseVersionButton = new System.Windows.Forms.ToolStripButton();
             this.WorkOfflineButton = new System.Windows.Forms.ToolStripButton();
             this.WorkOnlineButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.PublishVersionButton = new System.Windows.Forms.ToolStripButton();
             this.TransferOwnershipButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -254,21 +254,21 @@ namespace MechanicalSyncApp.UI.Forms
             this.columnHeader1,
             this.columnHeader2});
             this.FileViewerListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            listViewGroup4.Header = "Assemblies";
-            listViewGroup4.Name = "assembliesGroup";
-            listViewGroup5.Header = "Parts";
-            listViewGroup5.Name = "partsGroup";
-            listViewGroup6.Header = "Drawings";
-            listViewGroup6.Name = "drawingsGroup";
+            listViewGroup1.Header = "Assemblies";
+            listViewGroup1.Name = "assembliesGroup";
+            listViewGroup2.Header = "Parts";
+            listViewGroup2.Name = "partsGroup";
+            listViewGroup3.Header = "Drawings";
+            listViewGroup3.Name = "drawingsGroup";
             this.FileViewerListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4,
-            listViewGroup5,
-            listViewGroup6});
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
             this.FileViewerListView.HideSelection = false;
-            listViewItem3.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.FileViewerListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3,
-            listViewItem4});
+            listViewItem1,
+            listViewItem2});
             this.FileViewerListView.Location = new System.Drawing.Point(3, 28);
             this.FileViewerListView.MultiSelect = false;
             this.FileViewerListView.Name = "FileViewerListView";
@@ -328,7 +328,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripSeparator2,
             this.WorkOfflineButton,
             this.WorkOnlineButton,
-            this.toolStripButton7,
+            this.PublishVersionButton,
             this.TransferOwnershipButton});
             this.SynchronizerToolStrip.Location = new System.Drawing.Point(3, 3);
             this.SynchronizerToolStrip.Name = "SynchronizerToolStrip";
@@ -417,8 +417,8 @@ namespace MechanicalSyncApp.UI.Forms
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle1;
             this.Column2.HeaderText = "Required change";
             this.Column2.Name = "Column2";
             this.Column2.Width = 500;
@@ -435,8 +435,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // Column4
             // 
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle2;
             this.Column4.HeaderText = "Designer comments";
             this.Column4.Name = "Column4";
             this.Column4.Width = 300;
@@ -591,8 +591,8 @@ namespace MechanicalSyncApp.UI.Forms
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewTextBoxColumn5.HeaderText = "Required change";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.Width = 500;
@@ -609,8 +609,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // dataGridViewTextBoxColumn6
             // 
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewTextBoxColumn6.HeaderText = "Designer comments";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.Width = 300;
@@ -758,8 +758,8 @@ namespace MechanicalSyncApp.UI.Forms
             // dataGridViewTextBoxColumn12
             // 
             this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridViewTextBoxColumn12.HeaderText = "Required change";
             this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
             this.dataGridViewTextBoxColumn12.Width = 500;
@@ -776,8 +776,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // dataGridViewTextBoxColumn13
             // 
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewTextBoxColumn13.HeaderText = "Designer comments";
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             this.dataGridViewTextBoxColumn13.Width = 300;
@@ -1040,14 +1040,14 @@ namespace MechanicalSyncApp.UI.Forms
             this.WorkOnlineButton.Text = "Work online";
             this.WorkOnlineButton.ToolTipText = "Start monitoring your changes for automatic sync";
             // 
-            // toolStripButton7
+            // PublishButton
             // 
-            this.toolStripButton7.Image = global::MechanicalSyncApp.Properties.Resources.merge_icon_24;
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(107, 22);
-            this.toolStripButton7.Text = "Publish version";
-            this.toolStripButton7.ToolTipText = "Publish revision changes";
+            this.PublishVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.merge_icon_24;
+            this.PublishVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.PublishVersionButton.Name = "PublishButton";
+            this.PublishVersionButton.Size = new System.Drawing.Size(107, 22);
+            this.PublishVersionButton.Text = "Publish version";
+            this.PublishVersionButton.ToolTipText = "Publish revision changes";
             // 
             // TransferOwnershipButton
             // 
@@ -1085,15 +1085,16 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripButton11.Text = "Submit for review";
             this.toolStripButton11.ToolTipText = "Submit changes to selected reviewer for verification";
             // 
-            // MainForm
+            // DesignerMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1385, 754);
             this.Controls.Add(this.MainSplitContainer);
             this.Controls.Add(this.menuStrip1);
-            this.Name = "MainForm";
-            this.Text = "Mechanical Sync Designer";
+            this.Name = "DesignerMainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Mechanical Sync";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.DemoForm_Load);
             this.MainSplitContainer.Panel1.ResumeLayout(false);
@@ -1178,7 +1179,7 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ImageList ReviewerStateImages;
         private System.Windows.Forms.ImageList ReviewArtifactsTabImages;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton toolStripButton7;
+        private System.Windows.Forms.ToolStripButton PublishVersionButton;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox3;
         private System.Windows.Forms.ToolStripButton toolStripButton11;

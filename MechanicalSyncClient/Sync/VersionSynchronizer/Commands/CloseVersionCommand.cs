@@ -10,9 +10,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
     public class CloseVersionCommand : VersionSynchronizerCommandAsync
     {
-        public VersionSynchronizer Synchronizer {  get; set; }
+        public IVersionSynchronizer Synchronizer {  get; set; }
 
-        public CloseVersionCommand(VersionSynchronizer synchronizer)
+        public CloseVersionCommand(IVersionSynchronizer synchronizer)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
         }

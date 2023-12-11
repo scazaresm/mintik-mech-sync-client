@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Util
 {
-    public interface IChecksumCalculator
+    public interface IFileChecksumCalculator
     {
         string CalculateChecksum(string filePath);
         Task<string> CalculateChecksumAsync(string filePath);

@@ -14,20 +14,21 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>publish\</PublishUrl>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\Sergio Cazares\Desktop\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -49,6 +50,21 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>6B06521DD9E499DF13DE4323839638D88A30D74C</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>MechanicalSyncApp_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="eDrawings.Interop.EModelMarkupControl">
@@ -92,10 +108,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Services\Authentication\Handlers\GetAllUserDetailsHandler.cs" />
+    <Compile Include="Core\Services\Authentication\Handlers\GetUserDetailsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\AcknowledgeVersionOwnershipHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\CreatePublishJobHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetPublishJobHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\TransferVersionOwnershipHandler.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\AcknowledgeVersionOwnershipRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\CreatePublishJobRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\TransferVersionOwnershipRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\PublishJob.cs" />
     <Compile Include="Core\Util\ConcurrentLocalFileIndexer.cs" />
     <Compile Include="Core\Domain\FileSyncStatus.cs" />
     <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
@@ -115,11 +137,13 @@
     <Compile Include="Core\VersionSynchronizerCommandAsync.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\PublishVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\SyncRemoteCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\TransferOwnershipCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\WorkOfflineCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\WorkOnlineCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Exceptions\NotVersionOwnerException.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Exceptions\OpenVersionCanceledException.cs" />
     <Compile Include="Sync\VersionSynchronizer\Exceptions\VersionFolderAlreadyExistsException.cs" />
     <Compile Include="Sync\VersionSynchronizer\Exceptions\VersionOwnershipNotAcknowledgedException.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IdleState.cs" />
@@ -134,17 +158,29 @@
       <DependentUpon>DesignFileViewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\IUserInterfaceCommand.cs" />
-    <Compile Include="UI\Forms\OpenVersionForm.cs">
+    <Compile Include="UI\Forms\OpenVersionProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\OpenVersionForm.Designer.cs">
-      <DependentUpon>OpenVersionForm.cs</DependentUpon>
+    <Compile Include="UI\Forms\OpenVersionProgressDialog.Designer.cs">
+      <DependentUpon>OpenVersionProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Forms\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\PublishVersionConfirmationDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\PublishVersionConfirmationDialog.Designer.cs">
+      <DependentUpon>PublishVersionConfirmationDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\PublishVersionProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\PublishVersionProgressDialog.Designer.cs">
+      <DependentUpon>PublishVersionProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\UserSelectorForm.cs">
       <SubType>Form</SubType>
@@ -179,8 +215,8 @@
     <Compile Include="Core\IVersionChangeMonitor.cs" />
     <Compile Include="Core\IVersionSynchronizer.cs" />
     <Compile Include="Core\Util\JsonUtils.cs" />
-    <Compile Include="Core\Util\Sha256ChecksumCalculator.cs" />
-    <Compile Include="Core\Util\IChecksumCalculator.cs" />
+    <Compile Include="Core\Util\Sha256FileChecksumCalculator.cs" />
+    <Compile Include="Core\Util\IFileChecksumCalculator.cs" />
     <Compile Include="Core\Services\MechSync\MechSyncServiceClient.cs" />
     <Compile Include="Core\Util\ProgressStream.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DownloadFileWithProgressHandler.cs" />
@@ -195,32 +231,23 @@
     <Compile Include="Sync\VersionSynchronizer\States\HandleFileSyncEventsState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\SyncCheckState.cs" />
     <Compile Include="UI\FileListViewControl.cs" />
-    <Compile Include="UI\Forms\MainForm.cs">
+    <Compile Include="UI\Forms\DesignerMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Forms\LocalProjectForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Forms\LocalProjectForm.Designer.cs">
-      <DependentUpon>LocalProjectForm.cs</DependentUpon>
+    <Compile Include="UI\Forms\DesignerMainForm.Designer.cs">
+      <DependentUpon>DesignerMainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\WorkspaceTreeView.cs" />
-    <EmbeddedResource Include="UI\Forms\OpenVersionForm.resx">
-      <DependentUpon>OpenVersionForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Forms\OpenVersionProgressDialog.resx">
+      <DependentUpon>OpenVersionProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Forms\DesignerMainForm.resx">
+      <DependentUpon>DesignerMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\DesignFileViewerForm.resx">
       <DependentUpon>DesignFileViewerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\LocalProjectForm.resx">
-      <DependentUpon>LocalProjectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -235,9 +262,16 @@
     <EmbeddedResource Include="UI\Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\PublishVersionConfirmationDialog.resx">
+      <DependentUpon>PublishVersionConfirmationDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\PublishVersionProgressDialog.resx">
+      <DependentUpon>PublishVersionProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\UserSelectorForm.resx">
       <DependentUpon>UserSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="MechanicalSyncApp_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -344,6 +378,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\users-change-icon-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\data-center.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file-ok-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file-nok-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\scheduled-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paper-plane-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok-icon-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error-icon-48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -2,6 +2,7 @@
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
+using MechanicalSyncApp.UI.Forms;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -32,11 +33,12 @@ namespace MechanicalSyncApp.Core
         Task RunStepAsync();
 
         // Commands
-        Task OpenVersionAsync(Label statusText, ProgressBar progress);
+        Task OpenVersionAsync();
         Task WorkOnlineAsync();
         Task WorkOfflineAsync();
         Task SyncRemoteAsync();
         Task CloseVersionAsync();
+        Task PublishVersionAsync();
         Task TransferOwnershipAsync();
 
         // UI related methods
