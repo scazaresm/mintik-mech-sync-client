@@ -12,11 +12,11 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
 {
-    public partial class PublishVersionConfirmationDialog : Form
+    public partial class PublishVersionVerificationDialog : Form
     {
         private readonly IVersionSynchronizer synchronizer;
 
-        public PublishVersionConfirmationDialog(IVersionSynchronizer synchronizer)
+        public PublishVersionVerificationDialog(IVersionSynchronizer synchronizer)
         {
             InitializeComponent();
             this.synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));

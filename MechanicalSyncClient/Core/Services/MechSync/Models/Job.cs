@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models
 {
-    public class PublishJob
+    public class Job
     {
         [JsonProperty("_id")]
         public string Id { get; set; }
+        public string JobType { get; set; }
         public string VersionId { get; set; }
         public string Status { get; set; }
         public string QueuedBy { get; set; }         

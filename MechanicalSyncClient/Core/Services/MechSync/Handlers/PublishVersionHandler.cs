@@ -1,8 +1,7 @@
-﻿using MechanicalSyncApp.Core.Services.Authentication.Models;
-using MechanicalSyncApp.Core.Services.MechSync.Models;
+﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
+using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using MechanicalSyncApp.Core.Util;
-using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,27 +12,25 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 {
-    public class GetPublishJobHandler
+    public class PublishVersionHandler
     {
         private readonly HttpClient client;
-        private readonly string publishJobId;
+        private readonly PublishVersionRequest request;
 
-        public GetPublishJobHandler(HttpClient client, string publishJobId)
+        public PublishVersionHandler(HttpClient client, PublishVersionRequest request)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
-            this.publishJobId = publishJobId;
+            this.request = request ?? throw new ArgumentNullException(nameof(request));
         }
 
-        public async Task<PublishJob> HandleAsync()
+        public async Task<Job> HandleAsync()
         {
-            var queryParameters = new Dictionary<string, string>
-            {
-                { "publishJobId", publishJobId },
-            };
+            string jsonRequest = JsonUtils.SerializeWithCamelCase(request);
 
-            var uri = new QueryUriGenerator("versions/publish", queryParameters).Generate();
-
-            HttpResponseMessage response = await client.GetAsync(uri);
+            HttpResponseMessage response = await client.PostAsync(
+                "versions/publish",
+                new StringContent(jsonRequest, Encoding.UTF8, "application/json")
+            );
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
@@ -43,7 +40,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                     $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
                 );
             }
-            return JsonConvert.DeserializeObject<PublishJob>(responseContent);
+            return JsonConvert.DeserializeObject<Job>(responseContent);
         }
     }
 }

@@ -109,14 +109,14 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             return await new AcknowledgeVersionOwnershipHandler(_restClient, request).HandleAsync();
         }
 
-        public async Task<PublishJob> GetPublishJobAsync(string publishJobId)
+        public async Task<Job> GetJobAsync(string jobId)
         {
-            return await new GetPublishJobHandler(_restClient, publishJobId).HandleAsync();
+            return await new GetJobHandler(_restClient, jobId).HandleAsync();
         }
 
-        public async Task<PublishJob> CreatePublishJobAsync(CreatePublishJobRequest request)
+        public async Task<Job> PublishVersionAsync(PublishVersionRequest request)
         {
-            return await new CreatePublishJobHandler(_restClient, request).HandleAsync();
+            return await new PublishVersionHandler(_restClient, request).HandleAsync();
         }
 
         #region Disposing pattern

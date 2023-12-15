@@ -1,6 +1,6 @@
 ﻿namespace MechanicalSyncApp.UI.Forms
 {
-    partial class PublishVersionConfirmationDialog
+    partial class PublishVersionVerificationDialog
     {
         /// <summary>
         /// Required designer variable.

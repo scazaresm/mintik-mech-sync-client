@@ -10,57 +10,73 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MechanicalSyncApp.UI.Forms
 {
     public partial class PublishVersionProgressDialog : Form
     {
-        public bool IsSuccess { get; set; }
+        public bool IsPublishingComplete { get; set; }
+        public bool IsPublishingSuccess { get; set; }
 
-        private readonly IVersionSynchronizer synchronizer;
+        private readonly string publishingJobId;
 
-        public PublishVersionProgressDialog(IVersionSynchronizer synchronizer)
+        public PublishVersionProgressDialog(string publishingJobId)
         {
             InitializeComponent();
-            this.synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
-        }
-        private async void PublishVersionProgressDialog_Load(object sender, EventArgs e)
-        {
-            await UpdateDetailsAsync();
+            this.publishingJobId = publishingJobId;
         }
 
-        private async Task UpdateDetailsAsync()
+        private async void PublishVersionProgressDialog_Load(object sender, EventArgs e)
         {
-            string publishJobId = synchronizer.Version.RemoteVersion.PublishJobId;
-            PublishJob publishJob;
-            List<string> completeStatuses = new List<string> { "published", "error" };
+            await UpdatePublishingDetailsAsync();
+        }
+
+        private async Task UpdatePublishingDetailsAsync()
+        {
+            OkButton.Enabled = false;
+            Job publishingJob;
+            List<string> completeStatuses = new List<string> { "processed", "error" };
 
             do
             {
-                publishJob = await MechSyncServiceClient.Instance.GetPublishJobAsync(publishJobId);
-                InstructionsLabel.Text = GetInstructions(publishJob.Status);
-                StatusLabel.Text = publishJob.Status;
-                StatusPicture.Image = GetStatusImage(publishJob.Status);
+                try
+                {
+                    publishingJob = await MechSyncServiceClient.Instance.GetJobAsync(publishingJobId);
 
-                await Task.Delay(500);
+                    PublishingInstructionsLabel.Text = GetPublishingInstructions(publishingJob.Status);
+                    PublishingStatusLabel.Text = GetPublishingStatus(publishingJob.Status);
+                    PublishingStatusPictureBox.Image = GetPublishingStatusImage(publishingJob.Status);
+
+                    await Task.Delay(500);
+
+                    IsPublishingComplete = publishingJob != null && completeStatuses.Contains(publishingJob.Status.ToLower());
+                    IsPublishingSuccess = publishingJob != null && publishingJob.Status.ToLower() == "processed";
+                } 
+                catch (Exception)
+                {
+                    PublishingInstructionsLabel.Text = "We couldn't get updates from server, hold on...";
+                    PublishingStatusLabel.Text = "Retrying...";
+                    PublishingStatusPictureBox.Image = Properties.Resources.error_icon_48;
+                }
             }
-            while (publishJob != null && !completeStatuses.Contains(publishJob.Status.ToLower()));
+            while (!IsPublishingComplete);
 
-            IsSuccess = publishJob.Status.ToLower() == "published";
+            OkButton.Enabled = true;
         }
 
-        private string GetInstructions(string status)
+        private string GetPublishingInstructions(string jobStatus)
         {
-            switch (status.ToLower())
+            switch (jobStatus.ToLower())
             {
                 case "queued": 
                     return "Hold on while we publish your changes...";
 
-                case "publishing":
-                    return "We still working on publishing your changes...";
+                case "processing":
+                    return "Almost there, we still working on publishing your changes...";
 
-                case "published":
-                    return "Thanks for your contribution!";
+                case "processed":
+                    return "Thanks for your work contribution!";
 
                 case "error":
                 default:
@@ -68,13 +84,32 @@ namespace MechanicalSyncApp.UI.Forms
             }
         }
 
-        private Bitmap GetStatusImage(string status)
+        private string GetPublishingStatus(string jobStatus)
+        {
+            switch (jobStatus.ToLower())
+            {
+                case "queued":
+                    return "Getting ready...";
+
+                case "processing":
+                    return "Publishing...";
+
+                case "processed":
+                    return "Published!";
+
+                case "error":
+                default:
+                    return "Error";
+            }
+        }
+
+        private Bitmap GetPublishingStatusImage(string status)
         {
             switch(status.ToLower())
             {
-                case "queued": return Properties.Resources.scheduled_48;
-                case "publishing": return Properties.Resources.paper_plane_48;
-                case "published": return Properties.Resources.ok_icon_48;
+                case "queued": return Properties.Resources.scheduled_48; 
+                case "processing": return Properties.Resources.paper_plane_48;
+                case "processed": return Properties.Resources.ok_icon_48;
 
                 case "error":
                 default: 
@@ -84,7 +119,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            if (IsSuccess) DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
     }
 }

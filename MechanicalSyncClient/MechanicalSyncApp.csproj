@@ -111,13 +111,13 @@
     <Compile Include="Core\Services\Authentication\Handlers\GetAllUserDetailsHandler.cs" />
     <Compile Include="Core\Services\Authentication\Handlers\GetUserDetailsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\AcknowledgeVersionOwnershipHandler.cs" />
-    <Compile Include="Core\Services\MechSync\Handlers\CreatePublishJobHandler.cs" />
-    <Compile Include="Core\Services\MechSync\Handlers\GetPublishJobHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\PublishVersionHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetJobHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\TransferVersionOwnershipHandler.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\AcknowledgeVersionOwnershipRequest.cs" />
-    <Compile Include="Core\Services\MechSync\Models\Request\CreatePublishJobRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\PublishVersionRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\TransferVersionOwnershipRequest.cs" />
-    <Compile Include="Core\Services\MechSync\Models\PublishJob.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Job.cs" />
     <Compile Include="Core\Util\ConcurrentLocalFileIndexer.cs" />
     <Compile Include="Core\Domain\FileSyncStatus.cs" />
     <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
