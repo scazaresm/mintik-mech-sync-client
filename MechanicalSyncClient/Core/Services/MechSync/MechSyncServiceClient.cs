@@ -69,11 +69,10 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             await handler.HandleAsync();
         }
 
-        public async Task<FileMetadata> UploadFileAsync(UploadFileRequest request)
+        public async Task UploadFileAsync(UploadFileRequest request)
         {
             var handler = new UploadFileHandler(_fileClient, request);
-            var response = await handler.HandleAsync();
-            return response;
+            await handler.HandleAsync();
         }
 
         public async Task<DeleteFileResponse> DeleteFileAsync(DeleteFileRequest request)

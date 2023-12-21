@@ -10,7 +10,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models.Request
     {
         public string LocalFilename { get; set; }
         public string RelativeFilePath { get; set; }
-        public string ProjectId { get; set; }
+        public string RelativeEquipmentPath { get; set; }
         public string VersionFolder { get; set; }
     }
 }

@@ -60,8 +60,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 await client.UploadFileAsync(new UploadFileRequest
                 {
                     LocalFilePath = fileSyncEvent.FullPath,
-                    RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/'),
-                    ProjectId = fileSyncEvent.Version.RemoteProject.Id
+                    VersionId = fileSyncEvent.Version.RemoteVersion.Id,
+                    RelativeEquipmentPath = fileSyncEvent.Version.RemoteProject.RelativeEquipmentPath,
+                    RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/')
                 });
 
                 if(synchronizer.ChangeMonitor.IsMonitoring())

@@ -2,6 +2,7 @@
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
@@ -25,6 +26,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public IVersionSynchronizer Synchronizer { get; }
         public Core.Services.MechSync.Models.Version RemoteVersion { get; }
+        public Project RemoteProject { get; }
         public OngoingVersion LocalVersion { get; }
         public IMechSyncServiceClient ServiceClient { get; }
 
@@ -34,6 +36,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             LocalVersion = Synchronizer.Version;
             RemoteVersion = Synchronizer.Version.RemoteVersion;
+            RemoteProject = Synchronizer.Version.RemoteProject;
             ServiceClient = Synchronizer.ServiceClient;
         }
 
@@ -72,7 +75,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     Synchronizer.InitializeUI();
                     Synchronizer.ChangeMonitor.Initialize();
 
+                    /*
                     progressDialog.SetStatus("Checking local copy...");
+
                     await CheckLocalCopyAsync();
 
                     if (ShallAcknowledgeOwnership)
@@ -87,7 +92,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                             MessageBoxIcon.Information
                         );
                     }
+                    */
+
                     progressDialog.Close();
+
                 }
                 else
                 {
@@ -177,7 +185,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 await client.DownloadFileAsync(new DownloadFileRequest()
                 {
                     LocalFilename = localFileName,
-                    ProjectId = RemoteVersion.ProjectId,
+                    RelativeEquipmentPath = RemoteProject.RelativeEquipmentPath,
                     RelativeFilePath = file.RelativeFilePath,
                     VersionFolder = ONGOING_VERSION_FOLDER_NAME
                 });

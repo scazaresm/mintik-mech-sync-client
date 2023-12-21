@@ -51,8 +51,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 // if RelativeFilePath is a directory, all its contents will be removed in server
                 await client.DeleteFileAsync(new DeleteFileRequest
                 {
-                    RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/'),
-                    ProjectId = fileSyncEvent.Version.RemoteProject.Id
+                    VersionId = fileSyncEvent.Version.RemoteVersion.Id,
+                    RelativeEquipmentPath = fileSyncEvent.Version.RemoteProject.RelativeEquipmentPath,
+                    RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/')
                 });
 
                 foreach(var target in targetFiles)

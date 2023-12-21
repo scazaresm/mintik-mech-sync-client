@@ -1,15 +1,7 @@
-﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Core.Services.MechSync;
-using MechanicalSyncApp.Core.Services.MechSync.Models;
+﻿using MechanicalSyncApp.Core.Services.MechSync;
 using Microsoft.VisualBasic.FileIO;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
@@ -40,7 +32,7 @@ namespace MechanicalSyncApp.UI.Forms
         {
             Version version;
             PublishingIcon.Image = Properties.Resources.paper_plane_48;
-            PublishingMessage.Text = "Your changes on this version are being published, please wait...";
+            PublishingMessage.Text = "Publishing your changes, please wait...";
             OkButton.Enabled = false;
             PublishingProgressBar.Visible = true;
             do
@@ -70,8 +62,8 @@ namespace MechanicalSyncApp.UI.Forms
             }
 
             PublishingMessage.Text = IsPublishingSuccess
-                ? "Your changes on this version were successfully published, thanks for your work contribution!"
-                : "There was a problem publishing this version, please try again later " +
+                ? "Your changes were successfully published, thanks for your hard work!"
+                : "There was a problem publishing your changes, please try again later " +
                   "and reach your IT department if the issue persists." + Environment.NewLine + Environment.NewLine +
                   "No worries, we got you covered and any publishing progress was rollbacked.";
 

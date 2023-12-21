@@ -21,7 +21,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
             this.request = request ?? throw new ArgumentNullException(nameof(request));
         }
 
-        public async Task<FileMetadata> HandleAsync()
+        public async Task HandleAsync()
         {
             string tempFile = Path.GetTempFileName();
             try
@@ -33,8 +33,9 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                     using (var fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
                     {
                         formData.Add(new StreamContent(fileStream), "file", Path.GetFileName(request.LocalFilePath));
+                        formData.Add(new StringContent(request.VersionId), "versionId");
+                        formData.Add(new StringContent(request.RelativeEquipmentPath), "relativeEquipmentPath");
                         formData.Add(new StringContent(request.RelativeFilePath), "relativeFilePath");
-                        formData.Add(new StringContent(request.ProjectId), "projectId");
 
                         var response = await client.PostAsync("files", formData);
                         var responseContent = await response.Content.ReadAsStringAsync();
@@ -46,7 +47,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                                 $"HTTP request failed with status code {response.StatusCode}, {errorJson.Error}"
                             );
                         }
-                        return JsonConvert.DeserializeObject<FileMetadata>(responseContent); ;
                     }
                 }
             }

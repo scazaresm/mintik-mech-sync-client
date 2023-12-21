@@ -24,8 +24,9 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
         {
             var queryParameters = new Dictionary<string, string>
             {
-                { "relativeFilePath", request.RelativeFilePath },
-                { "projectId", request.ProjectId },
+                { "versionId", request.VersionId },
+                { "relativeEquipmentPath", request.RelativeEquipmentPath },
+                { "relativeFilePath", request.RelativeFilePath }
             };
 
             var uri = new QueryUriGenerator("files", queryParameters).Generate();

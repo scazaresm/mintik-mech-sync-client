@@ -26,8 +26,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
         {
             var queryParameters = new Dictionary<string, string>
             {
+                { "relativeEquipmentPath", _request.RelativeEquipmentPath },
                 { "relativeFilePath", _request.RelativeFilePath },
-                { "projectId", _request.ProjectId },
                 { "versionFolder", _request.VersionFolder }
             };
 
