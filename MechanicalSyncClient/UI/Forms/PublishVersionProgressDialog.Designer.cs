@@ -28,27 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.PublishingStatusLabel = new System.Windows.Forms.Label();
             this.OkButton = new System.Windows.Forms.Button();
-            this.PublishingInstructionsLabel = new System.Windows.Forms.Label();
-            this.PublishingStatusPictureBox = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.PublishingStatusPictureBox)).BeginInit();
+            this.PublishingMessage = new System.Windows.Forms.Label();
+            this.PublishingProgressBar = new System.Windows.Forms.ProgressBar();
+            this.PublishingIcon = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.PublishingIcon)).BeginInit();
             this.SuspendLayout();
-            // 
-            // StatusLabel
-            // 
-            this.PublishingStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PublishingStatusLabel.Location = new System.Drawing.Point(69, 55);
-            this.PublishingStatusLabel.Name = "StatusLabel";
-            this.PublishingStatusLabel.Size = new System.Drawing.Size(284, 48);
-            this.PublishingStatusLabel.TabIndex = 0;
-            this.PublishingStatusLabel.Text = "Queued";
-            this.PublishingStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // OkButton
             // 
             this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.OkButton.Location = new System.Drawing.Point(278, 130);
+            this.OkButton.Location = new System.Drawing.Point(367, 167);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 1;
@@ -56,53 +46,58 @@
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
-            // InstructionsLabel
+            // PublishingMessage
             // 
-            this.PublishingInstructionsLabel.AutoSize = true;
-            this.PublishingInstructionsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PublishingInstructionsLabel.Location = new System.Drawing.Point(12, 14);
-            this.PublishingInstructionsLabel.Name = "InstructionsLabel";
-            this.PublishingInstructionsLabel.Size = new System.Drawing.Size(246, 16);
-            this.PublishingInstructionsLabel.TabIndex = 5;
-            this.PublishingInstructionsLabel.Text = "Hold on while we publish your changes...";
+            this.PublishingMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PublishingMessage.Location = new System.Drawing.Point(82, 21);
+            this.PublishingMessage.Name = "PublishingMessage";
+            this.PublishingMessage.Size = new System.Drawing.Size(360, 96);
+            this.PublishingMessage.TabIndex = 5;
+            this.PublishingMessage.Text = "Publishing";
             // 
-            // StatusPicture
+            // PublishingProgressBar
             // 
-            this.PublishingStatusPictureBox.Image = global::MechanicalSyncApp.Properties.Resources.error_icon_48;
-            this.PublishingStatusPictureBox.Location = new System.Drawing.Point(15, 55);
-            this.PublishingStatusPictureBox.Name = "StatusPicture";
-            this.PublishingStatusPictureBox.Size = new System.Drawing.Size(48, 48);
-            this.PublishingStatusPictureBox.TabIndex = 4;
-            this.PublishingStatusPictureBox.TabStop = false;
+            this.PublishingProgressBar.Location = new System.Drawing.Point(14, 130);
+            this.PublishingProgressBar.Name = "PublishingProgressBar";
+            this.PublishingProgressBar.Size = new System.Drawing.Size(428, 23);
+            this.PublishingProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.PublishingProgressBar.TabIndex = 6;
+            // 
+            // PublishingIcon
+            // 
+            this.PublishingIcon.Location = new System.Drawing.Point(22, 33);
+            this.PublishingIcon.Name = "PublishingIcon";
+            this.PublishingIcon.Size = new System.Drawing.Size(48, 48);
+            this.PublishingIcon.TabIndex = 7;
+            this.PublishingIcon.TabStop = false;
             // 
             // PublishVersionProgressDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.OkButton;
-            this.ClientSize = new System.Drawing.Size(365, 165);
-            this.Controls.Add(this.PublishingInstructionsLabel);
-            this.Controls.Add(this.PublishingStatusPictureBox);
+            this.ClientSize = new System.Drawing.Size(455, 202);
+            this.ControlBox = false;
+            this.Controls.Add(this.PublishingIcon);
+            this.Controls.Add(this.PublishingMessage);
+            this.Controls.Add(this.PublishingProgressBar);
             this.Controls.Add(this.OkButton);
-            this.Controls.Add(this.PublishingStatusLabel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PublishVersionProgressDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Publish version";
+            this.Text = "Publishing in progress";
             this.Load += new System.EventHandler(this.PublishVersionProgressDialog_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.PublishingStatusPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PublishingIcon)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label PublishingStatusLabel;
         private System.Windows.Forms.Button OkButton;
-        private System.Windows.Forms.PictureBox PublishingStatusPictureBox;
-        private System.Windows.Forms.Label PublishingInstructionsLabel;
+        private System.Windows.Forms.Label PublishingMessage;
+        private System.Windows.Forms.ProgressBar PublishingProgressBar;
+        private System.Windows.Forms.PictureBox PublishingIcon;
     }
 }

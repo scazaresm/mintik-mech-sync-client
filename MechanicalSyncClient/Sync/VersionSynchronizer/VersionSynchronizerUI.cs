@@ -2,10 +2,6 @@
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer
@@ -42,7 +38,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 throw new ArgumentNullException(nameof(changeMonitor));
 
             DisposeFileViewer();
-            FileViewer = new FileListViewControl(version.LocalDirectory, "*.sldasm | *.sldprt | *.slddrw", changeMonitor);
+            FileViewer = new FileListViewControl(
+                version.LocalDirectory, 
+                "*.sldasm | *.sldprt | *.slddrw",
+                changeMonitor
+            );
         }
 
         private void DisposeFileViewer()

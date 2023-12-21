@@ -4,6 +4,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using System;
 using System.Threading.Tasks;
+using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
 
 namespace MechanicalSyncApp.Core.Services.MechSync
 {
@@ -16,11 +17,11 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task<FileMetadata> UploadFileAsync(UploadFileRequest request);
         Task<DeleteFileResponse> DeleteFileAsync(DeleteFileRequest request);
         Task<GetFileMetadataResponse> GetFileMetadataAsync(GetFileMetadataRequest request);
-        Task<Models.Version> TransferVersionOwnershipAsync(TransferVersionOwnershipRequest request);
-        Task<Models.Version> AcknowledgeVersionOwnershipAsync(AcknowledgeVersionOwnershipRequest request);
+        Task<Version> TransferVersionOwnershipAsync(TransferVersionOwnershipRequest request);
+        Task<Version> AcknowledgeVersionOwnershipAsync(AcknowledgeVersionOwnershipRequest request);
         Task<GetMyOngoingVersionsResponse> GetMyOngoingVersionsAsync();
         Task<Project> GetProjectAsync(string projectId);
-        Task<Job> GetJobAsync(string jobId);
-        Task<Job> PublishVersionAsync(PublishVersionRequest request);
+        Task<Version> GetVersionAsync(string versionId);
+        Task<Version> PublishVersionAsync(PublishVersionRequest request);
     }
 }

@@ -28,6 +28,13 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         {
             try
             {
+                if (Synchronizer.Version.RemoteVersion.Status != "Ongoing")
+                {
+                    throw new InvalidOperationException(
+                        "Cannot sync changes because this version is not in Ongoing status."
+                    );
+                }
+
                 Synchronizer.ChangeMonitor.StopMonitoring();
 
                 Synchronizer.SetState(new IdleState());
@@ -80,7 +87,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(
+                    ex.Message,
+                    "Sync error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             finally
             {

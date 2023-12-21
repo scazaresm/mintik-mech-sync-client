@@ -25,45 +25,19 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
-            string publishingJobId = Synchronizer.Version.RemoteVersion.PublishingJobId;
+            string versionId = Synchronizer.Version.RemoteVersion.Id;
+            string localDirectory = Synchronizer.Version.LocalDirectory;
 
-            // if there is no existing publishing job for this version, then create a new one
-            if (publishingJobId == null)
+            await MechSyncServiceClient.Instance.PublishVersionAsync(new PublishVersionRequest()
             {
-                // show verification list and ask for confirmation
-                var verificationDialog = new PublishVersionVerificationDialog(Synchronizer);
-                var verification = verificationDialog.ShowDialog();
-                if (verification != DialogResult.OK) return;
+                VersionId = versionId
+            });
 
-                // create the new publishing job and use the id
-                var createdJob = await client.PublishVersionAsync(
-                    new PublishVersionRequest()
-                    {
-                        VersionId = Synchronizer.Version.RemoteVersion.Id
-                    }
-                );
-                publishingJobId = createdJob.Id;
-                Synchronizer.Version.RemoteVersion.PublishingJobId = createdJob.Id;
-            }
-
-            // show publishing progress
-            var progressDialog = new PublishVersionProgressDialog(publishingJobId);
+            var progressDialog = new PublishVersionProgressDialog(versionId, localDirectory);
             progressDialog.ShowDialog();
-            if (!progressDialog.IsPublishingSuccess) return;
 
-            // publish job has succeeded, move local copy to recycle bin so the designer
-            // cannot work on this version anymore
-            if (Directory.Exists(Synchronizer.Version.LocalDirectory))
-            {
-                await Task.Run(() => FileSystem.DeleteDirectory(
-                    Synchronizer.Version.LocalDirectory,
-                    UIOption.OnlyErrorDialogs,
-                    RecycleOption.SendToRecycleBin
-                ));
-            }
-
-            // close this version
-            await new CloseVersionCommand(Synchronizer).RunAsync();
+            if(progressDialog.IsPublishingSuccess)
+                await new CloseVersionCommand(Synchronizer).RunAsync();
         }
     }
 }

@@ -88,7 +88,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Open version";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OpenVersionProgressDialog_FormClosing);
-            this.Load += new System.EventHandler(this.InitializeVersionSynchronizerForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

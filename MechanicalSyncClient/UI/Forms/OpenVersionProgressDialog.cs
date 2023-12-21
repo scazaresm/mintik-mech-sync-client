@@ -25,10 +25,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.cts = cts ?? throw new ArgumentNullException(nameof(cts));
         }
 
-        private void InitializeVersionSynchronizerForm_Load(object sender, EventArgs e)
-        {
-        }
-
         public void SetProgress(int progress)
         {
             Progress.Value = progress;
@@ -46,13 +42,14 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            // if user clicked on cancel button, 
+            // if user clicked on cancel button, then cancel the async task to download files
             cts.Cancel();
             DialogResult = DialogResult.Abort;
         }
 
         private void OpenVersionProgressDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // if user closed the dialog, then cancel the async task to download files (if not finished yet)
             cts.Cancel();
         }
     }

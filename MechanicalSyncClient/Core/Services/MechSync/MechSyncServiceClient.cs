@@ -9,6 +9,7 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
 
 namespace MechanicalSyncApp.Core.Services.MechSync
 {
@@ -32,11 +33,11 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             AuthenticationService = AuthenticationServiceClient.Instance;
 
             _restClient = new HttpClient();
-            _restClient.BaseAddress = new Uri("http://192.168.100.10:8080/api/mech-sync/");
-            _restClient.Timeout = TimeSpan.FromSeconds(5);
+            _restClient.BaseAddress = new Uri("http://localhost/api/mech-sync/");
+            _restClient.Timeout = TimeSpan.FromSeconds(20);
 
             _fileClient = new HttpClient();
-            _fileClient.BaseAddress = new Uri("http://192.168.100.10:8080/api/mech-sync/");
+            _fileClient.BaseAddress = new Uri("http://localhost/api/mech-sync/");
             _fileClient.Timeout = TimeSpan.FromSeconds(120);
 
             _ = RefreshAuthTokenAsync();
@@ -99,26 +100,27 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             return await new GetProjectHandler(_restClient, projectId).HandleAsync();
         }
 
-        public async Task<Models.Version> TransferVersionOwnershipAsync(TransferVersionOwnershipRequest request)
+        public async Task<Version> GetVersionAsync(string versionId)
+        {
+            return await new GetVersionHandler(_restClient, versionId).HandleAsync();
+        }
+
+        public async Task<Version> TransferVersionOwnershipAsync(TransferVersionOwnershipRequest request)
         {
             return await new TransferVersionOwnershipHandler(_restClient, request).HandleAsync();
         }
 
-        public async Task<Models.Version> AcknowledgeVersionOwnershipAsync(AcknowledgeVersionOwnershipRequest request)
+        public async Task<Version> AcknowledgeVersionOwnershipAsync(AcknowledgeVersionOwnershipRequest request)
         {
             return await new AcknowledgeVersionOwnershipHandler(_restClient, request).HandleAsync();
         }
 
-        public async Task<Job> GetJobAsync(string jobId)
-        {
-            return await new GetJobHandler(_restClient, jobId).HandleAsync();
-        }
-
-        public async Task<Job> PublishVersionAsync(PublishVersionRequest request)
+        public async Task<Version> PublishVersionAsync(PublishVersionRequest request)
         {
             return await new PublishVersionHandler(_restClient, request).HandleAsync();
         }
 
+      
         #region Disposing pattern
         protected virtual void Dispose(bool disposing)
         {

@@ -1,7 +1,5 @@
-﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
-using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
-using MechanicalSyncApp.Core.Util;
+﻿using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,28 +8,30 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
+using MechanicalSyncApp.Core.Util;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 {
-    public class PublishVersionHandler
+    public class GetVersionHandler
     {
         private readonly HttpClient client;
-        private readonly PublishVersionRequest request;
+        private readonly string versionId;
 
-        public PublishVersionHandler(HttpClient client, PublishVersionRequest request)
+        public GetVersionHandler(HttpClient client, string versionId)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
-            this.request = request ?? throw new ArgumentNullException(nameof(request));
+            this.versionId = versionId ?? throw new ArgumentNullException(nameof(versionId));
         }
 
         public async Task<Version> HandleAsync()
         {
-            string jsonRequest = JsonUtils.SerializeWithCamelCase(request);
+            var queryParameters = new Dictionary<string, string>
+            {
+                { "versionId", versionId },
+            };
 
-            HttpResponseMessage response = await client.PostAsync(
-                "versions/publish",
-                new StringContent(jsonRequest, Encoding.UTF8, "application/json")
-            );
+            var uri = new QueryUriGenerator("versions", queryParameters).Generate();
+            HttpResponseMessage response = await client.GetAsync(uri);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)

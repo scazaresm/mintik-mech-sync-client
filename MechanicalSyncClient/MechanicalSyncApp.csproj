@@ -111,6 +111,7 @@
     <Compile Include="Core\Services\Authentication\Handlers\GetAllUserDetailsHandler.cs" />
     <Compile Include="Core\Services\Authentication\Handlers\GetUserDetailsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\AcknowledgeVersionOwnershipHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\PublishVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetJobHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\TransferVersionOwnershipHandler.cs" />
