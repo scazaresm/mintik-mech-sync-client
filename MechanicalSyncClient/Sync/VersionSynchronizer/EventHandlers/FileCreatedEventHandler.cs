@@ -13,6 +13,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
 {
     public class FileCreatedEventHandler : IFileSyncEventHandler
     {
+        private const string ONGOING_FOLDER = "Ongoing";
+
         private readonly IMechSyncServiceClient client;
         private readonly VersionSynchronizerState sourceState;
 
@@ -57,6 +59,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 {
                     LocalFilePath = fileSyncEvent.FullPath,
                     VersionId = fileSyncEvent.Version.RemoteVersion.Id,
+                    VersionFolder = ONGOING_FOLDER,
                     RelativeEquipmentPath = fileSyncEvent.Version.RemoteProject.RelativeEquipmentPath,
                     RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/')
                 });
@@ -70,11 +73,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             {
                 throw new Exception($"Failed to handle file created event: {ex.Message}", ex);
             }
-        }
-
-        public Task HandleAsync(FileSyncEvent fileSyncEvent, int retryLimit)
-        {
-            throw new NotImplementedException();
         }
 
         private bool NextEventOverwritesThis(FileSyncEvent thisEvent)

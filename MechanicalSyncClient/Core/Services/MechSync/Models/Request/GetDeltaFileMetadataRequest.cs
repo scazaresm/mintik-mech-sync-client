@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models.Request
 {
-    public class GetFileMetadataRequest
+    public class GetDeltaFileMetadataRequest
     {
-        public string VersionId { get; set; }
-        public string RelativeFilePath { get; set; }
+        public string TargetVersionId { get; set; }
+        public string SourceVersionId { get; set; }
     }
 }

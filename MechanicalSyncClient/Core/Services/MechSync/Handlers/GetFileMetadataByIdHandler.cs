@@ -1,38 +1,37 @@
-﻿using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
+using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using MechanicalSyncApp.Core.Util;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 {
-    public class DeleteFileHandler
+    public class GetFileMetadataByIdHandler
     {
         private readonly HttpClient client;
-        private readonly DeleteFileRequest request;
+        private readonly string fileMetadataId;
 
-        public DeleteFileHandler(HttpClient client, DeleteFileRequest request)
+        public GetFileMetadataByIdHandler(HttpClient client, string fileMetadataId)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
-            this.request = request ?? throw new ArgumentNullException(nameof(request));
+            this.fileMetadataId = fileMetadataId ?? throw new ArgumentNullException(nameof(fileMetadataId));
         }
 
-        public async Task<DeleteFileResponse> HandleAsync()
+        public async Task<FileMetadata> HandleAsync()
         {
             var queryParameters = new Dictionary<string, string>
             {
-                { "versionId", request.VersionId },
-                { "versionFolder", request.VersionFolder },
-                { "relativeEquipmentPath", request.RelativeEquipmentPath },
-                { "relativeFilePath", request.RelativeFilePath }
+                { "fileMetadataId", fileMetadataId },
             };
 
-            var uri = new QueryUriGenerator("files", queryParameters).Generate();
-            HttpResponseMessage response = await client.DeleteAsync(uri);
-
+            var uri = new QueryUriGenerator("files/metadata", queryParameters).Generate();
+            HttpResponseMessage response = await client.GetAsync(uri);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
@@ -42,7 +41,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                     $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
                 );
             }
-            return JsonConvert.DeserializeObject<DeleteFileResponse>(responseContent);
+            return JsonConvert.DeserializeObject<FileMetadata>(responseContent);
         }
     }
 }

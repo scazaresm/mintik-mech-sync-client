@@ -3,7 +3,7 @@ using System.IO;
 
 namespace MechanicalSyncApp.Core.Domain
 {
-    public class OngoingVersion
+    public class LocalVersion
     {
         private const string MY_WORK_FOLDER_NAME = "My Work";
 
@@ -11,7 +11,7 @@ namespace MechanicalSyncApp.Core.Domain
         public Project RemoteProject { get; set; }
         public string LocalDirectory { get; set; }
 
-        public OngoingVersion(Version remoteVersion, Project remoteProject, string workspaceDirectory)
+        public LocalVersion(Version remoteVersion, Project remoteProject, string workspaceDirectory)
         {
             RemoteVersion = remoteVersion ?? throw new System.ArgumentNullException(nameof(remoteVersion));
             RemoteProject = remoteProject ?? throw new System.ArgumentNullException(nameof(remoteProject));

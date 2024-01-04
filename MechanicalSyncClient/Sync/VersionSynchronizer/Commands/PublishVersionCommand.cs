@@ -15,12 +15,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
     {
         public IVersionSynchronizer Synchronizer { get; private set; }
 
-        private IMechSyncServiceClient client;
-
         public PublishVersionCommand(IVersionSynchronizer synchronizer)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
-            client = MechSyncServiceClient.Instance;
         }
 
         public async Task RunAsync()
@@ -28,12 +25,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             string versionId = Synchronizer.Version.RemoteVersion.Id;
             string localDirectory = Synchronizer.Version.LocalDirectory;
 
-            await MechSyncServiceClient.Instance.PublishVersionAsync(new PublishVersionRequest()
+            await Synchronizer.SyncServiceClient.PublishVersionAsync(new PublishVersionRequest()
             {
                 VersionId = versionId
             });
 
-            var progressDialog = new PublishVersionProgressDialog(versionId, localDirectory);
+            var progressDialog = new PublishVersionProgressDialog(Synchronizer, versionId, localDirectory);
             progressDialog.ShowDialog();
 
             if(progressDialog.IsPublishingSuccess)

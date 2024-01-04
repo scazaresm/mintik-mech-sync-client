@@ -50,7 +50,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 };
                 await syncRemoteCommand.RunAsync();
 
-                await MechSyncServiceClient.Instance.TransferVersionOwnershipAsync(
+                await Synchronizer.SyncServiceClient.TransferVersionOwnershipAsync(
                     new TransferVersionOwnershipRequest
                     {
                         VersionId = Synchronizer.Version.RemoteVersion.Id,

@@ -2,9 +2,6 @@
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,6 +14,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         public SyncCheckSummary Summary { get; set; }
 
         public bool ConfirmBeforeSync { get; set; } = true;
+
         public bool NotifyWhenComplete { get; set; } = true;
 
         public SyncRemoteCommand(IVersionSynchronizer synchronizer)
@@ -75,7 +73,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.SetState(new MonitorFileSyncEventsState());
                 await Synchronizer.RunStepAsync();
 
-                if(NotifyWhenComplete)
+                if (NotifyWhenComplete)
                 {
                     MessageBox.Show(
                         "The remote server is already synced with your local copy.",
@@ -86,10 +84,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 }
             }
             catch (Exception ex)
-            {
+            { 
                 MessageBox.Show(
-                    ex.Message,
-                    "Sync error",
+                    ex.Message, "Sync error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );

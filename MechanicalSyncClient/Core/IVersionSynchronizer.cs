@@ -1,4 +1,5 @@
-﻿using MechanicalSyncApp.Core.Domain;
+﻿using MechanicalSyncApp.Core.AuthenticationService;
+using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
@@ -19,9 +20,12 @@ namespace MechanicalSyncApp.Core
 
         VersionSynchronizerUI UI { get; }
 
-        OngoingVersion Version { get; }
+        LocalVersion Version { get; }
 
-        IMechSyncServiceClient ServiceClient { get; }
+        IMechSyncServiceClient SyncServiceClient { get; }
+
+        IAuthenticationServiceClient AuthServiceClient { get; }
+
         IVersionChangeMonitor ChangeMonitor { get; }
 
         ConcurrentDictionary<string, FileMetadata> LocalFileIndex { get; set; }

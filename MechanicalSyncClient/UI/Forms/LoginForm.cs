@@ -26,7 +26,7 @@ namespace MechanicalSyncApp.UI.Forms
                     Password = Password.Text
                 });
                 Hide();
-                new DesignerMainForm().Show();
+                VersionSynchronizerForm.Instance.Show();
             }
             catch(UnauthorizedAccessException)
             {

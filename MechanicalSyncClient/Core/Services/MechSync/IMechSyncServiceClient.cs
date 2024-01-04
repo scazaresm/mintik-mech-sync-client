@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
 
@@ -16,12 +17,19 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task DownloadFileAsync(DownloadFileRequest request);
         Task UploadFileAsync(UploadFileRequest request);
         Task<DeleteFileResponse> DeleteFileAsync(DeleteFileRequest request);
-        Task<GetFileMetadataResponse> GetFileMetadataAsync(GetFileMetadataRequest request);
+        Task<FileMetadata> GetFileMetadataAsync(string fileMetadataId);
+        Task<List<FileMetadata>> GetFileMetadataAsync(string versionId, string relativeFilePath);
+        Task<List<FileMetadata>> GetDeltaFileMetadataAsync(GetDeltaFileMetadataRequest request);
+        Task<Review> SyncReviewTargetsAsync(string reviewId);
         Task<Version> TransferVersionOwnershipAsync(TransferVersionOwnershipRequest request);
         Task<Version> AcknowledgeVersionOwnershipAsync(AcknowledgeVersionOwnershipRequest request);
-        Task<GetMyOngoingVersionsResponse> GetMyOngoingVersionsAsync();
+        Task<List<Version>> GetMyWorkAsync();
+        Task<List<Review>> GetMyReviewsAsync();
         Task<Project> GetProjectAsync(string projectId);
         Task<Version> GetVersionAsync(string versionId);
         Task<Version> PublishVersionAsync(PublishVersionRequest request);
+
+        Task<ReviewTarget> UpdateReviewTarget(UpdateReviewTargetRequest request);
+
     }
 }

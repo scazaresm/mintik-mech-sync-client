@@ -34,6 +34,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                     {
                         formData.Add(new StreamContent(fileStream), "file", Path.GetFileName(request.LocalFilePath));
                         formData.Add(new StringContent(request.VersionId), "versionId");
+                        formData.Add(new StringContent(request.VersionFolder), "versionFolder");
                         formData.Add(new StringContent(request.RelativeEquipmentPath), "relativeEquipmentPath");
                         formData.Add(new StringContent(request.RelativeFilePath), "relativeFilePath");
 
@@ -56,7 +57,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
             }
             finally
             {
-                if(File.Exists(tempFile))
+                if (File.Exists(tempFile))
                     File.Delete(tempFile);
             }
         }

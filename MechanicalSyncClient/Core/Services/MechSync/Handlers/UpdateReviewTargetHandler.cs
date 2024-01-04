@@ -1,4 +1,5 @@
-﻿using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
+using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using MechanicalSyncApp.Core.Util;
 using Newtonsoft.Json;
@@ -11,28 +12,30 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 {
-    public class GetFileMetadataHandler
+    public class UpdateReviewTargetHandler
     {
         private readonly HttpClient client;
-        private readonly GetFileMetadataRequest request;
+        private readonly UpdateReviewTargetRequest request;
 
-        public GetFileMetadataHandler(HttpClient client, GetFileMetadataRequest request)
+        public UpdateReviewTargetHandler(HttpClient client, UpdateReviewTargetRequest request)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
             this.request = request ?? throw new ArgumentNullException(nameof(request));
         }
 
-        public async Task<GetFileMetadataResponse> HandleAsync()
+        public async Task<ReviewTarget> HandleAsync()
         {
-            var queryParameters = new Dictionary<string, string>
-            {
-                { "versionId", request.VersionId },
-            };
-            if (request.RelativeFilePath != null)
-                queryParameters.Add("relativeFilePath", request.RelativeFilePath);
+            string endpointUrl = $"versions/reviews/{request.ReviewId}/targets/{request.ReviewTargetId}";
 
-            var uri = new QueryUriGenerator("files/metadata", queryParameters).Generate();
-            HttpResponseMessage response = await client.GetAsync(uri);
+            string jsonRequest = JsonUtils.SerializeWithCamelCase(new
+            {
+                request.Status
+            });
+
+            HttpResponseMessage response = await client.PutAsync(
+                endpointUrl, 
+                new StringContent(jsonRequest, Encoding.UTF8, "application/json")
+            );
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
@@ -42,7 +45,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                     $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
                 );
             }
-            return JsonConvert.DeserializeObject<GetFileMetadataResponse>(responseContent);
+            return JsonConvert.DeserializeObject<ReviewTarget>(responseContent);
         }
     }
 }

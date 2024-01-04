@@ -25,7 +25,12 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void DesignViewerForm_Load(object sender, EventArgs e)
         {
-            designViewerControl = new DesignFileViewerControl(filePath, DesignViewerControl_OpenDocError);
+            designViewerControl = new DesignFileViewerControl(filePath)
+            {
+                OnFailedLoadingDocument = DesignViewerControl_OpenDocError
+            };
+            designViewerControl.HostControl.Dock = DockStyle.Fill;
+
             ViewerPanel.Controls.Add(designViewerControl.HostControl);
             Text = Path.GetFileName(filePath);
         }

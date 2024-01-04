@@ -14,6 +14,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
 {
     public class FileDeletedEventHandler : IFileSyncEventHandler
     {
+        private const string ONGOING_FOLDER = "Ongoing";
+
         private readonly IMechSyncServiceClient client;
         private readonly VersionSynchronizerState sourceState;
 
@@ -52,6 +54,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 await client.DeleteFileAsync(new DeleteFileRequest
                 {
                     VersionId = fileSyncEvent.Version.RemoteVersion.Id,
+                    VersionFolder = ONGOING_FOLDER,
                     RelativeEquipmentPath = fileSyncEvent.Version.RemoteProject.RelativeEquipmentPath,
                     RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/')
                 });
@@ -65,11 +68,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             }
         }
 
-        public Task HandleAsync(FileSyncEvent fileSyncEvent, int retryLimit)
-        {
-            throw new NotImplementedException();
-        }
-
         private async Task<List<string>> DetermineTargetFilesAsync(FileSyncEvent fileSyncEvent)
         {
             var synchronizer = sourceState.Synchronizer;
@@ -80,14 +78,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             if (targetIsDirectory)
             {
                 // get server file metadata for this version
-                var request = new GetFileMetadataRequest()
-                {
-                    VersionId = synchronizer.Version.RemoteVersion.Id
-                };
-                var fileMetadataResponse = await synchronizer.ServiceClient.GetFileMetadataAsync(request);
+                var versionId = synchronizer.Version.RemoteVersion.Id;
+                var allFileMetadata = await synchronizer.SyncServiceClient.GetFileMetadataAsync(versionId, null);
 
                 // determine which files are inside the target directory
-                foreach (var fileMetadata in fileMetadataResponse.FileMetadata)
+                foreach (var fileMetadata in allFileMetadata)
                 {
                     // paths in metadata are linux-based (server-side paths), make it Windows-based
                     var remoteRelativePath = fileMetadata.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar);

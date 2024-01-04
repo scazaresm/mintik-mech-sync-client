@@ -29,7 +29,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         #endregion
 
-        public void InitializeFileViewer(OngoingVersion version, IVersionChangeMonitor changeMonitor)
+        public void InitializeFileViewer(LocalVersion version, IVersionChangeMonitor changeMonitor)
         {
             if (version is null)
                 throw new ArgumentNullException(nameof(version));

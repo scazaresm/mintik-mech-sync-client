@@ -6,6 +6,5 @@ namespace MechanicalSyncApp.Core
     public interface IFileSyncEventHandler
     {
         Task HandleAsync(FileSyncEvent fileSyncEvent);
-        Task HandleAsync(FileSyncEvent fileSyncEvent, int retryLimit);
     }
 }

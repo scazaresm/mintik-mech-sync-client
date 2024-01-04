@@ -1,4 +1,5 @@
-﻿using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
+﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
+using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 {
-    public class GetMyOngoingVersionsHandler
+    public class GetMyReviewsHandler
     {
         private readonly HttpClient client;
 
-        public GetMyOngoingVersionsHandler(HttpClient client)
+        public GetMyReviewsHandler(HttpClient client)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
-        public async Task<GetMyOngoingVersionsResponse> HandleAsync()
+        public async Task<List<Review>> HandleAsync()
         {
-            const string uri = "versions/ongoing/mine";
+            const string uri = "versions/reviews/mine";
 
             HttpResponseMessage response = await client.GetAsync(uri);
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -32,7 +33,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                     $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
                 );
             }
-            return JsonConvert.DeserializeObject<GetMyOngoingVersionsResponse>(responseContent);
+            return JsonConvert.DeserializeObject<List<Review>>(responseContent);
         }
     }
 }

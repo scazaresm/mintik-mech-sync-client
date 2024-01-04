@@ -1,16 +1,11 @@
 ﻿using eDrawings.Interop.EModelMarkupControl;
 using eDrawings.Interop.EModelViewControl;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI
 {
-    public class DesignFileViewerControl : IDisposable
+    public class DrawingReviewerControl
     {
         private readonly string filePath;
 
@@ -22,44 +17,39 @@ namespace MechanicalSyncApp.UI
 
         public _IEModelViewControlEvents_OnFailedLoadingDocumentEventHandler OnFailedLoadingDocument { get; set; }
 
-        public DesignFileViewerControl(string filePath)
+        public DrawingReviewerControl(string filePath)
         {
             this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
             HostControl = new EDrawingsHost();
-            HostControl.Dock = DockStyle.Fill;
             HostControl.ControlLoaded += OnControlLoaded;
         }
 
         private void OnControlLoaded(EModelViewControl ctrl)
         {
             ModelViewControl = ctrl;
-            ModelMarkupControl = ModelViewControl.CoCreateInstance("EModelViewMarkup.EModelMarkupControl"); 
-            
+            ModelMarkupControl = ModelViewControl.CoCreateInstance("EModelViewMarkup.EModelMarkupControl");
+
             if (OnFailedLoadingDocument != null)
             {
                 ModelViewControl.OnFailedLoadingDocument += OnFailedLoadingDocument;
             }
             ModelViewControl.OpenDoc(filePath, false, false, false, "");
+            HostControl.Dock = DockStyle.Fill;
         }
 
-        public void SetMeasureOperator()
+        public void SetTextWithLeaderMarkupOperator()
         {
-            ModelMarkupControl.ViewOperator = EMVMarkupOperators.eMVOperatorMeasure;
+            ModelMarkupControl.ViewOperator = EMVMarkupOperators.eMVOperatorMarkupTextWithLeader;
+        }
+
+        public void SetCloudWithLeaderMarkupOperator()
+        {
+            ModelMarkupControl.ViewOperator = EMVMarkupOperators.eMVOperatorMarkupCloudWithLeader;
         }
 
         public void SetPanOperator()
         {
             ModelViewControl.ViewOperator = EMVOperators.eMVOperatorPan;
-        }
-
-        public void SetRotateOperator()
-        {
-            ModelViewControl.ViewOperator = EMVOperators.eMVOperatorRotate;
-        }
-
-        public void SetSelectOperator()
-        {
-            ModelViewControl.ViewOperator = EMVOperators.eMVOperatorSelect;
         }
 
         public void SetZoomOperator()
@@ -70,6 +60,16 @@ namespace MechanicalSyncApp.UI
         public void SetZoomToAreaOperator()
         {
             ModelViewControl.ViewOperator = EMVOperators.eMVOperatorZoomToArea;
+        }
+
+        public void SaveMarkupFile(string filePath)
+        {
+            ModelMarkupControl.ShowSaveMarkup(filePath, false);
+        }
+
+        public void OpenMarkupFile(string filePath)
+        {
+            ModelViewControl.OpenMarkupFile(filePath);
         }
 
         #region Dispose pattern

@@ -12,7 +12,7 @@ namespace MechanicalSyncApp.Sync
         private FileSystemWatcher watcher;
         private bool disposedValue;
 
-        public OngoingVersion Version { get; }
+        public LocalVersion Version { get; }
         public string FileFilter { get; }
 
         private readonly object eventQueueLock = new object();
@@ -20,7 +20,7 @@ namespace MechanicalSyncApp.Sync
 
         private bool monitoring;
 
-        public VersionChangeMonitor(OngoingVersion version, string fileFilter)
+        public VersionChangeMonitor(LocalVersion version, string fileFilter)
         {
             if (version is null)
             {

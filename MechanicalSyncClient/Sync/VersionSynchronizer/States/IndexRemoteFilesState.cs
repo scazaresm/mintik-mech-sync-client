@@ -14,15 +14,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         public override async Task RunAsync()
         {
             // get metadata from server, i.e., list all the files on this version and its metadata
-            var request = new GetFileMetadataRequest()
-            {
-                VersionId = Synchronizer.Version.RemoteVersion.Id,
-            };
-            var response = await Synchronizer.ServiceClient.GetFileMetadataAsync(request);
+            var versionId = Synchronizer.Version.RemoteVersion.Id;
+            var allFileMetadata = await Synchronizer.SyncServiceClient.GetFileMetadataAsync(versionId, null);
 
             // index each remote file to compare with local
             Synchronizer.RemoteFileIndex.Clear();
-            foreach (FileMetadata metadata in response.FileMetadata)
+            foreach (FileMetadata metadata in allFileMetadata)
             {
                 Synchronizer.RemoteFileIndex.TryAdd(metadata.RelativeFilePath, metadata);
             }

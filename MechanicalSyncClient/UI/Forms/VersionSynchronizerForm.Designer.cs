@@ -1,7 +1,7 @@
 ﻿
 namespace MechanicalSyncApp.UI.Forms
 {
-    partial class DesignerMainForm
+    partial class VersionSynchronizerForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,27 +30,28 @@ namespace MechanicalSyncApp.UI.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DesignerMainForm));
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VersionSynchronizerForm));
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Deleted",
             "other"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.WorkspaceTreeView = new System.Windows.Forms.TreeView();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.RefreshVersionsButton = new System.Windows.Forms.ToolStripButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.FileViewerListView = new System.Windows.Forms.ListView();
@@ -60,8 +61,19 @@ namespace MechanicalSyncApp.UI.Forms
             this.SyncStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.SyncProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.SynchronizerToolStrip = new System.Windows.Forms.ToolStrip();
+            this.RefreshLocalFilesButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInWindowsExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.SyncRemoteButton = new System.Windows.Forms.ToolStripButton();
+            this.CloseVersionButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.WorkOfflineButton = new System.Windows.Forms.ToolStripButton();
+            this.WorkOnlineButton = new System.Windows.Forms.ToolStripButton();
+            this.PublishVersionButton = new System.Windows.Forms.ToolStripButton();
+            this.TransferOwnershipButton = new System.Windows.Forms.ToolStripButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -79,6 +91,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.ReviewArtifactsTabImages = new System.Windows.Forms.ImageList(this.components);
             this.DesignReviewToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl3 = new System.Windows.Forms.TabControl();
@@ -96,6 +109,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripComboBox2 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabControl4 = new System.Windows.Forms.TabControl();
@@ -113,6 +127,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripComboBox3 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
             this.ProjectTabImages = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
@@ -126,21 +141,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.designToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RefreshVersionsButton = new System.Windows.Forms.ToolStripButton();
-            this.RefreshLocalFilesButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openInWindowsExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.SyncRemoteButton = new System.Windows.Forms.ToolStripButton();
-            this.CloseVersionButton = new System.Windows.Forms.ToolStripButton();
-            this.WorkOfflineButton = new System.Windows.Forms.ToolStripButton();
-            this.WorkOnlineButton = new System.Windows.Forms.ToolStripButton();
-            this.PublishVersionButton = new System.Windows.Forms.ToolStripButton();
-            this.TransferOwnershipButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
@@ -220,6 +220,16 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStrip3.TabIndex = 1;
             this.toolStrip3.Text = "toolStrip3";
             // 
+            // RefreshVersionsButton
+            // 
+            this.RefreshVersionsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.RefreshVersionsButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
+            this.RefreshVersionsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshVersionsButton.Name = "RefreshVersionsButton";
+            this.RefreshVersionsButton.Size = new System.Drawing.Size(66, 22);
+            this.RefreshVersionsButton.Text = "Refresh";
+            this.RefreshVersionsButton.Click += new System.EventHandler(this.RefreshWorkspaceButton_Click);
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -254,21 +264,21 @@ namespace MechanicalSyncApp.UI.Forms
             this.columnHeader1,
             this.columnHeader2});
             this.FileViewerListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            listViewGroup1.Header = "Assemblies";
-            listViewGroup1.Name = "assembliesGroup";
-            listViewGroup2.Header = "Parts";
-            listViewGroup2.Name = "partsGroup";
-            listViewGroup3.Header = "Drawings";
-            listViewGroup3.Name = "drawingsGroup";
+            listViewGroup4.Header = "Assemblies";
+            listViewGroup4.Name = "assembliesGroup";
+            listViewGroup5.Header = "Parts";
+            listViewGroup5.Name = "partsGroup";
+            listViewGroup6.Header = "Drawings";
+            listViewGroup6.Name = "drawingsGroup";
             this.FileViewerListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
+            listViewGroup4,
+            listViewGroup5,
+            listViewGroup6});
             this.FileViewerListView.HideSelection = false;
-            listViewItem1.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
             this.FileViewerListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
+            listViewItem3,
+            listViewItem4});
             this.FileViewerListView.Location = new System.Drawing.Point(3, 28);
             this.FileViewerListView.MultiSelect = false;
             this.FileViewerListView.Name = "FileViewerListView";
@@ -336,16 +346,113 @@ namespace MechanicalSyncApp.UI.Forms
             this.SynchronizerToolStrip.TabIndex = 15;
             this.SynchronizerToolStrip.Text = "toolStrip2";
             // 
+            // RefreshLocalFilesButton
+            // 
+            this.RefreshLocalFilesButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
+            this.RefreshLocalFilesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshLocalFilesButton.Name = "RefreshLocalFilesButton";
+            this.RefreshLocalFilesButton.Size = new System.Drawing.Size(66, 22);
+            this.RefreshLocalFilesButton.Text = "Refresh";
+            this.RefreshLocalFilesButton.ToolTipText = "Refresh local files";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToClipboardToolStripMenuItem,
+            this.openInWindowsExplorerToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = global::MechanicalSyncApp.Properties.Resources.open_folder_24;
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(129, 22);
+            this.toolStripDropDownButton1.Text = "Containing folder";
+            // 
+            // copyToClipboardToolStripMenuItem
+            // 
+            this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
+            this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.copyToClipboardToolStripMenuItem.Text = "Copy path to clipboard";
+            // 
+            // openInWindowsExplorerToolStripMenuItem
+            // 
+            this.openInWindowsExplorerToolStripMenuItem.Name = "openInWindowsExplorerToolStripMenuItem";
+            this.openInWindowsExplorerToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.openInWindowsExplorerToolStripMenuItem.Text = "Open in Windows Explorer";
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.Image = global::MechanicalSyncApp.Properties.Resources.find_32;
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(50, 22);
+            this.toolStripButton5.Text = "Find";
+            this.toolStripButton5.ToolTipText = "Find a local file by its name or path";
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // SyncRemoteButton
+            // 
+            this.SyncRemoteButton.Image = global::MechanicalSyncApp.Properties.Resources.sync_24;
+            this.SyncRemoteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SyncRemoteButton.Name = "SyncRemoteButton";
+            this.SyncRemoteButton.Size = new System.Drawing.Size(93, 22);
+            this.SyncRemoteButton.Text = "Sync remote";
+            this.SyncRemoteButton.ToolTipText = "Send your local changes to remote server";
+            // 
+            // CloseVersionButton
+            // 
+            this.CloseVersionButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.CloseVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
+            this.CloseVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CloseVersionButton.Name = "CloseVersionButton";
+            this.CloseVersionButton.Size = new System.Drawing.Size(56, 22);
+            this.CloseVersionButton.Text = "Close";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // WorkOfflineButton
+            // 
+            this.WorkOfflineButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.WorkOfflineButton.Image = global::MechanicalSyncApp.Properties.Resources.stop_32;
+            this.WorkOfflineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.WorkOfflineButton.Name = "WorkOfflineButton";
+            this.WorkOfflineButton.Size = new System.Drawing.Size(92, 22);
+            this.WorkOfflineButton.Text = "Work offline";
+            this.WorkOfflineButton.ToolTipText = "Stop monitoring your changes";
+            // 
+            // WorkOnlineButton
+            // 
+            this.WorkOnlineButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.WorkOnlineButton.Image = global::MechanicalSyncApp.Properties.Resources.start_32;
+            this.WorkOnlineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.WorkOnlineButton.Name = "WorkOnlineButton";
+            this.WorkOnlineButton.Size = new System.Drawing.Size(91, 22);
+            this.WorkOnlineButton.Text = "Work online";
+            this.WorkOnlineButton.ToolTipText = "Start monitoring your changes for automatic sync";
+            // 
+            // PublishVersionButton
+            // 
+            this.PublishVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.merge_icon_24;
+            this.PublishVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.PublishVersionButton.Name = "PublishVersionButton";
+            this.PublishVersionButton.Size = new System.Drawing.Size(107, 22);
+            this.PublishVersionButton.Text = "Publish version";
+            this.PublishVersionButton.ToolTipText = "Publish revision changes";
+            // 
+            // TransferOwnershipButton
+            // 
+            this.TransferOwnershipButton.Image = global::MechanicalSyncApp.Properties.Resources.users_change_icon_24;
+            this.TransferOwnershipButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TransferOwnershipButton.Name = "TransferOwnershipButton";
+            this.TransferOwnershipButton.Size = new System.Drawing.Size(126, 22);
+            this.TransferOwnershipButton.Text = "Transfer ownership";
+            this.TransferOwnershipButton.ToolTipText = "Publish revision changes";
             // 
             // tabPage2
             // 
@@ -417,8 +524,8 @@ namespace MechanicalSyncApp.UI.Forms
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle7;
             this.Column2.HeaderText = "Required change";
             this.Column2.Name = "Column2";
             this.Column2.Width = 500;
@@ -435,8 +542,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // Column4
             // 
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle8;
             this.Column4.HeaderText = "Designer comments";
             this.Column4.Name = "Column4";
             this.Column4.Width = 300;
@@ -515,6 +622,15 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(300, 25);
             // 
+            // toolStripButton8
+            // 
+            this.toolStripButton8.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
+            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton8.Name = "toolStripButton8";
+            this.toolStripButton8.Size = new System.Drawing.Size(120, 22);
+            this.toolStripButton8.Text = "Submit for review";
+            this.toolStripButton8.ToolTipText = "Submit changes to selected reviewer for verification";
+            // 
             // toolStripLabel2
             // 
             this.toolStripLabel2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -591,8 +707,8 @@ namespace MechanicalSyncApp.UI.Forms
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridViewTextBoxColumn5.HeaderText = "Required change";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.Width = 500;
@@ -609,8 +725,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // dataGridViewTextBoxColumn6
             // 
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridViewTextBoxColumn6.HeaderText = "Designer comments";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.Width = 300;
@@ -681,6 +797,15 @@ namespace MechanicalSyncApp.UI.Forms
             "All assemblies"});
             this.toolStripComboBox2.Name = "toolStripComboBox2";
             this.toolStripComboBox2.Size = new System.Drawing.Size(300, 25);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(120, 22);
+            this.toolStripButton1.Text = "Submit for review";
+            this.toolStripButton1.ToolTipText = "Submit changes to selected reviewer for verification";
             // 
             // toolStripLabel1
             // 
@@ -758,8 +883,8 @@ namespace MechanicalSyncApp.UI.Forms
             // dataGridViewTextBoxColumn12
             // 
             this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle11;
             this.dataGridViewTextBoxColumn12.HeaderText = "Required change";
             this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
             this.dataGridViewTextBoxColumn12.Width = 500;
@@ -776,8 +901,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // dataGridViewTextBoxColumn13
             // 
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle12;
             this.dataGridViewTextBoxColumn13.HeaderText = "Designer comments";
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             this.dataGridViewTextBoxColumn13.Width = 300;
@@ -848,6 +973,15 @@ namespace MechanicalSyncApp.UI.Forms
             "All assemblies"});
             this.toolStripComboBox3.Name = "toolStripComboBox3";
             this.toolStripComboBox3.Size = new System.Drawing.Size(300, 25);
+            // 
+            // toolStripButton11
+            // 
+            this.toolStripButton11.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
+            this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton11.Name = "toolStripButton11";
+            this.toolStripButton11.Size = new System.Drawing.Size(120, 22);
+            this.toolStripButton11.Text = "Submit for review";
+            this.toolStripButton11.ToolTipText = "Submit changes to selected reviewer for verification";
             // 
             // toolStripLabel5
             // 
@@ -951,152 +1085,20 @@ namespace MechanicalSyncApp.UI.Forms
             this.drawingsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.drawingsToolStripMenuItem.Text = "Drawings";
             // 
-            // RefreshVersionsButton
-            // 
-            this.RefreshVersionsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.RefreshVersionsButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
-            this.RefreshVersionsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RefreshVersionsButton.Name = "RefreshVersionsButton";
-            this.RefreshVersionsButton.Size = new System.Drawing.Size(66, 22);
-            this.RefreshVersionsButton.Text = "Refresh";
-            this.RefreshVersionsButton.Click += new System.EventHandler(this.RefreshVersionsButton_Click);
-            // 
-            // RefreshLocalFilesButton
-            // 
-            this.RefreshLocalFilesButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
-            this.RefreshLocalFilesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RefreshLocalFilesButton.Name = "RefreshLocalFilesButton";
-            this.RefreshLocalFilesButton.Size = new System.Drawing.Size(66, 22);
-            this.RefreshLocalFilesButton.Text = "Refresh";
-            this.RefreshLocalFilesButton.ToolTipText = "Refresh local files";
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToClipboardToolStripMenuItem,
-            this.openInWindowsExplorerToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = global::MechanicalSyncApp.Properties.Resources.open_folder_24;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(129, 22);
-            this.toolStripDropDownButton1.Text = "Containing folder";
-            // 
-            // copyToClipboardToolStripMenuItem
-            // 
-            this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
-            this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.copyToClipboardToolStripMenuItem.Text = "Copy path to clipboard";
-            // 
-            // openInWindowsExplorerToolStripMenuItem
-            // 
-            this.openInWindowsExplorerToolStripMenuItem.Name = "openInWindowsExplorerToolStripMenuItem";
-            this.openInWindowsExplorerToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.openInWindowsExplorerToolStripMenuItem.Text = "Open in Windows Explorer";
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.Image = global::MechanicalSyncApp.Properties.Resources.find_32;
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(50, 22);
-            this.toolStripButton5.Text = "Find";
-            this.toolStripButton5.ToolTipText = "Find a local file by its name or path";
-            // 
-            // SyncRemoteButton
-            // 
-            this.SyncRemoteButton.Image = global::MechanicalSyncApp.Properties.Resources.sync_24;
-            this.SyncRemoteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SyncRemoteButton.Name = "SyncRemoteButton";
-            this.SyncRemoteButton.Size = new System.Drawing.Size(93, 22);
-            this.SyncRemoteButton.Text = "Sync remote";
-            this.SyncRemoteButton.ToolTipText = "Send your local changes to remote server";
-            // 
-            // CloseVersionButton
-            // 
-            this.CloseVersionButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.CloseVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
-            this.CloseVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CloseVersionButton.Name = "CloseVersionButton";
-            this.CloseVersionButton.Size = new System.Drawing.Size(56, 22);
-            this.CloseVersionButton.Text = "Close";
-            // 
-            // WorkOfflineButton
-            // 
-            this.WorkOfflineButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.WorkOfflineButton.Image = global::MechanicalSyncApp.Properties.Resources.stop_32;
-            this.WorkOfflineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.WorkOfflineButton.Name = "WorkOfflineButton";
-            this.WorkOfflineButton.Size = new System.Drawing.Size(92, 22);
-            this.WorkOfflineButton.Text = "Work offline";
-            this.WorkOfflineButton.ToolTipText = "Stop monitoring your changes";
-            // 
-            // WorkOnlineButton
-            // 
-            this.WorkOnlineButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.WorkOnlineButton.Image = global::MechanicalSyncApp.Properties.Resources.start_32;
-            this.WorkOnlineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.WorkOnlineButton.Name = "WorkOnlineButton";
-            this.WorkOnlineButton.Size = new System.Drawing.Size(91, 22);
-            this.WorkOnlineButton.Text = "Work online";
-            this.WorkOnlineButton.ToolTipText = "Start monitoring your changes for automatic sync";
-            // 
-            // PublishButton
-            // 
-            this.PublishVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.merge_icon_24;
-            this.PublishVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.PublishVersionButton.Name = "PublishButton";
-            this.PublishVersionButton.Size = new System.Drawing.Size(107, 22);
-            this.PublishVersionButton.Text = "Publish version";
-            this.PublishVersionButton.ToolTipText = "Publish revision changes";
-            // 
-            // TransferOwnershipButton
-            // 
-            this.TransferOwnershipButton.Image = global::MechanicalSyncApp.Properties.Resources.users_change_icon_24;
-            this.TransferOwnershipButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.TransferOwnershipButton.Name = "TransferOwnershipButton";
-            this.TransferOwnershipButton.Size = new System.Drawing.Size(126, 22);
-            this.TransferOwnershipButton.Text = "Transfer ownership";
-            this.TransferOwnershipButton.ToolTipText = "Publish revision changes";
-            // 
-            // toolStripButton8
-            // 
-            this.toolStripButton8.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
-            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(120, 22);
-            this.toolStripButton8.Text = "Submit for review";
-            this.toolStripButton8.ToolTipText = "Submit changes to selected reviewer for verification";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(120, 22);
-            this.toolStripButton1.Text = "Submit for review";
-            this.toolStripButton1.ToolTipText = "Submit changes to selected reviewer for verification";
-            // 
-            // toolStripButton11
-            // 
-            this.toolStripButton11.Image = global::MechanicalSyncApp.Properties.Resources.send_icon_24;
-            this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton11.Name = "toolStripButton11";
-            this.toolStripButton11.Size = new System.Drawing.Size(120, 22);
-            this.toolStripButton11.Text = "Submit for review";
-            this.toolStripButton11.ToolTipText = "Submit changes to selected reviewer for verification";
-            // 
-            // DesignerMainForm
+            // VersionSynchronizerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1385, 754);
             this.Controls.Add(this.MainSplitContainer);
             this.Controls.Add(this.menuStrip1);
-            this.Name = "DesignerMainForm";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "VersionSynchronizerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mechanical Sync";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
-            this.Load += new System.EventHandler(this.DemoForm_Load);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.VersionSynchronizerForm_FormClosed);
+            this.Load += new System.EventHandler(this.VersionSynchronizerForm_Load);
+            this.VisibleChanged += new System.EventHandler(this.VersionSynchronizerForm_VisibleChanged);
             this.MainSplitContainer.Panel1.ResumeLayout(false);
             this.MainSplitContainer.Panel1.PerformLayout();
             this.MainSplitContainer.Panel2.ResumeLayout(false);

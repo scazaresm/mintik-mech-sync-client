@@ -113,6 +113,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap delete_icon_24 {
+            get {
+                object obj = ResourceManager.GetObject("delete-icon-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap download_32 {
             get {
                 object obj = ResourceManager.GetObject("download-32", resourceCulture);
@@ -126,6 +136,26 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap download_icon_24 {
             get {
                 object obj = ResourceManager.GetObject("download-icon-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap error_file_icon_24 {
+            get {
+                object obj = ResourceManager.GetObject("error-file-icon-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap error_file_icon_32 {
+            get {
+                object obj = ResourceManager.GetObject("error-file-icon-32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -216,6 +246,26 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap move_icon_32 {
             get {
                 object obj = ResourceManager.GetObject("move-icon-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ok_apply_icon_24 {
+            get {
+                object obj = ResourceManager.GetObject("ok-apply-icon-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ok_apply_icon_32 {
+            get {
+                object obj = ResourceManager.GetObject("ok-apply-icon-32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

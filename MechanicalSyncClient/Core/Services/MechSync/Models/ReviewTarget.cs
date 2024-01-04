@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models
 {
-    public class VersionOwner
+    public class ReviewTarget
     {
         [JsonProperty("_id")]
         public string Id { get; set; }
 
-        public string UserId { get; set; }
-        public DateTime IsOwnerSince { get; set; }
-        public string SyncChecksum { get; set; }
+        public string TargetId { get; set; }
+        public string Status { get; set; }
+        public List<ChangeRequest> ChangeRequests { get; set; }
+        public List<string> Observations { get; set; }
     }
 }

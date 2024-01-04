@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.AuthenticationService;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
@@ -20,7 +21,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 {
     public class VersionSynchronizer : IVersionSynchronizer
     {
-        public IMechSyncServiceClient ServiceClient { get; set; }
+        public IMechSyncServiceClient SyncServiceClient { get; set; }
+        public IAuthenticationServiceClient AuthServiceClient { get; set; }
+
         public IVersionChangeMonitor ChangeMonitor { get; private set; }
 
         public ConcurrentDictionary<string, FileMetadata> LocalFileIndex { get; set; }
@@ -31,21 +34,22 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         private VersionSynchronizerState state;
         private bool disposedValue;
 
-        public OngoingVersion Version { get; }
+        public LocalVersion Version { get; }
 
         public string FileExtensionFilter { get; private set; } = "*.sldasm | *.sldprt | *.slddrw";
 
-        public VersionSynchronizer(OngoingVersion version, VersionSynchronizerUI ui)
+        public VersionSynchronizer(LocalVersion version, 
+                                   VersionSynchronizerUI ui,
+                                   IMechSyncServiceClient syncServiceClient,
+                                   IAuthenticationServiceClient authenticationServiceClient)
         {
-            if (version is null)
-            {
-                throw new ArgumentNullException(nameof(version));
-            }
-            Version = version;
+            Version = version ?? throw new ArgumentNullException(nameof(version));
 
             UI = ui ?? throw new ArgumentNullException(nameof(ui));
             ChangeMonitor = new VersionChangeMonitor(version, FileExtensionFilter);
-            ServiceClient = MechSyncServiceClient.Instance;
+            SyncServiceClient = syncServiceClient;
+            AuthServiceClient = authenticationServiceClient;
+
             LocalFileIndex = new ConcurrentDictionary<string, FileMetadata>();
             RemoteFileIndex = new ConcurrentDictionary<string, FileMetadata>();
 

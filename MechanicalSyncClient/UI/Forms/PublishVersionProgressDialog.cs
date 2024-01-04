@@ -1,4 +1,5 @@
-﻿using MechanicalSyncApp.Core.Services.MechSync;
+﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Services.MechSync;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.IO;
@@ -15,10 +16,12 @@ namespace MechanicalSyncApp.UI.Forms
 
         public bool IsPublishingComplete { get; set; }
         public bool IsPublishingSuccess { get; set; }
+        public IVersionSynchronizer Synchronizer { get; }
 
-        public PublishVersionProgressDialog(string versionId, string localDirectory)
+        public PublishVersionProgressDialog(IVersionSynchronizer synchronizer, string versionId, string localDirectory)
         {
             InitializeComponent();
+            Synchronizer = synchronizer;
             this.versionId = versionId ?? throw new ArgumentNullException(nameof(versionId));
             this.localDirectory = localDirectory ?? throw new ArgumentNullException(nameof(localDirectory));
         }
@@ -39,7 +42,7 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 try
                 {
-                    version = await MechSyncServiceClient.Instance.GetVersionAsync(versionId);
+                    version = await Synchronizer.SyncServiceClient.GetVersionAsync(versionId);
                     IsPublishingComplete = version.Status.ToLower() != "publishing";
                     IsPublishingSuccess = version.Status.ToLower() == "latest";
                     await Task.Delay(2000);

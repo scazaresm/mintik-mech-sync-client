@@ -46,9 +46,9 @@
             this.Status.AutoSize = true;
             this.Status.Location = new System.Drawing.Point(12, 55);
             this.Status.Name = "Status";
-            this.Status.Size = new System.Drawing.Size(35, 13);
+            this.Status.Size = new System.Drawing.Size(52, 13);
             this.Status.TabIndex = 1;
-            this.Status.Text = "label1";
+            this.Status.Text = "Starting...";
             // 
             // OpeningLegend
             // 

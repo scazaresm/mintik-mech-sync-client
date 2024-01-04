@@ -95,7 +95,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
         private void InitializeChainOfHandlers()
         {
-            var client = Synchronizer.ServiceClient;
+            var client = Synchronizer.SyncServiceClient;
             
             fileCreatedHandler = new FileCreatedEventHandler(client, this);
             fileChangedHandler = new FileChangedEventHandler(client, this);
