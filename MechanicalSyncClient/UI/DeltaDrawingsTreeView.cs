@@ -117,7 +117,9 @@ namespace MechanicalSyncApp.UI
                         newTreeNode = reviewingNode.Nodes.Add(drawingFileName);
                         break;
 
-                    case "Reviewed":
+                    case "Rejected":
+                    case "Approved":
+                    case "Fixed":
                         newTreeNode = reviewedNode.Nodes.Add(drawingFileName);
                         break;
                 }

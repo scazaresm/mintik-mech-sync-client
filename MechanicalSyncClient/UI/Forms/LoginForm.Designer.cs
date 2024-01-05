@@ -55,7 +55,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.Email.Name = "Email";
             this.Email.Size = new System.Drawing.Size(256, 22);
             this.Email.TabIndex = 0;
-            this.Email.Text = "sergio@demo.com";
+            this.Email.Text = "sergio.cazares.sdt@gmail.com";
             this.Email.TextChanged += new System.EventHandler(this.Email_TextChanged);
             this.Email.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Email_KeyDown);
             // 

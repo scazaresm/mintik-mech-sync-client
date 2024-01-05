@@ -1,26 +1,15 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
-using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Reviews.DrawingReviewer;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
 {
     public partial class DrawingReviewerForm : Form
     {
+
         private readonly IDrawingReviewer drawingReviewer;
 
         public DrawingReviewerForm(IMechSyncServiceClient syncServiceClient, LocalReview review)
@@ -36,10 +25,14 @@ namespace MechanicalSyncApp.UI.Forms
                 MarkupStatus = MarkupStatus,
                 DeltaDrawingsTreeView = DeltaDrawingsTreeView,
                 ZoomButton = ZoomButton,
+                ZoomToAreaButton = ZoomToAreaButton,
                 PanButton = PanButton,
+                ApproveDrawingButton = ApproveDrawingButton,
+                RejectDrawingButton = RejectDrawingButton,
                 ChangeRequestButton = ChangeRequestButton,
                 CloseDrawingButton = CloseDrawingButton,
                 SaveProgressButton = SaveProgressButton,
+                ReviewTargetStatus = ReviewTargetStatus,
             };
             drawingReviewer = new DrawingReviewer(syncServiceClient, ui, review);
             drawingReviewer.InitializeUI();
@@ -54,6 +47,16 @@ namespace MechanicalSyncApp.UI.Forms
         private void DrawingReviewerForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             drawingReviewer.CloseReviewTarget();
+        }
+
+        private void DrawingReviewerForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.SuppressKeyPress = true;
+
+            if (e.Control && e.KeyCode == Keys.S)
+                drawingReviewer.UI.SaveProgressButton.PerformClick();
+            else if (e.Control && e.KeyCode == Keys.A)
+                drawingReviewer.UI.ChangeRequestButton.PerformClick();
         }
     }
 }

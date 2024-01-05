@@ -11,12 +11,16 @@ using System.Windows.Forms;
 using eDrawings.Interop.EModelViewControl;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Domain;
+using System.Drawing;
 
 namespace MechanicalSyncApp.Reviews.DrawingReviewer
 {
     public class DrawingReviewerUI : IDrawingReviewerUI
     {
+
         public ToolStripButton ZoomButton { get; set; }
+
+        public ToolStripButton ZoomToAreaButton { get; set; }
 
         public ToolStripButton PanButton {  get; set; }
 
@@ -26,6 +30,10 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         public ToolStripButton CloseDrawingButton { get; set; }
 
+        public ToolStripButton ApproveDrawingButton { get; set; }
+
+        public ToolStripButton RejectDrawingButton { get; set; }
+
         public SplitContainer MainSplit { get; set; }
 
         public Panel MarkupPanel { get; set; }
@@ -34,15 +42,59 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         public ToolStripStatusLabel MarkupStatus { get; set; }
 
+        public ToolStripLabel ReviewTargetStatus { get; set; }
+
         public TreeView DeltaDrawingsTreeView { get; set; }
 
         public Label HeaderLabel { get; set; }
 
         public DrawingReviewerControl DrawingReviewerControl { get; set; }
 
+        public void SetReviewControlsEnabled(bool enabled)
+        {
+            ApproveDrawingButton.Enabled = enabled;
+            RejectDrawingButton.Enabled = enabled;
+            ChangeRequestButton.Enabled = enabled;
+            SaveProgressButton.Enabled = enabled;
+        }
 
-        private string localDrawingPath;
+        public void SetReviewTargetStatusText(string status)
+        {
+            ReviewTargetStatus.Text = status;
 
+            ReviewTargetStatus.BackgroundImageLayout = ImageLayout.Stretch;
+            ReviewTargetStatus.BackgroundImage = new Bitmap(1, 1);
+            var g = Graphics.FromImage(ReviewTargetStatus.BackgroundImage);
+
+            switch (status)
+            {
+                case "Pending":
+                default:
+                    g.Clear(Color.Black);
+                    ReviewTargetStatus.ForeColor = Color.White;
+                    break;
+
+                case "Reviewing":
+                    g.Clear(Color.Black);
+                    ReviewTargetStatus.ForeColor = Color.Yellow;
+                    break;
+
+                case "Approved":
+                    g.Clear(Color.DarkGreen);
+                    ReviewTargetStatus.ForeColor = Color.White;
+                    break;
+
+                case "Rejected":
+                    g.Clear(Color.DarkRed);
+                    ReviewTargetStatus.ForeColor = Color.White;
+                    break;
+
+                case "Fixed":
+                    g.Clear(Color.Black);
+                    ReviewTargetStatus.ForeColor = Color.Aqua;
+                    break;
+            }
+        }
 
         public void ShowDrawingMarkupPanel()
         {
@@ -105,8 +157,6 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
                 OnFailedLoadingDocument = onFailedLoadingDocumentEventHandler
             };
             MarkupPanel.Controls.Add(DrawingReviewerControl.HostControl);
-
-            this.localDrawingPath = localDrawingPath;
         }
 
         public void DisposeDrawing()

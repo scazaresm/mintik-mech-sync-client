@@ -31,6 +31,20 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
         private string tempDownloadedMarkupFile;
         private string tempUploadedMarkupFile;
 
+        private readonly string[] STATUSES_WITH_MARKUP_FILE = new string[] 
+        {
+            "Reviewing",
+            "Rejected",
+            "Fixed"
+        };
+
+        private readonly string[] STATUSES_WITH_REVIEW_CONTROLS = new string[] 
+        {
+            "Pending",
+            "Reviewing",
+            "Fixed"
+        };
+
         public DrawingReviewer(IMechSyncServiceClient serviceClient,
                                IDrawingReviewerUI ui,
                                LocalReview review
@@ -52,7 +66,19 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             try
             {
                 this.reviewTarget = reviewTarget;
+
+                UI.MarkupStatus.Text = "Opening drawing...";
+                UI.SetReviewTargetStatusText(reviewTarget.Status);
+
+                UI.SetReviewControlsEnabled(
+                    STATUSES_WITH_REVIEW_CONTROLS.Contains(reviewTarget.Status)
+                );
+
                 drawingMetadata = await SyncServiceClient.GetFileMetadataAsync(reviewTarget.TargetId);
+                UI.SetHeaderText(
+                    $"Drawing {Path.GetFileNameWithoutExtension(drawingMetadata.RelativeFilePath)} from {Review}"
+                );
+
                 tempDownloadedDrawingFile = Path.GetTempFileName().Replace(".tmp", ".slddrw");
 
                 UI.ShowDrawingMarkupPanel();
@@ -67,19 +93,22 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
                 }, UI.ReportDownloadProgress);
 
                 UI.HideDownloadProgress();
-
                 UI.LoadDrawing(tempDownloadedDrawingFile, DrawingReviewerControl_OpenDocError);
-                UI.SetHeaderText(
-                    $"Reviewing drawing {Path.GetFileNameWithoutExtension(drawingMetadata.RelativeFilePath)} from {Review}"
-                );
 
-                // if drawing has 'Reviewing' status, it shall have a corresponding markup file on server
-                if (reviewTarget.Status == "Reviewing")
+                if (STATUSES_WITH_MARKUP_FILE.Contains(reviewTarget.Status))
                     await LoadMarkupFileFromServer();
+
+                UI.MarkupStatus.Text = "Ready";
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                MessageBox.Show(
+                    $"Could not open drawing for review, {ex.Message}", 
+                    "Error", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
+                CloseReviewTarget();
             }
         }
 
@@ -135,14 +164,75 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             UI.ChangeRequestButton.Click += ChangeRequestButton_Click;
             UI.SaveProgressButton.Click += SaveProgressButton_Click;
             UI.CloseDrawingButton.Click += CloseDrawingButton_Click;
+            UI.ZoomToAreaButton.Click += ZoomToAreaButton_Click;
+            UI.ApproveDrawingButton.Click += ApproveDrawingButton_Click;
+            UI.RejectDrawingButton.Click += RejectDrawingButton_Click;
+        }
+
+        private async void ApproveDrawingButton_Click(object sender, EventArgs e)
+        {
+            var confirmation = MessageBox.Show(
+               "Approve this drawing?", "Approve drawing",
+               MessageBoxButtons.YesNo, MessageBoxIcon.Question
+            );
+            if (confirmation != DialogResult.Yes) return;
+
+            UI.ApproveDrawingButton.Enabled = false;
+            UI.MarkupStatus.Text = "Approving drawing...";
+
+            // put status as approved
+            reviewTarget = await SyncServiceClient.UpdateReviewTarget(new UpdateReviewTargetRequest()
+            {
+                ReviewId = Review.RemoteReview.Id,
+                ReviewTargetId = reviewTarget.Id,
+                Status = "Approved"
+            });
+
+            UI.ApproveDrawingButton.Enabled = true;
+            UI.MarkupStatus.Text = "Ready";
+
+            CloseReviewTarget();
+        }
+
+        private async void RejectDrawingButton_Click(object sender, EventArgs e)
+        {
+            var confirmation = MessageBox.Show(
+                "Reject this drawing?", "Reject drawing", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question
+            );
+            if (confirmation != DialogResult.Yes) return;
+
+            UI.RejectDrawingButton.Enabled = false;
+            UI.MarkupStatus.Text = "Rejecting drawing...";
+
+            // upload the current eDrawings markup file
+            var uploadedMarkup = await UploadMarkupFileAsync();
+  
+            if (uploadedMarkup)
+            {
+                // put status as rejected
+                reviewTarget = await SyncServiceClient.UpdateReviewTarget(new UpdateReviewTargetRequest()
+                {
+                    ReviewId = Review.RemoteReview.Id,
+                    ReviewTargetId = reviewTarget.Id,
+                    Status = "Rejected"
+                });
+                CloseReviewTarget();
+            }
+            UI.RejectDrawingButton.Enabled = true;
+            UI.MarkupStatus.Text = "Ready";
+        }
+
+        private void ZoomToAreaButton_Click(object sender, EventArgs e)
+        {
+            UI.DrawingReviewerControl.SetZoomToAreaOperator();
         }
 
         private async Task LoadMarkupFileFromServer()
         {
-            if (reviewTarget.Status != "Reviewing") return;
             try
             {
-                // download the markup file from server and save it in a temporary file
+                // download the markup file from server and save it to a temporary file
                 tempDownloadedMarkupFile = Path.GetTempFileName().Replace(".tmp", ".markup");
 
                 await SyncServiceClient.DownloadFileAsync(new DownloadFileRequest()
@@ -167,15 +257,33 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             }
         }
 
-        private void SaveProgressButton_Click(object sender, EventArgs e)
+        private async void SaveProgressButton_Click(object sender, EventArgs e)
         {
-            _ = SaveReviewProgressAsync();
+            UI.SaveProgressButton.Enabled = false;
+            UI.MarkupStatus.Text = "Saving progress...";
+
+            // upload the current eDrawings markup file
+            var uploadedMarkup = await UploadMarkupFileAsync();
+
+            if (uploadedMarkup && reviewTarget.Status != "Reviewing")
+            {
+                // put review target status to 'Reviewing' if not already set. This condition shall be met
+                // in order to load the corresponding markup file when this review target is open again
+                reviewTarget = await SyncServiceClient.UpdateReviewTarget(new UpdateReviewTargetRequest()
+                {
+                    ReviewId = Review.RemoteReview.Id,
+                    ReviewTargetId = reviewTarget.Id,
+                    Status = "Reviewing"
+                });
+                UI.SetReviewTargetStatusText(reviewTarget.Status);
+            }
+            UI.SaveProgressButton.Enabled = true;
+            UI.MarkupStatus.Text = "Ready";
         }
 
-        private async Task SaveReviewProgressAsync()
+        private async Task<bool> UploadMarkupFileAsync()
         {
-            if (reviewTarget == null) return;
-
+            if (reviewTarget == null) return false;
             try
             {
                 // use eDrawings to save the current markup file to a temporary file
@@ -185,11 +293,22 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
                 // eDrawings will add the file extension
                 tempUploadedMarkupFile += ".All Reviews.markup";
 
-                // eDrawings will save the file asynchronously but we don't have a callback to know when
+                // eDrawings saves the file asynchronously but the API doesn't expose a callback to know when
                 // it has finished, so we need to monitor file size
                 await WaitForStableFileSize(tempUploadedMarkupFile);
 
-                // once we have the temporary markup file, upload it to server
+                // eDrawings will not create a file if there is no markup content
+                if (!File.Exists(tempUploadedMarkupFile))
+                {
+                    MessageBox.Show("You must add at least one change request.",
+                        "No content",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation
+                    );
+                    return false;
+                }
+
+                // once we got the temporary markup file, upload it to server
                 await SyncServiceClient.UploadFileAsync(new UploadFileRequest()
                 {
                     VersionId = Review.RemoteReview.VersionId,
@@ -199,20 +318,12 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
                     RelativeFilePath = $"{reviewTarget.TargetId}.markup"
                 });
 
-                // put review target status to 'Reviewing' if not already set. This condition shall be met
-                // in order to load the corresponding markup file when this review target is open again
-                if (reviewTarget.Status == "Reviewing") return;
-
-                reviewTarget = await SyncServiceClient.UpdateReviewTarget(new UpdateReviewTargetRequest()
-                {
-                    ReviewId = Review.RemoteReview.Id,
-                    ReviewTargetId = reviewTarget.Id,
-                    Status = "Reviewing"
-                });
+                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                return false;
             }
         }
 
@@ -229,6 +340,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
         private void PanButton_Click(object sender, EventArgs e)
         {
             UI.DrawingReviewerControl.SetPanOperator();
+            UI.DrawingReviewerControl.HostControl?.FindForm().Focus();
         }
 
         private void ZoomButton_Click(object sender, EventArgs e)
@@ -269,5 +381,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
                 }
             }
         }
+
+   
     }
 }

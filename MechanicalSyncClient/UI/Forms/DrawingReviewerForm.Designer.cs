@@ -33,28 +33,29 @@
             this.DeltaDrawingsTreeView = new System.Windows.Forms.TreeView();
             this.MarkupPanel = new System.Windows.Forms.Panel();
             this.MarkupOperatorsToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.ChangeRequestButton = new System.Windows.Forms.ToolStripButton();
+            this.PanButton = new System.Windows.Forms.ToolStripButton();
+            this.ZoomToAreaButton = new System.Windows.Forms.ToolStripButton();
+            this.ZoomButton = new System.Windows.Forms.ToolStripButton();
+            this.ReviewMarkupToolStrip = new System.Windows.Forms.ToolStrip();
+            this.CloseDrawingButton = new System.Windows.Forms.ToolStripButton();
+            this.SaveProgressButton = new System.Windows.Forms.ToolStripButton();
+            this.ApproveDrawingButton = new System.Windows.Forms.ToolStripButton();
+            this.RejectDrawingButton = new System.Windows.Forms.ToolStripButton();
             this.MarkupStatusStrip = new System.Windows.Forms.StatusStrip();
             this.MarkupStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.DownloadProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.HeaderLabel = new System.Windows.Forms.Label();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ChangeRequestButton = new System.Windows.Forms.ToolStripButton();
-            this.PanButton = new System.Windows.Forms.ToolStripButton();
-            this.ZoomToAreaButton = new System.Windows.Forms.ToolStripButton();
-            this.ZoomButton = new System.Windows.Forms.ToolStripButton();
-            this.CloseDrawingButton = new System.Windows.Forms.ToolStripButton();
-            this.SaveProgressButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.ReviewTargetStatus = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
             this.MainSplit.Panel1.SuspendLayout();
             this.MainSplit.Panel2.SuspendLayout();
             this.MainSplit.SuspendLayout();
             this.MarkupPanel.SuspendLayout();
             this.MarkupOperatorsToolStrip.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.ReviewMarkupToolStrip.SuspendLayout();
             this.MarkupStatusStrip.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             this.SuspendLayout();
@@ -72,7 +73,7 @@
             // MainSplit.Panel2
             // 
             this.MainSplit.Panel2.Controls.Add(this.MarkupPanel);
-            this.MainSplit.Panel2.Controls.Add(this.toolStrip1);
+            this.MainSplit.Panel2.Controls.Add(this.ReviewMarkupToolStrip);
             this.MainSplit.Panel2.Controls.Add(this.MarkupStatusStrip);
             this.MainSplit.Size = new System.Drawing.Size(977, 506);
             this.MainSplit.SplitterDistance = 279;
@@ -98,82 +99,18 @@
             // MarkupOperatorsToolStrip
             // 
             this.MarkupOperatorsToolStrip.AutoSize = false;
-            this.MarkupOperatorsToolStrip.Dock = System.Windows.Forms.DockStyle.Right;
+            this.MarkupOperatorsToolStrip.Dock = System.Windows.Forms.DockStyle.Left;
             this.MarkupOperatorsToolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.MarkupOperatorsToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChangeRequestButton,
             this.PanButton,
             this.ZoomToAreaButton,
             this.ZoomButton});
-            this.MarkupOperatorsToolStrip.Location = new System.Drawing.Point(654, 0);
+            this.MarkupOperatorsToolStrip.Location = new System.Drawing.Point(0, 0);
             this.MarkupOperatorsToolStrip.Name = "MarkupOperatorsToolStrip";
             this.MarkupOperatorsToolStrip.Size = new System.Drawing.Size(40, 451);
             this.MarkupOperatorsToolStrip.TabIndex = 3;
             this.MarkupOperatorsToolStrip.Text = "toolStrip2";
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.AutoSize = false;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CloseDrawingButton,
-            this.SaveProgressButton,
-            this.toolStripSeparator1,
-            this.toolStripButton3,
-            this.toolStripButton2});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(694, 33);
-            this.toolStrip1.TabIndex = 4;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // MarkupStatusStrip
-            // 
-            this.MarkupStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MarkupStatus,
-            this.DownloadProgressBar});
-            this.MarkupStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.MarkupStatusStrip.Location = new System.Drawing.Point(0, 484);
-            this.MarkupStatusStrip.Name = "MarkupStatusStrip";
-            this.MarkupStatusStrip.Size = new System.Drawing.Size(694, 22);
-            this.MarkupStatusStrip.TabIndex = 3;
-            this.MarkupStatusStrip.Text = "statusStrip1";
-            // 
-            // MarkupStatus
-            // 
-            this.MarkupStatus.Name = "MarkupStatus";
-            this.MarkupStatus.Size = new System.Drawing.Size(122, 17);
-            this.MarkupStatus.Text = "Loading 2D drawing...";
-            // 
-            // DownloadProgressBar
-            // 
-            this.DownloadProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.DownloadProgressBar.Name = "DownloadProgressBar";
-            this.DownloadProgressBar.Size = new System.Drawing.Size(100, 16);
-            // 
-            // HeaderPanel
-            // 
-            this.HeaderPanel.Controls.Add(this.HeaderLabel);
-            this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.HeaderPanel.Location = new System.Drawing.Point(0, 0);
-            this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.Size = new System.Drawing.Size(977, 25);
-            this.HeaderPanel.TabIndex = 1;
-            // 
-            // HeaderLabel
-            // 
-            this.HeaderLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.HeaderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HeaderLabel.Location = new System.Drawing.Point(0, 0);
-            this.HeaderLabel.Name = "HeaderLabel";
-            this.HeaderLabel.Size = new System.Drawing.Size(977, 25);
-            this.HeaderLabel.TabIndex = 0;
-            this.HeaderLabel.Text = "Reviewing...";
-            this.HeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 33);
             // 
             // ChangeRequestButton
             // 
@@ -185,6 +122,7 @@
             this.ChangeRequestButton.Name = "ChangeRequestButton";
             this.ChangeRequestButton.Size = new System.Drawing.Size(38, 36);
             this.ChangeRequestButton.Text = "Zoom to area";
+            this.ChangeRequestButton.ToolTipText = "Add change request";
             // 
             // PanButton
             // 
@@ -219,13 +157,30 @@
             this.ZoomButton.Size = new System.Drawing.Size(38, 36);
             this.ZoomButton.Text = "Zoom";
             // 
+            // ReviewMarkupToolStrip
+            // 
+            this.ReviewMarkupToolStrip.AutoSize = false;
+            this.ReviewMarkupToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CloseDrawingButton,
+            this.toolStripSeparator2,
+            this.ReviewTargetStatus,
+            this.SaveProgressButton,
+            this.ApproveDrawingButton,
+            this.RejectDrawingButton});
+            this.ReviewMarkupToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.ReviewMarkupToolStrip.Name = "ReviewMarkupToolStrip";
+            this.ReviewMarkupToolStrip.Size = new System.Drawing.Size(694, 33);
+            this.ReviewMarkupToolStrip.TabIndex = 4;
+            this.ReviewMarkupToolStrip.Text = "toolStrip1";
+            // 
             // CloseDrawingButton
             // 
+            this.CloseDrawingButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.CloseDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
             this.CloseDrawingButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CloseDrawingButton.Name = "CloseDrawingButton";
-            this.CloseDrawingButton.Size = new System.Drawing.Size(102, 30);
-            this.CloseDrawingButton.Text = "Close drawing";
+            this.CloseDrawingButton.Size = new System.Drawing.Size(56, 30);
+            this.CloseDrawingButton.Text = "Close";
             // 
             // SaveProgressButton
             // 
@@ -234,23 +189,85 @@
             this.SaveProgressButton.Name = "SaveProgressButton";
             this.SaveProgressButton.Size = new System.Drawing.Size(99, 30);
             this.SaveProgressButton.Text = "Save progress";
+            this.SaveProgressButton.ToolTipText = "Save progress (Ctrl + S)";
             // 
-            // toolStripButton3
+            // ApproveDrawingButton
             // 
-            this.toolStripButton3.Image = global::MechanicalSyncApp.Properties.Resources.ok_apply_icon_24;
-            this.toolStripButton3.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(80, 30);
-            this.toolStripButton3.Text = "Approve";
+            this.ApproveDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.ok_apply_icon_24;
+            this.ApproveDrawingButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.ApproveDrawingButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ApproveDrawingButton.Name = "ApproveDrawingButton";
+            this.ApproveDrawingButton.Size = new System.Drawing.Size(80, 30);
+            this.ApproveDrawingButton.Text = "Approve";
+            this.ApproveDrawingButton.ToolTipText = "Approve drawing";
             // 
-            // toolStripButton2
+            // RejectDrawingButton
             // 
-            this.toolStripButton2.Image = global::MechanicalSyncApp.Properties.Resources.delete_icon_24;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(59, 30);
-            this.toolStripButton2.Text = "Reject";
+            this.RejectDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.delete_icon_24;
+            this.RejectDrawingButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RejectDrawingButton.Name = "RejectDrawingButton";
+            this.RejectDrawingButton.Size = new System.Drawing.Size(59, 30);
+            this.RejectDrawingButton.Text = "Reject";
+            this.RejectDrawingButton.ToolTipText = "Reject drawing";
+            // 
+            // MarkupStatusStrip
+            // 
+            this.MarkupStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MarkupStatus,
+            this.DownloadProgressBar});
+            this.MarkupStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.MarkupStatusStrip.Location = new System.Drawing.Point(0, 484);
+            this.MarkupStatusStrip.Name = "MarkupStatusStrip";
+            this.MarkupStatusStrip.Size = new System.Drawing.Size(694, 22);
+            this.MarkupStatusStrip.TabIndex = 3;
+            this.MarkupStatusStrip.Text = "statusStrip1";
+            // 
+            // MarkupStatus
+            // 
+            this.MarkupStatus.Name = "MarkupStatus";
+            this.MarkupStatus.Size = new System.Drawing.Size(108, 17);
+            this.MarkupStatus.Text = "Opening drawing...";
+            // 
+            // DownloadProgressBar
+            // 
+            this.DownloadProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.DownloadProgressBar.Name = "DownloadProgressBar";
+            this.DownloadProgressBar.Size = new System.Drawing.Size(100, 16);
+            // 
+            // HeaderPanel
+            // 
+            this.HeaderPanel.Controls.Add(this.HeaderLabel);
+            this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.HeaderPanel.Location = new System.Drawing.Point(0, 0);
+            this.HeaderPanel.Name = "HeaderPanel";
+            this.HeaderPanel.Size = new System.Drawing.Size(977, 25);
+            this.HeaderPanel.TabIndex = 1;
+            // 
+            // HeaderLabel
+            // 
+            this.HeaderLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.HeaderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HeaderLabel.Location = new System.Drawing.Point(0, 0);
+            this.HeaderLabel.Name = "HeaderLabel";
+            this.HeaderLabel.Size = new System.Drawing.Size(977, 25);
+            this.HeaderLabel.TabIndex = 0;
+            this.HeaderLabel.Text = "Loading...";
+            this.HeaderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ReviewTargetStatus
+            // 
+            this.ReviewTargetStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.ReviewTargetStatus.AutoSize = false;
+            this.ReviewTargetStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ReviewTargetStatus.Name = "ReviewTargetStatus";
+            this.ReviewTargetStatus.Size = new System.Drawing.Size(59, 30);
+            this.ReviewTargetStatus.Text = "Loading...";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 33);
             // 
             // DrawingReviewerForm
             // 
@@ -260,12 +277,14 @@
             this.Controls.Add(this.MainSplit);
             this.Controls.Add(this.HeaderPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "DrawingReviewerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "2D Review";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DrawingReviewerForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DrawingReviewerForm_FormClosed);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DrawingReviewerForm_KeyDown);
             this.MainSplit.Panel1.ResumeLayout(false);
             this.MainSplit.Panel2.ResumeLayout(false);
             this.MainSplit.Panel2.PerformLayout();
@@ -274,8 +293,8 @@
             this.MarkupPanel.ResumeLayout(false);
             this.MarkupOperatorsToolStrip.ResumeLayout(false);
             this.MarkupOperatorsToolStrip.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.ReviewMarkupToolStrip.ResumeLayout(false);
+            this.ReviewMarkupToolStrip.PerformLayout();
             this.MarkupStatusStrip.ResumeLayout(false);
             this.MarkupStatusStrip.PerformLayout();
             this.HeaderPanel.ResumeLayout(false);
@@ -296,13 +315,14 @@
         private System.Windows.Forms.ToolStripButton PanButton;
         private System.Windows.Forms.ToolStripButton ZoomToAreaButton;
         private System.Windows.Forms.ToolStripButton ZoomButton;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip ReviewMarkupToolStrip;
         private System.Windows.Forms.ToolStripButton CloseDrawingButton;
         private System.Windows.Forms.ToolStripProgressBar DownloadProgressBar;
         private System.Windows.Forms.ToolStripButton ChangeRequestButton;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton RejectDrawingButton;
         private System.Windows.Forms.ToolStripButton SaveProgressButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton ApproveDrawingButton;
+        private System.Windows.Forms.ToolStripLabel ReviewTargetStatus;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

@@ -24,5 +24,6 @@ namespace MechanicalSyncApp.Core
         void CloseReviewTarget();
 
         Task RefreshDeltaDrawings();
+
     }
 }

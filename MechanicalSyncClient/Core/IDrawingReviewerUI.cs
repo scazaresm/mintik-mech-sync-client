@@ -12,26 +12,27 @@ namespace MechanicalSyncApp.Core
     public interface IDrawingReviewerUI
     {
         ToolStripButton ZoomButton { get; }
+        ToolStripButton ZoomToAreaButton { get; }
         ToolStripButton PanButton { get; }
         ToolStripButton ChangeRequestButton { get; }
-
         ToolStripButton SaveProgressButton { get; }
-
         ToolStripButton CloseDrawingButton { get; }
+        ToolStripButton ApproveDrawingButton { get; }
+        ToolStripButton RejectDrawingButton { get; }
 
         SplitContainer MainSplit { get; }
-
         Panel MarkupPanel { get; }
-
         ToolStripProgressBar DownloadProgressBar { get; }
-
         ToolStripStatusLabel MarkupStatus { get; }
+        ToolStripLabel ReviewTargetStatus { get; }
 
         Label HeaderLabel { get; set; }
-
         TreeView DeltaDrawingsTreeView { get; }
-
         DrawingReviewerControl DrawingReviewerControl { get; }
+
+        void SetReviewControlsEnabled(bool enabled);
+
+        void SetReviewTargetStatusText(string status);
 
         void HideDrawingMarkupPanel();
 
