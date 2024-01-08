@@ -29,6 +29,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             ui.WorkOnlineButton.Enabled = true;
 
             ui.WorkOfflineButton.Visible = false;
+
+            ui.PublishVersionButton.Enabled = true;
+            ui.TransferOwnershipButton.Enabled = true;
         }
     }
 }

@@ -14,19 +14,17 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
-    public class OpenVersionCommand : VersionSynchronizerCommandAsync
+    public class OpenVersionCommand : IVersionSynchronizerCommandAsync
     {
-        private const string ONGOING_VERSION_FOLDER_NAME = "Ongoing";
-        private readonly IMechSyncServiceClient serviceClient;
-        private OpenVersionProgressDialog progressDialog;
-
+        private DownloadWorkingCopyDialog progressDialog;
         private SyncCheckSummary SyncCheckSummary;
 
         public IVersionSynchronizer Synchronizer { get; }
-        public Core.Services.MechSync.Models.Version RemoteVersion { get; }
+        public Version RemoteVersion { get; }
         public Project RemoteProject { get; }
         public LocalVersion LocalVersion { get; }
         
@@ -82,36 +80,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             throw new NotVersionOwnerException();
         }
 
-        private async Task CheckLocalCopyAsync()
-        {
-            Synchronizer.SetState(new IndexLocalFiles());
-            await Synchronizer.RunStepAsync();
-
-            Synchronizer.SetState(new IndexRemoteFilesState());
-            await Synchronizer.RunStepAsync();
-
-            var syncCheckStep = new SyncCheckState();
-            Synchronizer.SetState(syncCheckStep);
-            await Synchronizer.RunStepAsync();
-            SyncCheckSummary = syncCheckStep.Summary;
-
-            // we expect no changes, so downloaded copy is synced with server
-            if (!SyncCheckSummary.HasChanges)
-            {
-                Synchronizer.SetState(new IdleState());
-                await Synchronizer.RunStepAsync();
-                return;
-            }
-
-            // downloaded copy is not synced with server, remove corrupted files and fail
-            await MoveFolderToRecycleBinAsync();
-
-            if (progressDialog != null && progressDialog.Visible)
-                progressDialog.Close();
-
-            throw new Exception("Downloaded copy did not match with server, please try again.");
-        }
-
         private async Task DownloadVersionFilesAsync(CancellationTokenSource cts)
         {
             try
@@ -126,52 +94,27 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Directory.CreateDirectory(Synchronizer.Version.LocalDirectory);
 
                 // progress dialog will inform user about download progress
-                progressDialog = new OpenVersionProgressDialog(cts);
+                progressDialog = new DownloadWorkingCopyDialog(cts);
                 progressDialog.SetOpeningLegend($"Opening {Synchronizer.Version}");
                 progressDialog.Show();
 
-                // Get all file metadata for this version
-                var client = Synchronizer.SyncServiceClient;
-                var allFileMetadata = await client.GetFileMetadataAsync(RemoteVersion.Id, null);
-                var totalFiles = allFileMetadata.Count;
-                int i = 0;
-
-                // download each file based on its metadata
-                foreach (var fileMetadata in allFileMetadata)
+                // download a working copy and get the sync check summary
+                var syncCheckState = await new WorkingCopyDownloader(Synchronizer)
                 {
-                    cts.Token.ThrowIfCancellationRequested();
+                    Dialog = progressDialog,
+                    CancellationTokenSource = cts
+                }.DownloadAsync();
 
-                    var localFileName = Path.Combine(LocalVersion.LocalDirectory, fileMetadata.RelativeFilePath);
+                SyncCheckSummary = syncCheckState.Summary;
 
-                    // remote file path is linux-based with forward slash, convert to windows-based
-                    localFileName = localFileName.Replace('/', Path.DirectorySeparatorChar);
-
-                    progressDialog.SetStatus($"Downloading {Path.GetFileName(localFileName)}...");
-
-                    var fileDirectory = Path.GetDirectoryName(localFileName);
-                    if (!Directory.Exists(fileDirectory))
-                        Directory.CreateDirectory(fileDirectory);
-
-                    await client.DownloadFileAsync(new DownloadFileRequest()
-                    {
-                        LocalFilename = localFileName,
-                        RelativeEquipmentPath = RemoteProject.RelativeEquipmentPath,
-                        RelativeFilePath = fileMetadata.RelativeFilePath,
-                        VersionFolder = ONGOING_VERSION_FOLDER_NAME
-                    });
-
-                    i++;
-                    var currentProgress = totalFiles > 0
-                        ? (int)((double)i / totalFiles * 100.0)
-                        : 0;
-
-                    progressDialog.SetProgress(currentProgress);
+                // we expect no changes in downloaded working copy, so it is synced with server
+                if (SyncCheckSummary.HasChanges)
+                {
+                    await MoveFolderToRecycleBinAsync();
+                    progressDialog?.Close();
+                    throw new Exception("Downloaded copy did not match with server, please try again.");
                 }
-
-                progressDialog.SetStatus("Checking local copy...");
-                await CheckLocalCopyAsync();
-
-                progressDialog.Close();
+                progressDialog?.Close();
 
                 string successMessage;
 
@@ -180,23 +123,23 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     progressDialog.SetStatus("Acknowledging version ownership...");
                     await AcknowledgeOwnershipAsync();
                     successMessage =
-                        $"You are the new owner of this version and successfully downloaded a working copy with latest changes from previous owner." + Environment.NewLine + Environment.NewLine +
-                        "Remember to sync the remote server frequently and publish this version when you are done, thanks!";
+                        $"You are the new owner of this version and got a working copy with latest changes from previous owner." + Environment.NewLine + Environment.NewLine +
+                        "Remember to sync your changes frequently and publish this version when you are done, thanks!";
                 } 
                 else
                 {
-                    successMessage = "Now you have a working copy in your computer to start working from, please do not move or delete this folder and remember to sync your changes frequently.";
+                    successMessage = "You got a working copy in your computer to start working from, please do not move or delete this folder and remember to sync your changes frequently.";
                 }
                 MessageBox.Show(successMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 // user cancelled the operation
                 Directory.Delete(LocalVersion.LocalDirectory, true);
                 progressDialog.Close();
                 throw new OpenVersionCanceledException();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Directory.Delete(LocalVersion.LocalDirectory, true);
                 progressDialog.Close();
@@ -235,7 +178,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             get
             {
                 // logged user is current owner but there is a next owner assigned
-                var userId = AuthServiceClient.UserDetails.Id;
+                var userId = AuthServiceClient.LoggedUserDetails.Id;
                 return RemoteVersion.Owner.UserId == userId && RemoteVersion.NextOwner != null;
             }
         }
@@ -244,7 +187,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             get 
             {
                 // logged user is not current owner but is assigned as next owner
-                var userId = AuthServiceClient.UserDetails.Id;
+                var userId = AuthServiceClient.LoggedUserDetails.Id;
                 return RemoteVersion.Owner.UserId != userId && RemoteVersion.NextOwner.UserId == userId;
             }
         }    

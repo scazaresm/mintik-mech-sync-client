@@ -3,17 +3,13 @@ using MechanicalSyncApp.Core.AuthenticationService;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI;
-using MechanicalSyncApp.UI.Forms;
-using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Diagnostics;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -143,12 +139,15 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.CloseVersionButton.Click += CloseVersionButton_Click;
             UI.PublishVersionButton.Click += PublishVersionButton_Click;
             UI.TransferOwnershipButton.Click += TransferOwnershipButton_Click;
+
+            UI.CopyLocalCopyPathMenuItem.Click += CopyLocalCopyPathMenuItem_Click;
+            UI.OpenLocalCopyFolderMenuItem.Click += OpenLocalCopyFolderMenuItem_Click;
         }
 
+     
         public void UpdateUI()
         {
-            if (state != null)
-                state.UpdateUI();
+            state?.UpdateUI();
         }
 
         private async void WorkOnlineButton_Click(object sender, EventArgs e)
@@ -178,12 +177,38 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private async void PublishVersionButton_Click(object sender, EventArgs e)
         {
+            var confirmation = MessageBox.Show(
+                "Are you sure to publish this version?", 
+                "Publish confirmation", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question
+            );
+            if (confirmation != DialogResult.Yes) return;
+
             await PublishVersionAsync();
         }
 
         private async void TransferOwnershipButton_Click(object sender, EventArgs e)
         {
             await TransferOwnershipAsync();
+        }
+
+        private void CopyLocalCopyPathMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(Version.LocalDirectory);
+
+            Point position = UI.CopyLocalCopyPathMenuItem.GetCurrentParent().PointToClient(Cursor.Position);
+
+            new ToolTip().Show(
+                "The path has been copied to clipboard.", 
+                UI.CopyLocalCopyPathMenuItem.GetCurrentParent(), 
+                position.X, position.Y,
+                2000
+            );
+        }
+
+        private void OpenLocalCopyFolderMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", Version.LocalDirectory);
         }
 
         #endregion
@@ -199,6 +224,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.CloseVersionButton.Click -= CloseVersionButton_Click;
             UI.PublishVersionButton.Click -= PublishVersionButton_Click;
             UI.TransferOwnershipButton.Click -= TransferOwnershipButton_Click;
+            UI.CopyLocalCopyPathMenuItem.Click -= CopyLocalCopyPathMenuItem_Click;
+            UI.OpenLocalCopyFolderMenuItem.Click -= OpenLocalCopyFolderMenuItem_Click;
         }
 
         protected virtual void Dispose(bool disposing)

@@ -1,25 +1,14 @@
-﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Sync.VersionSynchronizer;
-using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
-using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
 {
-    public partial class OpenVersionProgressDialog : Form
+    public partial class DownloadWorkingCopyDialog : Form
     {
         private readonly CancellationTokenSource cts;
 
-        public OpenVersionProgressDialog(CancellationTokenSource cts)
+        public DownloadWorkingCopyDialog(CancellationTokenSource cts)
         {
             InitializeComponent();
             this.cts = cts ?? throw new ArgumentNullException(nameof(cts));
@@ -47,7 +36,7 @@ namespace MechanicalSyncApp.UI.Forms
             DialogResult = DialogResult.Abort;
         }
 
-        private void OpenVersionProgressDialog_FormClosing(object sender, FormClosingEventArgs e)
+        private void DownloadWorkingCopyDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             // if user closed the dialog, then cancel the async task to download files (if not finished yet)
             cts.Cancel();

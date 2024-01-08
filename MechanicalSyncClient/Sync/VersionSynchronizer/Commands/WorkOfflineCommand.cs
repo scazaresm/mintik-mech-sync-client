@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
-    internal class WorkOfflineCommand : VersionSynchronizerCommandAsync
+    internal class WorkOfflineCommand : IVersionSynchronizerCommandAsync
     {
         public IVersionSynchronizer Synchronizer { get; private set; }
 
@@ -19,15 +19,21 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
-            var UI = Synchronizer.UI;
+            var ui = Synchronizer.UI;
 
-            UI.SynchronizerToolStrip.Enabled = true;
-            UI.WorkOfflineButton.Visible = false;
-            UI.WorkOnlineButton.Visible = true;
-            UI.SyncRemoteButton.Visible = true;
+            ui.SynchronizerToolStrip.Enabled = true;
+            ui.WorkOfflineButton.Visible = false;
+            ui.WorkOnlineButton.Visible = true;
+            ui.SyncRemoteButton.Visible = true;
+
+            ui.PublishVersionButton.Enabled = true;
+            ui.PublishVersionButton.Visible = true;
+
+            ui.TransferOwnershipButton.Enabled = true;
+            ui.TransferOwnershipButton.Visible = true;
 
             Synchronizer.ChangeMonitor.StopMonitoring();
-            UI.FileViewer.PopulateFiles();
+            ui.FileViewer.PopulateFiles();
 
             Synchronizer.SetState(new IdleState());
             await Synchronizer.RunStepAsync();

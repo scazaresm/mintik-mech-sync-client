@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
-    public class CloseVersionCommand : VersionSynchronizerCommandAsync
+    public class CloseVersionCommand : IVersionSynchronizerCommandAsync
     {
         public IVersionSynchronizer Synchronizer {  get; set; }
 
@@ -38,8 +38,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             Synchronizer.Dispose();
             Synchronizer = null;
 
-            UI.MainSplitContainer.Panel2Collapsed = true;
-            UI.MainSplitContainer.Panel1Collapsed = false;
+            UI.ShowWorkspaceExplorer();
+            await UI.WorkspaceTreeView.Refresh();
         }
     }
 }

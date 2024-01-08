@@ -25,11 +25,11 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task<Version> AcknowledgeVersionOwnershipAsync(AcknowledgeVersionOwnershipRequest request);
         Task<List<Version>> GetMyWorkAsync();
         Task<List<Review>> GetMyReviewsAsync();
+        Task<Project> CreateProjectAsync(CreateProjectRequest request);
         Task<Project> GetProjectAsync(string projectId);
         Task<Version> GetVersionAsync(string versionId);
         Task<Version> PublishVersionAsync(PublishVersionRequest request);
-
-        Task<ReviewTarget> UpdateReviewTarget(UpdateReviewTargetRequest request);
+        Task<ReviewTarget> UpdateReviewTargetAsync(UpdateReviewTargetRequest request);
 
     }
 }

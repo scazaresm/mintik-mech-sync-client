@@ -27,6 +27,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public ToolStripProgressBar SyncProgressBar { get; set; }
         public SplitContainer MainSplitContainer { get; set; }
 
+        public ToolStripMenuItem CopyLocalCopyPathMenuItem { get; set; }
+        public ToolStripMenuItem OpenLocalCopyFolderMenuItem { get; set; }
+
+        public WorkspaceTreeView WorkspaceTreeView { get; set; }
+
         #endregion
 
         public void InitializeFileViewer(LocalVersion version, IVersionChangeMonitor changeMonitor)
@@ -43,6 +48,18 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 "*.sldasm | *.sldprt | *.slddrw",
                 changeMonitor
             );
+        }
+
+        public void ShowVersionExplorer()
+        {
+            MainSplitContainer.Panel2Collapsed = false;
+            MainSplitContainer.Panel1Collapsed = true;
+        }
+
+        public void ShowWorkspaceExplorer()
+        {
+            MainSplitContainer.Panel2Collapsed = true;
+            MainSplitContainer.Panel1Collapsed = false;
         }
 
         private void DisposeFileViewer()

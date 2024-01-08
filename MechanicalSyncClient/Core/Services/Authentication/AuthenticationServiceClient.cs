@@ -3,14 +3,22 @@ using MechanicalSyncApp.Core.Services.Authentication.Handlers;
 using MechanicalSyncApp.Core.Services.Authentication.Models;
 using MechanicalSyncApp.Core.Services.Authentication.Models.Request;
 using MechanicalSyncApp.Core.Services.Authentication.Models.Response;
+using MechanicalSyncApp.UI;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace MechanicalSyncApp.Core.Services.Authentication
 {
+    public class RefreshAuthenticationTokenEventArgs
+    {
+        public string OldToken { get; set; }
+        public string NewToken { get; set; }
+    }
+
     public class AuthenticationServiceClient : IAuthenticationServiceClient, IDisposable
     {
         #region Singleton
@@ -28,73 +36,82 @@ namespace MechanicalSyncApp.Core.Services.Authentication
 
         private AuthenticationServiceClient()
         {
-            _restClient = new HttpClient();
-            _restClient.BaseAddress = new Uri("http://localhost/api/authentication/");
-            _restClient.Timeout = TimeSpan.FromSeconds(5);
+            restClient = new HttpClient();
+            restClient.BaseAddress = new Uri("http://localhost/api/authentication/");
+            restClient.Timeout = TimeSpan.FromSeconds(5);
         }
         #endregion
 
-        public int TokenExpirationTimeoutMinutes { get; set; } = 30;
-        public UserDetails UserDetails { get; private set; }
+        public int TOKEN_EXPIRATION_TIMEOUT_MINUTES { get; set; } = 1;
 
-        private readonly HttpClient _restClient;
-        private DateTime _authenticationTokenDatetime;
-        private string _authenticationToken;
-        private bool _disposedValue;
+        public UserDetails LoggedUserDetails { get; private set; }
+
+        private readonly HttpClient restClient;
+        private bool disposedValue;
+
+        public string AuthenticationToken { get; private set; }
+
+        public event EventHandler<RefreshAuthenticationTokenEventArgs> OnAuthenticationTokenRefresh;
+
+        public Timer RefreshTokenTimer { get; private set; }
+
+
 
         public async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
-            var handler = new LoginHandler(_restClient, request);
-            var response = await handler.HandleAsync();
+            var loginResponse = await new LoginHandler(restClient, request).HandleAsync();
 
-            UserDetails = response.UserDetails;
-            _authenticationToken = response.Token;
-            _authenticationTokenDatetime = DateTime.Now;
-            _restClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authenticationToken);
+            LoggedUserDetails = loginResponse.UserDetails; 
+            AuthenticationToken = loginResponse.Token;
+            restClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationToken);
+          
+            // fire up a timer to automatically refresh the token before it expires
+            RefreshTokenTimer = new Timer(TOKEN_EXPIRATION_TIMEOUT_MINUTES * 60 * 1000);
+            RefreshTokenTimer.Elapsed += RefreshTokenTimer_Elapsed;
+            RefreshTokenTimer.Enabled = true;
 
-            return response;
+            return loginResponse;
         }
 
-        public async Task<RefreshTokenResponse> RefreshTokenAsync()
+        private async void RefreshTokenTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            var timeSinceLastToken = DateTime.Now - _authenticationTokenDatetime;
+            // refresh the token
+            var refreshTokenResponse = await new RefreshTokenHandler(restClient).HandleAsync();
 
-            if (timeSinceLastToken.TotalMinutes < TokenExpirationTimeoutMinutes)
+            // inform all event subscribers that the token has been refreshed
+            OnAuthenticationTokenRefresh.Invoke(this, new RefreshAuthenticationTokenEventArgs()
             {
-                // current token should still valid, do nothing
-                return new RefreshTokenResponse { Token = _authenticationToken };
-            }
+                OldToken = AuthenticationToken,
+                NewToken = refreshTokenResponse.Token
+            });
 
-            // current token might be close to expire, refresh it
-            var handler = new RefreshTokenHandler(_restClient);
-            var response = await handler.HandleAsync();
-
-            _authenticationToken = response.Token;
-            _authenticationTokenDatetime = DateTime.Now;
-
-            return response;
+            // replace old token with the new one
+            AuthenticationToken = refreshTokenResponse.Token;
+            restClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationToken);
         }
 
         public async Task<UserDetails> GetUserDetailsAsync(string userId)
         {
-            return await new GetUserDetailsHandler(_restClient, userId).HandleAsync();
+            return await new GetUserDetailsHandler(restClient, userId).HandleAsync();
         }
 
         public Task<List<UserDetails>> GetAllUserDetailsAsync()
         {
-            return new GetAllUserDetailsHandler(_restClient).HandleAsync();
+            return new GetAllUserDetailsHandler(restClient).HandleAsync();
         }
+
+
 
         #region Dispose pattern
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposedValue)
+            if (!disposedValue)
             {
                 if (disposing)
                 {
-                    _restClient.Dispose();
+                    restClient.Dispose();
                 }
-                _disposedValue = true;
+                disposedValue = true;
             }
         }
 

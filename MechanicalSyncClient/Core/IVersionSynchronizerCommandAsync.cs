@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core
 {
-    public interface VersionSynchronizerCommandAsync
+    public interface IVersionSynchronizerCommandAsync
     {
         IVersionSynchronizer Synchronizer { get; }
 

@@ -17,7 +17,7 @@ namespace MechanicalSyncApp.UI.Forms
     public partial class VersionSynchronizerForm : Form
     {
         private IVersionSynchronizer synchronizer;
-        private WorkspaceTreeView workspace;
+        private WorkspaceTreeView workspaceTreeView;
         private VersionSynchronizerUI synchronizerUI;
 
         #region Singleton
@@ -36,16 +36,19 @@ namespace MechanicalSyncApp.UI.Forms
         private VersionSynchronizerForm()
         {
             InitializeComponent();
-            workspace = new WorkspaceTreeView(MechSyncServiceClient.Instance, @"D:\sync_demo");
-            workspace.AttachTreeView(WorkspaceTreeView);
-            workspace.OpenVersion += Workspace_OpenVersion;
-            workspace.OpenReview += Workspace_OpenReview;
+            workspaceTreeView = new WorkspaceTreeView(MechSyncServiceClient.Instance, @"D:\sync_demo");
+            workspaceTreeView.AttachTreeView(WorkspaceTreeView);
+            workspaceTreeView.OpenVersion += Workspace_OpenVersion;
+            workspaceTreeView.OpenReview += Workspace_OpenReview;
         }
         #endregion
 
         private void VersionSynchronizerForm_Load(object sender, EventArgs e)
         {
             ShowWorkspaceExplorer();
+            VersionSynchronizerTabs.TabPages.Remove(tabPage2);
+            VersionSynchronizerTabs.TabPages.Remove(tabPage3);
+            VersionSynchronizerTabs.TabPages.Remove(tabPage4);
         }
 
         private void VersionSynchronizerForm_VisibleChanged(object sender, EventArgs e)
@@ -74,6 +77,7 @@ namespace MechanicalSyncApp.UI.Forms
             // map Form controls to UI object
             synchronizerUI = new VersionSynchronizerUI()
             {
+                WorkspaceTreeView = workspaceTreeView,
                 ProjectFolderNameLabel = ProjectFolderNameLabel,
                 SynchronizerToolStrip = SynchronizerToolStrip,
                 FileViewerListView = FileViewerListView,
@@ -87,6 +91,8 @@ namespace MechanicalSyncApp.UI.Forms
                 TransferOwnershipButton = TransferOwnershipButton,
                 SyncProgressBar = SyncProgressBar,
                 MainSplitContainer = MainSplitContainer,
+                CopyLocalCopyPathMenuItem = CopyLocalCopyPathMenuItem,
+                OpenLocalCopyFolderMenuItem = OpenLocalCopyFolderMenuItem
             };
 
             // create a new version synchronizer
@@ -152,7 +158,7 @@ namespace MechanicalSyncApp.UI.Forms
         {
             try
             {
-                await workspace.Refresh();
+                await workspaceTreeView.Refresh();
             } 
             catch(Exception ex)
             {
@@ -172,5 +178,20 @@ namespace MechanicalSyncApp.UI.Forms
             MainSplitContainer.Panel1Collapsed = false;
         }
 
+        private void NewProjectButton_Click(object sender, EventArgs e)
+        {
+            CreateProjectForm createProjectForm = new CreateProjectForm();
+            var response = createProjectForm.ShowDialog();
+
+            if (response == DialogResult.OK)
+            {
+                MessageBox.Show(
+                    "The new project has been created and the initial version owner will be notified soon!",
+                    "Project created",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+        }
     }
 }

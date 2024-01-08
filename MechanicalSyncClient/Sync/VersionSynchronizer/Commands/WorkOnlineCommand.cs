@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
-    public class WorkOnlineCommand : VersionSynchronizerCommandAsync
+    public class WorkOnlineCommand : IVersionSynchronizerCommandAsync
     {
         public IVersionSynchronizer Synchronizer { get; private set; }
 

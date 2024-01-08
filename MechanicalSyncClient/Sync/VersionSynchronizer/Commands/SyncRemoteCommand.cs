@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
-    public class SyncRemoteCommand : VersionSynchronizerCommandAsync
+    public class SyncRemoteCommand : IVersionSynchronizerCommandAsync
     {
         public IVersionSynchronizer Synchronizer { get; private set; }
 
@@ -35,8 +35,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 Synchronizer.ChangeMonitor.StopMonitoring();
 
-                Synchronizer.SetState(new IdleState());
-                await Synchronizer.RunStepAsync();
+               
 
                 Synchronizer.SetState(new IndexRemoteFilesState());
                 await Synchronizer.RunStepAsync();
@@ -76,12 +75,17 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 if (NotifyWhenComplete)
                 {
                     MessageBox.Show(
-                        "The remote server is already synced with your local copy.",
+                        Summary.HasChanges
+                            ? "The remote server has been synced with your local copy."
+                            : "The remote server is already synced with your local copy.",
                         "Synced remote",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information
                     );
                 }
+
+                Synchronizer.SetState(new IdleState());
+                await Synchronizer.RunStepAsync();
             }
             catch (Exception ex)
             { 

@@ -1,6 +1,6 @@
 ﻿namespace MechanicalSyncApp.UI.Forms
 {
-    partial class OpenVersionProgressDialog
+    partial class DownloadWorkingCopyDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -87,7 +87,7 @@
             this.Name = "OpenVersionProgressDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Open version";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OpenVersionProgressDialog_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DownloadWorkingCopyDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

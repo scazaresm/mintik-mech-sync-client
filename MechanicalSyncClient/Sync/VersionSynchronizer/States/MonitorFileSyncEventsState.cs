@@ -26,6 +26,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
             ui.WorkOfflineButton.Enabled = true;
             ui.WorkOfflineButton.Visible = true;
+
+            ui.PublishVersionButton.Enabled = false;
+            ui.PublishVersionButton.Visible = true;
+
+            ui.TransferOwnershipButton.Enabled = false;
+            ui.TransferOwnershipButton.Visible = true;
         }
 
         public override async Task RunAsync()

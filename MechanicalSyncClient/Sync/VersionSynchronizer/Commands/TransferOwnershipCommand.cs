@@ -10,7 +10,7 @@ using System.IO;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
-    public class TransferOwnershipCommand : VersionSynchronizerCommandAsync
+    public class TransferOwnershipCommand : IVersionSynchronizerCommandAsync
     {
         public IVersionSynchronizer Synchronizer { get; }
 

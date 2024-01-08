@@ -1,4 +1,5 @@
-﻿using MechanicalSyncApp.Core.Services.Authentication;
+﻿using MechanicalSyncApp.Core.AuthenticationService;
+using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.Authentication.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace MechanicalSyncApp.UI.Forms
 {
     public partial class UserSelectorForm : Form
     {
+        private readonly IAuthenticationServiceClient authenticationServiceClient = AuthenticationServiceClient.Instance;
+
         public UserDetails SelectedUserDetails { get; private set; }
         public bool IncludeMyself { get; set; } = false;
 
@@ -47,12 +50,24 @@ namespace MechanicalSyncApp.UI.Forms
 
         private async void PopulateUsers()
         {
-            var allUsers = await AuthenticationServiceClient.Instance.GetAllUserDetailsAsync();
+            var allUsers = await authenticationServiceClient.GetAllUserDetailsAsync();
+            var searchTarget = SearchFilter.Text.ToLower();
 
+            var filter = searchTarget == null || searchTarget.Length == 0 
+                ? allUsers 
+                : allUsers.Where(user => 
+                    user.FirstName.ToLower().Contains(searchTarget) ||
+                    user.LastName.ToLower().Contains(searchTarget) ||
+                    user.FullName.ToLower().Contains(searchTarget) ||
+                    user.Email.ToLower().Contains(searchTarget)
+                  ).ToList();
+
+            UsersList.SelectedItems.Clear();
             UsersList.Items.Clear();
-            foreach (var user in allUsers)
+            userLookup.Clear();
+            foreach (var user in filter)
             {
-                if (!IncludeMyself && user.Id == AuthenticationServiceClient.Instance.UserDetails.Id)
+                if (!IncludeMyself && user.Id == authenticationServiceClient.LoggedUserDetails.Id)
                     continue;
 
                 var item = new ListViewItem(user.FullName);
@@ -65,6 +80,16 @@ namespace MechanicalSyncApp.UI.Forms
         private void CancelButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        private void SearchFilter_TextChanged(object sender, EventArgs e)
+        {
+            PopulateUsers();
+        }
+
+        private void UsersList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            OkButton.Enabled = UsersList.SelectedItems.Count > 0;
         }
     }
 }

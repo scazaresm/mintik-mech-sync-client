@@ -4,7 +4,6 @@ using MechanicalSyncApp.Core.Services.MechSync.Handlers;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
-using MechanicalSyncApp.Core.Util;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -33,15 +32,26 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             AuthenticationService = AuthenticationServiceClient.Instance;
 
+            // use this client for regular data transactions (not file upload/download)
             _restClient = new HttpClient();
             _restClient.BaseAddress = new Uri("http://localhost/api/mech-sync/");
             _restClient.Timeout = TimeSpan.FromSeconds(20);
+            _restClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationService.AuthenticationToken);
 
+            // use a separate client for file upload/download operations, so we can use a higher timeout
             _fileClient = new HttpClient();
             _fileClient.BaseAddress = new Uri("http://localhost/api/mech-sync/");
             _fileClient.Timeout = TimeSpan.FromSeconds(120);
+            _fileClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationService.AuthenticationToken);
 
-            _ = RefreshAuthTokenAsync();
+            // subscribe to authentication token refresh event, so that we can refresh the tokens on local clients
+            AuthenticationService.OnAuthenticationTokenRefresh += AuthenticationService_OnAuthenticationTokenRefresh;
+        }
+
+        private void AuthenticationService_OnAuthenticationTokenRefresh(object sender, RefreshAuthenticationTokenEventArgs e)
+        {
+            _restClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", e.NewToken);
+            _fileClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", e.NewToken);
         }
         #endregion
 
@@ -51,12 +61,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         private readonly HttpClient _fileClient;
         private bool _disposedValue;
 
-        private async Task RefreshAuthTokenAsync()
-        {
-            var response = await AuthenticationService.RefreshTokenAsync();
-            _restClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", response.Token);
-            _fileClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", response.Token);
-        }
         public async Task DownloadFileAsync(DownloadFileRequest request, Action<int> progressCallback)
         {
             var handler = new DownloadFileWithProgressHandler(_fileClient, request, progressCallback);
@@ -106,6 +110,10 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new SyncReviewTargetsHandler(_restClient, reviewId).HandleAsync();
         }
+        public async Task<Project> CreateProjectAsync(CreateProjectRequest request)
+        {
+            return await new CreateProjectHandler(_restClient, request).HandleAsync();
+        }
         public async Task<Project> GetProjectAsync(string projectId)
         {
             return await new GetProjectHandler(_restClient, projectId).HandleAsync();
@@ -126,10 +134,11 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new PublishVersionHandler(_restClient, request).HandleAsync();
         }
-        public async Task<ReviewTarget> UpdateReviewTarget(UpdateReviewTargetRequest request)
+        public async Task<ReviewTarget> UpdateReviewTargetAsync(UpdateReviewTargetRequest request)
         {
             return await new UpdateReviewTargetHandler(_restClient, request).HandleAsync();
         }
+
       
         #region Disposing pattern
         protected virtual void Dispose(bool disposing)

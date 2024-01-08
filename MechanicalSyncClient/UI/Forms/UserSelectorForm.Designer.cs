@@ -37,12 +37,13 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CancelUserSelectButton = new System.Windows.Forms.Button();
             this.MessageLabel = new System.Windows.Forms.Label();
-            this.SearchFilter = new System.Windows.Forms.TextBox();
             this.SearchLabel = new System.Windows.Forms.Label();
+            this.SearchFilter = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // OkButton
             // 
+            this.OkButton.Enabled = false;
             this.OkButton.Location = new System.Drawing.Point(343, 313);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
@@ -66,6 +67,7 @@
             this.UsersList.TabIndex = 2;
             this.UsersList.UseCompatibleStateImageBehavior = false;
             this.UsersList.View = System.Windows.Forms.View.Details;
+            this.UsersList.SelectedIndexChanged += new System.EventHandler(this.UsersList_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -98,13 +100,6 @@
             this.MessageLabel.Text = "Select the user who will take the ownership of this version:\r\n";
             this.MessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // SearchFilter
-            // 
-            this.SearchFilter.Location = new System.Drawing.Point(242, 58);
-            this.SearchFilter.Name = "SearchFilter";
-            this.SearchFilter.Size = new System.Drawing.Size(177, 20);
-            this.SearchFilter.TabIndex = 5;
-            // 
             // SearchLabel
             // 
             this.SearchLabel.AutoSize = true;
@@ -113,6 +108,14 @@
             this.SearchLabel.Size = new System.Drawing.Size(44, 13);
             this.SearchLabel.TabIndex = 6;
             this.SearchLabel.Text = "Search:";
+            // 
+            // SearchFilter
+            // 
+            this.SearchFilter.Location = new System.Drawing.Point(242, 58);
+            this.SearchFilter.Name = "SearchFilter";
+            this.SearchFilter.Size = new System.Drawing.Size(177, 20);
+            this.SearchFilter.TabIndex = 5;
+            this.SearchFilter.TextChanged += new System.EventHandler(this.SearchFilter_TextChanged);
             // 
             // UserSelectorForm
             // 
@@ -145,7 +148,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.Button CancelUserSelectButton;
         private System.Windows.Forms.Label MessageLabel;
-        private System.Windows.Forms.TextBox SearchFilter;
         private System.Windows.Forms.Label SearchLabel;
+        private System.Windows.Forms.TextBox SearchFilter;
     }
 }

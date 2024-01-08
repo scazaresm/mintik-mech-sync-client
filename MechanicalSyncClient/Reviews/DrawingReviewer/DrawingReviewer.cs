@@ -181,7 +181,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             UI.MarkupStatus.Text = "Approving drawing...";
 
             // put status as approved
-            reviewTarget = await SyncServiceClient.UpdateReviewTarget(new UpdateReviewTargetRequest()
+            reviewTarget = await SyncServiceClient.UpdateReviewTargetAsync(new UpdateReviewTargetRequest()
             {
                 ReviewId = Review.RemoteReview.Id,
                 ReviewTargetId = reviewTarget.Id,
@@ -211,7 +211,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             if (uploadedMarkup)
             {
                 // put status as rejected
-                reviewTarget = await SyncServiceClient.UpdateReviewTarget(new UpdateReviewTargetRequest()
+                reviewTarget = await SyncServiceClient.UpdateReviewTargetAsync(new UpdateReviewTargetRequest()
                 {
                     ReviewId = Review.RemoteReview.Id,
                     ReviewTargetId = reviewTarget.Id,
@@ -269,7 +269,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             {
                 // put review target status to 'Reviewing' if not already set. This condition shall be met
                 // in order to load the corresponding markup file when this review target is open again
-                reviewTarget = await SyncServiceClient.UpdateReviewTarget(new UpdateReviewTargetRequest()
+                reviewTarget = await SyncServiceClient.UpdateReviewTargetAsync(new UpdateReviewTargetRequest()
                 {
                     ReviewId = Review.RemoteReview.Id,
                     ReviewTargetId = reviewTarget.Id,
