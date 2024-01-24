@@ -143,6 +143,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap edit_icon_24 {
+            get {
+                object obj = ResourceManager.GetObject("edit-icon-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap error_file_icon_24 {
             get {
                 object obj = ResourceManager.GetObject("error-file-icon-24", resourceCulture);
@@ -206,6 +216,16 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap folder_refresh_24 {
             get {
                 object obj = ResourceManager.GetObject("folder-refresh-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap generate_keys_24_icon {
+            get {
+                object obj = ResourceManager.GetObject("generate-keys-24-icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

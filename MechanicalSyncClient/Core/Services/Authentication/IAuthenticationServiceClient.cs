@@ -21,5 +21,9 @@ namespace MechanicalSyncApp.Core.AuthenticationService
         Task<UserDetails> GetUserDetailsAsync(string userId);
 
         Task<List<UserDetails>> GetAllUserDetailsAsync();
+
+        Task<UserDetails> RegisterUserAsync(RegisterUserRequest request);
+
+        Task ChangeInitialPasswordAsync(string newPassword);
     }
 }

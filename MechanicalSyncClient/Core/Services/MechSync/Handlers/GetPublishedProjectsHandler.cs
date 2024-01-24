@@ -11,27 +11,18 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 {
-    public class GetProjectHandler
+    public class GetPublishedProjectsHandler
     {
         private readonly HttpClient client;
-        private readonly string projectId;
 
-        public GetProjectHandler(HttpClient client, string projectId)
+        public GetPublishedProjectsHandler(HttpClient client)
         {
-            this.client = client ?? throw new ArgumentNullException(nameof(client));
-            this.projectId = projectId ?? throw new ArgumentNullException(nameof(projectId));
+            this.client = client;
         }
-        
-        public async Task<Project> HandleAsync()
+
+        public async Task<List<Project>> HandleAsync()
         {
-            var queryParameters = new Dictionary<string, string>
-            {
-                { "projectId", projectId },
-            };
-
-            var uri = new QueryUriGenerator("projects", queryParameters).Generate();
-
-            HttpResponseMessage response = await client.GetAsync(uri);
+            HttpResponseMessage response = await client.GetAsync("projects/published");
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
@@ -41,7 +32,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                     $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
                 );
             }
-            return JsonConvert.DeserializeObject<Project>(responseContent);
+            return JsonConvert.DeserializeObject<List<Project>>(responseContent);
         }
     }
 }

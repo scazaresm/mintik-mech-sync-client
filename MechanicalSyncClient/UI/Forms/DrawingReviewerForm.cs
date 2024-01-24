@@ -36,7 +36,7 @@ namespace MechanicalSyncApp.UI.Forms
             };
             drawingReviewer = new DrawingReviewer(syncServiceClient, ui, review);
             drawingReviewer.InitializeUI();
-            _ = drawingReviewer.RefreshDeltaDrawings();
+            _ = drawingReviewer.RefreshDeltaTargetsAsync();
         }
 
         private void DrawingReviewerForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -46,7 +46,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void DrawingReviewerForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            drawingReviewer.CloseReviewTarget();
+            drawingReviewer.CloseReviewTargetAsync();
         }
 
         private void DrawingReviewerForm_KeyDown(object sender, KeyEventArgs e)

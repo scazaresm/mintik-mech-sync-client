@@ -1,15 +1,9 @@
 ﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
-using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
-using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
@@ -36,7 +30,7 @@ namespace MechanicalSyncApp.UI.Forms
         private VersionSynchronizerForm()
         {
             InitializeComponent();
-            workspaceTreeView = new WorkspaceTreeView(MechSyncServiceClient.Instance, @"D:\sync_demo");
+            workspaceTreeView = new WorkspaceTreeView(MechSyncServiceClient.Instance, @"C:\Sync");
             workspaceTreeView.AttachTreeView(WorkspaceTreeView);
             workspaceTreeView.OpenVersion += Workspace_OpenVersion;
             workspaceTreeView.OpenReview += Workspace_OpenReview;
@@ -178,7 +172,7 @@ namespace MechanicalSyncApp.UI.Forms
             MainSplitContainer.Panel1Collapsed = false;
         }
 
-        private void NewProjectButton_Click(object sender, EventArgs e)
+        private async void NewProjectButton_Click(object sender, EventArgs e)
         {
             CreateProjectForm createProjectForm = new CreateProjectForm();
             var response = createProjectForm.ShowDialog();
@@ -186,12 +180,73 @@ namespace MechanicalSyncApp.UI.Forms
             if (response == DialogResult.OK)
             {
                 MessageBox.Show(
-                    "The new project has been created and the initial version owner will be notified soon!",
+                    "The new project has been created and the initial version owner will be notified by email soon!",
                     "Project created",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
+                await workspaceTreeView.Refresh();
             }
+        }
+
+        private async void NewVersionButton_Click(object sender, EventArgs e)
+        {
+            CreateVersionForm createVersionForm = new CreateVersionForm();
+            var response = createVersionForm.ShowDialog();
+
+            if (response == DialogResult.OK)
+            {
+                MessageBox.Show(
+                   "The new version has been created and the owner will be notified by email soon!",
+                   "Version created",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Information
+               );
+               await workspaceTreeView.Refresh();
+            }
+        }
+
+        private void VersionSynchronizerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var confirmation = MessageBox.Show(
+                "Are you sure you want to close the application?", 
+                "Close", 
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (confirmation != DialogResult.Yes) e.Cancel = true;
+        }
+
+        private void ExitMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void LogoutMenuItem_Click(object sender, EventArgs e)
+        {
+            var confirmation = MessageBox.Show(
+                "Are you sure you want to logout?", "Logout",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (confirmation != DialogResult.Yes) return;
+
+            Hide();
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form is LoginForm loginForm)
+                {
+                    loginForm.Show();
+                    break;
+                }
+            }
+        }
+
+        private void ManagementConsoleButton_Click(object sender, EventArgs e)
+        {
+            ManagementConsoleForm.Instance.ShowDialog();
         }
     }
 }

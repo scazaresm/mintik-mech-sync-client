@@ -38,7 +38,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            var selectedUserEmail = UsersList.SelectedItems[0].SubItems[1].Text;
+            var selectedUserEmail = UserList.SelectedItems[0].SubItems[1].Text;
             SelectedUserDetails = userLookup[selectedUserEmail];
             DialogResult = DialogResult.OK;
         }
@@ -62,8 +62,8 @@ namespace MechanicalSyncApp.UI.Forms
                     user.Email.ToLower().Contains(searchTarget)
                   ).ToList();
 
-            UsersList.SelectedItems.Clear();
-            UsersList.Items.Clear();
+            UserList.SelectedItems.Clear();
+            UserList.Items.Clear();
             userLookup.Clear();
             foreach (var user in filter)
             {
@@ -72,7 +72,7 @@ namespace MechanicalSyncApp.UI.Forms
 
                 var item = new ListViewItem(user.FullName);
                 item.SubItems.Add(user.Email);
-                UsersList.Items.Add(item);
+                UserList.Items.Add(item);
                 userLookup.Add(user.Email, user);
             }
         }
@@ -89,7 +89,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void UsersList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            OkButton.Enabled = UsersList.SelectedItems.Count > 0;
+            OkButton.Enabled = UserList.SelectedItems.Count > 0;
         }
     }
 }

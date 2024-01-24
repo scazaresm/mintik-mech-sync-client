@@ -123,12 +123,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     progressDialog.SetStatus("Acknowledging version ownership...");
                     await AcknowledgeOwnershipAsync();
                     successMessage =
-                        $"You are the new owner of this version and got a working copy with latest changes from previous owner." + Environment.NewLine + Environment.NewLine +
-                        "Remember to sync your changes frequently and publish this version when you are done, thanks!";
+                        $"You are the new owner of this version and got a local copy with latest changes from previous owner." + Environment.NewLine + Environment.NewLine +
+                        "Remember to sync your changes frequently, thanks!";
                 } 
                 else
                 {
-                    successMessage = "You got a working copy in your computer to start working from, please do not move or delete this folder and remember to sync your changes frequently.";
+                    successMessage = "You got a local copy to start working from, please do not move or delete this folder and remember to sync your changes frequently.";
                 }
                 MessageBox.Show(successMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

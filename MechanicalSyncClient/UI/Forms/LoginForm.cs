@@ -26,7 +26,20 @@ namespace MechanicalSyncApp.UI.Forms
                     Password = Password.Text
                 });
                 Hide();
-                VersionSynchronizerForm.Instance.Show();
+
+                if (response.UserDetails.Role == "Root")
+                {
+                    ManagementConsoleForm.Instance.Show();
+                    MessageBox.Show("You logged in as Root user.", "Root user", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (response.UserDetails.HasInitialPassword)
+                {
+                    var setCustomPasswordForm = new ChangeYourPasswordForm();
+                    setCustomPasswordForm.ShowDialog();
+                    Show();
+                }
+                else
+                    VersionSynchronizerForm.Instance.Show();
             }
             catch(UnauthorizedAccessException)
             {

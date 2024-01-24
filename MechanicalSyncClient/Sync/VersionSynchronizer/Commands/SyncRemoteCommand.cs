@@ -32,10 +32,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                         "Cannot sync changes because this version is not in Ongoing status."
                     );
                 }
-
                 Synchronizer.ChangeMonitor.StopMonitoring();
-
-               
 
                 Synchronizer.SetState(new IndexRemoteFilesState());
                 await Synchronizer.RunStepAsync();

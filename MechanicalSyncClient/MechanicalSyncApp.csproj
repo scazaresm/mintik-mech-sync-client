@@ -7,7 +7,7 @@
     <ProjectGuid>{E97318F3-1749-4B23-9D41-311E4CE86E95}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MechanicalSyncApp</RootNamespace>
-    <AssemblyName>MechanicalSyncApp</AssemblyName>
+    <AssemblyName>Mechanical Sync</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -66,6 +66,9 @@
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>sync-icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="eDrawings.Interop.EModelMarkupControl">
       <HintPath>C:\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelMarkupControl.dll</HintPath>
@@ -110,16 +113,23 @@
   <ItemGroup>
     <Compile Include="Core\Domain\LocalReview.cs" />
     <Compile Include="Core\IDrawingReviewer.cs" />
+    <Compile Include="Core\IDrawingReviewerCommandAsync.cs" />
     <Compile Include="Core\IDrawingReviewerUI.cs" />
     <Compile Include="Core\IWorkingCopyDownloader.cs" />
     <Compile Include="Core\Services\Authentication\Handlers\GetAllUserDetailsHandler.cs" />
     <Compile Include="Core\Services\Authentication\Handlers\GetUserDetailsHandler.cs" />
+    <Compile Include="Core\Services\Authentication\Handlers\RegisterUserHandler.cs" />
+    <Compile Include="Core\Services\Authentication\Handlers\ChangeInitialPasswordHandler.cs" />
+    <Compile Include="Core\Services\Authentication\Models\Request\RegisterUserRequest.cs" />
     <Compile Include="Core\Services\MechSync\Exceptions\InvalidProjectFolderException.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\AcknowledgeVersionOwnershipHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateProjectHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\CreateVersionHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetAllProjectsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetDeltaFileMetadataHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetMyReviewsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetFileMetadataByIdHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetPublishedProjectsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\PublishVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetJobHandler.cs" />
@@ -129,6 +139,7 @@
     <Compile Include="Core\Services\MechSync\Models\ChangeRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\AcknowledgeVersionOwnershipRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\CreateProjectRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\CreateVersionRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetDeltaFileMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\PublishVersionRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\TransferVersionOwnershipRequest.cs" />
@@ -150,8 +161,15 @@
     <Compile Include="Core\Services\MechSync\Models\Version.cs" />
     <Compile Include="Core\Services\MechSync\Models\VersionOwner.cs" />
     <Compile Include="Core\IVersionSynchronizerCommandAsync.cs" />
+    <Compile Include="Reviews\DrawingReviewer\Commands\ApproveDrawingCommand.cs" />
+    <Compile Include="Reviews\DrawingReviewer\Commands\CloseDrawingReviewCommand.cs" />
+    <Compile Include="Reviews\DrawingReviewer\Commands\OpenDrawingReviewCommand.cs" />
+    <Compile Include="Reviews\DrawingReviewer\Commands\RejectDrawingCommand.cs" />
+    <Compile Include="Reviews\DrawingReviewer\Commands\SaveDrawingReviewProgressCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\DrawingReviewer.cs" />
     <Compile Include="Reviews\DrawingReviewer\DrawingReviewerUI.cs" />
+    <Compile Include="Reviews\DrawingReviewer\DrawingMarkupFileDownloader.cs" />
+    <Compile Include="Reviews\DrawingReviewer\DrawingMarkupFileUploader.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\PublishVersionCommand.cs" />
@@ -173,11 +191,35 @@
     <Compile Include="UI\EDrawingsHost.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Forms\ChangeYourPasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ChangeYourPasswordForm.Designer.cs">
+      <DependentUpon>ChangeYourPasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\CreateEditUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\CreateEditUserForm.Designer.cs">
+      <DependentUpon>CreateEditUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\CreateProjectForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Forms\CreateProjectForm.Designer.cs">
       <DependentUpon>CreateProjectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\CreateReviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\CreateReviewForm.Designer.cs">
+      <DependentUpon>CreateReviewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\CreateVersionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\CreateVersionForm.Designer.cs">
+      <DependentUpon>CreateVersionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\DesignFileViewerForm.cs">
       <SubType>Form</SubType>
@@ -204,6 +246,18 @@
     </Compile>
     <Compile Include="UI\Forms\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\ManagementConsoleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ManagementConsoleForm.Designer.cs">
+      <DependentUpon>ManagementConsoleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\ProjectSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ProjectSelectorForm.Designer.cs">
+      <DependentUpon>ProjectSelectorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\PublishVersionConfirmationDialog.cs">
       <SubType>Form</SubType>
@@ -275,14 +329,32 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\WorkspaceTreeView.cs" />
+    <EmbeddedResource Include="UI\Forms\ChangeYourPasswordForm.resx">
+      <DependentUpon>ChangeYourPasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\CreateEditUserForm.resx">
+      <DependentUpon>CreateEditUserForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\CreateProjectForm.resx">
       <DependentUpon>CreateProjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\CreateReviewForm.resx">
+      <DependentUpon>CreateReviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\CreateVersionForm.resx">
+      <DependentUpon>CreateVersionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\DrawingReviewerForm.resx">
       <DependentUpon>DrawingReviewerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\DownloadWorkingCopyDialog.resx">
       <DependentUpon>DownloadWorkingCopyDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\ManagementConsoleForm.resx">
+      <DependentUpon>ManagementConsoleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\ProjectSelectorForm.resx">
+      <DependentUpon>ProjectSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\VersionSynchronizerForm.resx">
       <DependentUpon>VersionSynchronizerForm.cs</DependentUpon>
@@ -441,7 +513,11 @@
   <ItemGroup>
     <None Include="Resources\error-icon-48.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\generate-keys-24-icon.png" />
+    <None Include="Resources\edit-icon-24.png" />
+    <Content Include="sync-icon.ico" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\error-file-icon-24.png" />
   </ItemGroup>
@@ -457,5 +533,6 @@
   <ItemGroup>
     <None Include="Resources\ok-apply-icon-32.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

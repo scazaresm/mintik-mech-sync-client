@@ -6,6 +6,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync
     public class MechSyncServiceClient : IMechSyncServiceClient, IDisposable
     {
         #region Singleton
+
+        private readonly string SERVER_URL = ConfigurationManager.AppSettings["SERVER_URL"];
         private static MechSyncServiceClient _instance = null;
 
         public static MechSyncServiceClient Instance
@@ -34,13 +37,13 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
             // use this client for regular data transactions (not file upload/download)
             _restClient = new HttpClient();
-            _restClient.BaseAddress = new Uri("http://localhost/api/mech-sync/");
+            _restClient.BaseAddress = new Uri($"http://{SERVER_URL}/api/mech-sync/");
             _restClient.Timeout = TimeSpan.FromSeconds(20);
             _restClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationService.AuthenticationToken);
 
             // use a separate client for file upload/download operations, so we can use a higher timeout
             _fileClient = new HttpClient();
-            _fileClient.BaseAddress = new Uri("http://localhost/api/mech-sync/");
+            _fileClient.BaseAddress = new Uri($"http://{SERVER_URL}/api/mech-sync/");
             _fileClient.Timeout = TimeSpan.FromSeconds(120);
             _fileClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationService.AuthenticationToken);
 
@@ -117,6 +120,18 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         public async Task<Project> GetProjectAsync(string projectId)
         {
             return await new GetProjectHandler(_restClient, projectId).HandleAsync();
+        }
+        public async Task<List<Project>> GetAllProjectsAsync()
+        {
+            return await new GetAllProjectsHandler(_restClient).HandleAsync(); 
+        }
+        public async Task<List<Project>> GetPublishedProjectsAsync()
+        {
+            return await new GetPublishedProjectsHandler(_restClient).HandleAsync();
+        }
+        public async Task<Version> CreateVersionAsync(CreateVersionRequest request)
+        {
+            return await new CreateVersionHandler(_restClient, request).HandleAsync();
         }
         public async Task<Version> GetVersionAsync(string versionId)
         {

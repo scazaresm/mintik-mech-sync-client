@@ -3,9 +3,11 @@ using MechanicalSyncApp.Core.Services.Authentication.Handlers;
 using MechanicalSyncApp.Core.Services.Authentication.Models;
 using MechanicalSyncApp.Core.Services.Authentication.Models.Request;
 using MechanicalSyncApp.Core.Services.Authentication.Models.Response;
+using MechanicalSyncApp.Properties;
 using MechanicalSyncApp.UI;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -22,6 +24,8 @@ namespace MechanicalSyncApp.Core.Services.Authentication
     public class AuthenticationServiceClient : IAuthenticationServiceClient, IDisposable
     {
         #region Singleton
+        private readonly string SERVER_URL = ConfigurationManager.AppSettings["SERVER_URL"];
+
         private static IAuthenticationServiceClient _instance = null;
 
         public static IAuthenticationServiceClient Instance
@@ -37,12 +41,12 @@ namespace MechanicalSyncApp.Core.Services.Authentication
         private AuthenticationServiceClient()
         {
             restClient = new HttpClient();
-            restClient.BaseAddress = new Uri("http://localhost/api/authentication/");
+            restClient.BaseAddress = new Uri($"http://{SERVER_URL}/api/authentication/");
             restClient.Timeout = TimeSpan.FromSeconds(5);
         }
         #endregion
 
-        public int TOKEN_EXPIRATION_TIMEOUT_MINUTES { get; set; } = 1;
+        public int TOKEN_EXPIRATION_TIMEOUT_MINUTES { get; set; } = 30;
 
         public UserDetails LoggedUserDetails { get; private set; }
 
@@ -54,8 +58,6 @@ namespace MechanicalSyncApp.Core.Services.Authentication
         public event EventHandler<RefreshAuthenticationTokenEventArgs> OnAuthenticationTokenRefresh;
 
         public Timer RefreshTokenTimer { get; private set; }
-
-
 
         public async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
@@ -100,7 +102,15 @@ namespace MechanicalSyncApp.Core.Services.Authentication
             return new GetAllUserDetailsHandler(restClient).HandleAsync();
         }
 
+        public async Task<UserDetails> RegisterUserAsync(RegisterUserRequest request)
+        {
+            return await new RegisterUserHandler(restClient, request).HandleAsync();
+        }
 
+        public async Task ChangeInitialPasswordAsync(string newPassword)
+        {
+            await new ChangeInitialPasswordHandler(restClient, newPassword).HandleAsync();
+        }
 
         #region Dispose pattern
         protected virtual void Dispose(bool disposing)

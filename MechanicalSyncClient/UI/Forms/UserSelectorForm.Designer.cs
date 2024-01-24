@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Sergio Cazares",
             "test"}, -1);
             this.OkButton = new System.Windows.Forms.Button();
-            this.UsersList = new System.Windows.Forms.ListView();
+            this.UserList = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CancelUserSelectButton = new System.Windows.Forms.Button();
@@ -52,22 +52,22 @@
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
-            // UsersList
+            // UserList
             // 
-            this.UsersList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.UserList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.UsersList.FullRowSelect = true;
-            this.UsersList.HideSelection = false;
-            this.UsersList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
-            this.UsersList.Location = new System.Drawing.Point(12, 88);
-            this.UsersList.Name = "UsersList";
-            this.UsersList.Size = new System.Drawing.Size(406, 210);
-            this.UsersList.TabIndex = 2;
-            this.UsersList.UseCompatibleStateImageBehavior = false;
-            this.UsersList.View = System.Windows.Forms.View.Details;
-            this.UsersList.SelectedIndexChanged += new System.EventHandler(this.UsersList_SelectedIndexChanged);
+            this.UserList.FullRowSelect = true;
+            this.UserList.HideSelection = false;
+            this.UserList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1});
+            this.UserList.Location = new System.Drawing.Point(12, 88);
+            this.UserList.Name = "UserList";
+            this.UserList.Size = new System.Drawing.Size(406, 210);
+            this.UserList.TabIndex = 2;
+            this.UserList.UseCompatibleStateImageBehavior = false;
+            this.UserList.View = System.Windows.Forms.View.Details;
+            this.UserList.SelectedIndexChanged += new System.EventHandler(this.UsersList_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -97,7 +97,7 @@
             this.MessageLabel.Name = "MessageLabel";
             this.MessageLabel.Size = new System.Drawing.Size(406, 35);
             this.MessageLabel.TabIndex = 4;
-            this.MessageLabel.Text = "Select the user who will take the ownership of this version:\r\n";
+            this.MessageLabel.Text = "Select a user:";
             this.MessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // SearchLabel
@@ -127,7 +127,7 @@
             this.Controls.Add(this.SearchFilter);
             this.Controls.Add(this.MessageLabel);
             this.Controls.Add(this.CancelUserSelectButton);
-            this.Controls.Add(this.UsersList);
+            this.Controls.Add(this.UserList);
             this.Controls.Add(this.OkButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -143,7 +143,7 @@
 
         #endregion
         private System.Windows.Forms.Button OkButton;
-        private System.Windows.Forms.ListView UsersList;
+        private System.Windows.Forms.ListView UserList;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.Button CancelUserSelectButton;

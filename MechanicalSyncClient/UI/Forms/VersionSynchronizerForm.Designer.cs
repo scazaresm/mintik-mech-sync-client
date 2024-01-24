@@ -68,12 +68,12 @@ namespace MechanicalSyncApp.UI.Forms
             this.PublishVersionButton = new System.Windows.Forms.ToolStripButton();
             this.TransferOwnershipButton = new System.Windows.Forms.ToolStripButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.ReviewArtifactsTabImages = new System.Windows.Forms.ImageList(this.components);
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.ProjectTabImages = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.ProjectFolderNameLabel = new System.Windows.Forms.Label();
+            this.ReviewArtifactsTabImages = new System.Windows.Forms.ImageList(this.components);
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ReviewerListImages = new System.Windows.Forms.ImageList(this.components);
             this.ReviewerStateImages = new System.Windows.Forms.ImageList(this.components);
@@ -81,11 +81,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNewButton = new System.Windows.Forms.ToolStripMenuItem();
             this.NewProjectButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.versionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.NewVersionButton = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.LogoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
@@ -379,13 +378,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage2.Text = "Design review";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // ReviewArtifactsTabImages
-            // 
-            this.ReviewArtifactsTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewArtifactsTabImages.ImageStream")));
-            this.ReviewArtifactsTabImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.ReviewArtifactsTabImages.Images.SetKeyName(0, "change-request-24.png");
-            this.ReviewArtifactsTabImages.Images.SetKeyName(1, "notes-icon-24.png");
-            // 
             // tabPage3
             // 
             this.tabPage3.ImageIndex = 2;
@@ -437,6 +429,13 @@ namespace MechanicalSyncApp.UI.Forms
             this.ProjectFolderNameLabel.Text = "220214NY-OBERG SML HEAD TOOLING";
             this.ProjectFolderNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // ReviewArtifactsTabImages
+            // 
+            this.ReviewArtifactsTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewArtifactsTabImages.ImageStream")));
+            this.ReviewArtifactsTabImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.ReviewArtifactsTabImages.Images.SetKeyName(0, "change-request-24.png");
+            this.ReviewArtifactsTabImages.Images.SetKeyName(1, "notes-icon-24.png");
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -458,7 +457,8 @@ namespace MechanicalSyncApp.UI.Forms
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem});
+            this.testToolStripMenuItem,
+            this.toolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1385, 24);
@@ -469,8 +469,6 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileNewButton,
-            this.toolStripSeparator4,
-            this.LogoutMenuItem,
             this.toolStripSeparator3,
             this.ExitMenuItem});
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
@@ -481,7 +479,7 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             this.FileNewButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.NewProjectButton,
-            this.versionToolStripMenuItem1});
+            this.NewVersionButton});
             this.FileNewButton.Name = "FileNewButton";
             this.FileNewButton.Size = new System.Drawing.Size(180, 22);
             this.FileNewButton.Text = "New";
@@ -493,11 +491,12 @@ namespace MechanicalSyncApp.UI.Forms
             this.NewProjectButton.Text = "Project...";
             this.NewProjectButton.Click += new System.EventHandler(this.NewProjectButton_Click);
             // 
-            // versionToolStripMenuItem1
+            // NewVersionButton
             // 
-            this.versionToolStripMenuItem1.Name = "versionToolStripMenuItem1";
-            this.versionToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.versionToolStripMenuItem1.Text = "Version...";
+            this.NewVersionButton.Name = "NewVersionButton";
+            this.NewVersionButton.Size = new System.Drawing.Size(180, 22);
+            this.NewVersionButton.Text = "Version...";
+            this.NewVersionButton.Click += new System.EventHandler(this.NewVersionButton_Click);
             // 
             // toolStripSeparator3
             // 
@@ -509,17 +508,12 @@ namespace MechanicalSyncApp.UI.Forms
             this.ExitMenuItem.Name = "ExitMenuItem";
             this.ExitMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ExitMenuItem.Text = "Exit";
+            this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
-            // toolStripSeparator4
+            // toolStripMenuItem1
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
-            // 
-            // LogoutMenuItem
-            // 
-            this.LogoutMenuItem.Name = "LogoutMenuItem";
-            this.LogoutMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.LogoutMenuItem.Text = "Logout";
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(12, 20);
             // 
             // VersionSynchronizerForm
             // 
@@ -532,6 +526,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.Name = "VersionSynchronizerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mechanical Sync";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VersionSynchronizerForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.VersionSynchronizerForm_FormClosed);
             this.Load += new System.EventHandler(this.VersionSynchronizerForm_Load);
             this.VisibleChanged += new System.EventHandler(this.VersionSynchronizerForm_VisibleChanged);
@@ -598,10 +593,9 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripButton TransferOwnershipButton;
         private System.Windows.Forms.ToolStripMenuItem FileNewButton;
         private System.Windows.Forms.ToolStripMenuItem NewProjectButton;
-        private System.Windows.Forms.ToolStripMenuItem versionToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripMenuItem LogoutMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NewVersionButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }

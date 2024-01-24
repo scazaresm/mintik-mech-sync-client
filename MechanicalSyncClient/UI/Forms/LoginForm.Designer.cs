@@ -55,7 +55,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.Email.Name = "Email";
             this.Email.Size = new System.Drawing.Size(256, 22);
             this.Email.TabIndex = 0;
-            this.Email.Text = "sergio.cazares.sdt@gmail.com";
             this.Email.TextChanged += new System.EventHandler(this.Email_TextChanged);
             this.Email.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Email_KeyDown);
             // 
@@ -83,10 +82,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.Password.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Password.Location = new System.Drawing.Point(352, 181);
             this.Password.Name = "Password";
-            this.Password.PasswordChar = '*';
+            this.Password.PasswordChar = '•';
             this.Password.Size = new System.Drawing.Size(256, 22);
             this.Password.TabIndex = 2;
-            this.Password.Text = "12345678";
             this.Password.TextChanged += new System.EventHandler(this.Password_TextChanged);
             this.Password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Password_KeyDown);
             // 
