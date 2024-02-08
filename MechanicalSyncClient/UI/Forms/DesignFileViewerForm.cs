@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,6 +25,11 @@ namespace MechanicalSyncApp.UI.Forms
         }
 
         private void DesignViewerForm_Load(object sender, EventArgs e)
+        {
+         
+        }
+
+        public void Initialize()
         {
             designViewerControl = new DesignFileViewerControl(filePath)
             {

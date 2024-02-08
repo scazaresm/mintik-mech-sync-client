@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
+using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace MechanicalSyncApp.Core.Util
                     string filePath;
                     while (fileQueue.TryDequeue(out filePath))
                     {
+                        Log.Information($"\tIndexing local file {filePath}");
                         await IndexFileAsync(filePath);
 
                         Interlocked.Increment(ref completedFileCount);

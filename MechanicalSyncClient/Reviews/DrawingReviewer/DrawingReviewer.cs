@@ -3,14 +3,9 @@ using MechanicalSyncApp.Core.AuthenticationService;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Reviews.DrawingReviewer.Commands;
 using MechanicalSyncApp.UI;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,7 +13,10 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 {
     public class DrawingReviewer : IDrawingReviewer
     {
+
         public IDrawingReviewerUI UI { get; }
+
+        public IAuthenticationServiceClient AuthServiceClient { get; }
         public IMechSyncServiceClient SyncServiceClient { get; }
 
         public DeltaDrawingsTreeView DeltaDrawingsTreeView { get; set; }
@@ -39,32 +37,38 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             "Fixed"
         };
 
-        public string[] StatusesWithReviewControlsEnabled { get; } = new string[] 
+        public string[] StatusesHavingReviewControlsEnabled { get; } = new string[] 
         {
             "Pending",
             "Reviewing",
             "Fixed"
         };
 
-        public DrawingReviewer(IMechSyncServiceClient serviceClient,
+        public DrawingReviewer(IAuthenticationServiceClient authService,
+                               IMechSyncServiceClient mechService,
                                IDrawingReviewerUI ui,
                                LocalReview review
             )
         {
             // validate inputs and assign properties
-            SyncServiceClient = serviceClient ?? throw new ArgumentNullException(nameof(serviceClient));
+            AuthServiceClient = authService ?? throw new ArgumentNullException(nameof(authService));
+            SyncServiceClient = mechService ?? throw new ArgumentNullException(nameof(mechService));
             UI = ui ?? throw new ArgumentNullException(nameof(ui));
             Review = review ?? throw new ArgumentNullException(nameof(review));
         }
 
-        public void InitializeUI()
+        public async Task InitializeUiAsync()
         {
             DeltaDrawingsTreeView = new DeltaDrawingsTreeView(SyncServiceClient, Review);
             DeltaDrawingsTreeView.AttachTreeView(UI.DeltaDrawingsTreeView);
-            DeltaDrawingsTreeView.OnOpenDrawingForReview += DeltaDrawingsTreeView_OnOpenDrawingForReview;
+            DeltaDrawingsTreeView.OnOpenDrawingForReviewing += DeltaDrawingsTreeView_OnOpenDrawingForReviewing;
+
+            var designerDetails = await AuthServiceClient.GetUserDetailsAsync(Review.RemoteVersion.Owner.UserId);
 
             UI.HideDrawingMarkupPanel();
             UI.SetHeaderText($"Reviewing {Review}");
+            UI.SetDesignerText(designerDetails.FullName);
+
             UI.ZoomButton.Click += ZoomButton_Click;
             UI.PanButton.Click += PanButton_Click;
             UI.ChangeRequestButton.Click += ChangeRequestButton_Click;
@@ -92,6 +96,17 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             await new CloseDrawingReviewCommand(this).RunAsync();
         }
 
+        public async Task OpenReviewMarkupAsync(ReviewTarget reviewTarget)
+        {
+
+        }
+
+        public async Task CloseReviewMarkupAsync()
+        {
+
+        }
+
+
         public async Task ApproveReviewTargetAsync()
         {
             await new ApproveDrawingCommand(this).RunAsync();
@@ -106,8 +121,13 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
         {
             await DeltaDrawingsTreeView.Refresh();
         }
+        
+        public async Task RefreshDrawingReviewsAsync()
+        {
 
-        public async Task SaveProgressAsync()
+        }
+
+        public async Task SaveReviewProgressAsync()
         {
             await new SaveDrawingReviewProgressCommand(this).RunAsync();
         }
@@ -135,7 +155,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         private async void SaveProgressButton_Click(object sender, EventArgs e)
         {
-            await SaveProgressAsync();
+            await SaveReviewProgressAsync();
         }
 
         private void ZoomToAreaButton_Click(object sender, EventArgs e)
@@ -164,7 +184,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             UI.DrawingReviewerControl.SetZoomOperator();
         }
 
-        private async void DeltaDrawingsTreeView_OnOpenDrawingForReview(object sender, OpenDrawingForReviewEventArgs e)
+        private async void DeltaDrawingsTreeView_OnOpenDrawingForReviewing(object sender, OpenDrawingForReviewingEventArgs e)
         {
             await OpenReviewTargetAsync(e.ReviewTarget);
         }

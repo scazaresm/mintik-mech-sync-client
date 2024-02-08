@@ -25,7 +25,7 @@ namespace MechanicalSyncApp.Core
         ToolStripProgressBar DownloadProgressBar { get; }
         ToolStripStatusLabel MarkupStatus { get; }
         ToolStripLabel ReviewTargetStatus { get; }
-
+        Label DesignerLabel { get; set; }
         Label HeaderLabel { get; set; }
         TreeView DeltaDrawingsTreeView { get; }
         DrawingReviewerControl DrawingReviewerControl { get; }
@@ -47,6 +47,8 @@ namespace MechanicalSyncApp.Core
         void SetMarkupStatusText(string status);
 
         void SetHeaderText(string headerText);
+
+        void SetDesignerText(string designerText);
 
         void LoadDrawing(string localDrawingPath,
                          _IEModelViewControlEvents_OnFailedLoadingDocumentEventHandler onFailedLoadingDocumentEventHandler);

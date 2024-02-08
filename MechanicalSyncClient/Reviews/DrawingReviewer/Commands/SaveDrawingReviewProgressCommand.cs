@@ -11,7 +11,6 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
 {
     public class SaveDrawingReviewProgressCommand : IDrawingReviewerCommandAsync
     {
-     
         public IDrawingReviewer Reviewer { get; }
 
         public SaveDrawingReviewProgressCommand(IDrawingReviewer reviewer)

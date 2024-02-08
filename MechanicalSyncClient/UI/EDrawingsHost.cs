@@ -1,9 +1,6 @@
 ﻿using eDrawings.Interop.EModelViewControl;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI
@@ -13,6 +10,7 @@ namespace MechanicalSyncApp.UI
         public event Action<EModelViewControl> ControlLoaded;
 
         private bool m_IsLoaded;
+
         public EDrawingsHost() : base(GetCLSID())
         {
             m_IsLoaded = false;
@@ -31,7 +29,9 @@ namespace MechanicalSyncApp.UI
         }
         private static string GetCLSID()
         {
-            return "476F8C77-404C-4876-BCCA-0215E6B8BB14";
+            var clsid = ConfigurationManager.AppSettings["EDRAWINGS_VIEWER_CLSID"];
+
+            return clsid ?? throw new Exception("Missing EDRAWINGS_VIEWER_CLSID configuration entry in config file.");
         }
     }
 }

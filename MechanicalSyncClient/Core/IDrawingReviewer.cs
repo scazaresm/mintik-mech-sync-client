@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
 
 namespace MechanicalSyncApp.Core
 {
@@ -17,7 +18,7 @@ namespace MechanicalSyncApp.Core
     {
         string[] StatusesHavingMarkupFile { get; }
 
-        string[] StatusesWithReviewControlsEnabled { get; }
+        string[] StatusesHavingReviewControlsEnabled { get; }
 
         IDrawingReviewerUI UI { get; }
 
@@ -35,11 +36,12 @@ namespace MechanicalSyncApp.Core
         string TempUploadedMarkupFile { get; set; }
 
 
-        void InitializeUI();
+        Task InitializeUiAsync();
 
         Task OpenReviewTargetAsync(ReviewTarget reviewTarget);
 
         Task CloseReviewTargetAsync();
+
 
         Task ApproveReviewTargetAsync();
 
@@ -47,11 +49,12 @@ namespace MechanicalSyncApp.Core
 
         Task RefreshDeltaTargetsAsync();
 
+
         Task<bool> UploadMarkupFileAsync();
 
         Task DownloadMarkupFileAsync();
 
-        Task SaveProgressAsync();
+        Task SaveReviewProgressAsync();
 
 
         void DrawingReviewerControl_OpenDocError(string FileName, int ErrorCode, string ErrorString);

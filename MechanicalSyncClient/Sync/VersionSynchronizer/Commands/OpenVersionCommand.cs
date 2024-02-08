@@ -9,6 +9,7 @@ using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI.Forms;
 using Microsoft.VisualBasic.FileIO;
+using Serilog;
 using System;
 using System.IO;
 using System.Threading;
@@ -45,11 +46,20 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
+            Log.Information($"Starting OpenVersionCommand, versionId = {RemoteVersion.Id}");
+
             if (IsNotVersionOwnerAnymore)
+            {
+                Log.Information(
+                    $"{AuthServiceClient.LoggedUserDetails.FullName} is not version owner anymore, version ownership change is expected..."
+                );
                 await HandleNotVersionOwnerAsync();
+            }
 
             if (ShallDownloadFiles)
             {
+                Log.Information($"Could not find a local copy folder for this version, will download version files from server...");
+
                 using (var cts = new CancellationTokenSource())
                 {
                     await DownloadVersionFilesAsync(cts);
@@ -57,6 +67,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             }
             Synchronizer.InitializeUI();
             Synchronizer.ChangeMonitor.Initialize();
+
+            Log.Information("Completed OpenVersionCommand.");
         }
 
         private async Task MoveFolderToRecycleBinAsync()
@@ -70,6 +82,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         {
             var nextOwnerUserId = Synchronizer.Version.RemoteVersion.NextOwner.UserId;
             var nextOwnerUserDetails = await AuthServiceClient.GetUserDetailsAsync(nextOwnerUserId);
+
+            Log.Information($"Next owner Id is {nextOwnerUserId}, notified logged user that version cannot be open because of waiting for ownership ack from new owner.");
 
             MessageBox.Show(
                 $"Cannot open this version because it was transferred to {nextOwnerUserDetails.FullName}, waiting for ownership acknowledge.",

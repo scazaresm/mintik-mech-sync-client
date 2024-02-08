@@ -25,6 +25,7 @@ namespace MechanicalSyncApp.Core.Services.Authentication
     {
         #region Singleton
         private readonly string SERVER_URL = ConfigurationManager.AppSettings["SERVER_URL"];
+        private readonly string DEFAULT_TIMEOUT_SECONDS = ConfigurationManager.AppSettings["DEFAULT_TIMEOUT_SECONDS"];
 
         private static IAuthenticationServiceClient _instance = null;
 
@@ -40,9 +41,20 @@ namespace MechanicalSyncApp.Core.Services.Authentication
 
         private AuthenticationServiceClient()
         {
-            restClient = new HttpClient();
-            restClient.BaseAddress = new Uri($"http://{SERVER_URL}/api/authentication/");
-            restClient.Timeout = TimeSpan.FromSeconds(5);
+            try
+            {
+                restClient = new HttpClient(new VerboseHandler(new HttpClientHandler()));
+                restClient.BaseAddress = new Uri($"{SERVER_URL}/api/authentication/");
+                restClient.Timeout = TimeSpan.FromSeconds(double.Parse(DEFAULT_TIMEOUT_SECONDS));
+            }
+            catch(FormatException ex)
+            {
+                throw new Exception("Check data types for SERVER_URL (string) and DEFAULT_TIMEOUT_SECONDS (double as string) in config file.", ex);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
 

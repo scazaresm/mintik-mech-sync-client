@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,10 +25,13 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
+            Log.Information($"Starting SyncRemoteCommand, versionId = {Synchronizer.Version.RemoteVersion.Id} ...");
             try
             {
                 if (Synchronizer.Version.RemoteVersion.Status != "Ongoing")
                 {
+                    Log.Error($"Cannot sync changes because this version is not in Ongoing status.");
+
                     throw new InvalidOperationException(
                         "Cannot sync changes because this version is not in Ongoing status."
                     );
@@ -85,7 +89,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 await Synchronizer.RunStepAsync();
             }
             catch (Exception ex)
-            { 
+            {
+                Log.Error($"Failed to sync remote: {ex} {ex.InnerException.Message}");
                 MessageBox.Show(
                     ex.Message, "Sync error",
                     MessageBoxButtons.OK,
@@ -98,6 +103,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.SetState(new IdleState());
                 await Synchronizer.RunStepAsync();
             }
+            Log.Information("Completed SyncRemoteCommand...");
         }
     }
 }

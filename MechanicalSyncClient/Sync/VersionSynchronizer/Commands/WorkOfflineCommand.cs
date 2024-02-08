@@ -1,5 +1,6 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
+            Log.Information("Starting WorkOfflineCommand...");
+
             var ui = Synchronizer.UI;
 
+            Log.Information("\tDisabling tool strip...");
             ui.SynchronizerToolStrip.Enabled = true;
             ui.WorkOfflineButton.Visible = false;
             ui.WorkOnlineButton.Visible = true;
@@ -37,6 +41,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             Synchronizer.SetState(new IdleState());
             await Synchronizer.RunStepAsync();
+
+            Log.Information("Completed WorkOfflineCommand.");
         }
     }
 }

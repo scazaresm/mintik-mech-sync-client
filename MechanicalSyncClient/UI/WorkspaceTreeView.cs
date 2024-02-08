@@ -64,7 +64,11 @@ namespace MechanicalSyncApp.UI
 
             // create all nodes 
             myWorkNode = new TreeNode("My Work");
+            myWorkNode.ImageIndex = 0;
+            myWorkNode.SelectedImageIndex = 0;
+
             myReviewsNode = new TreeNode("My Reviews");
+
             myVersionReviewsNode = new TreeNode("Design");
             myAssemblyFileReviewsNode = new TreeNode("3D Files");
             myDrawingFileReviewsNode = new TreeNode("2D Files");
@@ -77,7 +81,7 @@ namespace MechanicalSyncApp.UI
             // add root nodes to the new attached TreeView
             AttachedTreeView.Nodes.Clear();
             AttachedTreeView.Nodes.Add(myWorkNode);
-            AttachedTreeView.Nodes.Add(myReviewsNode);
+            //AttachedTreeView.Nodes.Add(myReviewsNode);
 
             AttachedTreeView.NodeMouseDoubleClick += AttachedTreeView_NodeMouseDoubleClick;
         }
@@ -85,7 +89,7 @@ namespace MechanicalSyncApp.UI
         public async Task Refresh()
         {
             await FetchMyWorkAsync();
-            await FetchMyReviewsAsync();
+            //await FetchMyReviewsAsync();
         }
 
         private void AttachedTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -115,6 +119,8 @@ namespace MechanicalSyncApp.UI
                 var localVersion = new LocalVersion(remoteVersion, remoteProject, workspaceDirectory);
                 var versionNode = new TreeNode(localVersion.ToString());
                 versionNode.Tag = localVersion;
+                versionNode.ImageIndex = 1;
+                versionNode.SelectedImageIndex = 1;
                 myWorkNode.Nodes.Add(versionNode);
             }
         }

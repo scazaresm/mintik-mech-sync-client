@@ -4,6 +4,7 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
@@ -12,6 +13,7 @@ namespace MechanicalSyncApp.UI.Forms
     {
         private IVersionSynchronizer synchronizer;
         private WorkspaceTreeView workspaceTreeView;
+        private DrawingReviewsTreeView drawingReviewsTreeView;
         private VersionSynchronizerUI synchronizerUI;
 
         #region Singleton
@@ -42,7 +44,7 @@ namespace MechanicalSyncApp.UI.Forms
             ShowWorkspaceExplorer();
             VersionSynchronizerTabs.TabPages.Remove(tabPage2);
             VersionSynchronizerTabs.TabPages.Remove(tabPage3);
-            VersionSynchronizerTabs.TabPages.Remove(tabPage4);
+            VersionSynchronizerTabs.TabPages.Remove(DrawingReviewPage);
         }
 
         private void VersionSynchronizerForm_VisibleChanged(object sender, EventArgs e)
@@ -128,6 +130,18 @@ namespace MechanicalSyncApp.UI.Forms
                 synchronizer.Dispose();
                 synchronizer = null;
             }
+
+            if (drawingReviewsTreeView != null)
+            {
+                drawingReviewsTreeView.Dispose();
+            }
+
+            drawingReviewsTreeView = new DrawingReviewsTreeView(
+               MechSyncServiceClient.Instance,
+               AuthenticationServiceClient.Instance,
+               version
+            );
+            drawingReviewsTreeView.AttachTreeView(DrawingReviewsTreeView);
         }
 
         private void Workspace_OpenReview(object sender, OpenReviewEventArgs e)
@@ -137,7 +151,12 @@ namespace MechanicalSyncApp.UI.Forms
             switch (e.Review.RemoteReview.TargetType)
             {
                 case "DrawingFile": 
-                    reviewForm = new DrawingReviewerForm(MechSyncServiceClient.Instance, e.Review); break;
+                    reviewForm = new DrawingReviewerForm(
+                        AuthenticationServiceClient.Instance, 
+                        MechSyncServiceClient.Instance, 
+                        e.Review
+                    ); 
+                    break;
                 default: break;
             }
 
@@ -202,6 +221,7 @@ namespace MechanicalSyncApp.UI.Forms
                    MessageBoxButtons.OK,
                    MessageBoxIcon.Information
                );
+               await Task.Delay(5000);
                await workspaceTreeView.Refresh();
             }
         }
@@ -223,30 +243,13 @@ namespace MechanicalSyncApp.UI.Forms
             Close();
         }
 
-        private void LogoutMenuItem_Click(object sender, EventArgs e)
+        private async void VersionSynchronizerTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var confirmation = MessageBox.Show(
-                "Are you sure you want to logout?", "Logout",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
-
-            if (confirmation != DialogResult.Yes) return;
-
-            Hide();
-            foreach (Form form in Application.OpenForms)
+            if (VersionSynchronizerTabs.SelectedTab.Text.StartsWith("2D") && drawingReviewsTreeView != null)
             {
-                if (form is LoginForm loginForm)
-                {
-                    loginForm.Show();
-                    break;
-                }
+                await drawingReviewsTreeView.Refresh();
+                return;
             }
-        }
-
-        private void ManagementConsoleButton_Click(object sender, EventArgs e)
-        {
-            ManagementConsoleForm.Instance.ShowDialog();
         }
     }
 }

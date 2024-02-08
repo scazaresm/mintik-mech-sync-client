@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Sergio Cazares",
-            "test"}, -1);
             this.OkButton = new System.Windows.Forms.Button();
             this.UserList = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -59,8 +56,6 @@
             this.columnHeader2});
             this.UserList.FullRowSelect = true;
             this.UserList.HideSelection = false;
-            this.UserList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
             this.UserList.Location = new System.Drawing.Point(12, 88);
             this.UserList.Name = "UserList";
             this.UserList.Size = new System.Drawing.Size(406, 210);

@@ -34,12 +34,12 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                 UI.MarkupStatus.Text = "Opening drawing...";
                 UI.SetReviewTargetStatusText(reviewTarget.Status);
                 UI.SetReviewControlsEnabled(
-                    Reviewer.StatusesWithReviewControlsEnabled.Contains(reviewTarget.Status)
+                    Reviewer.StatusesHavingReviewControlsEnabled.Contains(reviewTarget.Status)
                 );
 
                 Reviewer.DrawingMetadata = await Reviewer.SyncServiceClient.GetFileMetadataAsync(reviewTarget.TargetId);
                 UI.SetHeaderText(
-                    $"Drawing {Path.GetFileNameWithoutExtension(Reviewer.DrawingMetadata.RelativeFilePath)} from {Reviewer.Review}"
+                    $"Reviewing {Path.GetFileNameWithoutExtension(Reviewer.DrawingMetadata.RelativeFilePath)} from {Reviewer.Review}"
                 );
 
                 Reviewer.TempDownloadedDrawingFile = Path.GetTempFileName().Replace(".tmp", ".slddrw");
@@ -71,7 +71,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
-                Reviewer.CloseReviewTargetAsync();
+                await Reviewer.CloseReviewTargetAsync();
             }
         }
     }

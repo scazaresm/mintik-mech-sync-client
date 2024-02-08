@@ -13,12 +13,12 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI
 {
-    public class OpenDrawingForReviewEventArgs : EventArgs
+    public class OpenDrawingForReviewingEventArgs : EventArgs
     {
         public LocalReview Review { get; private set; }
         public ReviewTarget ReviewTarget { get; private set; }
 
-        public OpenDrawingForReviewEventArgs(LocalReview review, ReviewTarget reviewTarget)
+        public OpenDrawingForReviewingEventArgs(LocalReview review, ReviewTarget reviewTarget)
         {
             Review = review ?? throw new ArgumentNullException(nameof(review));
             ReviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
@@ -27,7 +27,7 @@ namespace MechanicalSyncApp.UI
 
     public class DeltaDrawingsTreeView
     {
-        public event EventHandler<OpenDrawingForReviewEventArgs> OnOpenDrawingForReview;
+        public event EventHandler<OpenDrawingForReviewingEventArgs> OnOpenDrawingForReviewing;
 
         private readonly IMechSyncServiceClient serviceClient;
         private readonly LocalReview review;
@@ -50,10 +50,15 @@ namespace MechanicalSyncApp.UI
         public void AttachTreeView(TreeView treeView)
         {
             AttachedTreeView = treeView ?? throw new ArgumentNullException(nameof(treeView));
-
             pendingNode = new TreeNode("Pending");
+            pendingNode.ImageIndex = 0;
+
             reviewingNode = new TreeNode("Reviewing");
+            reviewingNode.ImageIndex = 0;
+
             reviewedNode = new TreeNode("Reviewed");
+            reviewedNode.ImageIndex = 0;
+
             AttachedTreeView.Nodes.AddRange(new TreeNode[] { pendingNode, reviewingNode, reviewedNode });
             AttachedTreeView.NodeMouseDoubleClick += AttachedTreeView_NodeMouseDoubleClick;
         }
@@ -67,7 +72,7 @@ namespace MechanicalSyncApp.UI
         {
             if (e.Node.Tag is ReviewTarget)
             {
-                OnOpenDrawingForReview?.Invoke(this, new OpenDrawingForReviewEventArgs(review, (ReviewTarget)e.Node.Tag));
+                OnOpenDrawingForReviewing?.Invoke(this, new OpenDrawingForReviewingEventArgs(review, (ReviewTarget)e.Node.Tag));
             }
         }
 
@@ -99,6 +104,14 @@ namespace MechanicalSyncApp.UI
             reviewingNode.Nodes.Clear();   
             reviewedNode.Nodes.Clear();
 
+            var reviewedIconIndexes = new Dictionary<string, int>()
+            {       
+                { "Approved", 2 },
+                { "Rejected", 3 },
+                { "Fixed", 4 }
+            };
+
+
             foreach (var drawingMetadata in deltaDrawings)
             {
                 if (!reviewTargetLookup.ContainsKey(drawingMetadata.Id)) continue;
@@ -111,16 +124,22 @@ namespace MechanicalSyncApp.UI
                 {
                     case "Pending":
                         newTreeNode = pendingNode.Nodes.Add(drawingFileName);
+                        newTreeNode.ImageIndex = 1;
+                        newTreeNode.SelectedImageIndex = 1;
                         break;
 
                     case "Reviewing":
-                        newTreeNode = reviewingNode.Nodes.Add(drawingFileName);
+                        newTreeNode = reviewingNode.Nodes.Add(drawingFileName); 
+                        newTreeNode.ImageIndex = 1;
+                        newTreeNode.SelectedImageIndex = 1;
                         break;
 
                     case "Rejected":
                     case "Approved":
                     case "Fixed":
                         newTreeNode = reviewedNode.Nodes.Add(drawingFileName);
+                        newTreeNode.ImageIndex = reviewedIconIndexes[reviewTarget.Status];
+                        newTreeNode.SelectedImageIndex = newTreeNode.ImageIndex;
                         break;
                 }
 

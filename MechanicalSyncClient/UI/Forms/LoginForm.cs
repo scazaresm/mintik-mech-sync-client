@@ -1,7 +1,9 @@
 ﻿using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.Authentication.Models.Request;
+using Serilog;
 using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
@@ -18,6 +20,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private async void LoginButton_Click(object sender, EventArgs e)
         {
+            LoginButton.Enabled = false;
             try
             {
                 var response = await AuthenticationServiceClient.Instance.LoginAsync(new LoginRequest()
@@ -27,29 +30,37 @@ namespace MechanicalSyncApp.UI.Forms
                 });
                 Hide();
 
-                if (response.UserDetails.Role == "Root")
+                if (response.UserDetails.Role.ToLower() == "root")
                 {
+                    Log.Information("Logged in as Root user, showing management console.");
                     ManagementConsoleForm.Instance.Show();
                     MessageBox.Show("You logged in as Root user.", "Root user", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (response.UserDetails.HasInitialPassword)
                 {
+                    Log.Information("User has initial password, showing form to change password.");
                     var setCustomPasswordForm = new ChangeYourPasswordForm();
                     setCustomPasswordForm.ShowDialog();
                     Show();
                 }
                 else
+                {
+                    Log.Information($"Successfully logged with email {Email}, showing version synchronzier form.");
                     VersionSynchronizerForm.Instance.Show();
+                }
             }
             catch(UnauthorizedAccessException)
             {
+                Log.Error($"Invalid credentials: {Email}");
                 LoginErrorMessage.Visible = true;
                 LoginErrorMessage.Text = "Invalid credentials.";
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " " + ex.GetType(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Error($"Failed to login {ex.Message} {ex.GetType()} {ex.InnerException}");
+                MessageBox.Show(ex.Message + " " + ex.GetType() + " " + ex.InnerException, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            LoginButton.Enabled = true;
         }
 
         private void CloseButton_Click(object sender, EventArgs e)

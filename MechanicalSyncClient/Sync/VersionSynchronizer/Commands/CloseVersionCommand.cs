@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
+            Log.Information("Starting CloseVersionCommand...");
+
             var UI = Synchronizer.UI;
 
             if (Synchronizer.ChangeMonitor.IsMonitoring())
@@ -40,6 +43,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             UI.ShowWorkspaceExplorer();
             await UI.WorkspaceTreeView.Refresh();
+
+            Log.Information("Completed CloseVersionCommand.");
         }
     }
 }

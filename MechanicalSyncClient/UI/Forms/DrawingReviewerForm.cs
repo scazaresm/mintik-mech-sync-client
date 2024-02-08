@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.AuthenticationService;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Reviews.DrawingReviewer;
@@ -12,14 +13,19 @@ namespace MechanicalSyncApp.UI.Forms
 
         private readonly IDrawingReviewer drawingReviewer;
 
-        public DrawingReviewerForm(IMechSyncServiceClient syncServiceClient, LocalReview review)
+        public DrawingReviewerForm(IAuthenticationServiceClient authServiceClient,
+                                   IMechSyncServiceClient syncServiceClient, 
+                                   LocalReview review)
         {
             InitializeComponent();
+
+            DeltaDrawingsTreeView.ImageList = TreeViewIcons;
 
             IDrawingReviewerUI ui = new DrawingReviewerUI()
             {
                 DownloadProgressBar = DownloadProgressBar,
                 HeaderLabel = HeaderLabel,
+                DesignerLabel = DesignerLabel,
                 MainSplit = MainSplit,
                 MarkupPanel = MarkupPanel,
                 MarkupStatus = MarkupStatus,
@@ -34,8 +40,8 @@ namespace MechanicalSyncApp.UI.Forms
                 SaveProgressButton = SaveProgressButton,
                 ReviewTargetStatus = ReviewTargetStatus,
             };
-            drawingReviewer = new DrawingReviewer(syncServiceClient, ui, review);
-            drawingReviewer.InitializeUI();
+            drawingReviewer = new DrawingReviewer(authServiceClient, syncServiceClient, ui, review);
+            drawingReviewer.InitializeUiAsync();
             _ = drawingReviewer.RefreshDeltaTargetsAsync();
         }
 

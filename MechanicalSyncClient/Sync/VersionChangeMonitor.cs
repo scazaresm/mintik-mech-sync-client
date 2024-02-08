@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Util;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,6 +40,8 @@ namespace MechanicalSyncApp.Sync
 
         public void Initialize()
         {
+            Log.Information($"Initializing version change monitor...");
+
             watcher = new FileSystemWatcher()
             {
                 Path = Version.LocalDirectory,
@@ -48,6 +51,8 @@ namespace MechanicalSyncApp.Sync
             watcher.Deleted += new FileSystemEventHandler(OnFileDeleted);
             watcher.Renamed += new RenamedEventHandler(OnFileRenamed);
             watcher.Changed += new FileSystemEventHandler(OnFileChanged);
+
+            Log.Information($"Version change monitor has been initialized.");
         }
 
         public bool IsEventQueueEmpty()
@@ -107,21 +112,25 @@ namespace MechanicalSyncApp.Sync
 
         public void StartMonitoring()
         {
+            Log.Information("Starting monitoring...");
             lock (eventQueueLock)
             {
                 watcher.EnableRaisingEvents = true;
                 monitoring = true;
             }
+            Log.Information("Monitoring has been started.");
         }
 
         public void StopMonitoring()
         {
+            Log.Information("Stopping monitoring...");
             lock (eventQueueLock)
             {
                 if(watcher != null)
                     watcher.EnableRaisingEvents = false;
                 monitoring = false;
             }
+            Log.Information("Monitoring has been stopped.");
         }
 
         public bool IsMonitoring()

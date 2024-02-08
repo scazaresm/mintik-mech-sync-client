@@ -48,6 +48,8 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         public Label HeaderLabel { get; set; }
 
+        public Label DesignerLabel { get; set; }
+
         public DrawingReviewerControl DrawingReviewerControl { get; set; }
 
         public void SetReviewControlsEnabled(bool enabled)
@@ -141,6 +143,11 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
         public void SetHeaderText(string headerText)
         {
             HeaderLabel.Text = headerText;
+        }
+
+        public void SetDesignerText(string designerText)
+        {
+            DesignerLabel.Text = designerText;
         }
 
         public void LoadDrawing(string localDrawingPath, 

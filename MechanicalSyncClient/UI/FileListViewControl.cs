@@ -4,7 +4,9 @@ using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.UI.Forms;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MechanicalSyncApp.UI
 {
@@ -194,15 +196,37 @@ namespace MechanicalSyncApp.UI
 
         private void AttachedListView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            // Get the selected ListViewItem, if any
-            ListViewItem selectedItem = AttachedListView.SelectedItems.Count > 0 ? AttachedListView.SelectedItems[0] : null;
-
-            // Check if a ListViewItem was double-clicked
-            if (selectedItem != null)
+            try
             {
-                string filePath = selectedItem.SubItems[2].Text;
-                var designViewerForm = new DesignFileViewerForm(filePath);
-                designViewerForm.Show();
+                // Get the selected ListViewItem, if any
+                ListViewItem selectedItem = AttachedListView.SelectedItems.Count > 0 ? AttachedListView.SelectedItems[0] : null;
+
+                // Check if a ListViewItem was double-clicked
+                if (selectedItem != null)
+                {
+                    string filePath = selectedItem.SubItems[2].Text;
+                    var designViewerForm = new DesignFileViewerForm(filePath);
+                    designViewerForm.Initialize();
+                    designViewerForm.Show();
+                }
+            }
+            catch (COMException)
+            {
+                MessageBox.Show(
+                    "Failed to connect to eDrawings software. Please make sure you have it installed on your computer and set the correct EDRAWINGS_VIEWER_CLSID value in the config file.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                   $"Failed to open design viewer: {ex}",
+                   "Error",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Error
+               );
             }
         }
 

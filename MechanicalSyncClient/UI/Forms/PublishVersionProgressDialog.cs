@@ -57,11 +57,7 @@ namespace MechanicalSyncApp.UI.Forms
             if (IsPublishingSuccess && Directory.Exists(localDirectory))
             {
                 PublishingMessage.Text = "Almost there, cleaning up your local workspace...";
-                    await Task.Run(() => FileSystem.DeleteDirectory(
-                    localDirectory,
-                    UIOption.OnlyErrorDialogs,
-                    RecycleOption.SendToRecycleBin
-                ));
+                    await Task.Run(() => MoveFolderToRecycleBin());
             }
 
             PublishingMessage.Text = IsPublishingSuccess
@@ -81,6 +77,27 @@ namespace MechanicalSyncApp.UI.Forms
         private void OkButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
+        }
+
+        private void MoveFolderToRecycleBin()
+        {
+            try
+            {
+                FileSystem.DeleteDirectory(localDirectory, UIOption.AllDialogs, RecycleOption.SendToRecycleBin);
+            }
+            catch(OperationCanceledException)
+            {
+                MessageBox.Show(
+                    "Your changes were successfully published but your local copy could not be sent to recycle bin, remove it manually.",
+                    "Could not remove local copy",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }
