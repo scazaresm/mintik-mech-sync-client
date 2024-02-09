@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
 using MechanicalSyncApp.Core.Util;
+using Polly;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 {
@@ -25,22 +26,31 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 
         public async Task<Version> HandleAsync()
         {
-            var queryParameters = new Dictionary<string, string>
-            {
-                { "versionId", versionId },
-            };
+            // Define a retry policy with exponential backoff
+            var retryPolicy = Policy
+                .Handle<HttpRequestException>()
+                .Or<TaskCanceledException>() // Handle TaskCanceledException
+                .WaitAndRetryAsync(3, attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)));
 
-            var uri = new QueryUriGenerator("versions", queryParameters).Generate();
-            HttpResponseMessage response = await client.GetAsync(uri);
+            // Execute the HTTP request with the retry policy
+            HttpResponseMessage response = await retryPolicy.ExecuteAsync(async () =>
+            {
+                var queryParameters = new Dictionary<string, string>
+                {
+                    { "versionId", versionId },
+                };
+                var uri = new QueryUriGenerator("versions", queryParameters).Generate();
+                return await client.GetAsync(uri);
+            });
+
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
             {
                 var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
-                throw new HttpRequestException(
-                    $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
-                );
+                throw new HttpRequestException($"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}");
             }
+
             return JsonConvert.DeserializeObject<Version>(responseContent);
         }
     }

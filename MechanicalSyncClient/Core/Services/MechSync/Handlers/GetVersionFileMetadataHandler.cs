@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using MechanicalSyncApp.Core.Util;
 using Newtonsoft.Json;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,15 +30,23 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
         {
             var queryParameters = new Dictionary<string, string>
             {
-                { "versionId", versionId },
+                { "versionId", versionId }
             };
             if (relativeFilePath != null)
                 queryParameters.Add("relativeFilePath", relativeFilePath);
 
             var uri = new QueryUriGenerator("files/metadata", queryParameters).Generate();
-            HttpResponseMessage response = await client.GetAsync(uri);
-            var responseContent = await response.Content.ReadAsStringAsync();
 
+            // Define a retry policy with exponential backoff
+            var retryPolicy = Policy
+                .Handle<HttpRequestException>()
+                .Or<TaskCanceledException>()
+                .WaitAndRetryAsync(3, attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)));
+
+            // Execute the HTTP request with the retry policy
+            HttpResponseMessage response = await retryPolicy.ExecuteAsync(() => client.GetAsync(uri));
+
+            var responseContent = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
                 var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
@@ -45,6 +54,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                     $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
                 );
             }
+
             return JsonConvert.DeserializeObject<List<FileMetadata>>(responseContent);
         }
     }

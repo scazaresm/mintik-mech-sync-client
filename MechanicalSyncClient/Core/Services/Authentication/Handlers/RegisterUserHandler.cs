@@ -3,9 +3,11 @@ using MechanicalSyncApp.Core.Services.Authentication.Models.Request;
 using MechanicalSyncApp.Core.Services.Authentication.Models.Response;
 using MechanicalSyncApp.Core.Util;
 using Newtonsoft.Json;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,29 +27,37 @@ namespace MechanicalSyncApp.Core.Services.Authentication.Handlers
 
         public async Task<UserDetails> HandleAsync()
         {
-            string jsonRequest = JsonUtils.SerializeWithCamelCase(request);
-
-            HttpResponseMessage response = await client.PostAsync(
-                "register",
-                new StringContent(jsonRequest, Encoding.UTF8, "application/json")
-            );
-
-            if (!response.IsSuccessStatusCode)
-            {
-                switch (response.StatusCode)
+            return await Policy
+                .Handle<TaskCanceledException>()
+                .Or<HttpRequestException>()
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                .ExecuteAsync(async () =>
                 {
-                    case System.Net.HttpStatusCode.Unauthorized:
-                        throw new UnauthorizedAccessException("Invalid credentials");
+                    string jsonRequest = JsonUtils.SerializeWithCamelCase(request);
 
-                    default:
-                        throw new HttpRequestException(
-                            $"HTTP request failed with status code {response.StatusCode}"
-                        ); ;
-                }
-            }
+                    HttpResponseMessage response = await client.PostAsync(
+                        "register",
+                        new StringContent(jsonRequest, Encoding.UTF8, "application/json")
+                    );
 
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<UserDetails>(responseContent);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        switch (response.StatusCode)
+                        {
+                            case HttpStatusCode.Unauthorized:
+                                throw new UnauthorizedAccessException("Invalid credentials");
+
+                            default:
+                                throw new HttpRequestException(
+                                    $"HTTP request failed with status code {response.StatusCode}"
+                                );
+                        }
+                    }
+
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<UserDetails>(responseContent);
+                });
         }
+
     }
 }

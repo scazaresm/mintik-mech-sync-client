@@ -4,6 +4,7 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using System;
+using System.Configuration;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -32,7 +33,10 @@ namespace MechanicalSyncApp.UI.Forms
         private VersionSynchronizerForm()
         {
             InitializeComponent();
-            workspaceTreeView = new WorkspaceTreeView(MechSyncServiceClient.Instance, @"C:\Sync");
+
+            var workspaceDirectory = ConfigurationManager.AppSettings["WORKSPACE_DIRECTORY"] ?? @"C:\Sync";
+
+            workspaceTreeView = new WorkspaceTreeView(MechSyncServiceClient.Instance, workspaceDirectory);
             workspaceTreeView.AttachTreeView(WorkspaceTreeView);
             workspaceTreeView.OpenVersion += Workspace_OpenVersion;
             workspaceTreeView.OpenReview += Workspace_OpenReview;
@@ -250,6 +254,12 @@ namespace MechanicalSyncApp.UI.Forms
                 await drawingReviewsTreeView.Refresh();
                 return;
             }
+        }
+
+        private void SettingsButton_Click(object sender, EventArgs e)
+        {
+            var configurationForm = new ConfigurationForm();
+            configurationForm.ShowDialog();
         }
     }
 }

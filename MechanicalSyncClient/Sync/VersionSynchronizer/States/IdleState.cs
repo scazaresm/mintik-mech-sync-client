@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
     {
         public override async Task RunAsync()
         {
+            Log.Information("State machine moved to IdleState, delaying for 1000ms.");
             await Task.Delay(1000);
         }
 

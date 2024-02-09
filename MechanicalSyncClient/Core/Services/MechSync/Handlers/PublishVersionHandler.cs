@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using MechanicalSyncApp.Core.Util;
 using Newtonsoft.Json;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,19 +29,24 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
         {
             string jsonRequest = JsonUtils.SerializeWithCamelCase(request);
 
-            HttpResponseMessage response = await client.PostAsync(
-                "versions/publish",
-                new StringContent(jsonRequest, Encoding.UTF8, "application/json")
-            );
+            // Define a retry policy with exponential backoff
+            var retryPolicy = Policy
+                .Handle<HttpRequestException>()
+                .Or<TaskCanceledException>() // Handle TaskCanceledException
+                .WaitAndRetryAsync(3, attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)));
+
+            // Execute the HTTP request with the retry policy
+            HttpResponseMessage response = await retryPolicy.ExecuteAsync(() =>
+                client.PostAsync("versions/publish", new StringContent(jsonRequest, Encoding.UTF8, "application/json")));
+
             var responseContent = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
             {
                 var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
-                throw new HttpRequestException(
-                    $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
-                );
+                throw new HttpRequestException($"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}");
             }
+
             return JsonConvert.DeserializeObject<Version>(responseContent);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.MechSync;
 using Microsoft.VisualBasic.FileIO;
+using Serilog;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -33,6 +34,8 @@ namespace MechanicalSyncApp.UI.Forms
 
         private async Task UpdatePublishingDetailsAsync()
         {
+            Log.Information("Publishing is happening on the server...");
+
             Version version;
             PublishingIcon.Image = Properties.Resources.paper_plane_48;
             PublishingMessage.Text = "Publishing your changes, please wait...";
@@ -42,9 +45,12 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 try
                 {
+
                     version = await Synchronizer.SyncServiceClient.GetVersionAsync(versionId);
                     IsPublishingComplete = version.Status.ToLower() != "publishing";
                     IsPublishingSuccess = version.Status.ToLower() == "latest";
+                    Log.Information($"Polling publishing status: Complete = {IsPublishingComplete}");
+
                     await Task.Delay(2000);
                 } 
                 catch (Exception ex)
@@ -56,8 +62,10 @@ namespace MechanicalSyncApp.UI.Forms
 
             if (IsPublishingSuccess && Directory.Exists(localDirectory))
             {
+                Log.Information("Publishing succeeded, sending local folder to recycle bin.");
+
                 PublishingMessage.Text = "Almost there, cleaning up your local workspace...";
-                    await Task.Run(() => MoveFolderToRecycleBin());
+                await Task.Run(() => MoveFolderToRecycleBin());
             }
 
             PublishingMessage.Text = IsPublishingSuccess
@@ -72,6 +80,11 @@ namespace MechanicalSyncApp.UI.Forms
 
             OkButton.Enabled = true;
             PublishingProgressBar.Visible = false;
+
+            if (IsPublishingSuccess)
+                Log.Information("Publishing complete.");
+            else
+                Log.Information("Publishing has failed, check the mech-sync-service logs in docker for more details.");
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -87,8 +100,9 @@ namespace MechanicalSyncApp.UI.Forms
             }
             catch(OperationCanceledException)
             {
+                Log.Information("Changes were successfully published but local copy could not be sent to recycle bin due to user cancel, shall be deleted manually.");
                 MessageBox.Show(
-                    "Your changes were successfully published but your local copy could not be sent to recycle bin, remove it manually.",
+                    "Your changes were successfully published but your local copy could not be sent to recycle bin, please delete it manually.",
                     "Could not remove local copy",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -96,7 +110,7 @@ namespace MechanicalSyncApp.UI.Forms
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex);
+                Log.Error($"Failed to move folder to recycle bin: {ex}");
             }
         }
     }

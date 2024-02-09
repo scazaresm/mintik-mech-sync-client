@@ -4,12 +4,14 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Util;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
@@ -19,40 +21,55 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
         public override async Task RunAsync()
         {
+            Log.Information($"Starting SyncCheckState: versionId = {Synchronizer.Version.RemoteVersion.Id}, versionLocalDirectory = {Synchronizer.Version.LocalDirectory}");
+         
             try
             {
-                await Task.Run(() =>
+                var localFileIndex = Synchronizer.LocalFileIndex;
+                var remoteFileIndex = Synchronizer.RemoteFileIndex;
+                Summary = new SyncCheckSummary();
+
+                foreach (KeyValuePair<string, FileMetadata> localFile in localFileIndex)
                 {
-                    var localFileIndex = Synchronizer.LocalFileIndex;
-                    var remoteFileIndex = Synchronizer.RemoteFileIndex;
-                    Summary = new SyncCheckSummary();
-
-                    foreach (KeyValuePair<string, FileMetadata> localFile in localFileIndex)
-                    {
-                        if (remoteFileIndex.ContainsKey(localFile.Key))
-                            if (remoteFileIndex[localFile.Key].FileChecksum == localFile.Value.FileChecksum)
-                                // Synced: file exists in both local and remote, and checksum is equals
-                                Summary.SyncedFiles.Add(remoteFileIndex[localFile.Key]);
-                            else
-                                // Unsynced: file exists in both local and remote but checksum is different
-                                Summary.ChangedFiles.Add(remoteFileIndex[localFile.Key]);
+                    if (remoteFileIndex.ContainsKey(localFile.Key))
+                        if (remoteFileIndex[localFile.Key].FileChecksum == localFile.Value.FileChecksum)
+                        {
+                            // Synced: file exists in both local and remote, and checksum is equals
+                            var syncedFile = remoteFileIndex[localFile.Key];
+                            Summary.SyncedFiles.Add(syncedFile);
+                            Log.Information($"\t{syncedFile.RelativeFilePath} = Synced -> {syncedFile.FileChecksum}");
+                        }
                         else
-                            // Created: file exists in local but not in remote
-                            Summary.CreatedFiles.Add(localFile.Value);
-                    }
-
-                    // check for deleted files
-                    IEnumerable<string> existingInRemoteButNotInLocal = remoteFileIndex.Keys.Except(localFileIndex.Keys);
-                    foreach (string deletedFileKey in existingInRemoteButNotInLocal)
+                        {
+                            // Unsynced: file exists in both local and remote but checksum is different
+                            var changedFile = remoteFileIndex[localFile.Key];
+                            Summary.ChangedFiles.Add(changedFile);
+                            Log.Information($"\t{changedFile.RelativeFilePath} = Changed -> {changedFile.FileChecksum}");
+                        }
+                    else
                     {
-                        Summary.DeletedFiles.Add(remoteFileIndex[deletedFileKey]);
+                        // Created: file exists in local but not in remote
+                        var createdFile = remoteFileIndex[localFile.Key];
+                        Summary.CreatedFiles.Add(localFile.Value);
+                        Log.Information($"\t{createdFile.RelativeFilePath} = Created -> {createdFile.FileChecksum}");
                     }
-                });
+                }
+
+                // check for deleted files
+                IEnumerable<string> existingInRemoteButNotInLocal = remoteFileIndex.Keys.Except(localFileIndex.Keys);
+                foreach (string deletedFileKey in existingInRemoteButNotInLocal)
+                {
+                    Summary.DeletedFiles.Add(remoteFileIndex[deletedFileKey]);
+                    Log.Information($"\t{remoteFileIndex[deletedFileKey].RelativeFilePath} = Deleted");
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "";
+                Log.Error($"Could not complete SyncCheckState: {ex.GetType()} {ex} {innerExceptionMessage}");
             }
+            
+            Log.Information("SyncCheckState complete.");
         }
 
         public override void UpdateUI()

@@ -2,6 +2,7 @@
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using MechanicalSyncApp.Core.Util;
 using Newtonsoft.Json;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -22,27 +23,35 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 
         public async Task<DeleteFileResponse> HandleAsync()
         {
-            var queryParameters = new Dictionary<string, string>
-            {
-                { "versionId", request.VersionId },
-                { "versionFolder", request.VersionFolder },
-                { "relativeEquipmentPath", request.RelativeEquipmentPath },
-                { "relativeFilePath", request.RelativeFilePath }
-            };
+            return await Policy
+                .Handle<TaskCanceledException>()
+                .Or<HttpRequestException>()
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                .ExecuteAsync(async () =>
+                {
+                    var queryParameters = new Dictionary<string, string>
+                    {
+                        { "versionId", request.VersionId },
+                        { "versionFolder", request.VersionFolder },
+                        { "relativeEquipmentPath", request.RelativeEquipmentPath },
+                        { "relativeFilePath", request.RelativeFilePath }
+                    };
 
-            var uri = new QueryUriGenerator("files", queryParameters).Generate();
-            HttpResponseMessage response = await client.DeleteAsync(uri);
+                    var uri = new QueryUriGenerator("files", queryParameters).Generate();
+                    HttpResponseMessage response = await client.DeleteAsync(uri);
 
-            var responseContent = await response.Content.ReadAsStringAsync();
+                    var responseContent = await response.Content.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
-                throw new HttpRequestException(
-                    $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
-                );
-            }
-            return JsonConvert.DeserializeObject<DeleteFileResponse>(responseContent);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
+                        throw new HttpRequestException(
+                            $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
+                        );
+                    }
+                    return JsonConvert.DeserializeObject<DeleteFileResponse>(responseContent);
+                });
         }
+
     }
 }

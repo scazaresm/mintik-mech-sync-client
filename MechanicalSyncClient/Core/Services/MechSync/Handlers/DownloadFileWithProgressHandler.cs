@@ -1,5 +1,6 @@
 ﻿using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Util;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,25 +37,29 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 
             var uri = new QueryUriGenerator("files", queryParameters).Generate();
 
-            using (var response = await _client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
-            {
-                if (!response.IsSuccessStatusCode)
+            await Policy
+                .Handle<TaskCanceledException>()
+                .Or<HttpRequestException>()
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                .ExecuteAsync(async () =>
                 {
-                    throw new HttpRequestException($"HTTP request failed with status code {response.StatusCode}");
-                }
-
-                using (var remoteStream = await response.Content.ReadAsStreamAsync())
-                using (var progressStream = new ProgressStream(remoteStream, response.Content.Headers.ContentLength ?? 0))
-                using (var localStream = new FileStream(_request.LocalFilename, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, true))
-                {
-                    progressStream.ProgressChanged += (bytesRead, totalBytes) =>
+                    using (var response = await _client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
                     {
-                        int progress = (int)((double)bytesRead / totalBytes * 100);
-                        _progressCallback(progress);
-                    };
-                    await progressStream.CopyToAsync(localStream);
-                }
-            }
+                        response.EnsureSuccessStatusCode();
+
+                        using (var remoteStream = await response.Content.ReadAsStreamAsync())
+                        using (var progressStream = new ProgressStream(remoteStream, response.Content.Headers.ContentLength ?? 0))
+                        using (var localStream = new FileStream(_request.LocalFilename, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, true))
+                        {
+                            progressStream.ProgressChanged += (bytesRead, totalBytes) =>
+                            {
+                                int progress = (int)((double)bytesRead / totalBytes * 100);
+                                _progressCallback(progress);
+                            };
+                            await progressStream.CopyToAsync(localStream);
+                        }
+                    }
+                });
         }
     }
 }

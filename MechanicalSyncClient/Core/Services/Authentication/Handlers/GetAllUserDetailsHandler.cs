@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core.Services.Authentication.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using Newtonsoft.Json;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,19 +22,27 @@ namespace MechanicalSyncApp.Core.Services.Authentication.Handlers
 
         public async Task<List<UserDetails>> HandleAsync()
         {
-            const string uri = "user-details";
+            return await Policy
+                .Handle<TaskCanceledException>()
+                .Or<HttpRequestException>()
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                .ExecuteAsync(async () =>
+                {
+                    const string uri = "user-details";
 
-            HttpResponseMessage response = await client.GetAsync(uri);
-            var responseContent = await response.Content.ReadAsStringAsync();
+                    HttpResponseMessage response = await client.GetAsync(uri);
+                    var responseContent = await response.Content.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
-                throw new HttpRequestException(
-                    $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
-                );
-            }
-            return JsonConvert.DeserializeObject<List<UserDetails>>(responseContent);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
+                        throw new HttpRequestException(
+                            $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
+                        );
+                    }
+                    return JsonConvert.DeserializeObject<List<UserDetails>>(responseContent);
+                });
         }
+
     }
 }

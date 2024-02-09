@@ -45,7 +45,7 @@ namespace MechanicalSyncApp.UI.Forms
                 }
                 else
                 {
-                    Log.Information($"Successfully logged with email {Email}, showing version synchronzier form.");
+                    Log.Information($"Successfully logged in with email {Email.Text}, showing version synchronzier form.");
                     VersionSynchronizerForm.Instance.Show();
                 }
             }
@@ -124,6 +124,12 @@ namespace MechanicalSyncApp.UI.Forms
                 int y = Location.Y - yDiff;
                 Location = new Point(x, y);
             }
+        }
+
+        private void SettingsButton_Click(object sender, EventArgs e)
+        {
+            var configurationForm = new ConfigurationForm();
+            configurationForm.ShowDialog();
         }
     }
 }

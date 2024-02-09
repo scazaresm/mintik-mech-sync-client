@@ -5,6 +5,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI.Forms;
 using Microsoft.VisualBasic.FileIO;
+using Serilog;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -41,8 +42,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             if (syncCheckState.Summary.HasChanges)
             {
+                Log.Information("Local copy has changes that need to be uploaded to server before publishing, asked user to hit the Sync remote button first.");
+
                 MessageBox.Show(
-                    "Your local copy has changes that need to be uploaded to server before publishing, please use the Sync remote button.",
+                    "Your local copy has changes that need to be uploaded to server before publishing, please use the Sync remote button first.",
                     "Unsynced changed", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error
                 );

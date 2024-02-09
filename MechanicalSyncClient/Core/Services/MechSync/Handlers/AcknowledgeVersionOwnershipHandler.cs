@@ -2,6 +2,7 @@
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
 using MechanicalSyncApp.Core.Util;
 using Newtonsoft.Json;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,22 +25,30 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 
         public async Task<Models.Version> HandleAsync()
         {
-            string jsonRequest = JsonUtils.SerializeWithCamelCase(request);
+            return await Policy
+                .Handle<TaskCanceledException>()
+                .Or<HttpRequestException>()
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                .ExecuteAsync(async () =>
+                {
+                    string jsonRequest = JsonUtils.SerializeWithCamelCase(request);
 
-            HttpResponseMessage response = await client.PostAsync(
-                "versions/ongoing/ownership/acknowledge",
-                new StringContent(jsonRequest, Encoding.UTF8, "application/json")
-            );
-            var responseContent = await response.Content.ReadAsStringAsync();
+                    HttpResponseMessage response = await client.PostAsync(
+                        "versions/ongoing/ownership/acknowledge",
+                        new StringContent(jsonRequest, Encoding.UTF8, "application/json")
+                    );
+                    var responseContent = await response.Content.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
-                throw new HttpRequestException(
-                    $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
-                );
-            }
-            return JsonConvert.DeserializeObject<Models.Version>(responseContent);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        var errorJson = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
+                        throw new HttpRequestException(
+                            $"HTTP request failed with status code {response.StatusCode}: {errorJson.Error}"
+                        );
+                    }
+                    return JsonConvert.DeserializeObject<Models.Version>(responseContent);
+                });
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Util;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,26 +25,36 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 
         public async Task HandleAsync()
         {
-            var queryParameters = new Dictionary<string, string>
+            // Define a retry policy with exponential backoff
+            var retryPolicy = Policy
+                .Handle<HttpRequestException>()
+                .Or<TaskCanceledException>() // Handle TaskCanceledException
+                .WaitAndRetryAsync(3, attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)));
+
+            // Execute the HTTP request with the retry policy
+            await retryPolicy.ExecuteAsync(async () =>
             {
-                { "relativeEquipmentPath", _request.RelativeEquipmentPath },
-                { "relativeFilePath", _request.RelativeFilePath },
-                { "versionFolder", _request.VersionFolder }
-            };
-
-            var uri = new QueryUriGenerator("files", queryParameters).Generate();
-
-            using (var response = await _client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
-            {
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"HTTP request failed with status code {response.StatusCode}");
-
-                using (var remoteStream = await response.Content.ReadAsStreamAsync())
-                using (var localStream = new FileStream(_request.LocalFilename, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, true))
+                var queryParameters = new Dictionary<string, string>
                 {
-                    await remoteStream.CopyToAsync(localStream);
+                    { "relativeEquipmentPath", _request.RelativeEquipmentPath },
+                    { "relativeFilePath", _request.RelativeFilePath },
+                    { "versionFolder", _request.VersionFolder }
+                };
+
+                var uri = new QueryUriGenerator("files", queryParameters).Generate();
+
+                using (var response = await _client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
+                {
+                    if (!response.IsSuccessStatusCode)
+                        throw new HttpRequestException($"HTTP request failed with status code {response.StatusCode}");
+
+                    using (var remoteStream = await response.Content.ReadAsStreamAsync())
+                    using (var localStream = new FileStream(_request.LocalFilename, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, true))
+                    {
+                        await remoteStream.CopyToAsync(localStream);
+                    }
                 }
-            }
+            });
         }
     }
 }

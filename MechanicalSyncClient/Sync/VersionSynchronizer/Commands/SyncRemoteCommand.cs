@@ -90,7 +90,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to sync remote: {ex} {ex.InnerException.Message}");
+                Log.Error($"Failed to sync remote: {ex} {ex?.InnerException?.Message}");
                 MessageBox.Show(
                     ex.Message, "Sync error",
                     MessageBoxButtons.OK,
