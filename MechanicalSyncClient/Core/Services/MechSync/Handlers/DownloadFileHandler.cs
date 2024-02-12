@@ -38,8 +38,10 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                 {
                     { "relativeEquipmentPath", _request.RelativeEquipmentPath },
                     { "relativeFilePath", _request.RelativeFilePath },
-                    { "versionFolder", _request.VersionFolder }
+                    { "versionFolder", _request.VersionFolder },
                 };
+                if(_request.ExplorerTransactionId != null)
+                    queryParameters.Add("explorerTransactionId", _request.ExplorerTransactionId);
 
                 var uri = new QueryUriGenerator("files", queryParameters).Generate();
 

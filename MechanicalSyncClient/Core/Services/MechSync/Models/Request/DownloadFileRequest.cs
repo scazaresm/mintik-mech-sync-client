@@ -12,5 +12,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models.Request
         public string RelativeFilePath { get; set; }
         public string RelativeEquipmentPath { get; set; }
         public string VersionFolder { get; set; }
+
+        public string ExplorerTransactionId { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
     {
         public override async Task RunAsync()
         {
-            Log.Information("State machine moved to IdleState, delaying for 1000ms.");
+            Log.Debug("State machine moved to IdleState, delaying for 1000ms.");
             await Task.Delay(1000);
         }
 

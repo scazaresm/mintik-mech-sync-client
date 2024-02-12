@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Core
 {
-    public interface IFileListViewControl : IDisposable
+    public interface ILocalFileListViewControl : IDisposable
     {
         ListView AttachedListView { get; }
         DictionaryListViewAdapter FileLookup { get; }

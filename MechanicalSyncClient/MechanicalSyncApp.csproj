@@ -78,11 +78,23 @@
       <HintPath>C:\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelViewControl.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.TimeProvider, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.TimeProvider.8.0.0\lib\net462\Microsoft.Bcl.TimeProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Configuration.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Configuration.Binder.8.0.0\lib\net462\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyModel.8.0.0\lib\net462\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -96,6 +108,12 @@
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>packages\Serilog.3.1.1\lib\net471\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Settings.AppSettings, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>packages\Serilog.Settings.AppSettings.2.2.2\lib\net45\Serilog.Settings.AppSettings.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Settings.Configuration, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>packages\Serilog.Settings.Configuration.8.0.0\lib\net462\Serilog.Settings.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Serilog.Sinks.Console, Version=5.0.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>packages\Serilog.Sinks.Console.5.0.1\lib\net471\Serilog.Sinks.Console.dll</HintPath>
@@ -123,8 +141,15 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Json.8.0.0\lib\net462\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -149,6 +174,7 @@
     <Compile Include="Core\IDrawingReviewerCommandAsync.cs" />
     <Compile Include="Core\IDrawingReviewerUI.cs" />
     <Compile Include="Core\IDrawingReviewViewerUI.cs" />
+    <Compile Include="Core\IProjectExplorerUI.cs" />
     <Compile Include="Core\IWorkingCopyDownloader.cs" />
     <Compile Include="Core\Services\Authentication\Handlers\GetAllUserDetailsHandler.cs" />
     <Compile Include="Core\Services\Authentication\Handlers\GetUserDetailsHandler.cs" />
@@ -157,6 +183,7 @@
     <Compile Include="Core\Services\Authentication\Models\Request\RegisterUserRequest.cs" />
     <Compile Include="Core\Services\MechSync\Exceptions\InvalidProjectFolderException.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\AcknowledgeVersionOwnershipHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\AggregateProjectDetailsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateProjectHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetAllProjectsHandler.cs" />
@@ -166,10 +193,12 @@
     <Compile Include="Core\Services\MechSync\Handlers\GetPublishedProjectsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionReviewsHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\DeleteExplorerFilesHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\PublishVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\SyncReviewTargetsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\TransferVersionOwnershipHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\UpdateReviewTargetHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Models\AggregatedProjectDetails.cs" />
     <Compile Include="Core\Services\MechSync\Models\ChangeRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\AcknowledgeVersionOwnershipRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\CreateProjectRequest.cs" />
@@ -186,7 +215,7 @@
     <Compile Include="Core\Domain\FileSyncStatus.cs" />
     <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
     <Compile Include="Core\Domain\SyncCheckSummary.cs" />
-    <Compile Include="Core\IFileListViewControl.cs" />
+    <Compile Include="Core\ILocalFileListViewControl.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionFileMetadataHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetMyWorkHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetProjectHandler.cs" />
@@ -196,6 +225,9 @@
     <Compile Include="Core\Services\MechSync\Models\Version.cs" />
     <Compile Include="Core\Services\MechSync\Models\VersionOwner.cs" />
     <Compile Include="Core\IVersionSynchronizerCommandAsync.cs" />
+    <Compile Include="Core\Util\SettingsUtils.cs" />
+    <Compile Include="Explorer\ProjectExplorer.cs" />
+    <Compile Include="Explorer\ProjectExplorerUI.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\ApproveDrawingCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\CloseDrawingReviewCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\OpenDrawingReviewCommand.cs" />
@@ -234,11 +266,11 @@
     <Compile Include="UI\Forms\ChangeYourPasswordForm.Designer.cs">
       <DependentUpon>ChangeYourPasswordForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Forms\ConfigurationForm.cs">
+    <Compile Include="UI\Forms\ConnectionSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\ConfigurationForm.Designer.cs">
-      <DependentUpon>ConfigurationForm.cs</DependentUpon>
+    <Compile Include="UI\Forms\ConnectionSettingsForm.Designer.cs">
+      <DependentUpon>ConnectionSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\CreateEditUserForm.cs">
       <SubType>Form</SubType>
@@ -368,7 +400,7 @@
     <Compile Include="Sync\VersionSynchronizer\States\MonitorFileSyncEventsState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\HandleFileSyncEventsState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\SyncCheckState.cs" />
-    <Compile Include="UI\FileListViewControl.cs" />
+    <Compile Include="UI\LocalFileListViewControl.cs" />
     <Compile Include="UI\Forms\VersionSynchronizerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -381,8 +413,8 @@
     <EmbeddedResource Include="UI\Forms\ChangeYourPasswordForm.resx">
       <DependentUpon>ChangeYourPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\ConfigurationForm.resx">
-      <DependentUpon>ConfigurationForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Forms\ConnectionSettingsForm.resx">
+      <DependentUpon>ConnectionSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\CreateEditUserForm.resx">
       <DependentUpon>CreateEditUserForm.cs</DependentUpon>

@@ -20,7 +20,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
-            Log.Information("Starting CloseVersionCommand...");
+            Log.Debug("Starting CloseVersionCommand...");
 
             var UI = Synchronizer.UI;
 
@@ -44,7 +44,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             UI.ShowWorkspaceExplorer();
             await UI.WorkspaceTreeView.Refresh();
 
-            Log.Information("Completed CloseVersionCommand.");
+            Log.Debug("Completed CloseVersionCommand.");
         }
     }
 }

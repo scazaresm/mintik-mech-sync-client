@@ -28,7 +28,7 @@ namespace MechanicalSyncApp.Core.Services
                 response = await base.SendAsync(request, cancellationToken);
                 if (response.IsSuccessStatusCode)
                 {
-                    Log.Information("{0} {1} HTTP Status Code = {2}",
+                    Log.Verbose("{0} {1} HTTP Status Code = {2}",
                         request.Method,
                         request.RequestUri,
                         response.StatusCode
@@ -37,7 +37,7 @@ namespace MechanicalSyncApp.Core.Services
                 }
                 else
                 {
-                    Log.Information("{0} {1}  HTTP Status Code = {2}", 
+                    Log.Verbose("{0} {1}  HTTP Status Code = {2}", 
                         request.Method, 
                         request.RequestUri, 
                         response.StatusCode

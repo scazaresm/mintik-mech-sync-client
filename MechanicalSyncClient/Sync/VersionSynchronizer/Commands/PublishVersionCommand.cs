@@ -42,7 +42,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             if (syncCheckState.Summary.HasChanges)
             {
-                Log.Information("Local copy has changes that need to be uploaded to server before publishing, asked user to hit the Sync remote button first.");
+                Log.Debug("Local copy has changes that need to be uploaded to server before publishing, asked user to hit the Sync remote button first.");
 
                 MessageBox.Show(
                     "Your local copy has changes that need to be uploaded to server before publishing, please use the Sync remote button first.",

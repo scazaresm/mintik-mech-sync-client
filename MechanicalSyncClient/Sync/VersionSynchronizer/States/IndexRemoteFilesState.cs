@@ -14,22 +14,22 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
     {
         public override async Task RunAsync()
         {
-            Log.Information("Starting IndexRemoteFilesState...");
+            Log.Debug("Starting IndexRemoteFilesState...");
 
             var versionId = Synchronizer.Version.RemoteVersion.Id;
 
-            Log.Information($"\tGetting all file metadata for version {versionId}");
+            Log.Debug($"\tGetting all file metadata for version {versionId}");
             var allFileMetadata = await Synchronizer.SyncServiceClient.GetFileMetadataAsync(versionId, null);
 
-            Log.Information($"\tIndexing all remote files to compare with local...");
+            Log.Debug($"\tIndexing all remote files to compare with local...");
             Synchronizer.RemoteFileIndex.Clear();
             foreach (FileMetadata metadata in allFileMetadata)
             {
-                Log.Information($"\tIndexing {metadata.RelativeFilePath}");
+                Log.Debug($"\tIndexing {metadata.RelativeFilePath}");
                 Synchronizer.RemoteFileIndex.TryAdd(metadata.RelativeFilePath, metadata);
             }
 
-            Log.Information("Completed IndexRemoteFilesState.");
+            Log.Debug("Completed IndexRemoteFilesState.");
         }
 
         public override void UpdateUI()

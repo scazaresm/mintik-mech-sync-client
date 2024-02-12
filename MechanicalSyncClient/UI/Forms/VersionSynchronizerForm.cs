@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
+using Serilog;
 using System;
 using System.Configuration;
 using System.Threading.Tasks;
@@ -16,6 +17,9 @@ namespace MechanicalSyncApp.UI.Forms
         private WorkspaceTreeView workspaceTreeView;
         private DrawingReviewsTreeView drawingReviewsTreeView;
         private VersionSynchronizerUI synchronizerUI;
+
+        private bool isClosingDueToFatalException = false;
+        private bool isClosingDueToLogout = false;
 
         #region Singleton
         private static Form _instance = null;
@@ -49,16 +53,26 @@ namespace MechanicalSyncApp.UI.Forms
             VersionSynchronizerTabs.TabPages.Remove(tabPage2);
             VersionSynchronizerTabs.TabPages.Remove(tabPage3);
             VersionSynchronizerTabs.TabPages.Remove(DrawingReviewPage);
+
+            Application.ThreadException += Application_ThreadException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        private void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            isClosingDueToFatalException = true;
+            Log.Error($"Unhandled exception: {e?.Exception}");
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            isClosingDueToFatalException = true;
+            Log.Error($"Unhandled exception: {e?.ExceptionObject}");
         }
 
         private void VersionSynchronizerForm_VisibleChanged(object sender, EventArgs e)
         {
             if (Visible) RefreshWorkspaceButton_Click(sender, e);
-        }
-
-        private void VersionSynchronizerForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
         }
 
         private async void Workspace_OpenVersion(object sender, OpenVersionEventArgs e)
@@ -230,18 +244,6 @@ namespace MechanicalSyncApp.UI.Forms
             }
         }
 
-        private void VersionSynchronizerForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            var confirmation = MessageBox.Show(
-                "Are you sure you want to close the application?", 
-                "Close", 
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
-
-            if (confirmation != DialogResult.Yes) e.Cancel = true;
-        }
-
         private void ExitMenuItem_Click(object sender, EventArgs e)
         {
             Close();
@@ -258,8 +260,47 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void SettingsButton_Click(object sender, EventArgs e)
         {
-            var configurationForm = new ConfigurationForm();
+            var configurationForm = new ConnectionSettingsForm();
             configurationForm.ShowDialog();
+        }
+
+        private void LogoutMenuItem_Click(object sender, EventArgs e)
+        {
+            var confirmation = MessageBox.Show("Are you sure to logout?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirmation != DialogResult.Yes) return;
+
+            isClosingDueToLogout = true;
+
+            Application.Restart();
+            Environment.Exit(0);
+        }
+
+        private void VersionSynchronizerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!isClosingDueToFatalException && !isClosingDueToLogout)
+            {
+                var confirmation = MessageBox.Show(
+                    "Are you sure to close the application?",
+                    "Exit",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (confirmation != DialogResult.Yes)
+                    e.Cancel = true;
+            }
+        }
+
+        private void VersionSynchronizerForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void ProjectExplorerMenuItem_Click(object sender, EventArgs e)
+        {
+            Hide();
+            new ProjectExplorerForm().Show();
         }
     }
 }

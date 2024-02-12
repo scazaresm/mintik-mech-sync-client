@@ -3,7 +3,10 @@ using Serilog;
 using Serilog.Events;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,12 +21,8 @@ namespace MechanicalSyncApp
         static void Main()
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .WriteTo.File("mech-sync.log",
-                                rollingInterval: RollingInterval.Day,
-                                flushToDiskInterval: TimeSpan.FromMinutes(1),
-                                restrictedToMinimumLevel: LogEventLevel.Information)
-                .CreateLogger();
+               .ReadFrom.AppSettings()
+               .CreateLogger();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

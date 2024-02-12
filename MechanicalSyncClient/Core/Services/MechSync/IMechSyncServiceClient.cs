@@ -34,5 +34,9 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task<ReviewTarget> UpdateReviewTargetAsync(UpdateReviewTargetRequest request);
         Task<List<Project>> GetPublishedProjectsAsync();
         Task<List<Review>> GetVersionReviews(string versionId);
+
+        Task<List<AggregatedProjectDetails>> AggregateProjectDetailsAsync();
+
+        Task DeleteExplorerFilesAsync(string relativeEquipmentPath, string explorerTransactionId);
     }
 }

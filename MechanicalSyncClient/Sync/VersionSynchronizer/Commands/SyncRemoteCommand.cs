@@ -25,7 +25,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
-            Log.Information($"Starting SyncRemoteCommand, versionId = {Synchronizer.Version.RemoteVersion.Id} ...");
+            Log.Debug($"Starting SyncRemoteCommand, versionId = {Synchronizer.Version.RemoteVersion.Id} ...");
             try
             {
                 if (Synchronizer.Version.RemoteVersion.Status != "Ongoing")
@@ -50,6 +50,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 Summary = syncCheckState.Summary;
 
+                // something went wrong during sync check
+                if (Summary.ExceptionObject != null) 
+                    throw Summary.ExceptionObject;
+                
+                // sync check was ok, now sync the changes (if any)
                 if (Summary.HasChanges)
                 {
                     if(ConfirmBeforeSync)
@@ -75,10 +80,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 if (NotifyWhenComplete)
                 {
-                    MessageBox.Show(
-                        Summary.HasChanges
+                    var syncCompleteMessage = Summary.HasChanges
                             ? "The remote server has been synced with your local copy."
-                            : "The remote server is already synced with your local copy.",
+                            : "The remote server is already synced with your local copy.";
+
+                    Log.Debug(syncCompleteMessage);
+
+                    MessageBox.Show(
+                        syncCompleteMessage,
                         "Synced remote",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information
@@ -90,9 +99,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to sync remote: {ex} {ex?.InnerException?.Message}");
+                var errorMessage = $"Failed to sync remote: {ex} {ex?.InnerException?.Message}";
+                Log.Error(errorMessage);
                 MessageBox.Show(
-                    ex.Message, "Sync error",
+                    errorMessage, "Sync error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -103,7 +113,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.SetState(new IdleState());
                 await Synchronizer.RunStepAsync();
             }
-            Log.Information("Completed SyncRemoteCommand...");
+            Log.Debug("Completed SyncRemoteCommand...");
         }
     }
 }

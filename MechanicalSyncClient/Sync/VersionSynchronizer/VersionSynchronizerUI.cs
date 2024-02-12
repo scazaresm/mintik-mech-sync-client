@@ -8,7 +8,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 {
     public class VersionSynchronizerUI : IDisposable
     {
-        public FileListViewControl FileViewer { get; private set; }
+        public LocalFileListViewControl LocalFileViewer { get; private set; }
 
         #region Form Components
 
@@ -34,7 +34,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         #endregion
 
-        public void InitializeFileViewer(LocalVersion version, IVersionChangeMonitor changeMonitor)
+        public void InitializeLocalFileViewer(LocalVersion version, IVersionChangeMonitor changeMonitor)
         {
             if (version is null)
                 throw new ArgumentNullException(nameof(version));
@@ -43,7 +43,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 throw new ArgumentNullException(nameof(changeMonitor));
 
             DisposeFileViewer();
-            FileViewer = new FileListViewControl(
+            LocalFileViewer = new LocalFileListViewControl(
                 version.LocalDirectory, 
                 "*.sldasm | *.sldprt | *.slddrw",
                 changeMonitor
@@ -64,10 +64,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private void DisposeFileViewer()
         {
-            if (FileViewer != null)
+            if (LocalFileViewer != null)
             {
-                FileViewer.Dispose();
-                FileViewer = null;
+                LocalFileViewer.Dispose();
+                LocalFileViewer = null;
             }
         }
 

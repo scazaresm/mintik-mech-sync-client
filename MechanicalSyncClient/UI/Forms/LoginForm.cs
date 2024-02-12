@@ -32,26 +32,33 @@ namespace MechanicalSyncApp.UI.Forms
 
                 if (response.UserDetails.Role.ToLower() == "root")
                 {
-                    Log.Information("Logged in as Root user, showing management console.");
+                    Log.Debug("Logged in as Root user, showing management console.");
                     ManagementConsoleForm.Instance.Show();
                     MessageBox.Show("You logged in as Root user.", "Root user", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (response.UserDetails.HasInitialPassword)
                 {
-                    Log.Information("User has initial password, showing form to change password.");
+                    Log.Debug("User has initial password, showing form to change password.");
                     var setCustomPasswordForm = new ChangeYourPasswordForm();
                     setCustomPasswordForm.ShowDialog();
                     Show();
                 }
+                else if (response.UserDetails.Role == "Viewer")
+                {
+                    Log.Debug("User is Viewer, showing project explorer.");
+                    var projectExplorerForm = new ProjectExplorerForm();
+                    projectExplorerForm.ShowDialog();
+                    Show();
+                }
                 else
                 {
-                    Log.Information($"Successfully logged in with email {Email.Text}, showing version synchronzier form.");
+                    Log.Debug($"Successfully logged in with email {Email.Text}, showing version synchronzier form.");
                     VersionSynchronizerForm.Instance.Show();
                 }
             }
             catch(UnauthorizedAccessException)
             {
-                Log.Error($"Invalid credentials: {Email}");
+                Log.Error($"Invalid credentials: {Email.Text}");
                 LoginErrorMessage.Visible = true;
                 LoginErrorMessage.Text = "Invalid credentials.";
             }
@@ -126,10 +133,10 @@ namespace MechanicalSyncApp.UI.Forms
             }
         }
 
-        private void SettingsButton_Click(object sender, EventArgs e)
+        private void ConnectionSettingsButton_Click(object sender, EventArgs e)
         {
-            var configurationForm = new ConfigurationForm();
-            configurationForm.ShowDialog();
+            var connectionSettingsForm = new ConnectionSettingsForm();
+            connectionSettingsForm.ShowDialog();
         }
     }
 }

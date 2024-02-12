@@ -120,9 +120,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public void InitializeUI()
         {
             UI.ProjectFolderNameLabel.Text = $"{Version.RemoteProject.FolderName} V{Version.RemoteVersion.Major} (Ongoing changes)";
-            UI.InitializeFileViewer(Version, ChangeMonitor);
+            UI.InitializeLocalFileViewer(Version, ChangeMonitor);
 
-            UI.FileViewer.AttachListView(UI.FileViewerListView);
+            UI.LocalFileViewer.AttachListView(UI.FileViewerListView);
             UI.FileViewerListView.SetDoubleBuffered();
 
             UI.SyncProgressBar.Visible = false;
@@ -167,7 +167,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private void RefreshLocalFilesButton_Click(object sender, EventArgs e)
         {
-            UI.FileViewer.PopulateFiles();
+            UI.LocalFileViewer.PopulateFiles();
         }
 
         private async void CloseVersionButton_Click(object sender, EventArgs e)

@@ -51,7 +51,7 @@ namespace MechanicalSyncApp.Core.Util
                     string filePath;
                     while (fileQueue.TryDequeue(out filePath))
                     {
-                        Log.Information($"\tIndexing local file {filePath}");
+                        Log.Debug($"\tIndexing local file {filePath}");
                         await IndexFileAsync(filePath);
 
                         Interlocked.Increment(ref completedFileCount);

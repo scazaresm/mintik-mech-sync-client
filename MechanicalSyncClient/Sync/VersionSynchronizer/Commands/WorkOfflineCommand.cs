@@ -20,11 +20,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
-            Log.Information("Starting WorkOfflineCommand...");
+            Log.Debug("Starting WorkOfflineCommand...");
 
             var ui = Synchronizer.UI;
 
-            Log.Information("\tDisabling tool strip...");
+            Log.Debug("\tDisabling tool strip...");
             ui.SynchronizerToolStrip.Enabled = true;
             ui.WorkOfflineButton.Visible = false;
             ui.WorkOnlineButton.Visible = true;
@@ -37,12 +37,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             ui.TransferOwnershipButton.Visible = true;
 
             Synchronizer.ChangeMonitor.StopMonitoring();
-            ui.FileViewer.PopulateFiles();
+            ui.LocalFileViewer.PopulateFiles();
 
             Synchronizer.SetState(new IdleState());
             await Synchronizer.RunStepAsync();
 
-            Log.Information("Completed WorkOfflineCommand.");
+            Log.Debug("Completed WorkOfflineCommand.");
         }
     }
 }

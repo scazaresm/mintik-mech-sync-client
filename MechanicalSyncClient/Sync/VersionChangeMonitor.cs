@@ -40,7 +40,7 @@ namespace MechanicalSyncApp.Sync
 
         public void Initialize()
         {
-            Log.Information($"Initializing version change monitor...");
+            Log.Debug($"Initializing version change monitor...");
 
             watcher = new FileSystemWatcher()
             {
@@ -52,7 +52,7 @@ namespace MechanicalSyncApp.Sync
             watcher.Renamed += new RenamedEventHandler(OnFileRenamed);
             watcher.Changed += new FileSystemEventHandler(OnFileChanged);
 
-            Log.Information($"Version change monitor has been initialized.");
+            Log.Debug($"Version change monitor has been initialized.");
         }
 
         public bool IsEventQueueEmpty()
@@ -123,14 +123,14 @@ namespace MechanicalSyncApp.Sync
 
         public void StopMonitoring()
         {
-            Log.Information("Stopping monitoring...");
+            Log.Debug("Stopping monitoring...");
             lock (eventQueueLock)
             {
                 if(watcher != null)
                     watcher.EnableRaisingEvents = false;
                 monitoring = false;
             }
-            Log.Information("Monitoring has been stopped.");
+            Log.Debug("Monitoring has been stopped.");
         }
 
         public bool IsMonitoring()
@@ -146,7 +146,7 @@ namespace MechanicalSyncApp.Sync
         #region FileSystemWatcher event callbacks
         private void OnFileCreated(object source, FileSystemEventArgs e)
         {
-            Console.WriteLine($"File created: {e.Name}");
+            Log.Debug($"File created: {e.Name}");
             EnqueueEvent(new FileSyncEvent
             {
                 Version = Version,
@@ -159,7 +159,7 @@ namespace MechanicalSyncApp.Sync
 
         private void OnFileDeleted(object source, FileSystemEventArgs e)
         {
-            Console.WriteLine($"File deleted: {e.Name}");
+            Log.Debug($"File deleted: {e.Name}");
             EnqueueEvent(new FileSyncEvent
             {
                 Version = Version,
@@ -172,7 +172,7 @@ namespace MechanicalSyncApp.Sync
 
         private void OnFileChanged(object source, FileSystemEventArgs e)
         {
-            Console.WriteLine($"File changed: {e.Name}");
+            Log.Debug($"File changed: {e.Name}");
             EnqueueEvent(new FileSyncEvent
             {
                 Version = Version,
@@ -185,7 +185,7 @@ namespace MechanicalSyncApp.Sync
 
         private void OnFileRenamed(object source, FileSystemEventArgs e)
         {
-            Console.WriteLine($"File renamed: {e.Name}");
+            Log.Debug($"File renamed: {e.Name}");
             EnqueueEvent(new FileSyncEvent
             {
                 Version = Version,

@@ -15,7 +15,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
     {
         public override async Task RunAsync()
         {
-            Log.Information("Indexing local files to compare with remote...");
+            Log.Debug("Indexing local files to compare with remote...");
 
             var indexer = new ConcurrentLocalFileIndexer(Synchronizer.Version.LocalDirectory, Synchronizer.FileExtensionFilter);
             indexer.ProgressChanged += Indexer_ProgressChanged;
@@ -26,7 +26,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             ui.SyncProgressBar.Visible = false;
 
             Synchronizer.LocalFileIndex = indexer.FileIndex;
-            Log.Information("Completed local file index.");
+            Log.Debug("Completed local file index.");
         }
 
         private void Indexer_ProgressChanged(object sender, int progress)

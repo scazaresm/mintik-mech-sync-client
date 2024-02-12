@@ -2,6 +2,7 @@
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.UI.Forms;
+using Serilog;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -10,22 +11,22 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MechanicalSyncApp.UI
 {
-    public class FileListViewControl : IFileListViewControl
+    public class LocalFileListViewControl : ILocalFileListViewControl
     {
         private string localDirectory;
         private readonly string extensionFilter;
-        private readonly IVersionChangeMonitor changeMonitor;
+        public IVersionChangeMonitor ChangeMonitor;
         private bool disposedValue;
 
         public ListView AttachedListView { get; private set; }
 
         public DictionaryListViewAdapter FileLookup { get; private set; }
 
-        public FileListViewControl(string localDirectory, string extensionFilter, IVersionChangeMonitor changeMonitor)
+        public LocalFileListViewControl(string localDirectory, string extensionFilter, IVersionChangeMonitor changeMonitor)
         {
             this.localDirectory = localDirectory ?? throw new ArgumentNullException(nameof(localDirectory));
             this.extensionFilter = extensionFilter ?? throw new ArgumentNullException(nameof(extensionFilter));
-            this.changeMonitor = changeMonitor ?? throw new ArgumentNullException(nameof(changeMonitor));
+            this.ChangeMonitor = changeMonitor ?? throw new ArgumentNullException(nameof(changeMonitor));
             AttachListView(new ListView());
         }
 
@@ -43,7 +44,7 @@ namespace MechanicalSyncApp.UI
             if (!FileLookup.ContainsKey(filePath))
                 FileLookup.Add(filePath, BuildDefaultListViewItem(filePath));
 
-            if (changeMonitor.IsMonitoring())
+            if (ChangeMonitor.IsMonitoring())
                 SetSyncingStatusToFile(filePath);
             else
                 SetOfflineStatusToFile(filePath);
@@ -159,7 +160,7 @@ namespace MechanicalSyncApp.UI
 
                 FileLookup.Add(localFile, BuildDefaultListViewItem(localFile));
 
-                if (changeMonitor.IsMonitoring())
+                if (ChangeMonitor.IsMonitoring())
                     SetSyncedStatusToFile(localFile);
                 else
                     SetOfflineStatusToFile(localFile);
@@ -212,21 +213,15 @@ namespace MechanicalSyncApp.UI
             }
             catch (COMException)
             {
-                MessageBox.Show(
-                    "Failed to connect to eDrawings software. Please make sure you have it installed on your computer and set the correct EDRAWINGS_VIEWER_CLSID value in the config file.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                var errorMessage = "Failed to connect to eDrawings software. Please make sure you have it installed on your computer and set the correct EDRAWINGS_VIEWER_CLSID value in the config file.";
+                Log.Error(errorMessage);
+                MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                   $"Failed to open design viewer: {ex}",
-                   "Error",
-                   MessageBoxButtons.OK,
-                   MessageBoxIcon.Error
-               );
+                var errorMessage = $"Failed to open design viewer: {ex}";
+                Log.Error(errorMessage);
+                MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -41,7 +41,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             }
 
             var synchronizer = sourceState.Synchronizer;
-            var fileViewer = synchronizer.UI.FileViewer;
+            var fileViewer = synchronizer.UI.LocalFileViewer;
             try
             {
                 // no need to handle directory creation, only files

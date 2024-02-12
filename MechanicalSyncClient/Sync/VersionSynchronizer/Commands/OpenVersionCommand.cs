@@ -46,11 +46,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
-            Log.Information($"Starting OpenVersionCommand, versionId = {RemoteVersion.Id}");
+            Log.Debug($"Starting OpenVersionCommand, versionId = {RemoteVersion.Id}");
 
             if (IsNotVersionOwnerAnymore)
             {
-                Log.Information(
+                Log.Debug(
                     $"{AuthServiceClient.LoggedUserDetails.FullName} is not version owner anymore, version ownership change is expected..."
                 );
                 await HandleNotVersionOwnerAsync();
@@ -58,7 +58,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             if (ShallDownloadFiles)
             {
-                Log.Information($"Could not find a local copy folder for this version, will download version files from server...");
+                Log.Debug($"Could not find a local copy folder for this version, will download version files from server...");
 
                 using (var cts = new CancellationTokenSource())
                 {
@@ -68,7 +68,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             Synchronizer.InitializeUI();
             Synchronizer.ChangeMonitor.Initialize();
 
-            Log.Information("Completed OpenVersionCommand.");
+            Log.Debug("Completed OpenVersionCommand.");
         }
 
         private async Task MoveFolderToRecycleBinAsync()
@@ -83,7 +83,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             var nextOwnerUserId = Synchronizer.Version.RemoteVersion.NextOwner.UserId;
             var nextOwnerUserDetails = await AuthServiceClient.GetUserDetailsAsync(nextOwnerUserId);
 
-            Log.Information($"Next owner Id is {nextOwnerUserId}, notified logged user that version cannot be open because of waiting for ownership ack from new owner.");
+            Log.Debug($"Next owner Id is {nextOwnerUserId}, notified logged user that version cannot be open because of waiting for ownership ack from new owner.");
 
             MessageBox.Show(
                 $"Cannot open this version because it was transferred to {nextOwnerUserDetails.FullName}, waiting for ownership acknowledge.",

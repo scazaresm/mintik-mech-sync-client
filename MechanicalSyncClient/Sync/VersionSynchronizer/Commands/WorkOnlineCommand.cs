@@ -21,24 +21,24 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
-            Log.Information("Starting WorkOnlineCommand...");
+            Log.Debug("Starting WorkOnlineCommand...");
 
             var confirmation = MessageBox.Show(
                 "Are you sure to start working online?", "Go online",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question
             );
 
-            Log.Information($"\tAsking user to confirm before going online, answer: {confirmation}");
+            Log.Debug($"\tAsking user to confirm before going online, answer: {confirmation}");
 
             if (confirmation != DialogResult.Yes) {
-                Log.Information("\tGoing online has been aborted by user.");
+                Log.Debug("\tGoing online has been aborted by user.");
                 return;
             }
 
             var UI = Synchronizer.UI;
             try
             {
-                Log.Information("Disabling tool strip buttons while working online...");
+                Log.Debug("Disabling tool strip buttons while working online...");
 
                 UI.SynchronizerToolStrip.Enabled = false;
                 UI.WorkOnlineButton.Visible = false;
@@ -68,7 +68,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 }
 
                 Synchronizer.ChangeMonitor.StartMonitoring();
-                UI.FileViewer.PopulateFiles();
+                UI.LocalFileViewer.PopulateFiles();
 
                 Synchronizer.SetState(new MonitorFileSyncEventsState());
                 _ = Synchronizer.RunStepAsync();
@@ -78,7 +78,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 MessageBox.Show(ex.Message);
                 await Synchronizer.WorkOfflineAsync();
             }
-            Log.Information("Finished WorkOnlineCommand.");
+            Log.Debug("Finished WorkOnlineCommand.");
         }
     }
 }

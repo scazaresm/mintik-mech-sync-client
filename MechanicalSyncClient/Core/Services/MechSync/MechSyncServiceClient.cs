@@ -173,7 +173,20 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             return await new GetVersionReviewsHandler(restClient, versionId).HandleAsync();
         }
 
-      
+        public async Task<List<AggregatedProjectDetails>> AggregateProjectDetailsAsync()
+        {
+            return await new AggregateProjectDetailsHandler(restClient).HandleAsync();
+        }
+
+        public async Task DeleteExplorerFilesAsync(string relativeEquipmentPath, string explorerTransactionId)
+        {
+            await new DeleteExplorerFilesHandler(
+                restClient, 
+                relativeEquipmentPath, 
+                explorerTransactionId
+            ).HandleAsync();
+        }
+
         #region Disposing pattern
         protected virtual void Dispose(bool disposing)
         {

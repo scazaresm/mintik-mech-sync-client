@@ -1,5 +1,6 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -45,7 +46,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             {
                 totalEvents = monitor.GetTotalInQueue();
                 handledEvents = 0;
-                Console.WriteLine($"Starting to handle {totalEvents} events.");
+                Log.Debug($"Starting to handle {totalEvents} events.");
 
                 while (!monitor.IsEventQueueEmpty())
                 {
@@ -70,23 +71,27 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             catch (Exception ex)
             {
                 syncErrorOccurred = true;
-                Console.WriteLine(ex);
+                Log.Error(ex.ToString());
+
+                // when monitoring we want to retry, otherwise we want to propagate the exception and abort sync
+                if (!monitor.IsMonitoring())
+                    throw ex;
             }
             finally
             {
                 if (monitor.IsMonitoring() && syncErrorOccurred)
                 {
-                    // we still in online mode but an error occurred, let's retry
+                    Log.Debug("We still in online mode but an error occurred, let's retry...");
                     Synchronizer.SetState(this);
                 }
                 else if(monitor.IsMonitoring() && !syncErrorOccurred)
-                { 
-                    // we still in online mode without errors, keep monitoring
+                {
+                    Log.Debug("We still in online mode without errors, just keep monitoring...");
                     Synchronizer.SetState(new MonitorFileSyncEventsState());
                 }
                 else
                 {
-                    // we are in offline mode, stop monitoring
+                    Log.Debug("We are in offline mode now, stop monitoring...");
                     Synchronizer.SetState(new IdleState());
                 }
                 _ = Synchronizer.RunStepAsync();
