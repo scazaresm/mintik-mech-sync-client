@@ -3,6 +3,7 @@ using eDrawings.Interop.EModelViewControl;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,6 +71,12 @@ namespace MechanicalSyncApp.UI
         public void SetZoomToAreaOperator()
         {
             ModelViewControl.ViewOperator = EMVOperators.eMVOperatorZoomToArea;
+        }
+
+        public void PrintToPdf()
+        {
+            ModelViewControl.SetPageSetupOptions(EMVPrintOrientation.eLandscape, (int)PaperKind.A4, 100, 100, 1, 7, "Microsoft Print to PDF", 0, 0, 0, 0);
+            ModelViewControl.Print5(false, filePath, false, false, true, EMVPrintType.eScaleToFit, 1, 0, 0, true, 1, 1, "test.pdf");
         }
 
         #region Dispose pattern

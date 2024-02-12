@@ -38,7 +38,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.ZoomToAreaButton = new System.Windows.Forms.ToolStripButton();
             this.ZoomButton = new System.Windows.Forms.ToolStripButton();
             this.ViewerPanel = new System.Windows.Forms.Panel();
+            this.VersionRelatedLabel = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
+            this.ViewerPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -52,9 +54,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.SelectButton,
             this.ZoomToAreaButton,
             this.ZoomButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 526);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 565);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(823, 39);
+            this.toolStrip1.Size = new System.Drawing.Size(847, 39);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -130,27 +132,40 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // ViewerPanel
             // 
+            this.ViewerPanel.Controls.Add(this.VersionRelatedLabel);
             this.ViewerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ViewerPanel.Location = new System.Drawing.Point(0, 0);
             this.ViewerPanel.Name = "ViewerPanel";
-            this.ViewerPanel.Size = new System.Drawing.Size(823, 526);
+            this.ViewerPanel.Size = new System.Drawing.Size(847, 565);
             this.ViewerPanel.TabIndex = 1;
             // 
-            // DesignViewerForm
+            // VersionRelatedLabel
+            // 
+            this.VersionRelatedLabel.AutoSize = true;
+            this.VersionRelatedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VersionRelatedLabel.Location = new System.Drawing.Point(12, 9);
+            this.VersionRelatedLabel.Name = "VersionRelatedLabel";
+            this.VersionRelatedLabel.Size = new System.Drawing.Size(257, 20);
+            this.VersionRelatedLabel.TabIndex = 0;
+            this.VersionRelatedLabel.Text = "Version related note goes here";
+            // 
+            // DesignFileViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
-            this.ClientSize = new System.Drawing.Size(823, 565);
+            this.ClientSize = new System.Drawing.Size(847, 604);
             this.Controls.Add(this.ViewerPanel);
             this.Controls.Add(this.toolStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "DesignViewerForm";
+            this.Name = "DesignFileViewerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DesignViewerForm";
+            this.Text = "Initializing...";
             this.Load += new System.EventHandler(this.DesignViewerForm_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.ViewerPanel.ResumeLayout(false);
+            this.ViewerPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -166,5 +181,6 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.Panel ViewerPanel;
         private System.Windows.Forms.ToolStripButton ZoomButton;
         private System.Windows.Forms.ToolStripButton ZoomToAreaButton;
+        private System.Windows.Forms.Label VersionRelatedLabel;
     }
 }

@@ -166,7 +166,7 @@ namespace MechanicalSyncApp.Explorer
             UI.ShowProjectList();
         }
 
-        public async Task ShowFileInViewer(FileMetadata fileMetadata, string versionFolder)
+        public async Task ShowFileInViewerAsync(FileMetadata fileMetadata, string versionFolder)
         {
             string relativeEquipmentPath = CurrentProject.ProjectDetails.RelativeEquipmentPath;
             Guid explorerTransactionId = Guid.NewGuid();
@@ -197,7 +197,8 @@ namespace MechanicalSyncApp.Explorer
                 });
 
                 Log.Debug("Creating viewer instance...");
-                var viewer = new DesignFileViewerForm(tempFile);
+                var fileName = Path.GetFileName(fileMetadata.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
+                var viewer = new DesignFileViewerForm(tempFile, fileName, versionFolder);
 
                 Log.Debug("Initializing viewer...");
                 viewer.Initialize();
@@ -242,7 +243,7 @@ namespace MechanicalSyncApp.Explorer
                 if (versionFolder == "Latest")
                 {
                     Log.Debug("File was extracted from Latest.tar package in remote, " +
-                        $"deleting remote files which are no longer needed, explorerTransactionid = {explorerTransactionId}");
+                        $"deleting remote files which are no longer needed, explorerTransactionId = {explorerTransactionId}");
                     await mechSyncService.DeleteExplorerFilesAsync(relativeEquipmentPath, explorerTransactionId);
                 }
             }
@@ -291,7 +292,7 @@ namespace MechanicalSyncApp.Explorer
             }
         }
 
-        private void FileList_MouseDoubleClick(object sender, MouseEventArgs e)
+        private async void FileList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             try
             {
@@ -302,7 +303,7 @@ namespace MechanicalSyncApp.Explorer
                 if (selectedItem != null && selectedItem.Tag is FileMetadata)
                 {
                     var targetFile = selectedItem.Tag as FileMetadata;
-                    ShowFileInViewer(targetFile, UI.VersionSelector.Text);
+                    await ShowFileInViewerAsync(targetFile, UI.VersionSelector.Text);
                 }
             }
             catch (Exception ex)

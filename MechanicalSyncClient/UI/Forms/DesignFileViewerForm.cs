@@ -16,12 +16,25 @@ namespace MechanicalSyncApp.UI.Forms
     public partial class DesignFileViewerForm : Form
     {
         private readonly string filePath;
+        private readonly string fileName;
+        private readonly string versionFolder;
         private DesignFileViewerControl designViewerControl;
+
+
+
 
         public DesignFileViewerForm(string filePath)
         {
             InitializeComponent();
             this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+        }
+
+        public DesignFileViewerForm(string filePath, string fileName, string versionFolder)
+        {
+            InitializeComponent();
+            this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+            this.fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+            this.versionFolder = versionFolder ?? throw new ArgumentNullException(nameof(versionFolder));
         }
 
         private void DesignViewerForm_Load(object sender, EventArgs e)
@@ -38,7 +51,31 @@ namespace MechanicalSyncApp.UI.Forms
             designViewerControl.HostControl.Dock = DockStyle.Fill;
 
             ViewerPanel.Controls.Add(designViewerControl.HostControl);
-            Text = Path.GetFileName(filePath);
+
+            // caller can provide custom file name at constructor, otherwise the actual file name will be taken
+            if (fileName != null)
+                Text = fileName;
+            else
+                Text = Path.GetFileName(filePath);
+
+            VersionRelatedLabel.Visible = false;
+            if (versionFolder != null)
+            {
+                VersionRelatedLabel.BackColor = Color.Black;
+                switch (versionFolder)
+                {
+                    case "Latest":
+                        VersionRelatedLabel.Text = "This design file belongs to a Latest version and can be safely used as reference.";
+                        VersionRelatedLabel.ForeColor = Color.Green;
+                        break;
+
+                    case "Ongoing":
+                        VersionRelatedLabel.Text = "WARNING: This design file belongs to an Ongoing version and shall NOT be used as reference.";
+                        VersionRelatedLabel.ForeColor = Color.Red;
+                        break;
+                }
+                VersionRelatedLabel.Visible = true;
+            }
         }
 
         private void DesignViewerControl_OpenDocError(string FileName, int ErrorCode, string ErrorString)
