@@ -14,4 +14,4 @@ jobs:
           path: MechanicalSyncClient
 
       - name: List files
-        run: dir /s /b
+        run: dir .
