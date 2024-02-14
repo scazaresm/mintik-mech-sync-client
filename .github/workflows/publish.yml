@@ -10,8 +10,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          path: MechanicalSyncClient
 
-      - name: List files
+      - name: Move to source code directory
+        run: MechanicalSyncClient
+        
+      - name: List source code files
         run: dir .
