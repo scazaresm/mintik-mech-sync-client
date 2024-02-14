@@ -53,7 +53,7 @@ namespace MechanicalSyncApp.UI.Forms
             var allUsers = await authenticationServiceClient.GetAllUserDetailsAsync();
             var searchTarget = SearchFilter.Text.ToLower();
 
-            var filter = searchTarget == null || searchTarget.Length == 0 
+            var filter = searchTarget.Length == 0 
                 ? allUsers 
                 : allUsers.Where(user => 
                     user.FirstName.ToLower().Contains(searchTarget) ||
