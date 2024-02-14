@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Move to source code directory
-        run: MechanicalSyncClient
+        run: cd ./MechanicalSyncClient
         
       - name: List source code files
         run: dir .
