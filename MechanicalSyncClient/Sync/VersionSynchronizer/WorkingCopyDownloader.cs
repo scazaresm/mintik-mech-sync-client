@@ -42,6 +42,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
             var allFileMetadata = await client.GetFileMetadataAsync(remoteVersion.Id, null);
             var totalFiles = allFileMetadata.Count;
+
             int i = 0;
 
             // download each file based on its metadata

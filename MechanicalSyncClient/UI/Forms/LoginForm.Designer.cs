@@ -44,6 +44,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.label4 = new System.Windows.Forms.Label();
             this.LoginErrorMessage = new System.Windows.Forms.Label();
             this.CloseButton = new System.Windows.Forms.Button();
+            this.VersionLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -116,6 +117,7 @@ namespace MechanicalSyncApp.UI.Forms
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Black;
+            this.panel1.Controls.Add(this.VersionLabel);
             this.panel1.Controls.Add(this.SettingsButton);
             this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.label6);
@@ -201,6 +203,15 @@ namespace MechanicalSyncApp.UI.Forms
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
+            // VersionLabel
+            // 
+            this.VersionLabel.ForeColor = System.Drawing.Color.White;
+            this.VersionLabel.Location = new System.Drawing.Point(245, 9);
+            this.VersionLabel.Name = "VersionLabel";
+            this.VersionLabel.Size = new System.Drawing.Size(86, 18);
+            this.VersionLabel.TabIndex = 8;
+            this.VersionLabel.Text = "Version 1.0.0.0";
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -221,6 +232,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Load += new System.EventHandler(this.LoginForm_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LoginForm_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LoginForm_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LoginForm_MouseUp);
@@ -249,5 +261,6 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label LoginErrorMessage;
         private System.Windows.Forms.Button SettingsButton;
+        private System.Windows.Forms.Label VersionLabel;
     }
 }

@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Services.Authentication.Models.Request;
 using Serilog;
 using System;
 using System.Drawing;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -137,6 +138,28 @@ namespace MechanicalSyncApp.UI.Forms
         {
             var connectionSettingsForm = new ConnectionSettingsForm();
             connectionSettingsForm.ShowDialog();
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            VersionLabel.Text = AppVersion;
+        }
+
+        public string AppVersion
+        {
+            get
+            {
+                if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+                {
+                    Version ver = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                    return string.Format("Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+                }
+                else
+                {
+                    var ver = Assembly.GetExecutingAssembly().GetName().Version;
+                    return string.Format("Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+                }
+            }
         }
     }
 }

@@ -15,7 +15,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>C:\Users\Sergio Cazares\Desktop\</PublishUrl>
+    <PublishUrl>C:\Users\Sergio Cazares\Desktop\mintik-mech-sync-client\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -26,9 +26,14 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://scazaresm.github.io/mintik-mech-sync-client/</InstallUrl>
-    <ApplicationRevision>1</ApplicationRevision>
+    <UpdateUrl>https://scazaresm.github.io/mintik-mech-sync-client/</UpdateUrl>
+    <ProductName>Mechanical Sync</ProductName>
+    <PublisherName>Mintik Software</PublisherName>
+    <SuiteName>Mechanical Sync</SuiteName>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
