@@ -30,7 +30,7 @@
     <ProductName>Mechanical Sync</ProductName>
     <PublisherName>Mintik Software</PublisherName>
     <SuiteName>Mechanical Sync</SuiteName>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -245,6 +245,7 @@
     <Compile Include="Reviews\DrawingReviewer\DrawingMarkupFileUploader.cs" />
     <Compile Include="Core\IDrawingReviewViewer.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\CompareDesignFileCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\PublishVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\SyncRemoteCommand.cs" />
@@ -302,6 +303,12 @@
     <Compile Include="UI\Forms\CreateVersionForm.Designer.cs">
       <DependentUpon>CreateVersionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Forms\DesignFileComparatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\DesignFileComparatorForm.Designer.cs">
+      <DependentUpon>DesignFileComparatorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\DesignFileViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -357,6 +364,12 @@
     </Compile>
     <Compile Include="UI\Forms\PublishVersionProgressDialog.Designer.cs">
       <DependentUpon>PublishVersionProgressDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\SyncCheckSummaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\SyncCheckSummaryForm.Designer.cs">
+      <DependentUpon>SyncCheckSummaryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\UserSelectorForm.cs">
       <SubType>Form</SubType>
@@ -434,6 +447,9 @@
     <EmbeddedResource Include="UI\Forms\CreateVersionForm.resx">
       <DependentUpon>CreateVersionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\DesignFileComparatorForm.resx">
+      <DependentUpon>DesignFileComparatorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\DrawingReviewerForm.resx">
       <DependentUpon>DrawingReviewerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -448,6 +464,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ProjectSelectorForm.resx">
       <DependentUpon>ProjectSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\SyncCheckSummaryForm.resx">
+      <DependentUpon>SyncCheckSummaryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\VersionSynchronizerForm.resx">
       <DependentUpon>VersionSynchronizerForm.cs</DependentUpon>

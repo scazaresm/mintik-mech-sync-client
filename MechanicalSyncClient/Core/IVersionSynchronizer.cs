@@ -16,6 +16,8 @@ namespace MechanicalSyncApp.Core
 {
     public interface IVersionSynchronizer : IDisposable
     {
+        SyncCheckSummary OnlineWorkSummary { get; set; }
+
         string FileExtensionFilter { get; }
 
         VersionSynchronizerUI UI { get; }
@@ -27,6 +29,8 @@ namespace MechanicalSyncApp.Core
         IAuthenticationServiceClient AuthServiceClient { get; }
 
         IVersionChangeMonitor ChangeMonitor { get; }
+
+        string SnapshotDirectory { get; }
 
         ConcurrentDictionary<string, FileMetadata> LocalFileIndex { get; set; }
         ConcurrentDictionary<string, FileMetadata> RemoteFileIndex { get; }

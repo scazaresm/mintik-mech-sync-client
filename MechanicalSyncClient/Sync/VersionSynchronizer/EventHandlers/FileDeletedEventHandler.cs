@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
         }
 
         public async Task HandleAsync(FileSyncEvent fileSyncEvent)
-        {
+        {  
             if (fileSyncEvent is null)
                 throw new ArgumentNullException(nameof(fileSyncEvent));
 
@@ -42,13 +43,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             }
 
             var synchronizer = sourceState.Synchronizer;
-            var fileViewer = synchronizer.UI.LocalFileViewer;
             try
             {
                 var targetFiles = await DetermineTargetFilesAsync(fileSyncEvent);
 
-                foreach (var target in targetFiles)
-                    fileViewer.SetSyncingStatusToFile(target);
+                SetSyncingStatusInViewer(targetFiles);
 
                 // if RelativeFilePath is a directory, all its contents will be removed in server
                 await client.DeleteFileAsync(new DeleteFileRequest
@@ -58,9 +57,13 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                     RelativeEquipmentPath = fileSyncEvent.Version.RemoteProject.RelativeEquipmentPath,
                     RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/')
                 });
+                RemoveDeletedFilesInViewer(targetFiles);
 
-                foreach(var target in targetFiles)
-                    fileViewer.RemoveDeletedFile(target);
+                if (synchronizer.ChangeMonitor.IsMonitoring())
+                {
+                    foreach(var file in targetFiles)
+                        synchronizer.OnlineWorkSummary.AddDeletedFile(file);
+                }
             }
             catch (Exception ex)
             {
@@ -68,12 +71,38 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             }
         }
 
-        private async Task<List<string>> DetermineTargetFilesAsync(FileSyncEvent fileSyncEvent)
+        private void SetSyncingStatusInViewer(List<FileMetadata> targetFiles)
+        {
+            var synchronizer = sourceState.Synchronizer;
+            var fileViewer = synchronizer.UI.LocalFileViewer;
+
+            foreach (var target in targetFiles)
+            {
+                var remoteRelativePath = target.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar);
+                var localFilePath = Path.Combine(synchronizer.Version.LocalDirectory, remoteRelativePath);
+                fileViewer.SetSyncingStatusToFile(localFilePath);
+            }
+        }
+
+        private void RemoveDeletedFilesInViewer(List<FileMetadata> targetFiles)
+        {
+            var synchronizer = sourceState.Synchronizer;
+            var fileViewer = synchronizer.UI.LocalFileViewer;
+
+            foreach (var target in targetFiles)
+            {
+                var remoteRelativePath = target.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar);
+                var localFilePath = Path.Combine(synchronizer.Version.LocalDirectory, remoteRelativePath);
+                fileViewer.RemoveDeletedFile(localFilePath);
+            }
+        }
+
+        private async Task<List<FileMetadata>> DetermineTargetFilesAsync(FileSyncEvent fileSyncEvent)
         {
             var synchronizer = sourceState.Synchronizer;
             var target = fileSyncEvent.FullPath;
             var targetIsDirectory = !Path.HasExtension(target);
-            var targetFiles = new List<string>();
+            var targetFiles = new List<FileMetadata>();
 
             if (targetIsDirectory)
             {
@@ -89,15 +118,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
 
                     bool isFileInTargetDirectory = remoteRelativePath.StartsWith(fileSyncEvent.RelativeFilePath);
                     if (isFileInTargetDirectory)
-                    {
-                        var localFilePath = Path.Combine(synchronizer.Version.LocalDirectory, remoteRelativePath);
-                        targetFiles.Add(localFilePath);
-                    }
+                        targetFiles.Add(fileMetadata);
                 }
             }
             else
             {
-                targetFiles.Add(target);
+                targetFiles.Add(new FileMetadata()
+                {
+                    FullFilePath = fileSyncEvent.FullPath,
+                    RelativeFilePath = fileSyncEvent.RelativeFilePath,
+                });
             }
             return targetFiles;
         }

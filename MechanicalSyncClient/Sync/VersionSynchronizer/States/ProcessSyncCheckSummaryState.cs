@@ -21,9 +21,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
         public override async Task RunAsync()
         {
-            EnqueueFileSyncEvents(summary.CreatedFiles, FileSyncEventType.Created);
-            EnqueueFileSyncEvents(summary.ChangedFiles, FileSyncEventType.Changed);
-            EnqueueFileSyncEvents(summary.DeletedFiles, FileSyncEventType.Deleted);
+            EnqueueFileSyncEvents(summary.CreatedFiles.Values.ToList(), FileSyncEventType.Created);
+            EnqueueFileSyncEvents(summary.ChangedFiles.Values.ToList(), FileSyncEventType.Changed);
+            EnqueueFileSyncEvents(summary.DeletedFiles.Values.ToList(), FileSyncEventType.Deleted);
             await Task.Delay(500);
         }
 

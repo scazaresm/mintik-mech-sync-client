@@ -10,6 +10,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,6 +18,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 {
     public class VersionSynchronizer : IVersionSynchronizer
     {
+        public SyncCheckSummary OnlineWorkSummary { get; set; }
+
         public IMechSyncServiceClient SyncServiceClient { get; set; }
         public IAuthenticationServiceClient AuthServiceClient { get; set; }
 
@@ -26,6 +29,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public ConcurrentDictionary<string, FileMetadata> RemoteFileIndex { get; private set; }
 
         public VersionSynchronizerUI UI { get; private set; }
+
+        public string SnapshotDirectory { get; private set; } = Path.Combine(Path.GetTempPath(), "sync-snapshot");
 
         private VersionSynchronizerState state;
         private bool disposedValue;

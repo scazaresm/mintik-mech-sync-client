@@ -66,13 +66,16 @@ namespace MechanicalSyncApp.UI.Forms
                 {
                     case "Latest":
                         VersionRelatedLabel.Text = "This design file belongs to a Latest version and can be safely used as reference.";
-                        VersionRelatedLabel.ForeColor = Color.Green;
+                        VersionRelatedLabel.ForeColor = Color.Lime;
                         break;
 
                     case "Ongoing":
                         VersionRelatedLabel.Text = "WARNING: This design file belongs to an Ongoing version and shall NOT be used as reference.";
                         VersionRelatedLabel.ForeColor = Color.Red;
                         break;
+
+                    default:
+                        VersionRelatedLabel.BackColor = Color.White; break;
                 }
                 VersionRelatedLabel.Visible = true;
             }

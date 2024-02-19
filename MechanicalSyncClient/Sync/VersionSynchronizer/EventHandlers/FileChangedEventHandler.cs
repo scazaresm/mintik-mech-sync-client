@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.UI;
@@ -52,6 +53,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 if (Directory.Exists(fileSyncEvent.FullPath))
                     return;
 
+                // no need to handle event if file no longer exists
+                if (!File.Exists(fileSyncEvent.FullPath))
+                    return;
+
                 if (synchronizer.ChangeMonitor.IsMonitoring())
                     fileViewer.SetSyncingStatusToFile(fileSyncEvent.FullPath);
 
@@ -64,8 +69,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                     RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/')
                 });
 
-                if(synchronizer.ChangeMonitor.IsMonitoring())
+                if (synchronizer.ChangeMonitor.IsMonitoring())
+                {
                     fileViewer.SetSyncedStatusToFile(fileSyncEvent.FullPath);
+                    synchronizer.OnlineWorkSummary.AddChangedFile(new FileMetadata()
+                    {
+                        RelativeFilePath = fileSyncEvent.RelativeFilePath
+                    });
+                }
             }
             catch (Exception ex)
             {

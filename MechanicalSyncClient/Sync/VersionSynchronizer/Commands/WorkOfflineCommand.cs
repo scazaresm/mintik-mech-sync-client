@@ -1,11 +1,15 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
+using MechanicalSyncApp.UI.Forms;
+using Microsoft.VisualBasic.Devices;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
@@ -39,10 +43,40 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             Synchronizer.ChangeMonitor.StopMonitoring();
             ui.LocalFileViewer.PopulateFiles();
 
+            if (Synchronizer.OnlineWorkSummary != null && Synchronizer.OnlineWorkSummary.HasChanges)
+            {
+                new SyncCheckSummaryForm(Synchronizer, Synchronizer.OnlineWorkSummary)
+                {
+                    OnlineWorkSummaryMode = true
+                }.ShowDialog();
+            }
+
+            ui.StatusLabel.Text = "Deleting local copy snapshot...";
+            DeleteLocalCopySnapshot();
+
+            ui.StatusLabel.Text = "Clearing online work summary...";
+            Synchronizer.OnlineWorkSummary = null;
+
             Synchronizer.SetState(new IdleState());
             await Synchronizer.RunStepAsync();
 
             Log.Debug("Completed WorkOfflineCommand.");
+        }
+
+        private void DeleteLocalCopySnapshot()
+        {
+            try
+            {
+                string snapshotDirectory = Synchronizer.SnapshotDirectory;
+                Log.Debug($"Deleting local copy snapshot: {snapshotDirectory}");
+
+                if (Directory.Exists(snapshotDirectory))
+                    Directory.Delete(snapshotDirectory, true);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to delete local copy snapshot when going offline: {ex}");
+            }
         }
     }
 }

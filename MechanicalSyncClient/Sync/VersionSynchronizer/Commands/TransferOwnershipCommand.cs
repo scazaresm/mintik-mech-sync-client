@@ -45,7 +45,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 var syncRemoteCommand = new SyncRemoteCommand(Synchronizer)
                 {
-                    ConfirmBeforeSync = false,
                     NotifyWhenComplete = false,
                 };
                 await syncRemoteCommand.RunAsync();

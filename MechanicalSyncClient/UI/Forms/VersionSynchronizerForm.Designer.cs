@@ -31,14 +31,14 @@ namespace MechanicalSyncApp.UI.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VersionSynchronizerForm));
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Deleted",
             "other"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
             this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
@@ -206,21 +206,21 @@ namespace MechanicalSyncApp.UI.Forms
             this.columnHeader1,
             this.columnHeader2});
             this.FileViewerListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            listViewGroup4.Header = "Assemblies";
-            listViewGroup4.Name = "assembliesGroup";
-            listViewGroup5.Header = "Parts";
-            listViewGroup5.Name = "partsGroup";
-            listViewGroup6.Header = "Drawings";
-            listViewGroup6.Name = "drawingsGroup";
+            listViewGroup1.Header = "Assemblies";
+            listViewGroup1.Name = "assembliesGroup";
+            listViewGroup2.Header = "Parts";
+            listViewGroup2.Name = "partsGroup";
+            listViewGroup3.Header = "Drawings";
+            listViewGroup3.Name = "drawingsGroup";
             this.FileViewerListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4,
-            listViewGroup5,
-            listViewGroup6});
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
             this.FileViewerListView.HideSelection = false;
-            listViewItem3.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.FileViewerListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3,
-            listViewItem4});
+            listViewItem1,
+            listViewItem2});
             this.FileViewerListView.Location = new System.Drawing.Point(3, 28);
             this.FileViewerListView.MultiSelect = false;
             this.FileViewerListView.Name = "FileViewerListView";

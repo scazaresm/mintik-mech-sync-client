@@ -1,13 +1,9 @@
 ﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Core.Services.MechSync;
-using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI.Forms;
-using Microsoft.VisualBasic.FileIO;
 using Serilog;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 

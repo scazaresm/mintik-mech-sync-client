@@ -1,19 +1,18 @@
 ﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Domain
 {
     public class SyncCheckSummary
     {
-        public List<FileMetadata> CreatedFiles { get; set; }  // existing in local, not in remote
-        public List<FileMetadata> DeletedFiles { get; set; }  // existing in remote, not in local
-        public List<FileMetadata> ChangedFiles { get; set; }  // existing in both local and remote, but different (checksum mismatch)
-        public List<FileMetadata> SyncedFiles { get; set; }   // existing in both local and remote, with exactly same checksum
+        public Dictionary<string, FileMetadata> CreatedFiles { get; set; }  // existing in local, not in remote
+        public Dictionary<string, FileMetadata> DeletedFiles { get; set; }  // existing in remote, not in local
+        public Dictionary<string, FileMetadata> ChangedFiles { get; set; }  // existing in both local and remote, but different (checksum mismatch)
+        public Dictionary<string, FileMetadata> SyncedFiles { get; set; }   // existing in both local and remote, with exactly same checksum
 
         public Exception ExceptionObject { get; set; }
 
@@ -26,17 +25,64 @@ namespace MechanicalSyncApp.Core.Domain
 
         public SyncCheckSummary()
         {
-            SyncedFiles = new List<FileMetadata>();
-            ChangedFiles = new List<FileMetadata>();
-            DeletedFiles = new List<FileMetadata>();
-            CreatedFiles = new List<FileMetadata>();
+            SyncedFiles = new Dictionary<string, FileMetadata>();
+            ChangedFiles = new Dictionary<string, FileMetadata>();
+            DeletedFiles = new Dictionary<string, FileMetadata>();
+            CreatedFiles = new Dictionary<string, FileMetadata>();
+        }
+
+        public void AddSyncedFile(FileMetadata syncedFile)
+        {
+            syncedFile.RelativeFilePath = syncedFile.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar);
+
+            if (!SyncedFiles.ContainsKey(syncedFile.RelativeFilePath))
+                SyncedFiles[syncedFile.RelativeFilePath] = syncedFile;
+        }
+
+        public void AddCreatedFile(FileMetadata createdFile)
+        {
+            createdFile.RelativeFilePath = createdFile.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar);
+
+            // add as created
+            if (!CreatedFiles.ContainsKey(createdFile.RelativeFilePath))
+                CreatedFiles[createdFile.RelativeFilePath] = createdFile;
+
+            // if file was previously deleted, remove it since it was created again
+            if (DeletedFiles.ContainsKey(createdFile.RelativeFilePath))
+                DeletedFiles.Remove(createdFile.RelativeFilePath);
+        }
+
+        public void AddChangedFile(FileMetadata changedFile)
+        {
+            changedFile.RelativeFilePath = changedFile.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar);
+
+            // only add file as changed when it does not appear as created on this summary
+            if (!ChangedFiles.ContainsKey(changedFile.RelativeFilePath) && 
+                !CreatedFiles.ContainsKey(changedFile.RelativeFilePath)
+            )
+                ChangedFiles[changedFile.RelativeFilePath] = changedFile;
+        }
+
+
+        public void AddDeletedFile(FileMetadata deletedFile)
+        {
+            deletedFile.RelativeFilePath = deletedFile.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar);
+
+            if (!DeletedFiles.ContainsKey(deletedFile.RelativeFilePath))
+                DeletedFiles[deletedFile.RelativeFilePath] = deletedFile;
+
+            if (CreatedFiles.ContainsKey(deletedFile.RelativeFilePath))
+                CreatedFiles.Remove(deletedFile.RelativeFilePath);
+
+            if (ChangedFiles.ContainsKey(deletedFile.RelativeFilePath))
+                ChangedFiles.Remove(deletedFile.RelativeFilePath);
         }
 
         public string CalculateSyncChecksum()
         {
             // Combine FileChecksum values from SyncedFiles list
             StringBuilder combinedChecksum = new StringBuilder();
-            foreach (var fileMetadata in SyncedFiles)
+            foreach (var fileMetadata in SyncedFiles.Values)
                 combinedChecksum.Append(fileMetadata.FileChecksum);
 
             // Calculate SHA-256 hash of the combined checksum values

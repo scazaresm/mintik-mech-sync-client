@@ -142,12 +142,14 @@ namespace MechanicalSyncApp.UI.Forms
             // VersionRelatedLabel
             // 
             this.VersionRelatedLabel.AutoSize = true;
+            this.VersionRelatedLabel.BackColor = System.Drawing.Color.Black;
             this.VersionRelatedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VersionRelatedLabel.ForeColor = System.Drawing.Color.White;
             this.VersionRelatedLabel.Location = new System.Drawing.Point(12, 9);
             this.VersionRelatedLabel.Name = "VersionRelatedLabel";
-            this.VersionRelatedLabel.Size = new System.Drawing.Size(257, 20);
+            this.VersionRelatedLabel.Size = new System.Drawing.Size(172, 20);
             this.VersionRelatedLabel.TabIndex = 0;
-            this.VersionRelatedLabel.Text = "Version related note goes here";
+            this.VersionRelatedLabel.Text = "Version related note";
             // 
             // DesignFileViewerForm
             // 

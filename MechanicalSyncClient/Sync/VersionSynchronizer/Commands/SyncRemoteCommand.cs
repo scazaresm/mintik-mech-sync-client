@@ -1,8 +1,10 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
+using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,8 +15,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         public IVersionSynchronizer Synchronizer { get; private set; }
 
         public SyncCheckSummary Summary { get; set; }
-
-        public bool ConfirmBeforeSync { get; set; } = true;
 
         public bool NotifyWhenComplete { get; set; } = true;
 
@@ -57,20 +57,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 // sync check was ok, now sync the changes (if any)
                 if (Summary.HasChanges)
                 {
-                    if(ConfirmBeforeSync)
-                    {
-                        var response = MessageBox.Show(
-                            "Apply sync changes?", "Validate changes", 
-                            MessageBoxButtons.YesNo, 
-                            MessageBoxIcon.Question
-                        );
+                    var response = new SyncCheckSummaryForm(Synchronizer, Summary).ShowDialog();
 
-                        if (response != DialogResult.Yes)
-                        {
-                            await Synchronizer.WorkOfflineAsync();
-                            return;
-                        }
+                    if (response != DialogResult.OK)
+                    {
+                        await Synchronizer.WorkOfflineAsync();
+                        return;
                     }
+
                     Synchronizer.SetState(new ProcessSyncCheckSummaryState(syncCheckState.Summary));
                     await Synchronizer.RunStepAsync();
                 }
@@ -96,6 +90,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 Synchronizer.SetState(new IdleState());
                 await Synchronizer.RunStepAsync();
+            }
+            catch (IOException ex)
+            {
+                Log.Error($"Could not sync remote because verion files seem to be used by other process: {ex}");
+                MessageBox.Show(
+                    "Could not sync remote, make sure that your version files are not being used by another process (such like SolidWorks) and try again.",
+                    "Files already in use",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             catch (Exception ex)
             {

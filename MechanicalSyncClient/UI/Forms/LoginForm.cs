@@ -143,6 +143,12 @@ namespace MechanicalSyncApp.UI.Forms
         private void LoginForm_Load(object sender, EventArgs e)
         {
             VersionLabel.Text = AppVersion;
+
+            if (!System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+            {
+                Email.Text = "sergio.cazares.sdt@gmail.com";
+                Password.Text = "1234";
+            }
         }
 
         public string AppVersion

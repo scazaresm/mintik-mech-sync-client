@@ -36,21 +36,21 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                         {
                             // Synced: file exists in both local and remote, and checksum is equals
                             var syncedFile = remoteFileIndex[localFile.Key];
-                            Summary.SyncedFiles.Add(syncedFile);
+                            Summary.AddSyncedFile(syncedFile);
                             Log.Debug($"\t{syncedFile.RelativeFilePath} = Synced -> {syncedFile.FileChecksum}");
                         }
                         else
                         {
                             // Unsynced: file exists in both local and remote but checksum is different
                             var changedFile = remoteFileIndex[localFile.Key];
-                            Summary.ChangedFiles.Add(changedFile);
+                            Summary.AddChangedFile(changedFile);
                             Log.Debug($"\t{changedFile.RelativeFilePath} = Changed -> {changedFile.FileChecksum}");
                         }
                     else
                     {
                         // Created: file exists in local but not in remote
                         var createdFile = localFile.Value;
-                        Summary.CreatedFiles.Add(createdFile);
+                        Summary.AddCreatedFile(createdFile);
                         Log.Debug($"\t{createdFile.RelativeFilePath} = Created -> {createdFile.FileChecksum}");
                     }
                 }
@@ -59,7 +59,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                 IEnumerable<string> existingInRemoteButNotInLocal = remoteFileIndex.Keys.Except(localFileIndex.Keys);
                 foreach (string deletedFileKey in existingInRemoteButNotInLocal)
                 {
-                    Summary.DeletedFiles.Add(remoteFileIndex[deletedFileKey]);
+                    Summary.AddDeletedFile(remoteFileIndex[deletedFileKey]);
                     Log.Debug($"\t{remoteFileIndex[deletedFileKey].RelativeFilePath} = Deleted");
                 }
             }

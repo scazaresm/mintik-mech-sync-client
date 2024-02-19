@@ -1,8 +1,13 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
+using MechanicalSyncApp.UI.Forms;
+using Microsoft.VisualBasic.Devices;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +17,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
     public class WorkOnlineCommand : IVersionSynchronizerCommandAsync
     {
-        public IVersionSynchronizer Synchronizer { get; private set; }
+        public IVersionSynchronizer Synchronizer { get; set; }
 
         public WorkOnlineCommand(VersionSynchronizer synchronizer)
         {
@@ -57,8 +62,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 if (syncCheckState.Summary.HasChanges)
                 {
-                    var response = MessageBox.Show("Apply sync changes?", "Validate changes", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (response != DialogResult.Yes)
+                    var result = new SyncCheckSummaryForm(Synchronizer, syncCheckState.Summary).ShowDialog();
+
+                    if (result != DialogResult.OK)
                     {
                         await Synchronizer.WorkOfflineAsync();
                         return;
@@ -67,11 +73,28 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     await Synchronizer.RunStepAsync();
                 }
 
+                UI.StatusLabel.Text = "Creating local copy snapshot...";
+                CreateLocalCopySnapshot(Synchronizer.Version.LocalDirectory);
+
+                UI.StatusLabel.Text = "Creating new online work summary...";
+                Synchronizer.OnlineWorkSummary = new SyncCheckSummary();
+
                 Synchronizer.ChangeMonitor.StartMonitoring();
                 UI.LocalFileViewer.PopulateFiles();
 
                 Synchronizer.SetState(new MonitorFileSyncEventsState());
                 _ = Synchronizer.RunStepAsync();
+            }
+            catch(IOException ex)
+            {
+                Log.Error($"Could not go online because verion files seem to be used by other process: {ex}");
+                MessageBox.Show(
+                    "Could not go online, make sure that your version files are not being used by another process (such like SolidWorks) and try again.",
+                    "Files already in use",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                await Synchronizer.WorkOfflineAsync();
             }
             catch (Exception ex)
             {
@@ -79,6 +102,30 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 await Synchronizer.WorkOfflineAsync();
             }
             Log.Debug("Finished WorkOnlineCommand.");
+        }
+
+        private void CreateLocalCopySnapshot(string localCopyDirectory)
+        {
+            try
+            {
+                if (!Directory.Exists(localCopyDirectory))
+                {
+                    throw new DirectoryNotFoundException($"Local copy directory not found: {localCopyDirectory}");
+                }
+
+                string snapshotDirectory = Synchronizer.SnapshotDirectory;
+
+                if (Directory.Exists(snapshotDirectory))
+                    Directory.Delete(snapshotDirectory, true);
+
+                Directory.CreateDirectory(snapshotDirectory);
+
+                new Computer().FileSystem.CopyDirectory(localCopyDirectory, snapshotDirectory);
+            }
+            catch(Exception ex)
+            {
+                Log.Error($"Failed to create a local copy snapshot before going online: {ex}");
+            }
         }
     }
 }

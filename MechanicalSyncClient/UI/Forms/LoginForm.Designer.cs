@@ -37,6 +37,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.LoginButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.VersionLabel = new System.Windows.Forms.Label();
             this.SettingsButton = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -44,7 +45,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.label4 = new System.Windows.Forms.Label();
             this.LoginErrorMessage = new System.Windows.Forms.Label();
             this.CloseButton = new System.Windows.Forms.Button();
-            this.VersionLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -57,7 +57,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.Email.Name = "Email";
             this.Email.Size = new System.Drawing.Size(256, 22);
             this.Email.TabIndex = 0;
-            this.Email.Text = "sergio.cazares.sdt@gmail.com";
             this.Email.TextChanged += new System.EventHandler(this.Email_TextChanged);
             this.Email.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Email_KeyDown);
             // 
@@ -88,7 +87,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.Password.PasswordChar = '•';
             this.Password.Size = new System.Drawing.Size(256, 22);
             this.Password.TabIndex = 2;
-            this.Password.Text = "1234";
             this.Password.TextChanged += new System.EventHandler(this.Password_TextChanged);
             this.Password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Password_KeyDown);
             // 
@@ -126,8 +124,17 @@ namespace MechanicalSyncApp.UI.Forms
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(330, 395);
+            this.panel1.Size = new System.Drawing.Size(332, 395);
             this.panel1.TabIndex = 5;
+            // 
+            // VersionLabel
+            // 
+            this.VersionLabel.ForeColor = System.Drawing.Color.White;
+            this.VersionLabel.Location = new System.Drawing.Point(241, 9);
+            this.VersionLabel.Name = "VersionLabel";
+            this.VersionLabel.Size = new System.Drawing.Size(86, 18);
+            this.VersionLabel.TabIndex = 8;
+            this.VersionLabel.Text = "Version 1.0.0.0";
             // 
             // SettingsButton
             // 
@@ -145,7 +152,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.pictureBox2.Image = global::MechanicalSyncApp.Properties.Resources.data_center;
             this.pictureBox2.Location = new System.Drawing.Point(0, 71);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(330, 324);
+            this.pictureBox2.Size = new System.Drawing.Size(332, 324);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox2.TabIndex = 5;
             this.pictureBox2.TabStop = false;
@@ -202,15 +209,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.CloseButton.TabIndex = 6;
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
-            // 
-            // VersionLabel
-            // 
-            this.VersionLabel.ForeColor = System.Drawing.Color.White;
-            this.VersionLabel.Location = new System.Drawing.Point(245, 9);
-            this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(86, 18);
-            this.VersionLabel.TabIndex = 8;
-            this.VersionLabel.Text = "Version 1.0.0.0";
             // 
             // LoginForm
             // 

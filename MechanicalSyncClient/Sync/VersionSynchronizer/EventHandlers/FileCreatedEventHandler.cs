@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Util;
 using System;
@@ -46,13 +47,17 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             {
                 // no need to handle directory creation, only files
                 if (Directory.Exists(fileSyncEvent.FullPath))
-                    return;
-
+                    return;  
+                
                 // display the new file icon in the viewer
                 fileViewer.AddCreatedFile(fileSyncEvent.FullPath);
 
                 // no need to handle this event if the next will overwrite it
                 if (NextEventOverwritesThis(fileSyncEvent))
+                    return;  
+                
+                // no need to handle event if file no longer exists
+                if (!File.Exists(fileSyncEvent.FullPath))
                     return;
 
                 await client.UploadFileAsync(new UploadFileRequest
@@ -65,7 +70,13 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 });
 
                 if (synchronizer.ChangeMonitor.IsMonitoring())
+                {
+                    synchronizer.OnlineWorkSummary.AddCreatedFile(new FileMetadata()
+                    {
+                        RelativeFilePath = fileSyncEvent.RelativeFilePath
+                    });
                     fileViewer.SetSyncedStatusToFile(fileSyncEvent.FullPath);
+                }
                 else
                     fileViewer.SetOfflineStatusToFile(fileSyncEvent.FullPath);
             }
