@@ -100,6 +100,7 @@ namespace MechanicalSyncApp.UI.Forms
                 WorkOfflineButton = WorkOfflineButton,
                 SyncRemoteButton = SyncRemoteButton,
                 RefreshLocalFilesButton = RefreshLocalFilesButton,
+                RefreshDrawingExplorerButton = RefreshDrawingExplorerButton,
                 CloseVersionButton = CloseVersionButton,
                 PublishVersionButton = PublishVersionButton,
                 TransferOwnershipButton = TransferOwnershipButton,

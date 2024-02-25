@@ -34,6 +34,8 @@ namespace MechanicalSyncApp.UI
         public LocalVersion Version { get; }
         public TreeView AttachedTreeView { get; private set; }
 
+        private readonly Dictionary<string, FileMetadata> reviewTargetIndex = new Dictionary<string, FileMetadata>();
+
         public string[] ReviewedStatuses { get; } = new string[]
         {
            "Rejected", "Approved"
@@ -60,6 +62,7 @@ namespace MechanicalSyncApp.UI
             AttachedTreeView.Nodes.Clear();
             AttachedTreeView.Nodes.Add(rootNode);
             AttachedTreeView.NodeMouseDoubleClick += AttachedTreeView_NodeMouseDoubleClick;
+          
         }
 
         public async Task Refresh()
@@ -73,19 +76,10 @@ namespace MechanicalSyncApp.UI
 
                 var reviewNode = new TreeNode(reviewerDetails.FullName);
                 reviewNode.Tag = review;
-                rootNode.Nodes.Add(reviewNode);
-            }
-        }
 
-        private async void AttachedTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (e.Node.Tag is Review)
-                await PopulateReviewTargets(e.Node);
-            else if (e.Node.Tag is ReviewTarget)
-            {
-                var review = e.Node.Parent.Tag as Review;
-                var reviewTarget = e.Node.Tag as ReviewTarget;
-                OpenDrawingForViewing.Invoke(sender, new OpenDrawingForViewingEventArgs(review, reviewTarget));
+                await PopulateReviewTargets(reviewNode);
+
+                rootNode.Nodes.Add(reviewNode);
             }
         }
 
@@ -97,7 +91,7 @@ namespace MechanicalSyncApp.UI
 
             foreach (var reviewTarget in review.Targets)
             {
-                var targetDetails = await MechSyncService.GetFileMetadataAsync(reviewTarget.TargetId);
+                var targetDetails = await GetReviewTargetDetailsAsync(reviewTarget.TargetId);
 
                 var isDrawing = targetDetails.FullFilePath.ToLower().EndsWith(".slddrw");
                 var isDrawingReviewed = ReviewedStatuses.Contains(reviewTarget.Status);
@@ -109,18 +103,28 @@ namespace MechanicalSyncApp.UI
 
                 var reviewTargetNode = new TreeNode(targetFileName);
                 reviewTargetNode.Tag = reviewTarget;
+
                 reviewNode.Nodes.Add(reviewTargetNode);
             }
             reviewNode.ExpandAll();
+        }
 
-            if (reviewNode.Nodes.Count == 0) {
-                MessageBox.Show(
-                    "This review does not have any progress yet, please try again later.",
-                    "Review not started",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+        private void AttachedTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.Tag is ReviewTarget)
+            {
+                var review = e.Node.Parent.Tag as Review;
+                var reviewTarget = e.Node.Tag as ReviewTarget;
+                OpenDrawingForViewing.Invoke(sender, new OpenDrawingForViewingEventArgs(review, reviewTarget));
             }
+        }
+
+        private async Task<FileMetadata> GetReviewTargetDetailsAsync(string targetId)
+        {
+            if (!reviewTargetIndex.ContainsKey(targetId))
+                reviewTargetIndex[targetId] = await MechSyncService.GetFileMetadataAsync(targetId);
+
+            return reviewTargetIndex[targetId];
         }
 
         #region Dispose pattern

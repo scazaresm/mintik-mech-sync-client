@@ -118,6 +118,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await new TransferOwnershipCommand(this).RunAsync();
         }
 
+        public async Task OpenDrawingForViewingAsync(Review review, ReviewTarget drawingReviewTarget)
+        {
+            await new OpenDrawingForViewingCommand(this, review, drawingReviewTarget).RunAsync();
+        }
+
         #endregion
 
         #region UI management
@@ -149,10 +154,21 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.CopyLocalCopyPathMenuItem.Click += CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click += OpenLocalCopyFolderMenuItem_Click;
 
+            UI.VersionSynchronizerTabs.SelectedIndex = 0;
+            UI.DrawingReviewsExplorer.OpenDrawingForViewing += DrawingReviewsExplorer_OpenDrawingForViewing;
+
+            UI.RefreshDrawingExplorerButton.Click += RefreshDrawingExplorerButton_Click;
+
             UI.ShowVersionExplorer();
         }
 
-     
+    
+
+        private async void DrawingReviewsExplorer_OpenDrawingForViewing(object sender, OpenDrawingForViewingEventArgs e)
+        {
+            await OpenDrawingForViewingAsync(e.Review, e.ReviewTarget);
+        }
+
         public void UpdateUI()
         {
             state?.UpdateUI();
@@ -200,6 +216,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await TransferOwnershipAsync();
         }
 
+        private async void RefreshDrawingExplorerButton_Click(object sender, EventArgs e)
+        {
+            await UI.DrawingReviewsExplorer.Refresh();
+        }
+
         private void CopyLocalCopyPathMenuItem_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(Version.LocalDirectory);
@@ -234,6 +255,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.TransferOwnershipButton.Click -= TransferOwnershipButton_Click;
             UI.CopyLocalCopyPathMenuItem.Click -= CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click -= OpenLocalCopyFolderMenuItem_Click;
+            UI.DrawingReviewsExplorer.OpenDrawingForViewing -= DrawingReviewsExplorer_OpenDrawingForViewing;
         }
 
         protected virtual void Dispose(bool disposing)

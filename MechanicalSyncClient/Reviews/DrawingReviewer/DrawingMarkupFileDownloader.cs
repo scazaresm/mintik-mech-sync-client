@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Serilog;
 
 namespace MechanicalSyncApp.Reviews.DrawingReviewer
 {
@@ -36,13 +37,12 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
                     LocalFilename = reviewer.TempDownloadedMarkupFile,
                     RelativeFilePath = $"{reviewer.ReviewTarget.TargetId}.markup"
                 });
-
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Failed to load markup file, {ex.Message}",
-                    "Error",
+                var message = $"Failed to load markup file, {ex.Message}";
+                Log.Error(message);
+                MessageBox.Show(message, "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );

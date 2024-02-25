@@ -22,7 +22,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public ToolStripButton WorkOnlineButton { get; set; }
         public ToolStripButton WorkOfflineButton { get; set; }
         public ToolStripButton SyncRemoteButton { get; set; }
-        public ToolStripButton CloseVersionButton { get; set; }
+        public ToolStripButton RefreshDrawingExplorerButton { get; set; }
+        public Button CloseVersionButton { get; set; }
         public ToolStripButton PublishVersionButton { get; set; }
         public ToolStripButton TransferOwnershipButton { get; set; }
 
@@ -73,13 +74,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                version
             );
             DrawingReviewsExplorer.AttachTreeView(DrawingReviewsTreeView);
-            DrawingReviewsExplorer.OpenDrawingForViewing += DrawingReviewsExplorer_OpenDrawingForViewing;
         }
 
-        private void DrawingReviewsExplorer_OpenDrawingForViewing(object sender, OpenDrawingForViewingEventArgs e)
-        {
-            Console.WriteLine(e.Review.Id);
-        }
+      
         
         private async void VersionSynchronizerTabs_SelectedIndexChanged(object sender, EventArgs e)
         {

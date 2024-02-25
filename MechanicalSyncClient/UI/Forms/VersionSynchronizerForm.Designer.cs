@@ -62,8 +62,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.OpenLocalCopyFolderMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.SyncRemoteButton = new System.Windows.Forms.ToolStripButton();
-            this.CloseVersionButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.WorkOfflineButton = new System.Windows.Forms.ToolStripButton();
             this.WorkOnlineButton = new System.Windows.Forms.ToolStripButton();
             this.PublishVersionButton = new System.Windows.Forms.ToolStripButton();
@@ -75,6 +73,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.DrawingReviewsTreeView = new System.Windows.Forms.TreeView();
             this.ProjectTabImages = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
+            this.CloseVersionButton = new System.Windows.Forms.Button();
             this.ProjectFolderNameLabel = new System.Windows.Forms.Label();
             this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,6 +85,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.LogoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.RefreshDrawingExplorerButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.MarkDrawingAsFixedButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
@@ -98,9 +101,12 @@ namespace MechanicalSyncApp.UI.Forms
             this.DrawingReviewPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewContainer)).BeginInit();
             this.DrawingReviewContainer.Panel1.SuspendLayout();
+            this.DrawingReviewContainer.Panel2.SuspendLayout();
             this.DrawingReviewContainer.SuspendLayout();
             this.panel2.SuspendLayout();
             this.MainMenuStrip.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // FileSyncStatusIcons
@@ -272,8 +278,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripDropDownButton1,
             this.toolStripSeparator1,
             this.SyncRemoteButton,
-            this.CloseVersionButton,
-            this.toolStripSeparator2,
             this.WorkOfflineButton,
             this.WorkOnlineButton,
             this.PublishVersionButton,
@@ -329,21 +333,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.SyncRemoteButton.Size = new System.Drawing.Size(93, 22);
             this.SyncRemoteButton.Text = "Sync remote";
             this.SyncRemoteButton.ToolTipText = "Send your local changes to remote server";
-            // 
-            // CloseVersionButton
-            // 
-            this.CloseVersionButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.CloseVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
-            this.CloseVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CloseVersionButton.Name = "CloseVersionButton";
-            this.CloseVersionButton.Size = new System.Drawing.Size(56, 22);
-            this.CloseVersionButton.Text = "Close";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // WorkOfflineButton
             // 
@@ -424,6 +413,12 @@ namespace MechanicalSyncApp.UI.Forms
             // DrawingReviewContainer.Panel1
             // 
             this.DrawingReviewContainer.Panel1.Controls.Add(this.DrawingReviewsTreeView);
+            this.DrawingReviewContainer.Panel1.Controls.Add(this.toolStrip1);
+            // 
+            // DrawingReviewContainer.Panel2
+            // 
+            this.DrawingReviewContainer.Panel2.BackColor = System.Drawing.Color.DarkGray;
+            this.DrawingReviewContainer.Panel2.Controls.Add(this.toolStrip2);
             this.DrawingReviewContainer.Size = new System.Drawing.Size(1077, 670);
             this.DrawingReviewContainer.SplitterDistance = 248;
             this.DrawingReviewContainer.TabIndex = 0;
@@ -431,9 +426,9 @@ namespace MechanicalSyncApp.UI.Forms
             // DrawingReviewsTreeView
             // 
             this.DrawingReviewsTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DrawingReviewsTreeView.Location = new System.Drawing.Point(0, 0);
+            this.DrawingReviewsTreeView.Location = new System.Drawing.Point(0, 25);
             this.DrawingReviewsTreeView.Name = "DrawingReviewsTreeView";
-            this.DrawingReviewsTreeView.Size = new System.Drawing.Size(248, 670);
+            this.DrawingReviewsTreeView.Size = new System.Drawing.Size(248, 645);
             this.DrawingReviewsTreeView.TabIndex = 0;
             // 
             // ProjectTabImages
@@ -449,12 +444,26 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.CloseVersionButton);
             this.panel2.Controls.Add(this.ProjectFolderNameLabel);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1085, 25);
             this.panel2.TabIndex = 18;
+            // 
+            // CloseVersionButton
+            // 
+            this.CloseVersionButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
+            this.CloseVersionButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.CloseVersionButton.Location = new System.Drawing.Point(990, 0);
+            this.CloseVersionButton.Name = "CloseVersionButton";
+            this.CloseVersionButton.Size = new System.Drawing.Size(95, 25);
+            this.CloseVersionButton.TabIndex = 18;
+            this.CloseVersionButton.Text = "Close version";
+            this.CloseVersionButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CloseVersionButton.UseVisualStyleBackColor = true;
             // 
             // ProjectFolderNameLabel
             // 
@@ -546,6 +555,47 @@ namespace MechanicalSyncApp.UI.Forms
             this.ExitMenuItem.Text = "Exit";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RefreshDrawingExplorerButton});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(248, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // RefreshDrawingExplorerButton
+            // 
+            this.RefreshDrawingExplorerButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.RefreshDrawingExplorerButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
+            this.RefreshDrawingExplorerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshDrawingExplorerButton.Name = "RefreshDrawingExplorerButton";
+            this.RefreshDrawingExplorerButton.Size = new System.Drawing.Size(66, 22);
+            this.RefreshDrawingExplorerButton.Text = "Refresh";
+            this.RefreshDrawingExplorerButton.ToolTipText = "Refresh local files";
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MarkDrawingAsFixedButton});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(825, 25);
+            this.toolStrip2.TabIndex = 0;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // MarkDrawingAsFixedButton
+            // 
+            this.MarkDrawingAsFixedButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.MarkDrawingAsFixedButton.Enabled = false;
+            this.MarkDrawingAsFixedButton.Image = ((System.Drawing.Image)(resources.GetObject("MarkDrawingAsFixedButton.Image")));
+            this.MarkDrawingAsFixedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MarkDrawingAsFixedButton.Name = "MarkDrawingAsFixedButton";
+            this.MarkDrawingAsFixedButton.Size = new System.Drawing.Size(97, 22);
+            this.MarkDrawingAsFixedButton.Text = "Mark as fixed";
+            this.MarkDrawingAsFixedButton.ToolTipText = "Refresh local files";
+            // 
             // VersionSynchronizerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -577,11 +627,18 @@ namespace MechanicalSyncApp.UI.Forms
             this.SynchronizerToolStrip.PerformLayout();
             this.DrawingReviewPage.ResumeLayout(false);
             this.DrawingReviewContainer.Panel1.ResumeLayout(false);
+            this.DrawingReviewContainer.Panel1.PerformLayout();
+            this.DrawingReviewContainer.Panel2.ResumeLayout(false);
+            this.DrawingReviewContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewContainer)).EndInit();
             this.DrawingReviewContainer.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.MainMenuStrip.ResumeLayout(false);
             this.MainMenuStrip.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -611,14 +668,12 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripStatusLabel SyncStatusLabel;
         private System.Windows.Forms.ToolStripButton WorkOnlineButton;
         private System.Windows.Forms.ToolStripProgressBar SyncProgressBar;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton PublishVersionButton;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem CopyLocalCopyPathMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenLocalCopyFolderMenuItem;
         private System.Windows.Forms.ToolStrip WorkspaceToolStrip;
         private System.Windows.Forms.ToolStripButton RefreshVersionsButton;
-        private System.Windows.Forms.ToolStripButton CloseVersionButton;
         private System.Windows.Forms.MenuStrip MainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton TransferOwnershipButton;
@@ -633,5 +688,10 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem LogoutMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ProjectExplorerMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NewReviewButton;
+        private System.Windows.Forms.Button CloseVersionButton;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton RefreshDrawingExplorerButton;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton MarkDrawingAsFixedButton;
     }
 }

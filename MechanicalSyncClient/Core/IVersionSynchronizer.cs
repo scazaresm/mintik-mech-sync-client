@@ -48,6 +48,7 @@ namespace MechanicalSyncApp.Core
         Task CloseVersionAsync();
         Task PublishVersionAsync();
         Task TransferOwnershipAsync();
+        Task OpenDrawingForViewingAsync(Review review, ReviewTarget drawingReviewTarget);
 
         // UI related methods
         void InitializeUI();
