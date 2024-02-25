@@ -45,14 +45,14 @@ namespace MechanicalSyncApp.UI.Forms
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.WorkspaceTreeView = new System.Windows.Forms.TreeView();
             this.WorkspaceIcons = new System.Windows.Forms.ImageList(this.components);
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.WorkspaceToolStrip = new System.Windows.Forms.ToolStrip();
             this.RefreshVersionsButton = new System.Windows.Forms.ToolStripButton();
             this.VersionSynchronizerTabs = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.FileViewerListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.DesignFilesStatusStrip = new System.Windows.Forms.StatusStrip();
             this.SyncStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.SyncProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.SynchronizerToolStrip = new System.Windows.Forms.ToolStrip();
@@ -76,15 +76,12 @@ namespace MechanicalSyncApp.UI.Forms
             this.ProjectTabImages = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.ProjectFolderNameLabel = new System.Windows.Forms.Label();
-            this.ReviewArtifactsTabImages = new System.Windows.Forms.ImageList(this.components);
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.ReviewerListImages = new System.Windows.Forms.ImageList(this.components);
-            this.ReviewerStateImages = new System.Windows.Forms.ImageList(this.components);
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNewButton = new System.Windows.Forms.ToolStripMenuItem();
             this.NewProjectButton = new System.Windows.Forms.ToolStripMenuItem();
             this.NewVersionButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.NewReviewButton = new System.Windows.Forms.ToolStripMenuItem();
             this.ProjectExplorerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.LogoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,17 +90,17 @@ namespace MechanicalSyncApp.UI.Forms
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
             this.MainSplitContainer.SuspendLayout();
-            this.toolStrip3.SuspendLayout();
+            this.WorkspaceToolStrip.SuspendLayout();
             this.VersionSynchronizerTabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.DesignFilesStatusStrip.SuspendLayout();
             this.SynchronizerToolStrip.SuspendLayout();
             this.DrawingReviewPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewContainer)).BeginInit();
             this.DrawingReviewContainer.Panel1.SuspendLayout();
             this.DrawingReviewContainer.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.MainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // FileSyncStatusIcons
@@ -123,7 +120,7 @@ namespace MechanicalSyncApp.UI.Forms
             // MainSplitContainer.Panel1
             // 
             this.MainSplitContainer.Panel1.Controls.Add(this.WorkspaceTreeView);
-            this.MainSplitContainer.Panel1.Controls.Add(this.toolStrip3);
+            this.MainSplitContainer.Panel1.Controls.Add(this.WorkspaceToolStrip);
             // 
             // MainSplitContainer.Panel2
             // 
@@ -150,16 +147,17 @@ namespace MechanicalSyncApp.UI.Forms
             this.WorkspaceIcons.TransparentColor = System.Drawing.Color.Transparent;
             this.WorkspaceIcons.Images.SetKeyName(0, "suitcase=icon-24.png");
             this.WorkspaceIcons.Images.SetKeyName(1, "folder-icon-24.png");
+            this.WorkspaceIcons.Images.SetKeyName(2, "zoom-search-24.png");
             // 
-            // toolStrip3
+            // WorkspaceToolStrip
             // 
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.WorkspaceToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RefreshVersionsButton});
-            this.toolStrip3.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(296, 25);
-            this.toolStrip3.TabIndex = 1;
-            this.toolStrip3.Text = "toolStrip3";
+            this.WorkspaceToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.WorkspaceToolStrip.Name = "WorkspaceToolStrip";
+            this.WorkspaceToolStrip.Size = new System.Drawing.Size(296, 25);
+            this.WorkspaceToolStrip.TabIndex = 1;
+            this.WorkspaceToolStrip.Text = "toolStrip3";
             // 
             // RefreshVersionsButton
             // 
@@ -184,12 +182,11 @@ namespace MechanicalSyncApp.UI.Forms
             this.VersionSynchronizerTabs.SelectedIndex = 0;
             this.VersionSynchronizerTabs.Size = new System.Drawing.Size(1085, 705);
             this.VersionSynchronizerTabs.TabIndex = 16;
-            this.VersionSynchronizerTabs.SelectedIndexChanged += new System.EventHandler(this.VersionSynchronizerTabs_SelectedIndexChanged);
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.FileViewerListView);
-            this.tabPage1.Controls.Add(this.statusStrip1);
+            this.tabPage1.Controls.Add(this.DesignFilesStatusStrip);
             this.tabPage1.Controls.Add(this.SynchronizerToolStrip);
             this.tabPage1.ImageIndex = 0;
             this.tabPage1.Location = new System.Drawing.Point(4, 31);
@@ -242,17 +239,17 @@ namespace MechanicalSyncApp.UI.Forms
             this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeader2.Width = 150;
             // 
-            // statusStrip1
+            // DesignFilesStatusStrip
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DesignFilesStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SyncStatusLabel,
             this.SyncProgressBar});
-            this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStrip1.Location = new System.Drawing.Point(3, 645);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1071, 22);
-            this.statusStrip1.TabIndex = 17;
-            this.statusStrip1.Text = "statusStrip1";
+            this.DesignFilesStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.DesignFilesStatusStrip.Location = new System.Drawing.Point(3, 645);
+            this.DesignFilesStatusStrip.Name = "DesignFilesStatusStrip";
+            this.DesignFilesStatusStrip.Size = new System.Drawing.Size(1071, 22);
+            this.DesignFilesStatusStrip.TabIndex = 17;
+            this.DesignFilesStatusStrip.Text = "statusStrip1";
             // 
             // SyncStatusLabel
             // 
@@ -470,40 +467,15 @@ namespace MechanicalSyncApp.UI.Forms
             this.ProjectFolderNameLabel.Text = "220214NY-OBERG SML HEAD TOOLING";
             this.ProjectFolderNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // ReviewArtifactsTabImages
+            // MainMenuStrip
             // 
-            this.ReviewArtifactsTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewArtifactsTabImages.ImageStream")));
-            this.ReviewArtifactsTabImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.ReviewArtifactsTabImages.Images.SetKeyName(0, "change-request-24.png");
-            this.ReviewArtifactsTabImages.Images.SetKeyName(1, "notes-icon-24.png");
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "pdf-32.png");
-            // 
-            // ReviewerListImages
-            // 
-            this.ReviewerListImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewerListImages.ImageStream")));
-            this.ReviewerListImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.ReviewerListImages.Images.SetKeyName(0, "flat-user-24.png");
-            // 
-            // ReviewerStateImages
-            // 
-            this.ReviewerStateImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ReviewerStateImages.ImageStream")));
-            this.ReviewerStateImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.ReviewerStateImages.Images.SetKeyName(0, "thumbs-up-16.png");
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1385, 24);
-            this.menuStrip1.TabIndex = 17;
-            this.menuStrip1.Text = "menuStrip1";
+            this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.MainMenuStrip.Name = "MainMenuStrip";
+            this.MainMenuStrip.Size = new System.Drawing.Size(1385, 24);
+            this.MainMenuStrip.TabIndex = 17;
+            this.MainMenuStrip.Text = "menuStrip1";
             // 
             // testToolStripMenuItem
             // 
@@ -521,9 +493,10 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             this.FileNewButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.NewProjectButton,
-            this.NewVersionButton});
+            this.NewVersionButton,
+            this.NewReviewButton});
             this.FileNewButton.Name = "FileNewButton";
-            this.FileNewButton.Size = new System.Drawing.Size(180, 22);
+            this.FileNewButton.Size = new System.Drawing.Size(166, 22);
             this.FileNewButton.Text = "New";
             // 
             // NewProjectButton
@@ -540,29 +513,36 @@ namespace MechanicalSyncApp.UI.Forms
             this.NewVersionButton.Text = "Version...";
             this.NewVersionButton.Click += new System.EventHandler(this.NewVersionButton_Click);
             // 
+            // NewReviewButton
+            // 
+            this.NewReviewButton.Name = "NewReviewButton";
+            this.NewReviewButton.Size = new System.Drawing.Size(121, 22);
+            this.NewReviewButton.Text = "Review...";
+            this.NewReviewButton.Click += new System.EventHandler(this.NewReviewButton_Click);
+            // 
             // ProjectExplorerMenuItem
             // 
             this.ProjectExplorerMenuItem.Name = "ProjectExplorerMenuItem";
-            this.ProjectExplorerMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ProjectExplorerMenuItem.Size = new System.Drawing.Size(166, 22);
             this.ProjectExplorerMenuItem.Text = "Project Explorer...";
             this.ProjectExplorerMenuItem.Click += new System.EventHandler(this.ProjectExplorerMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(163, 6);
             // 
             // LogoutMenuItem
             // 
             this.LogoutMenuItem.Name = "LogoutMenuItem";
-            this.LogoutMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.LogoutMenuItem.Size = new System.Drawing.Size(166, 22);
             this.LogoutMenuItem.Text = "Logout";
             this.LogoutMenuItem.Click += new System.EventHandler(this.LogoutMenuItem_Click);
             // 
             // ExitMenuItem
             // 
             this.ExitMenuItem.Name = "ExitMenuItem";
-            this.ExitMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExitMenuItem.Size = new System.Drawing.Size(166, 22);
             this.ExitMenuItem.Text = "Exit";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
@@ -572,7 +552,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1385, 754);
             this.Controls.Add(this.MainSplitContainer);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.MainMenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VersionSynchronizerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -586,13 +566,13 @@ namespace MechanicalSyncApp.UI.Forms
             this.MainSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).EndInit();
             this.MainSplitContainer.ResumeLayout(false);
-            this.toolStrip3.ResumeLayout(false);
-            this.toolStrip3.PerformLayout();
+            this.WorkspaceToolStrip.ResumeLayout(false);
+            this.WorkspaceToolStrip.PerformLayout();
             this.VersionSynchronizerTabs.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.DesignFilesStatusStrip.ResumeLayout(false);
+            this.DesignFilesStatusStrip.PerformLayout();
             this.SynchronizerToolStrip.ResumeLayout(false);
             this.SynchronizerToolStrip.PerformLayout();
             this.DrawingReviewPage.ResumeLayout(false);
@@ -600,8 +580,8 @@ namespace MechanicalSyncApp.UI.Forms
             ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewContainer)).EndInit();
             this.DrawingReviewContainer.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.MainMenuStrip.ResumeLayout(false);
+            this.MainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -627,23 +607,19 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton WorkOfflineButton;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip DesignFilesStatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel SyncStatusLabel;
         private System.Windows.Forms.ToolStripButton WorkOnlineButton;
         private System.Windows.Forms.ToolStripProgressBar SyncProgressBar;
-        private System.Windows.Forms.ImageList ReviewerListImages;
-        private System.Windows.Forms.ImageList ReviewerStateImages;
-        private System.Windows.Forms.ImageList ReviewArtifactsTabImages;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton PublishVersionButton;
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem CopyLocalCopyPathMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenLocalCopyFolderMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip3;
+        private System.Windows.Forms.ToolStrip WorkspaceToolStrip;
         private System.Windows.Forms.ToolStripButton RefreshVersionsButton;
         private System.Windows.Forms.ToolStripButton CloseVersionButton;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip MainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton TransferOwnershipButton;
         private System.Windows.Forms.ToolStripMenuItem FileNewButton;
@@ -656,5 +632,6 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ImageList WorkspaceIcons;
         private System.Windows.Forms.ToolStripMenuItem LogoutMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ProjectExplorerMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NewReviewButton;
     }
 }

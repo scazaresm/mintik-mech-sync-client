@@ -59,7 +59,13 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                 UI.LoadDrawing(Reviewer.TempDownloadedDrawingFile, Reviewer.DrawingReviewerControl_OpenDocError);
 
                 if (Reviewer.StatusesHavingMarkupFile.Contains(reviewTarget.Status))
+                {
+                    // download the markup file from server
                     await Reviewer.DownloadMarkupFileAsync();
+
+                    // open the markup file in the eDrawings viewer
+                    UI.DrawingReviewerControl.OpenMarkupFile(Reviewer.TempDownloadedMarkupFile);
+                }
 
                 Reviewer.UI.MarkupStatus.Text = "Ready";
             }

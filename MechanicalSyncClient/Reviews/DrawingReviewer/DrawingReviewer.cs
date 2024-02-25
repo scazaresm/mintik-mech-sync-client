@@ -96,17 +96,6 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             await new CloseDrawingReviewCommand(this).RunAsync();
         }
 
-        public async Task OpenReviewMarkupAsync(ReviewTarget reviewTarget)
-        {
-
-        }
-
-        public async Task CloseReviewMarkupAsync()
-        {
-
-        }
-
-
         public async Task ApproveReviewTargetAsync()
         {
             await new ApproveDrawingCommand(this).RunAsync();
@@ -120,11 +109,6 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
         public async Task RefreshDeltaTargetsAsync()
         {
             await DeltaDrawingsTreeView.Refresh();
-        }
-        
-        public async Task RefreshDrawingReviewsAsync()
-        {
-
         }
 
         public async Task SaveReviewProgressAsync()

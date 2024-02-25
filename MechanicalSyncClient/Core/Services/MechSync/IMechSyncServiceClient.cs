@@ -27,8 +27,11 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task<List<Review>> GetMyReviewsAsync();
         Task<List<Project>> GetAllProjectsAsync();
         Task<Project> CreateProjectAsync(CreateProjectRequest request);
-        Task<Project> GetProjectAsync(string projectId);
+        Task<Project> GetProjectAsync(string projectId); 
         Task<Version> CreateVersionAsync(CreateVersionRequest request);
+        Task<Review> CreateReviewAsync(CreateReviewRequest request);
+        Task<List<Version>> GetAllVersionsAsync();
+        Task<List<Version>> GetVersionsWithStatusAsync(string status);
         Task<Version> GetVersionAsync(string versionId);
         Task<Version> PublishVersionAsync(PublishVersionRequest request);
         Task<ReviewTarget> UpdateReviewTargetAsync(UpdateReviewTargetRequest request);

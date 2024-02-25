@@ -37,8 +37,6 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
                     RelativeFilePath = $"{reviewer.ReviewTarget.TargetId}.markup"
                 });
 
-                // open the markup file in the eDrawings viewer
-                UI.DrawingReviewerControl.OpenMarkupFile(reviewer.TempDownloadedMarkupFile);
             }
             catch (Exception ex)
             {

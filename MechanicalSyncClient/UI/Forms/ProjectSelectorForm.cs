@@ -56,6 +56,7 @@ namespace MechanicalSyncApp.UI.Forms
                 : projects.Where(p => p.FolderName.ToLower().Contains(searchTarget)).ToList();
 
             ProjectList.SelectedItems.Clear();
+            ProjectList.SelectedItems.Clear();
             ProjectList.Items.Clear();
             foreach (var project in filter)
             {

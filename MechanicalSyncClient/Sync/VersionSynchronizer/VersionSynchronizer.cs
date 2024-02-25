@@ -126,6 +126,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         {
             UI.ProjectFolderNameLabel.Text = $"{Version.RemoteProject.FolderName} V{Version.RemoteVersion.Major} (Ongoing changes)";
             UI.InitializeLocalFileViewer(Version, ChangeMonitor);
+            UI.InitializeDrawingReviews(Version);
 
             UI.LocalFileViewer.AttachListView(UI.FileViewerListView);
             UI.FileViewerListView.SetDoubleBuffered();
@@ -147,6 +148,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
             UI.CopyLocalCopyPathMenuItem.Click += CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click += OpenLocalCopyFolderMenuItem_Click;
+
+            UI.ShowVersionExplorer();
         }
 
      

@@ -15,10 +15,10 @@ namespace MechanicalSyncApp.UI
 {
     public class OpenDrawingForViewingEventArgs : EventArgs
     {
-        public LocalReview Review { get; private set; }
+        public Review Review { get; private set; }
         public ReviewTarget ReviewTarget { get; private set; }
 
-        public OpenDrawingForViewingEventArgs(LocalReview review, ReviewTarget reviewTarget)
+        public OpenDrawingForViewingEventArgs(Review review, ReviewTarget reviewTarget)
         {
             Review = review ?? throw new ArgumentNullException(nameof(review));
             ReviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
@@ -27,6 +27,8 @@ namespace MechanicalSyncApp.UI
 
     public class DrawingReviewsTreeView : IDisposable
     {
+        public event EventHandler<OpenDrawingForViewingEventArgs> OpenDrawingForViewing;
+
         public IMechSyncServiceClient MechSyncService { get; private set; }
         public IAuthenticationServiceClient AuthService { get; private set; }
         public LocalVersion Version { get; }
@@ -79,7 +81,12 @@ namespace MechanicalSyncApp.UI
         {
             if (e.Node.Tag is Review)
                 await PopulateReviewTargets(e.Node);
-
+            else if (e.Node.Tag is ReviewTarget)
+            {
+                var review = e.Node.Parent.Tag as Review;
+                var reviewTarget = e.Node.Tag as ReviewTarget;
+                OpenDrawingForViewing.Invoke(sender, new OpenDrawingForViewingEventArgs(review, reviewTarget));
+            }
         }
 
         private async Task PopulateReviewTargets(TreeNode reviewNode)
@@ -101,9 +108,19 @@ namespace MechanicalSyncApp.UI
                 var targetFileName = Path.GetFileName(targetDetails.FullFilePath);
 
                 var reviewTargetNode = new TreeNode(targetFileName);
+                reviewTargetNode.Tag = reviewTarget;
                 reviewNode.Nodes.Add(reviewTargetNode);
             }
             reviewNode.ExpandAll();
+
+            if (reviewNode.Nodes.Count == 0) {
+                MessageBox.Show(
+                    "This review does not have any progress yet, please try again later.",
+                    "Review not started",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
         }
 
         #region Dispose pattern

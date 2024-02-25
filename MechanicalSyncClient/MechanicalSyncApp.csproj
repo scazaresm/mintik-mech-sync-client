@@ -191,15 +191,18 @@
     <Compile Include="Core\Services\MechSync\Handlers\AcknowledgeVersionOwnershipHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\AggregateProjectDetailsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateProjectHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\CreateReviewHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetAllProjectsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetDeltaFileMetadataHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetMyReviewsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetFileMetadataByIdHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetPublishedProjectsHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetAllVersionsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionReviewsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DeleteExplorerFilesHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetVersionsWithStatusHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\PublishVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\SyncReviewTargetsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\TransferVersionOwnershipHandler.cs" />
@@ -208,6 +211,7 @@
     <Compile Include="Core\Services\MechSync\Models\ChangeRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\AcknowledgeVersionOwnershipRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\CreateProjectRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\CreateReviewRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\CreateVersionRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetDeltaFileMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\PublishVersionRequest.cs" />
@@ -365,6 +369,7 @@
     <Compile Include="UI\Forms\PublishVersionProgressDialog.Designer.cs">
       <DependentUpon>PublishVersionProgressDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SelectedVersionDetails.cs" />
     <Compile Include="UI\Forms\SyncCheckSummaryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -376,6 +381,12 @@
     </Compile>
     <Compile Include="UI\Forms\UserSelectorForm.Designer.cs">
       <DependentUpon>UserSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\VersionSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\VersionSelectorForm.Designer.cs">
+      <DependentUpon>VersionSelectorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ListViewExtensions.cs" />
     <Compile Include="Sync\VersionSynchronizer\VersionSynchronizerUI.cs" />
@@ -467,6 +478,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\SyncCheckSummaryForm.resx">
       <DependentUpon>SyncCheckSummaryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\VersionSelectorForm.resx">
+      <DependentUpon>VersionSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\VersionSynchronizerForm.resx">
       <DependentUpon>VersionSynchronizerForm.cs</DependentUpon>

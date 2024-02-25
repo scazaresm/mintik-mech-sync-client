@@ -132,6 +132,10 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new CreateProjectHandler(restClient, request).HandleAsync();
         }
+        public async Task<Review> CreateReviewAsync(CreateReviewRequest request)
+        {
+            return await new CreateReviewHandler(restClient, request).HandleAsync();
+        }
         public async Task<Project> GetProjectAsync(string projectId)
         {
             return await new GetProjectHandler(restClient, projectId).HandleAsync();
@@ -147,6 +151,14 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         public async Task<Version> CreateVersionAsync(CreateVersionRequest request)
         {
             return await new CreateVersionHandler(restClient, request).HandleAsync();
+        }
+        public async Task<List<Version>> GetAllVersionsAsync()
+        {
+            return await new GetAllVersionsHandler(restClient).HandleAsync();
+        }
+        public async Task<List<Version>> GetVersionsWithStatusAsync(string status)
+        {
+            return await new GetVersionsWithStatusHandler(restClient, status).HandleAsync();
         }
         public async Task<Version> GetVersionAsync(string versionId)
         {
