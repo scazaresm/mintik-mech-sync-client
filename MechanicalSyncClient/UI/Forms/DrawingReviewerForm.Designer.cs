@@ -53,6 +53,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.HeaderLabel = new System.Windows.Forms.Label();
             this.TreeViewIcons = new System.Windows.Forms.ImageList(this.components);
+            this.SynchronizerToolStrip = new System.Windows.Forms.ToolStrip();
+            this.RefreshReviewTargetsButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
             this.MainSplit.Panel1.SuspendLayout();
             this.MainSplit.Panel2.SuspendLayout();
@@ -62,6 +65,7 @@
             this.ReviewMarkupToolStrip.SuspendLayout();
             this.MarkupStatusStrip.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
+            this.SynchronizerToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainSplit
@@ -73,6 +77,7 @@
             // MainSplit.Panel1
             // 
             this.MainSplit.Panel1.Controls.Add(this.DeltaDrawingsTreeView);
+            this.MainSplit.Panel1.Controls.Add(this.SynchronizerToolStrip);
             // 
             // MainSplit.Panel2
             // 
@@ -86,9 +91,9 @@
             // DeltaDrawingsTreeView
             // 
             this.DeltaDrawingsTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DeltaDrawingsTreeView.Location = new System.Drawing.Point(0, 0);
+            this.DeltaDrawingsTreeView.Location = new System.Drawing.Point(0, 25);
             this.DeltaDrawingsTreeView.Name = "DeltaDrawingsTreeView";
-            this.DeltaDrawingsTreeView.Size = new System.Drawing.Size(275, 472);
+            this.DeltaDrawingsTreeView.Size = new System.Drawing.Size(275, 447);
             this.DeltaDrawingsTreeView.TabIndex = 1;
             // 
             // MarkupPanel
@@ -303,6 +308,32 @@
             this.TreeViewIcons.Images.SetKeyName(3, "file-nok-24.png");
             this.TreeViewIcons.Images.SetKeyName(4, "tools-icon-24.png");
             // 
+            // SynchronizerToolStrip
+            // 
+            this.SynchronizerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RefreshReviewTargetsButton,
+            this.toolStripSeparator1});
+            this.SynchronizerToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.SynchronizerToolStrip.Name = "SynchronizerToolStrip";
+            this.SynchronizerToolStrip.Size = new System.Drawing.Size(275, 25);
+            this.SynchronizerToolStrip.TabIndex = 16;
+            this.SynchronizerToolStrip.Text = "toolStrip2";
+            // 
+            // RefreshReviewTargetsButton
+            // 
+            this.RefreshReviewTargetsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.RefreshReviewTargetsButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
+            this.RefreshReviewTargetsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshReviewTargetsButton.Name = "RefreshReviewTargetsButton";
+            this.RefreshReviewTargetsButton.Size = new System.Drawing.Size(66, 22);
+            this.RefreshReviewTargetsButton.Text = "Refresh";
+            this.RefreshReviewTargetsButton.ToolTipText = "Refresh local files";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // DrawingReviewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -320,6 +351,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DrawingReviewerForm_FormClosed);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DrawingReviewerForm_KeyDown);
             this.MainSplit.Panel1.ResumeLayout(false);
+            this.MainSplit.Panel1.PerformLayout();
             this.MainSplit.Panel2.ResumeLayout(false);
             this.MainSplit.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplit)).EndInit();
@@ -333,6 +365,8 @@
             this.MarkupStatusStrip.PerformLayout();
             this.HeaderPanel.ResumeLayout(false);
             this.HeaderPanel.PerformLayout();
+            this.SynchronizerToolStrip.ResumeLayout(false);
+            this.SynchronizerToolStrip.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -362,5 +396,8 @@
         private System.Windows.Forms.Label DesignerLabel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ImageList TreeViewIcons;
+        private System.Windows.Forms.ToolStrip SynchronizerToolStrip;
+        private System.Windows.Forms.ToolStripButton RefreshReviewTargetsButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }

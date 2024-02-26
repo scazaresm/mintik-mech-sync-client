@@ -39,6 +39,7 @@ namespace MechanicalSyncApp.UI.Forms
                 CloseDrawingButton = CloseDrawingButton,
                 SaveProgressButton = SaveProgressButton,
                 ReviewTargetStatus = ReviewTargetStatus,
+                RefreshReviewTargetsButton = RefreshReviewTargetsButton,
             };
             drawingReviewer = new DrawingReviewer(authServiceClient, syncServiceClient, ui, review);
             drawingReviewer.InitializeUiAsync();

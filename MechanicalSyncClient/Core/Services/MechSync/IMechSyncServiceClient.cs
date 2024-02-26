@@ -40,6 +40,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
         Task<List<AggregatedProjectDetails>> AggregateProjectDetailsAsync();
 
+        Task<Review> GetReviewAsync(string reviewId);
+
         Task DeleteExplorerFilesAsync(string relativeEquipmentPath, string explorerTransactionId);
     }
 }

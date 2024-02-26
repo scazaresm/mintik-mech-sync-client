@@ -13,5 +13,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models.Request
         public string ReviewTargetId { get; set; }
 
         public string Status { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
     }
 }

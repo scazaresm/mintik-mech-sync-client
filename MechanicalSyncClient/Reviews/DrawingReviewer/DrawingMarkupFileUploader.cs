@@ -27,47 +27,39 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             var ReviewTarget = reviewer.ReviewTarget;
 
             if (reviewer.ReviewTarget == null) return false;
-            try
+
+            // use eDrawings to save the current markup file to a temporary file
+            reviewer.TempUploadedMarkupFile = Path.Combine(Path.GetTempPath(), ReviewTarget.TargetId);
+            UI.DrawingReviewerControl.SaveMarkupFile(reviewer.TempUploadedMarkupFile);
+
+            // eDrawings will add the file extension
+            reviewer.TempUploadedMarkupFile += ".All Reviews.markup";
+
+            // eDrawings saves the file asynchronously but the API doesn't expose a callback to know when
+            // it has finished, so we need to monitor file size
+            await WaitForStableFileSize(reviewer.TempUploadedMarkupFile);
+
+            // eDrawings will not create a file if there is no markup content
+            if (!File.Exists(reviewer.TempUploadedMarkupFile))
             {
-                // use eDrawings to save the current markup file to a temporary file
-                reviewer.TempUploadedMarkupFile = Path.Combine(Path.GetTempPath(), ReviewTarget.TargetId);
-                UI.DrawingReviewerControl.SaveMarkupFile(reviewer.TempUploadedMarkupFile);
-
-                // eDrawings will add the file extension
-                reviewer.TempUploadedMarkupFile += ".All Reviews.markup";
-
-                // eDrawings saves the file asynchronously but the API doesn't expose a callback to know when
-                // it has finished, so we need to monitor file size
-                await WaitForStableFileSize(reviewer.TempUploadedMarkupFile);
-
-                // eDrawings will not create a file if there is no markup content
-                if (!File.Exists(reviewer.TempUploadedMarkupFile))
-                {
-                    MessageBox.Show("You must add at least one change request.",
-                        "No content",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Exclamation
-                    );
-                    return false;
-                }
-
-                // once we got the temporary markup file, upload it to server
-                await reviewer.SyncServiceClient.UploadFileAsync(new UploadFileRequest()
-                {
-                    VersionId = Review.RemoteReview.VersionId,
-                    LocalFilePath = reviewer.TempUploadedMarkupFile,
-                    VersionFolder = "Markup",
-                    RelativeEquipmentPath = Review.RemoteProject.RelativeEquipmentPath,
-                    RelativeFilePath = $"{ReviewTarget.TargetId}.markup"
-                });
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
+                MessageBox.Show("You must add at least one change request.",
+                    "No content",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation
+                );
                 return false;
             }
+
+            // once we got the temporary markup file, upload it to server
+            await reviewer.SyncServiceClient.UploadFileAsync(new UploadFileRequest()
+            {
+                VersionId = Review.RemoteReview.VersionId,
+                LocalFilePath = reviewer.TempUploadedMarkupFile,
+                VersionFolder = "Markup",
+                RelativeEquipmentPath = Review.RemoteProject.RelativeEquipmentPath,
+                RelativeFilePath = $"{ReviewTarget.TargetId}.markup"
+            });
+            return true;
         }
 
         private async Task WaitForStableFileSize(string filePath)

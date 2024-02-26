@@ -25,6 +25,7 @@ namespace MechanicalSyncApp.Core
         ToolStripProgressBar DownloadProgressBar { get; }
         ToolStripStatusLabel MarkupStatus { get; }
         ToolStripLabel ReviewTargetStatus { get; }
+        ToolStripButton RefreshReviewTargetsButton { get; set; }
         Label DesignerLabel { get; set; }
         Label HeaderLabel { get; set; }
         TreeView DeltaDrawingsTreeView { get; }

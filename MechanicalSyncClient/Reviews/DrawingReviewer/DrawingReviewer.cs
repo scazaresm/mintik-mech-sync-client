@@ -77,6 +77,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             UI.ZoomToAreaButton.Click += ZoomToAreaButton_Click;
             UI.ApproveDrawingButton.Click += ApproveDrawingButton_Click;
             UI.RejectDrawingButton.Click += RejectDrawingButton_Click;
+            UI.RefreshReviewTargetsButton.Click += RefreshReviewTargetsButton_Click;
         }
 
         public async void DrawingReviewerControl_OpenDocError(string FileName, int ErrorCode, string ErrorString)
@@ -84,7 +85,6 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             MessageBox.Show($"Failed to open drawing {FileName}: Error {ErrorCode}, {ErrorString}");
             await CloseReviewTargetAsync();
         }
-
 
         public async Task OpenReviewTargetAsync(ReviewTarget reviewTarget)
         {
@@ -155,6 +155,11 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
         private void ChangeRequestButton_Click(object sender, EventArgs e)
         {
             UI.DrawingReviewerControl.SetCloudWithLeaderMarkupOperator();
+        }
+
+        private async void RefreshReviewTargetsButton_Click(object sender, EventArgs e)
+        {
+            await DeltaDrawingsTreeView.Refresh();
         }
 
         private void PanButton_Click(object sender, EventArgs e)

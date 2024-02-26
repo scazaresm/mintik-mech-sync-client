@@ -199,6 +199,7 @@
     <Compile Include="Core\Services\MechSync\Handlers\GetFileMetadataByIdHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetPublishedProjectsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetAllVersionsHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetReviewHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionReviewsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DeleteExplorerFilesHandler.cs" />

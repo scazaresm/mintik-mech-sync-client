@@ -52,6 +52,9 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         public DrawingReviewerControl DrawingReviewerControl { get; set; }
 
+        public ToolStripButton RefreshReviewTargetsButton { get; set; }
+
+
         public void SetReviewControlsEnabled(bool enabled)
         {
             ApproveDrawingButton.Enabled = enabled;

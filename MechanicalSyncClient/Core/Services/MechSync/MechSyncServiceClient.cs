@@ -190,6 +190,11 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             return await new AggregateProjectDetailsHandler(restClient).HandleAsync();
         }
 
+        public async Task<Review> GetReviewAsync(string reviewId)
+        {
+            return await new GetReviewHandler(restClient, reviewId).HandleAsync();
+        }
+
         public async Task DeleteExplorerFilesAsync(string relativeEquipmentPath, string explorerTransactionId)
         {
             await new DeleteExplorerFilesHandler(

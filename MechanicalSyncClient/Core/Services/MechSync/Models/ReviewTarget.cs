@@ -16,5 +16,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public string Status { get; set; }
         public List<ChangeRequest> ChangeRequests { get; set; }
         public List<string> Observations { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }
