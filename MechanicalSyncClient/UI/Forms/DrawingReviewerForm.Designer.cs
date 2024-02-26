@@ -80,7 +80,7 @@
             this.MainSplit.Panel2.Controls.Add(this.ReviewMarkupToolStrip);
             this.MainSplit.Panel2.Controls.Add(this.MarkupStatusStrip);
             this.MainSplit.Size = new System.Drawing.Size(977, 472);
-            this.MainSplit.SplitterDistance = 380;
+            this.MainSplit.SplitterDistance = 275;
             this.MainSplit.TabIndex = 0;
             // 
             // DeltaDrawingsTreeView
@@ -88,7 +88,7 @@
             this.DeltaDrawingsTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DeltaDrawingsTreeView.Location = new System.Drawing.Point(0, 0);
             this.DeltaDrawingsTreeView.Name = "DeltaDrawingsTreeView";
-            this.DeltaDrawingsTreeView.Size = new System.Drawing.Size(380, 472);
+            this.DeltaDrawingsTreeView.Size = new System.Drawing.Size(275, 472);
             this.DeltaDrawingsTreeView.TabIndex = 1;
             // 
             // MarkupPanel
@@ -97,7 +97,7 @@
             this.MarkupPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MarkupPanel.Location = new System.Drawing.Point(0, 33);
             this.MarkupPanel.Name = "MarkupPanel";
-            this.MarkupPanel.Size = new System.Drawing.Size(593, 417);
+            this.MarkupPanel.Size = new System.Drawing.Size(698, 417);
             this.MarkupPanel.TabIndex = 2;
             // 
             // MarkupOperatorsToolStrip
@@ -173,7 +173,7 @@
             this.RejectDrawingButton});
             this.ReviewMarkupToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ReviewMarkupToolStrip.Name = "ReviewMarkupToolStrip";
-            this.ReviewMarkupToolStrip.Size = new System.Drawing.Size(593, 33);
+            this.ReviewMarkupToolStrip.Size = new System.Drawing.Size(698, 33);
             this.ReviewMarkupToolStrip.TabIndex = 4;
             this.ReviewMarkupToolStrip.Text = "toolStrip1";
             // 
@@ -237,7 +237,7 @@
             this.MarkupStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.MarkupStatusStrip.Location = new System.Drawing.Point(0, 450);
             this.MarkupStatusStrip.Name = "MarkupStatusStrip";
-            this.MarkupStatusStrip.Size = new System.Drawing.Size(593, 22);
+            this.MarkupStatusStrip.Size = new System.Drawing.Size(698, 22);
             this.MarkupStatusStrip.TabIndex = 3;
             this.MarkupStatusStrip.Text = "statusStrip1";
             // 

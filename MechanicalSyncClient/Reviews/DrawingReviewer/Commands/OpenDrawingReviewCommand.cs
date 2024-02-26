@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MechanicalSyncApp.Core.Util;
 
 namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
 {
@@ -42,7 +43,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                     $"Reviewing {Path.GetFileNameWithoutExtension(Reviewer.DrawingMetadata.RelativeFilePath)} from {Reviewer.Review}"
                 );
 
-                Reviewer.TempDownloadedDrawingFile = Path.GetTempFileName().Replace(".tmp", ".slddrw");
+                Reviewer.TempDownloadedDrawingFile = PathUtils.GetTempFileNameWithExtension(".slddrw");
 
                 UI.ShowDrawingMarkupPanel();
                 UI.ShowDownloadProgress();
@@ -56,16 +57,22 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                 }, UI.ReportDownloadProgress);
 
                 UI.HideDownloadProgress();
-                UI.LoadDrawing(Reviewer.TempDownloadedDrawingFile, Reviewer.DrawingReviewerControl_OpenDocError);
 
                 if (Reviewer.StatusesHavingMarkupFile.Contains(reviewTarget.Status))
                 {
                     // download the markup file from server
                     await Reviewer.DownloadMarkupFileAsync();
 
-                    // open the markup file in the eDrawings viewer
-                    UI.DrawingReviewerControl.OpenMarkupFile(Reviewer.TempDownloadedMarkupFile);
+                    // open drawing with markup
+                    UI.LoadDrawing(
+                        Reviewer.TempDownloadedDrawingFile, 
+                        Reviewer.TempDownloadedMarkupFile, 
+                        Reviewer.DrawingReviewerControl_OpenDocError
+                    );
                 }
+                else
+                    // open drawing without markup
+                    UI.LoadDrawing(Reviewer.TempDownloadedDrawingFile, Reviewer.DrawingReviewerControl_OpenDocError);
 
                 Reviewer.UI.MarkupStatus.Text = "Ready";
             }

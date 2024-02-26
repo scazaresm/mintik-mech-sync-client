@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using System;
@@ -38,7 +39,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             string tempRemoteFilePath = null;
 
             var localVersionDirectory = OnlineWorkSummaryMode
-                ? Synchronizer.SnapshotDirectory        // if online work summary and file was updated, then pick files from temp snapshot copy
+                ? Synchronizer.SnapshotDirectory        // if we're in online work summary mode and file was updated, then pick files from temp snapshot copy
                 : Synchronizer.Version.LocalDirectory;  // otherwise pick files from local copy in workspace directory
 
             var leftFileTitlePrefix = OnlineWorkSummaryMode ? "Before:" : "Local:";
@@ -120,7 +121,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         private async Task<string> DownloadRemoteFileAsync(FileMetadata localFileMetadata)
         {
-            var tempFile = Path.GetTempFileName().Replace(".tmp", Path.GetExtension(localFileMetadata.RelativeFilePath));
+            var tempFile = PathUtils.GetTempFileNameWithExtension(Path.GetExtension(localFileMetadata.RelativeFilePath));
             Log.Debug($"Created temporary file name: {tempFile}");
             Log.Debug("Downloading file from server to temporary file path...");
             await Synchronizer.SyncServiceClient.DownloadFileAsync(new DownloadFileRequest()

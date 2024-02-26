@@ -213,6 +213,7 @@
     <Compile Include="Core\Services\MechSync\Models\Request\CreateProjectRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\CreateReviewRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\CreateVersionRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\FixReviewTargetRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetDeltaFileMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\PublishVersionRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\TransferVersionOwnershipRequest.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="Core\Services\MechSync\Models\Version.cs" />
     <Compile Include="Core\Services\MechSync\Models\VersionOwner.cs" />
     <Compile Include="Core\IVersionSynchronizerCommandAsync.cs" />
+    <Compile Include="Core\Util\PathUtils.cs" />
     <Compile Include="Core\Util\SettingsUtils.cs" />
     <Compile Include="Explorer\ProjectExplorer.cs" />
     <Compile Include="Explorer\ProjectExplorerUI.cs" />
@@ -250,6 +252,7 @@
     <Compile Include="Core\IDrawingReviewViewer.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CompareDesignFileCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\MarkDrawingAsFixedCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenDrawingForViewingCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\PublishVersionCommand.cs" />

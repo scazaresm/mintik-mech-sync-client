@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Serilog;
+using MechanicalSyncApp.Core.Util;
 
 namespace MechanicalSyncApp.Reviews.DrawingReviewer
 {
@@ -28,7 +29,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
                 var UI = reviewer.UI;
 
                 // download the markup file from server and save it to a temporary file
-                reviewer.TempDownloadedMarkupFile = Path.GetTempFileName().Replace(".tmp", ".markup");
+                reviewer.TempDownloadedMarkupFile = PathUtils.GetTempFileNameWithExtension(".markup");
 
                 await reviewer.SyncServiceClient.DownloadFileAsync(new DownloadFileRequest()
                 {

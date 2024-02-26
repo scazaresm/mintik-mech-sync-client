@@ -52,6 +52,11 @@ namespace MechanicalSyncApp.Core
 
         void LoadDrawing(string localDrawingPath,
                          _IEModelViewControlEvents_OnFailedLoadingDocumentEventHandler onFailedLoadingDocumentEventHandler);
+        
+        void LoadDrawing(string localDrawingPath,
+                         string localMarkupPath,
+                      _IEModelViewControlEvents_OnFailedLoadingDocumentEventHandler onFailedLoadingDocumentEventHandler);
+
 
         void DisposeDrawing();
     }

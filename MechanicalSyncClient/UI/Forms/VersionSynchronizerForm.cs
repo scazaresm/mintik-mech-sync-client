@@ -50,9 +50,7 @@ namespace MechanicalSyncApp.UI.Forms
         {
             MainSplitContainer.Panel2Collapsed = true;
 
-            VersionSynchronizerTabs.TabPages.Remove(tabPage2);
             VersionSynchronizerTabs.TabPages.Remove(tabPage3);
-            //VersionSynchronizerTabs.TabPages.Remove(DrawingReviewPage);
 
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -110,6 +108,13 @@ namespace MechanicalSyncApp.UI.Forms
                 OpenLocalCopyFolderMenuItem = OpenLocalCopyFolderMenuItem,
                 VersionSynchronizerTabs = VersionSynchronizerTabs,
                 DrawingReviewsTreeView = DrawingReviewsTreeView,
+                DrawingReviewContainer = DrawingReviewContainer,
+                DrawingReviewerPanel = DrawingReviewerPanel,
+                DrawingReviewerProgress = DrawingReviewerProgress,
+                DrawingReviewerStatusText = DrawingReviewerStatusText,
+                DrawingReviewerDrawingStatus = DrawingReviewerDrawingStatus,
+                DrawingReviewerTitle = DrawingReviewerTitle,
+                MarkDrawingAsFixedButton = MarkDrawingAsFixedButton,
             };
 
             // create a new version synchronizer

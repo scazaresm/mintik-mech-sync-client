@@ -37,6 +37,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public LocalVersion Version { get; }
 
+        public Review CurrentDrawingReview { get; set; }
+
+        public ReviewTarget CurrentDrawingReviewTarget { get; set; }
+
         public string FileExtensionFilter { get; private set; } = "*.sldasm | *.sldprt | *.slddrw";
 
         public VersionSynchronizer(LocalVersion version, 
@@ -53,6 +57,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
             LocalFileIndex = new ConcurrentDictionary<string, FileMetadata>();
             RemoteFileIndex = new ConcurrentDictionary<string, FileMetadata>();
+
+            CurrentDrawingReview = null;
+            CurrentDrawingReviewTarget = null;
 
             SetState(new IdleState());
             _ = RunStepAsync();
@@ -118,9 +125,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await new TransferOwnershipCommand(this).RunAsync();
         }
 
-        public async Task OpenDrawingForViewingAsync(Review review, ReviewTarget drawingReviewTarget)
+        public async Task OpenDrawingForViewingAsync(OpenDrawingForViewingEventArgs e)
         {
-            await new OpenDrawingForViewingCommand(this, review, drawingReviewTarget).RunAsync();
+            await new OpenDrawingForViewingCommand(this, e).RunAsync();
         }
 
         #endregion
@@ -159,14 +166,19 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
             UI.RefreshDrawingExplorerButton.Click += RefreshDrawingExplorerButton_Click;
 
+            UI.MarkDrawingAsFixedButton.Click += MarkDrawingAsFixedButton_Click;
+
             UI.ShowVersionExplorer();
         }
 
-    
+        private async void MarkDrawingAsFixedButton_Click(object sender, EventArgs e)
+        {
+            await new MarkDrawingAsFixedCommand(this).RunAsync();
+        }
 
         private async void DrawingReviewsExplorer_OpenDrawingForViewing(object sender, OpenDrawingForViewingEventArgs e)
         {
-            await OpenDrawingForViewingAsync(e.Review, e.ReviewTarget);
+            await OpenDrawingForViewingAsync(e);
         }
 
         public void UpdateUI()
@@ -256,6 +268,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.CopyLocalCopyPathMenuItem.Click -= CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click -= OpenLocalCopyFolderMenuItem_Click;
             UI.DrawingReviewsExplorer.OpenDrawingForViewing -= DrawingReviewsExplorer_OpenDrawingForViewing;
+            UI.RefreshDrawingExplorerButton.Click -= RefreshDrawingExplorerButton_Click;
+            UI.MarkDrawingAsFixedButton.Click -= MarkDrawingAsFixedButton_Click;
         }
 
         protected virtual void Dispose(bool disposing)

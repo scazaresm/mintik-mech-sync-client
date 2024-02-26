@@ -161,6 +161,24 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
             DrawingReviewerControl = new DrawingReviewerControl(localDrawingPath)
             {
+                DeleteFilesOnDispose = true,
+                OnFailedLoadingDocument = onFailedLoadingDocumentEventHandler
+            };
+            MarkupPanel.Controls.Add(DrawingReviewerControl.HostControl);
+        }
+
+        public void LoadDrawing(string localDrawingPath, string localMarkupPath,
+                            _IEModelViewControlEvents_OnFailedLoadingDocumentEventHandler onFailedLoadingDocumentEventHandler)
+        {
+            if (DrawingReviewerControl != null)
+            {
+                MarkupPanel.Controls.Remove(DrawingReviewerControl.HostControl);
+                DrawingReviewerControl?.Dispose();
+            }
+
+            DrawingReviewerControl = new DrawingReviewerControl(localDrawingPath, localMarkupPath)
+            {
+                DeleteFilesOnDispose = true,
                 OnFailedLoadingDocument = onFailedLoadingDocumentEventHandler
             };
             MarkupPanel.Controls.Add(DrawingReviewerControl.HostControl);

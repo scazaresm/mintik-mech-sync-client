@@ -4,6 +4,7 @@ using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.UI;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer
@@ -11,6 +12,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
     public class VersionSynchronizerUI : IDisposable
     {
         public LocalFileListViewControl LocalFileViewer { get; private set; }
+
+        public DrawingReviewerControl DrawingReviewer { get; set; }
 
         #region Form Components
 
@@ -44,6 +47,20 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public TabControl VersionSynchronizerTabs { get; set; }
 
+        public SplitContainer DrawingReviewContainer { get; set; }
+
+        public Panel DrawingReviewerPanel { get; set; }
+
+        public ToolStripLabel DrawingReviewerStatusText { get; set; }
+
+        public ToolStripProgressBar DrawingReviewerProgress { get; set; }
+
+        public ToolStripLabel DrawingReviewerDrawingStatus { get; set; }
+
+        public ToolStripLabel DrawingReviewerTitle { get; set; }
+
+        public ToolStripButton MarkDrawingAsFixedButton { get; set; }
+
         #endregion
 
 
@@ -74,10 +91,18 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                version
             );
             DrawingReviewsExplorer.AttachTreeView(DrawingReviewsTreeView);
+            SetDefaultDrawingReviewControls();
         }
 
-      
-        
+        public void SetDefaultDrawingReviewControls()
+        {
+            DrawingReviewerProgress.Visible = false;
+            DrawingReviewerStatusText.Text = "Select a drawing from the list";
+            DrawingReviewerDrawingStatus.Visible = false;
+            DrawingReviewerTitle.Visible = false;
+            MarkDrawingAsFixedButton.Visible = false;
+        }
+
         private async void VersionSynchronizerTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (VersionSynchronizerTabs.SelectedTab.Text.StartsWith("2D") && DrawingReviewsExplorer != null)
@@ -110,12 +135,56 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             }
         }
 
-        private void DisposeDrawingReviewsExplorer()
+        private void DisposeDrawingReviews()
         {
             if (DrawingReviewsExplorer != null)
             {
                 DrawingReviewsExplorer.Dispose();
                 DrawingReviewsExplorer = null;
+            }
+            if (DrawingReviewer != null)
+            {
+                DrawingReviewer.Dispose();
+                DrawingReviewer = null;
+            } 
+        }
+
+        public void SetDrawingReviewStatusText(string status)
+        {
+            DrawingReviewerDrawingStatus.Visible = true;
+            DrawingReviewerDrawingStatus.Text = status;
+
+            DrawingReviewerDrawingStatus.BackgroundImageLayout = ImageLayout.Stretch;
+            DrawingReviewerDrawingStatus.BackgroundImage = new Bitmap(1, 1);
+            var g = Graphics.FromImage(DrawingReviewerDrawingStatus.BackgroundImage);
+
+            switch (status)
+            {
+                case "Pending":
+                default:
+                    g.Clear(Color.Black);
+                    DrawingReviewerDrawingStatus.ForeColor = Color.White;
+                    break;
+
+                case "Reviewing":
+                    g.Clear(Color.Black);
+                    DrawingReviewerDrawingStatus.ForeColor = Color.Yellow;
+                    break;
+
+                case "Approved":
+                    g.Clear(Color.DarkGreen);
+                    DrawingReviewerDrawingStatus.ForeColor = Color.White;
+                    break;
+
+                case "Rejected":
+                    g.Clear(Color.DarkRed);
+                    DrawingReviewerDrawingStatus.ForeColor = Color.White;
+                    break;
+
+                case "Fixed":
+                    g.Clear(Color.Black);
+                    DrawingReviewerDrawingStatus.ForeColor = Color.Aqua;
+                    break;
             }
         }
 
@@ -131,7 +200,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 if (disposing)
                 {
                     DisposeFileViewer();
-                    DisposeDrawingReviewsExplorer();
+                    DisposeDrawingReviews();
                     VersionSynchronizerTabs.SelectedIndexChanged -= VersionSynchronizerTabs_SelectedIndexChanged;
                 }
                 disposedValue = true;

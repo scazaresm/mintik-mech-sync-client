@@ -18,10 +18,13 @@ namespace MechanicalSyncApp.UI
         public Review Review { get; private set; }
         public ReviewTarget ReviewTarget { get; private set; }
 
-        public OpenDrawingForViewingEventArgs(Review review, ReviewTarget reviewTarget)
+        public FileMetadata DrawingMetadata { get; set; }
+
+        public OpenDrawingForViewingEventArgs(Review review, ReviewTarget reviewTarget, FileMetadata drawingMetadata)
         {
             Review = review ?? throw new ArgumentNullException(nameof(review));
             ReviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
+            DrawingMetadata = drawingMetadata ?? throw new ArgumentNullException(nameof(drawingMetadata));
         }
     }
 
@@ -69,17 +72,19 @@ namespace MechanicalSyncApp.UI
         {
             var reviews = await MechSyncService.GetVersionReviews(Version.RemoteVersion.Id);
 
-            rootNode.Nodes.Clear();
+            AttachedTreeView.Nodes.Clear();
             foreach (var review in reviews)
             {
                 var reviewerDetails = await AuthService.GetUserDetailsAsync(review.ReviewerId);
 
                 var reviewNode = new TreeNode(reviewerDetails.FullName);
                 reviewNode.Tag = review;
+                reviewNode.ImageIndex = 1;
+                reviewNode.SelectedImageIndex = 1;
 
                 await PopulateReviewTargets(reviewNode);
 
-                rootNode.Nodes.Add(reviewNode);
+                AttachedTreeView.Nodes.Add(reviewNode);
             }
         }
 
@@ -104,6 +109,21 @@ namespace MechanicalSyncApp.UI
                 var reviewTargetNode = new TreeNode(targetFileName);
                 reviewTargetNode.Tag = reviewTarget;
 
+                switch (reviewTarget.Status)
+                {
+                    case "Approved":
+                        reviewTargetNode.ImageIndex = 2;
+                        reviewTargetNode.SelectedImageIndex = 2; 
+                        break;
+                    case "Rejected":
+                        reviewTargetNode.ImageIndex = 3;
+                        reviewTargetNode.SelectedImageIndex = 3; 
+                        break;
+                    case "Fixed":
+                        reviewTargetNode.ImageIndex = 4;
+                        reviewTargetNode.SelectedImageIndex = 4;
+                        break;
+                }
                 reviewNode.Nodes.Add(reviewTargetNode);
             }
             reviewNode.ExpandAll();
@@ -115,7 +135,11 @@ namespace MechanicalSyncApp.UI
             {
                 var review = e.Node.Parent.Tag as Review;
                 var reviewTarget = e.Node.Tag as ReviewTarget;
-                OpenDrawingForViewing.Invoke(sender, new OpenDrawingForViewingEventArgs(review, reviewTarget));
+                var drawingMetadata = reviewTargetIndex[reviewTarget.TargetId];
+
+                OpenDrawingForViewing.Invoke(sender,
+                    new OpenDrawingForViewingEventArgs(review, reviewTarget, drawingMetadata)
+                );
             }
         }
 

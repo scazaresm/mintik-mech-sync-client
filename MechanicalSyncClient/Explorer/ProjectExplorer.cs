@@ -4,6 +4,7 @@ using MechanicalSyncApp.Core.Services.Authentication.Models;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.UI;
 using MechanicalSyncApp.UI.Forms;
 using Serilog;
@@ -179,7 +180,7 @@ namespace MechanicalSyncApp.Explorer
             if (versionFolder is null)
                 throw new ArgumentNullException(nameof(versionFolder));
 
-            var tempFile = Path.GetTempFileName().Replace(".tmp", Path.GetExtension(fileMetadata.RelativeFilePath));
+            var tempFile = PathUtils.GetTempFileNameWithExtension(Path.GetExtension(fileMetadata.RelativeFilePath));
             Log.Debug($"Created temporary file name: {tempFile}");
             try
             {
