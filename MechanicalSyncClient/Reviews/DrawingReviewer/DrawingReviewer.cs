@@ -5,6 +5,7 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Reviews.DrawingReviewer.Commands;
 using MechanicalSyncApp.UI;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,6 +14,8 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 {
     public class DrawingReviewer : IDrawingReviewer
     {
+        private readonly ILogger logger;
+
         public IDrawingReviewerUI UI { get; }
 
         public IAuthenticationServiceClient AuthServiceClient { get; }
@@ -46,7 +49,8 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
         public DrawingReviewer(IAuthenticationServiceClient authService,
                                IMechSyncServiceClient mechService,
                                IDrawingReviewerUI ui,
-                               LocalReview review
+                               LocalReview review,
+                               ILogger logger
             )
         {
             // validate inputs and assign properties
@@ -54,6 +58,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             SyncServiceClient = mechService ?? throw new ArgumentNullException(nameof(mechService));
             UI = ui ?? throw new ArgumentNullException(nameof(ui));
             Review = review ?? throw new ArgumentNullException(nameof(review));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task InitializeUiAsync()
@@ -97,7 +102,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         public async Task ApproveReviewTargetAsync()
         {
-            await new ApproveDrawingCommand(this).RunAsync();
+            await new ApproveDrawingCommand(this, logger).RunAsync();
         }
 
         public async Task RejectReviewTargetAsync()

@@ -18,7 +18,7 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
         [DllImport("user32.dll")]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-        public int SolidWorksStartTimeoutSeconds { get; set; } = 10;
+        public int SolidWorksStartTimeoutSeconds { get; set; } = 60;
         public string SolidWorksExePath { get; set; } = @"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\SLDWORKS.exe";
 
         private Process process = null;

@@ -16,6 +16,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         private long handledEvents;
 
         private bool syncErrorOccurred = false;
+        private readonly ILogger logger;
+
+        public HandleFileSyncEventsState(ILogger logger)
+        {
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
 
         public override void UpdateUI()
         {
@@ -46,7 +52,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             {
                 totalEvents = monitor.GetTotalInQueue();
                 handledEvents = 0;
-                Log.Debug($"Starting to handle {totalEvents} events.");
+                logger.Debug($"Starting to handle {totalEvents} events.");
 
                 while (!monitor.IsEventQueueEmpty())
                 {
@@ -71,7 +77,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             catch (Exception ex)
             {
                 syncErrorOccurred = true;
-                Log.Error(ex.ToString());
+                logger.Error(ex.ToString());
 
                 // when monitoring we want to retry, otherwise we want to propagate the exception and abort sync
                 if (!monitor.IsMonitoring())
@@ -81,18 +87,18 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             {
                 if (monitor.IsMonitoring() && syncErrorOccurred)
                 {
-                    Log.Debug("We still in online mode but an error occurred, let's retry...");
+                    logger.Debug("We still in online mode but an error occurred, let's retry...");
                     Synchronizer.SetState(this);
                 }
                 else if(monitor.IsMonitoring() && !syncErrorOccurred)
                 {
-                    Log.Debug("We still in online mode without errors, just keep monitoring...");
-                    Synchronizer.SetState(new MonitorFileSyncEventsState());
+                    logger.Debug("We still in online mode without errors, just keep monitoring...");
+                    Synchronizer.SetState(new MonitorFileSyncEventsState(logger));
                 }
                 else
                 {
-                    Log.Debug("We are in offline mode now, stop monitoring...");
-                    Synchronizer.SetState(new IdleState());
+                    logger.Debug("We are in offline mode now, stop monitoring...");
+                    Synchronizer.SetState(new IdleState(logger));
                 }
                 _ = Synchronizer.RunStepAsync();
             }

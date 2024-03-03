@@ -12,25 +12,29 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
     public class SyncRemoteCommand : IVersionSynchronizerCommandAsync
     {
+        private readonly ILogger logger;
+
         public IVersionSynchronizer Synchronizer { get; private set; }
 
         public SyncCheckSummary Summary { get; set; }
 
         public bool NotifyWhenComplete { get; set; } = true;
 
-        public SyncRemoteCommand(IVersionSynchronizer synchronizer)
+        public SyncRemoteCommand(IVersionSynchronizer synchronizer, ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
+            this.logger = logger;
+            this.logger = logger;
         }
 
         public async Task RunAsync()
         {
-            Log.Debug($"Starting SyncRemoteCommand, versionId = {Synchronizer.Version.RemoteVersion.Id} ...");
+            logger.Debug($"Starting SyncRemoteCommand, versionId = {Synchronizer.Version.RemoteVersion.Id} ...");
             try
             {
                 if (Synchronizer.Version.RemoteVersion.Status != "Ongoing")
                 {
-                    Log.Error($"Cannot sync changes because this version is not in Ongoing status.");
+                    logger.Error($"Cannot sync changes because this version is not in Ongoing status.");
 
                     throw new InvalidOperationException(
                         "Cannot sync changes because this version is not in Ongoing status."
@@ -38,13 +42,13 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 }
                 Synchronizer.ChangeMonitor.StopMonitoring();
 
-                Synchronizer.SetState(new IndexRemoteFilesState());
+                Synchronizer.SetState(new IndexRemoteFilesState(logger));
                 await Synchronizer.RunStepAsync();
 
-                Synchronizer.SetState(new IndexLocalFiles());
+                Synchronizer.SetState(new IndexLocalFiles(logger));
                 await Synchronizer.RunStepAsync();
 
-                var syncCheckState = new SyncCheckState();
+                var syncCheckState = new SyncCheckState(logger);
                 Synchronizer.SetState(syncCheckState);
                 await Synchronizer.RunStepAsync();
 
@@ -57,7 +61,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 // sync check was ok, now sync the changes (if any)
                 if (Summary.HasChanges)
                 {
-                    var response = new SyncCheckSummaryForm(Synchronizer, Summary).ShowDialog();
+                    var response = new SyncCheckSummaryForm(Synchronizer, Summary, logger).ShowDialog();
 
                     if (response != DialogResult.OK)
                     {
@@ -69,7 +73,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     await Synchronizer.RunStepAsync();
                 }
 
-                Synchronizer.SetState(new MonitorFileSyncEventsState());
+                Synchronizer.SetState(new MonitorFileSyncEventsState(logger));
                 await Synchronizer.RunStepAsync();
 
                 if (NotifyWhenComplete)
@@ -78,7 +82,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                             ? "The remote server has been synced with your local copy."
                             : "The remote server is already synced with your local copy.";
 
-                    Log.Debug(syncCompleteMessage);
+                    logger.Debug(syncCompleteMessage);
 
                     MessageBox.Show(
                         syncCompleteMessage,
@@ -88,12 +92,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     );
                 }
 
-                Synchronizer.SetState(new IdleState());
+                Synchronizer.SetState(new IdleState(logger));
                 await Synchronizer.RunStepAsync();
             }
             catch (IOException ex)
             {
-                Log.Error($"Could not sync remote because verion files seem to be used by other process: {ex}");
+                logger.Error($"Could not sync remote because verion files seem to be used by other process: {ex}");
                 MessageBox.Show(
                     "Could not sync remote, make sure that your version files are not being used by another process (such like SolidWorks) and try again.",
                     "Files already in use",
@@ -104,7 +108,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             catch (Exception ex)
             {
                 var errorMessage = $"Failed to sync remote: {ex} {ex?.InnerException?.Message}";
-                Log.Error(errorMessage);
+                logger.Error(errorMessage);
                 MessageBox.Show(
                     errorMessage, "Sync error",
                     MessageBoxButtons.OK,
@@ -114,10 +118,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             finally
             {
                 // always go back to idle state
-                Synchronizer.SetState(new IdleState());
+                Synchronizer.SetState(new IdleState(logger));
                 await Synchronizer.RunStepAsync();
             }
-            Log.Debug("Completed SyncRemoteCommand...");
+            logger.Debug("Completed SyncRemoteCommand...");
         }
     }
 }

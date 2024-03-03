@@ -14,7 +14,7 @@ namespace MechanicalSyncApp.Sync
     public class ReviewableFileMetadataFetcher : IReviewableFileMetadataFetcher
     {
         private readonly string DRAWING_FILTER_REGEX = @"\.slddrw$";
-        private readonly string ASSEMBLY_FILTER_REGEX = @"^a.*\.sldasm$";
+        private readonly string ASSEMBLY_FILTER_REGEX = @"^*\-a.*\.sldasm$";
 
         private readonly IMechSyncServiceClient serviceClient;
 
@@ -24,6 +24,16 @@ namespace MechanicalSyncApp.Sync
         {
             this.serviceClient = serviceClient ?? throw new ArgumentNullException(nameof(serviceClient));
             VersionId = versionId ?? throw new ArgumentNullException(nameof(versionId));
+        }
+
+        public ReviewableFileMetadataFetcher(IVersionSynchronizer synchronizer)
+        {
+            if (synchronizer is null)
+            {
+                throw new ArgumentNullException(nameof(synchronizer));
+            }
+            serviceClient = synchronizer.SyncServiceClient;
+            VersionId = synchronizer.Version.RemoteVersion.Id;
         }
 
         public async Task<List<FileMetadata>> FetchReviewableAssembliesAsync()

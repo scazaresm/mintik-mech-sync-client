@@ -123,7 +123,8 @@ namespace MechanicalSyncApp.UI.Forms
                 version, 
                 synchronizerUI, 
                 MechSyncServiceClient.Instance, 
-                AuthenticationServiceClient.Instance
+                AuthenticationServiceClient.Instance,
+                Log.Logger
             );
 
             try
@@ -176,7 +177,8 @@ namespace MechanicalSyncApp.UI.Forms
                         reviewForm = new DrawingReviewerForm(
                             AuthenticationServiceClient.Instance,
                             MechSyncServiceClient.Instance,
-                            e.Review
+                            e.Review,
+                            Log.Logger
                         );
                         break;
 
@@ -184,7 +186,8 @@ namespace MechanicalSyncApp.UI.Forms
                         reviewForm = new AssemblyReviewerForm(
                            AuthenticationServiceClient.Instance,
                            MechSyncServiceClient.Instance,
-                           e.Review
+                           e.Review,
+                           Log.Logger
                        );
                         break;
 
@@ -263,7 +266,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void SettingsButton_Click(object sender, EventArgs e)
         {
-            var configurationForm = new ConnectionSettingsForm();
+            var configurationForm = new ConnectionSettingsForm(Log.Logger);
             configurationForm.ShowDialog();
         }
 
@@ -308,7 +311,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private async void NewReviewButton_Click(object sender, EventArgs e)
         {
-            var createReviewForm = new CreateReviewForm();
+            var createReviewForm = new CreateReviewForm(Log.Logger);
             var response = createReviewForm.ShowDialog();
 
             if (response == DialogResult.OK)
@@ -320,50 +323,6 @@ namespace MechanicalSyncApp.UI.Forms
                     MessageBoxIcon.Information
                 );
                 await workspaceTreeView.Refresh();
-            }
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (ISolidWorksStarter swStarter = new SolidWorksStarter(Log.Logger)
-                {
-                    SolidWorksExePath = @"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\SLDWORKS.exe",
-                    SolidWorksStartTimeoutSeconds = 10,
-                    Hidden = true,
-                    ShowSplash = false,
-                })
-                {
-                    await swStarter.StartSolidWorksAsync();
-
-                    var drawingRevision = await new DrawingRevisionRetriever(swStarter, Log.Logger)
-                        .GetRevisionAsync(@"C:\Users\Sergio Cazares\Desktop\PROD Parts\210181-031.SLDDRW");
-
-                    Console.WriteLine($"Drawing revision is: {drawingRevision}");
-
-                    var properties = await new ModelPropertiesRetriever(swStarter, Log.Logger)
-                        .GetAllCustomPropertiesAsync(@"C:\Users\Sergio Cazares\Desktop\PROD Parts\210181-031.SLDPRT");
-
-                    Console.WriteLine($"{properties.Count} custom properties have been found on the file:");
-                    foreach (var key in properties.Keys)
-                    {
-                        Console.WriteLine($"{key}: {properties[key]}");
-                    }
-
-                    var assemblyPath = @"C:\Users\Sergio Cazares\Desktop\PROD Parts\TestPropertyRemoval\Assembly w Configuration properties\19145-A004.SLDASM";
-
-                    var assemblyPartList = await new AssemblyPartListRetriever(swStarter, Log.Logger)
-                    {
-                        PathsRelativeTo = @"C:\Users\Sergio Cazares\Desktop\PROD Parts\TestPropertyRemoval\Assembly w Configuration properties"
-                    }.ExtractDistinctPartListAsync(assemblyPath);
-
-
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
             }
         }
     }

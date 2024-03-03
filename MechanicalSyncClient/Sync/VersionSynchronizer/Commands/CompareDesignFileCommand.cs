@@ -18,23 +18,27 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         private readonly FileMetadata localFileMetadata;
         private readonly string remoteAction;
+        private readonly ILogger logger;
 
         public IVersionSynchronizer Synchronizer { get; set; }
+
 
         public CompareDesignFileCommand(
             IVersionSynchronizer synchronizer, 
             FileMetadata localFileMetadata,
-            string remoteAction
+            string remoteAction,
+            ILogger logger
             )
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
             this.localFileMetadata = localFileMetadata ?? throw new ArgumentNullException(nameof(localFileMetadata));
             this.remoteAction = remoteAction ?? throw new ArgumentNullException(nameof(remoteAction));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task RunAsync()
         {
-            Log.Debug("Starting CompareDesignFileCommand...");
+            logger.Debug("Starting CompareDesignFileCommand...");
             string localFilePath;
             string tempRemoteFilePath = null;
 
@@ -82,25 +86,25 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             catch (COMException)
             {
                 var errorMessage = "Failed to connect to eDrawings software. Please make sure you have it installed on your computer and set the correct EDRAWINGS_VIEWER_CLSID value in the config file.";
-                Log.Error(errorMessage);
+                logger.Error(errorMessage);
                 MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
                 var errorMessage = $"Failed to show file comparator: {ex}";
-                Log.Error(errorMessage);
+                logger.Error(errorMessage);
                 MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 if (tempRemoteFilePath != null && File.Exists(tempRemoteFilePath)) {
-                    Log.Debug($"Cleaning up temporary file {tempRemoteFilePath}...");
+                    logger.Debug($"Cleaning up temporary file {tempRemoteFilePath}...");
                     File.Delete(tempRemoteFilePath);
                 }
                 else
-                    Log.Debug($"Tried to clean up temporary file {tempRemoteFilePath} but it was not found.");
+                    logger.Debug($"Tried to clean up temporary file {tempRemoteFilePath} but it was not found.");
             }
-            Log.Debug("Completed CompareDesignFileCommand.");
+            logger.Debug("Completed CompareDesignFileCommand.");
         }
 
         private bool NeedToShowRightHandFile()
@@ -122,8 +126,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         private async Task<string> DownloadRemoteFileAsync(FileMetadata localFileMetadata)
         {
             var tempFile = PathUtils.GetTempFileNameWithExtension(Path.GetExtension(localFileMetadata.RelativeFilePath));
-            Log.Debug($"Created temporary file name: {tempFile}");
-            Log.Debug("Downloading file from server to temporary file path...");
+            logger.Debug($"Created temporary file name: {tempFile}");
+            logger.Debug("Downloading file from server to temporary file path...");
             await Synchronizer.SyncServiceClient.DownloadFileAsync(new DownloadFileRequest()
             {
                 LocalFilename = tempFile,
@@ -131,7 +135,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 RelativeFilePath = localFileMetadata.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/'),
                 VersionFolder = "Ongoing",
             });
-            Log.Debug("Successfully downloaded remote file to local temporary directory.");
+            logger.Debug("Successfully downloaded remote file to local temporary directory.");
             return tempFile;
         }
     }

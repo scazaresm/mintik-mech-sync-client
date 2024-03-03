@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core
 {
-    internal interface IReviewableFileMetadataFetcher
+    public interface IReviewableFileMetadataFetcher
     {
         Task<List<FileMetadata>> FetchReviewableDrawingsAsync();
         Task<List<FileMetadata>> FetchReviewableAssembliesAsync();

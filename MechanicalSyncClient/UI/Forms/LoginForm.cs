@@ -136,7 +136,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void ConnectionSettingsButton_Click(object sender, EventArgs e)
         {
-            var connectionSettingsForm = new ConnectionSettingsForm();
+            var connectionSettingsForm = new ConnectionSettingsForm(Log.Logger);
             connectionSettingsForm.ShowDialog();
         }
 

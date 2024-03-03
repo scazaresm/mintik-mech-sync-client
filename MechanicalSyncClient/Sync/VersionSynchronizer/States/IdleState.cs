@@ -10,13 +10,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
     class IdleState : VersionSynchronizerState
     {
-        public IdleState()
+        private readonly ILogger logger;
+
+        public IdleState(ILogger logger)
         {
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public override async Task RunAsync()
         {
-            Log.Debug("State machine moved to IdleState, delaying for 1000ms.");
+            logger.Debug("State machine moved to IdleState, delaying for 1000ms.");
             await Task.Delay(1000);
         }
 

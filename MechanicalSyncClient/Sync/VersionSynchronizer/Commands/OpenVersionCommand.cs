@@ -23,6 +23,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
     {
         private DownloadWorkingCopyDialog progressDialog;
         private SyncCheckSummary SyncCheckSummary;
+        private readonly ILogger logger;
 
         public IVersionSynchronizer Synchronizer { get; }
         public Version RemoteVersion { get; }
@@ -33,10 +34,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public IAuthenticationServiceClient AuthServiceClient { get; }
 
-        public OpenVersionCommand(VersionSynchronizer synchronizer)
+        public OpenVersionCommand(VersionSynchronizer synchronizer, ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
-
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             LocalVersion = Synchronizer.Version;
             RemoteVersion = Synchronizer.Version.RemoteVersion;
             RemoteProject = Synchronizer.Version.RemoteProject;
@@ -46,11 +47,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
-            Log.Debug($"Starting OpenVersionCommand, versionId = {RemoteVersion.Id}");
+            logger.Debug($"Starting OpenVersionCommand, versionId = {RemoteVersion.Id}");
 
             if (IsNotVersionOwnerAnymore)
             {
-                Log.Debug(
+                logger.Debug(
                     $"{AuthServiceClient.LoggedUserDetails.FullName} is not version owner anymore, version ownership change is expected..."
                 );
                 await HandleNotVersionOwnerAsync();
@@ -58,7 +59,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             if (ShallDownloadFiles)
             {
-                Log.Debug($"Could not find a local copy folder for this version, will download version files from server...");
+                logger.Debug($"Could not find a local copy folder for this version, will download version files from server...");
 
                 using (var cts = new CancellationTokenSource())
                 {
@@ -68,7 +69,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             Synchronizer.InitializeUI();
             Synchronizer.ChangeMonitor.Initialize();
 
-            Log.Debug("Completed OpenVersionCommand.");
+            logger.Debug("Completed OpenVersionCommand.");
         }
 
         private async Task MoveFolderToRecycleBinAsync()
@@ -83,7 +84,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             var nextOwnerUserId = Synchronizer.Version.RemoteVersion.NextOwner.UserId;
             var nextOwnerUserDetails = await AuthServiceClient.GetUserDetailsAsync(nextOwnerUserId);
 
-            Log.Debug($"Next owner Id is {nextOwnerUserId}, notified logged user that version cannot be open because of waiting for ownership ack from new owner.");
+            logger.Debug($"Next owner Id is {nextOwnerUserId}, notified logged user that version cannot be open because of waiting for ownership ack from new owner.");
 
             MessageBox.Show(
                 $"Cannot open this version because it was transferred to {nextOwnerUserDetails.FullName}, waiting for ownership acknowledge.",
@@ -113,7 +114,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 progressDialog.Show();
 
                 // download a working copy and get the sync check summary
-                var syncCheckState = await new WorkingCopyDownloader(Synchronizer)
+                var syncCheckState = await new WorkingCopyDownloader(Synchronizer, logger)
                 {
                     Dialog = progressDialog,
                     CancellationTokenSource = cts

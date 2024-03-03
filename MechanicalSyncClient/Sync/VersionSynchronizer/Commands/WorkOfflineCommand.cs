@@ -15,20 +15,23 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
     internal class WorkOfflineCommand : IVersionSynchronizerCommandAsync
     {
+        private readonly ILogger logger;
+
         public IVersionSynchronizer Synchronizer { get; private set; }
 
-        public WorkOfflineCommand(VersionSynchronizer synchronizer)
+        public WorkOfflineCommand(VersionSynchronizer synchronizer, ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task RunAsync()
         {
-            Log.Debug("Starting WorkOfflineCommand...");
+            logger.Debug("Starting WorkOfflineCommand...");
 
             var ui = Synchronizer.UI;
 
-            Log.Debug("\tDisabling tool strip...");
+            logger.Debug("\tDisabling tool strip...");
             ui.SynchronizerToolStrip.Enabled = true;
             ui.WorkOfflineButton.Visible = false;
             ui.WorkOnlineButton.Visible = true;
@@ -45,7 +48,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             if (Synchronizer.OnlineWorkSummary != null && Synchronizer.OnlineWorkSummary.HasChanges)
             {
-                new SyncCheckSummaryForm(Synchronizer, Synchronizer.OnlineWorkSummary)
+                new SyncCheckSummaryForm(Synchronizer, Synchronizer.OnlineWorkSummary, logger)
                 {
                     OnlineWorkSummaryMode = true
                 }.ShowDialog();
@@ -57,10 +60,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             ui.StatusLabel.Text = "Clearing online work summary...";
             Synchronizer.OnlineWorkSummary = null;
 
-            Synchronizer.SetState(new IdleState());
+            Synchronizer.SetState(new IdleState(logger));
             await Synchronizer.RunStepAsync();
 
-            Log.Debug("Completed WorkOfflineCommand.");
+            logger.Debug("Completed WorkOfflineCommand.");
         }
 
         private void DeleteLocalCopySnapshot()
@@ -68,14 +71,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             try
             {
                 string snapshotDirectory = Synchronizer.SnapshotDirectory;
-                Log.Debug($"Deleting local copy snapshot: {snapshotDirectory}");
+                logger.Debug($"Deleting local copy snapshot: {snapshotDirectory}");
 
                 if (Directory.Exists(snapshotDirectory))
                     Directory.Delete(snapshotDirectory, true);
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to delete local copy snapshot when going offline: {ex}");
+                logger.Error($"Failed to delete local copy snapshot when going offline: {ex}");
             }
         }
     }

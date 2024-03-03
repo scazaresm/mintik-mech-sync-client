@@ -12,6 +12,7 @@ namespace MechanicalSyncApp.UI.Forms
         {
             InitializeComponent();
             this.cts = cts ?? throw new ArgumentNullException(nameof(cts));
+            TopMost = true;
         }
 
         public void SetProgress(int progress)

@@ -19,10 +19,12 @@ namespace MechanicalSyncApp.UI.Forms
     public partial class CreateReviewForm : Form
     {
         private SelectedVersionDetails selectedVersionDetails;
+        private readonly ILogger logger;
 
-        public CreateReviewForm()
+        public CreateReviewForm(ILogger logger)
         {
             InitializeComponent();
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         private void SelectVersionButton_Click(object sender, EventArgs e)
@@ -60,7 +62,7 @@ namespace MechanicalSyncApp.UI.Forms
             }
             catch(Exception ex)
             {
-                Log.Error($"Failed to create review: {ex}");
+                logger.Error($"Failed to create review: {ex}");
                 MessageBox.Show($"Failed to create review: {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

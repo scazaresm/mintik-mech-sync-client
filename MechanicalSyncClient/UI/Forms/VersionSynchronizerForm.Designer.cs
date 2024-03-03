@@ -84,7 +84,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.DrawingReviewerTitle = new System.Windows.Forms.ToolStripLabel();
             this.ProjectTabImages = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.CloseVersionButton = new System.Windows.Forms.Button();
             this.ProjectFolderNameLabel = new System.Windows.Forms.Label();
             this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
@@ -553,7 +552,6 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.CloseVersionButton);
             this.panel2.Controls.Add(this.ProjectFolderNameLabel);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -561,16 +559,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1085, 25);
             this.panel2.TabIndex = 18;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(593, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 19;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // CloseVersionButton
             // 
@@ -781,6 +769,5 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel DrawingReviewerDrawingStatus;
         private System.Windows.Forms.ToolStripLabel DrawingReviewerTitle;
-        private System.Windows.Forms.Button button1;
     }
 }

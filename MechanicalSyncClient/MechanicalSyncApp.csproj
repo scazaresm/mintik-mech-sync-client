@@ -185,6 +185,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Domain\DesignFilesAnalysisResult.cs" />
     <Compile Include="Core\Domain\LocalReview.cs" />
     <Compile Include="Core\IReviewableFileMetadataFetcher.cs" />
     <Compile Include="Core\IDrawingReviewer.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="Reviews\DrawingReviewer\DrawingMarkupFileDownloader.cs" />
     <Compile Include="Reviews\DrawingReviewer\DrawingMarkupFileUploader.cs" />
     <Compile Include="Core\IDrawingReviewViewer.cs" />
+    <Compile Include="Sync\VersionSynchronizer\AssemblyPartRelationshipAnalyzer.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CompareDesignFileCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\MarkDrawingAsFixedCommand.cs" />
@@ -291,6 +293,12 @@
     <Compile Include="Sync\VersionSynchronizer\States\IndexRemoteFilesState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\ProcessSyncCheckSummaryState.cs" />
     <Compile Include="Sync\VersionSynchronizer\WorkingCopyDownloader.cs" />
+    <Compile Include="UI\Forms\DesignFilesAnalysisDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\DesignFilesAnalysisDialog.Designer.cs">
+      <DependentUpon>DesignFilesAnalysisDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ReviewableFilesTreeView.cs" />
     <Compile Include="UI\ReviewableDrawingsTreeView.cs" />
     <Compile Include="Sync\ReviewableFileMetadataFetcher.cs" />
@@ -512,6 +520,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ProjectSelectorForm.resx">
       <DependentUpon>ProjectSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\DesignFilesAnalysisDialog.resx">
+      <DependentUpon>DesignFilesAnalysisDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\SyncCheckSummaryForm.resx">
       <DependentUpon>SyncCheckSummaryForm.cs</DependentUpon>

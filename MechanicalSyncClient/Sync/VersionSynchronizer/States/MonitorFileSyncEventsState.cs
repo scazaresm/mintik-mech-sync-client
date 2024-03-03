@@ -1,5 +1,6 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.MechSync;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,13 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
     public class MonitorFileSyncEventsState : VersionSynchronizerState
     {
+        private readonly ILogger logger;
+
+        public MonitorFileSyncEventsState(ILogger logger)
+        {
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
         public override void UpdateUI()
         {
             var ui = Synchronizer.UI;
@@ -41,14 +49,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                 if (Synchronizer.ChangeMonitor.IsMonitoring())
                     Synchronizer.SetState(this);
                 else
-                    Synchronizer.SetState(new IdleState());
+                    Synchronizer.SetState(new IdleState(logger));
 
                 await Task.Delay(1000);
                 _ = Synchronizer.RunStepAsync();
             }
             else
             {
-                Synchronizer.SetState(new HandleFileSyncEventsState());
+                Synchronizer.SetState(new HandleFileSyncEventsState(logger));
                 await Synchronizer.RunStepAsync();
             }
         }

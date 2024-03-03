@@ -11,16 +11,19 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
     public class CloseVersionCommand : IVersionSynchronizerCommandAsync
     {
+        private readonly ILogger logger;
+
         public IVersionSynchronizer Synchronizer {  get; set; }
 
-        public CloseVersionCommand(IVersionSynchronizer synchronizer)
+        public CloseVersionCommand(IVersionSynchronizer synchronizer, ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task RunAsync()
         {
-            Log.Debug("Starting CloseVersionCommand...");
+            logger.Debug("Starting CloseVersionCommand...");
 
             var UI = Synchronizer.UI;
 
@@ -44,7 +47,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             UI.ShowWorkspaceExplorer();
             await UI.WorkspaceTreeView.Refresh();
 
-            Log.Debug("Completed CloseVersionCommand.");
+            logger.Debug("Completed CloseVersionCommand.");
         }
     }
 }

@@ -13,11 +13,22 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
     public class IndexLocalFiles : VersionSynchronizerState
     {
+        private readonly ILogger logger;
+
+        public IndexLocalFiles(ILogger logger)
+        {
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
         public override async Task RunAsync()
         {
-            Log.Debug("Indexing local files to compare with remote...");
+            logger.Debug("Indexing local files to compare with remote...");
 
-            var indexer = new ConcurrentLocalFileIndexer(Synchronizer.Version.LocalDirectory, Synchronizer.FileExtensionFilter);
+            var indexer = new ConcurrentLocalFileIndexer(
+                Synchronizer.Version.LocalDirectory, 
+                Synchronizer.FileExtensionFilter, 
+                logger
+            );
             indexer.ProgressChanged += Indexer_ProgressChanged;
 
             var ui = Synchronizer.UI;
@@ -26,7 +37,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             ui.SyncProgressBar.Visible = false;
 
             Synchronizer.LocalFileIndex = indexer.FileIndex;
-            Log.Debug("Completed local file index.");
+            logger.Debug("Completed local file index.");
         }
 
         private void Indexer_ProgressChanged(object sender, int progress)

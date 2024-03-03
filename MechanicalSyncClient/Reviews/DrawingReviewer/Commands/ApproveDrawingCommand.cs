@@ -13,16 +13,19 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
 {
     public class ApproveDrawingCommand : IDrawingReviewerCommandAsync
     {
+        private readonly ILogger logger;
+
         public IDrawingReviewer Reviewer { get; }
 
-        public ApproveDrawingCommand(IDrawingReviewer reviewer)
+        public ApproveDrawingCommand(IDrawingReviewer reviewer, ILogger logger)
         {
             Reviewer = reviewer;
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task RunAsync()
         {
-            Log.Debug("Starting ApproveDrawingCommand...");
+            logger.Debug("Starting ApproveDrawingCommand...");
             var UI = Reviewer.UI;
             try
             {
@@ -38,18 +41,18 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                 UI.ApproveDrawingButton.Enabled = false;
                 UI.MarkupStatus.Text = "Approving drawing...";
 
-                Log.Debug("Retrieving latest Review from server...");
+                logger.Debug("Retrieving latest Review from server...");
                 var recentReview = await Reviewer.SyncServiceClient.GetReviewAsync(Review.RemoteReview.Id) 
                     ?? throw new Exception("Review could not be found in server.");
 
-                Log.Debug("Retrieving latest ReviewTarget from server...");
+                logger.Debug("Retrieving latest ReviewTarget from server...");
                 var recentReviewTarget = recentReview.Targets.Find((target) => target.Id == ReviewTarget.Id) 
                     ?? throw new Exception("Review target could not be found in server.");
 
-                Log.Debug("Checking if ReviewTarget has changed in server while user was reviewing the file...");
+                logger.Debug("Checking if ReviewTarget has changed in server while user was reviewing the file...");
                 if (recentReviewTarget.UpdatedAt != ReviewTarget.UpdatedAt)
                 {
-                    Log.Debug("Changes were detected in the remote ReviewTarget, needs to be reopened and reviewed again!");
+                    logger.Debug("Changes were detected in the remote ReviewTarget, needs to be reopened and reviewed again!");
                     MessageBox.Show(
                         "This file has been modified while you were reviewing it, it will be automatically reopened with latest changes and please review it again.",
                         "File has changed",
@@ -72,14 +75,14 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
             catch(Exception ex)
             {
                 var message = $"Could not approve drawing: {ex}";
-                Log.Error(message);
+                logger.Error(message);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 UI.ApproveDrawingButton.Enabled = true;
                 UI.MarkupStatus.Text = "Ready";
-                Log.Debug("ApproveDrawingCommand complete.");
+                logger.Debug("ApproveDrawingCommand complete.");
             }
         }
     }

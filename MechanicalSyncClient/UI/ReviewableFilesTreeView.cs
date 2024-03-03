@@ -147,9 +147,9 @@ namespace MechanicalSyncApp.UI
 
         private void AttachedTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Node.Tag is ReviewTarget)
+            if (e.Node.Tag is ReviewTarget target)
             {
-                OnOpenReviewTarget?.Invoke(this, new OpenReviewTargetEventArgs(review, (ReviewTarget)e.Node.Tag));
+                OnOpenReviewTarget?.Invoke(this, new OpenReviewTargetEventArgs(review, target));
             }
         }
     }

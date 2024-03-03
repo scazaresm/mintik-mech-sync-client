@@ -7,16 +7,20 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic.FileIO;
 using System.IO;
+using Serilog;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
     public class TransferOwnershipCommand : IVersionSynchronizerCommandAsync
     {
+        private readonly ILogger logger;
+
         public IVersionSynchronizer Synchronizer { get; }
 
-        public TransferOwnershipCommand(VersionSynchronizer synchronizer)
+        public TransferOwnershipCommand(VersionSynchronizer synchronizer, ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task RunAsync()
@@ -43,7 +47,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 if (confirmation != DialogResult.Yes) return;
 
-                var syncRemoteCommand = new SyncRemoteCommand(Synchronizer)
+                var syncRemoteCommand = new SyncRemoteCommand(Synchronizer, logger)
                 {
                     NotifyWhenComplete = false,
                 };

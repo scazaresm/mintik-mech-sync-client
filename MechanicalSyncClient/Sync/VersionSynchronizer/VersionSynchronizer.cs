@@ -7,6 +7,7 @@ using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI;
 using MechanicalSyncApp.UI.Forms;
+using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -35,6 +36,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private VersionSynchronizerState state;
         private bool disposedValue;
+        private readonly ILogger logger;
 
         public LocalVersion Version { get; }
 
@@ -47,7 +49,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public VersionSynchronizer(LocalVersion version, 
                                    VersionSynchronizerUI ui,
                                    IMechSyncServiceClient syncServiceClient,
-                                   IAuthenticationServiceClient authenticationServiceClient)
+                                   IAuthenticationServiceClient authenticationServiceClient,
+                                   ILogger logger)
         {
             Version = version ?? throw new ArgumentNullException(nameof(version));
 
@@ -55,14 +58,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             ChangeMonitor = new VersionChangeMonitor(version, FileExtensionFilter);
             SyncServiceClient = syncServiceClient;
             AuthServiceClient = authenticationServiceClient;
-
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             LocalFileIndex = new ConcurrentDictionary<string, FileMetadata>();
             RemoteFileIndex = new ConcurrentDictionary<string, FileMetadata>();
 
             CurrentDrawingReview = null;
             CurrentDrawingReviewTarget = null;
 
-            SetState(new IdleState());
+            SetState(new IdleState(logger));
             _ = RunStepAsync();
         }
 
@@ -93,42 +96,42 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public async Task OpenVersionAsync()
         {
-            await new OpenVersionCommand(this).RunAsync();
+            await new OpenVersionCommand(this, logger).RunAsync();
         }
 
         public async Task WorkOnlineAsync()
         {
-           await new WorkOnlineCommand(this).RunAsync();
+           await new WorkOnlineCommand(this, logger).RunAsync();
         }
 
         public async Task WorkOfflineAsync()
         {
-            await new WorkOfflineCommand(this).RunAsync();
+            await new WorkOfflineCommand(this, logger).RunAsync();
         }
 
         public async Task SyncRemoteAsync()
         {
-            await new SyncRemoteCommand(this).RunAsync();
+            await new SyncRemoteCommand(this, logger).RunAsync();
         }
 
         public async Task CloseVersionAsync()
         {
-            await new CloseVersionCommand(this).RunAsync();
+            await new CloseVersionCommand(this, logger).RunAsync();
         }
 
         public async Task PublishVersionAsync()
         {
-            await new PublishVersionCommand(this).RunAsync();
+            await new PublishVersionCommand(this, logger).RunAsync();
         }
 
         public async Task TransferOwnershipAsync()
         {
-            await new TransferOwnershipCommand(this).RunAsync();
+            await new TransferOwnershipCommand(this, logger).RunAsync();
         }
 
         public async Task OpenDrawingForViewingAsync(OpenDrawingForViewingEventArgs e)
         {
-            await new OpenDrawingForViewingCommand(this, e).RunAsync();
+            await new OpenDrawingForViewingCommand(this, e, logger).RunAsync();
         }
 
         #endregion
@@ -214,10 +217,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private async void PublishVersionButton_Click(object sender, EventArgs e)
         {
-            var result = new VersionChecklistForm(this).ShowDialog();
-
-            if (result == DialogResult.OK)
-                await PublishVersionAsync();
+            await PublishVersionAsync();
         }
 
         private async void TransferOwnershipButton_Click(object sender, EventArgs e)

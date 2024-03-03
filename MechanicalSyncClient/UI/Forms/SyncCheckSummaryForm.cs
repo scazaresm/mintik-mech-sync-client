@@ -16,13 +16,19 @@ namespace MechanicalSyncApp.UI.Forms
 
         private readonly IVersionSynchronizer versionSynchronizer;
         private readonly SyncCheckSummary summary;
+        private readonly ILogger logger;
         private ListViewItem selectedItem;
 
-        public SyncCheckSummaryForm(IVersionSynchronizer versionSynchronizer, SyncCheckSummary summary)
+        public SyncCheckSummaryForm(
+            IVersionSynchronizer versionSynchronizer, 
+            SyncCheckSummary summary, 
+            ILogger logger
+            )
         {
             InitializeComponent();
             this.versionSynchronizer = versionSynchronizer ?? throw new ArgumentNullException(nameof(versionSynchronizer));
             this.summary = summary ?? throw new ArgumentNullException(nameof(summary));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         private void SyncSummaryForm_Load(object sender, EventArgs e)
@@ -109,11 +115,11 @@ namespace MechanicalSyncApp.UI.Forms
 
         private async void CompareButton_Click(object sender, EventArgs e)
         {
-            Log.Debug("CompareButton has been clicked.");
+            logger.Debug("CompareButton has been clicked.");
 
             if (selectedItem == null || selectedItem.Tag == null)
             {
-                Log.Debug("Either selectedItem or selectedItem.Tag are null, nothing to compare.");
+                logger.Debug("Either selectedItem or selectedItem.Tag are null, nothing to compare.");
                 return;
             }
 
@@ -124,7 +130,12 @@ namespace MechanicalSyncApp.UI.Forms
 
             var remoteAction = selectedItem.SubItems.Count == 2 ? selectedItem.SubItems[1].Text : null;
 
-            var cmd = new CompareDesignFileCommand(versionSynchronizer, localFileMetadata, remoteAction) 
+            var cmd = new CompareDesignFileCommand(
+                versionSynchronizer, 
+                localFileMetadata, 
+                remoteAction, 
+                logger
+                ) 
             {
                 OnlineWorkSummaryMode = OnlineWorkSummaryMode
             };
@@ -153,7 +164,7 @@ namespace MechanicalSyncApp.UI.Forms
 
                 if (!File.Exists(localFilePath))
                 {
-                    Log.Debug($"Trying to view a design file which no longer exists {localFilePath}, will do nothing.");
+                    logger.Debug($"Trying to view a design file which no longer exists {localFilePath}, will do nothing.");
                     return;
                 }
 
@@ -164,13 +175,13 @@ namespace MechanicalSyncApp.UI.Forms
             catch (COMException)
             {
                 var errorMessage = "Failed to connect to eDrawings software. Please make sure you have it installed on your computer and set the correct EDRAWINGS_VIEWER_CLSID value in the config file.";
-                Log.Error(errorMessage);
+                logger.Error(errorMessage);
                 MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
                 var errorMessage = $"Failed to open design viewer: {ex}";
-                Log.Error(errorMessage);
+                logger.Error(errorMessage);
                 MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

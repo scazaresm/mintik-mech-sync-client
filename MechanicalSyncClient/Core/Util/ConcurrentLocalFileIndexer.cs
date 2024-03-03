@@ -19,7 +19,7 @@ namespace MechanicalSyncApp.Core.Util
 
         private readonly string directoryPath;
         private readonly string fileExtensionFilter;
-
+        private readonly ILogger logger;
         private int totalFileCount = 0;
         private int completedFileCount = 0;
 
@@ -29,10 +29,11 @@ namespace MechanicalSyncApp.Core.Util
 
         public event EventHandler<int> ProgressChanged;
 
-        public ConcurrentLocalFileIndexer(string directoryPath, string fileExtensionFilter)
+        public ConcurrentLocalFileIndexer(string directoryPath, string fileExtensionFilter, ILogger logger)
         {
             this.directoryPath = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
             this.fileExtensionFilter = fileExtensionFilter ?? throw new ArgumentNullException(nameof(fileExtensionFilter));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task IndexAsync()
@@ -51,7 +52,7 @@ namespace MechanicalSyncApp.Core.Util
                     string filePath;
                     while (fileQueue.TryDequeue(out filePath))
                     {
-                        Log.Debug($"\tIndexing local file {filePath}");
+                        logger.Debug($"\tIndexing local file {filePath}");
                         await IndexFileAsync(filePath);
 
                         Interlocked.Increment(ref completedFileCount);

@@ -20,7 +20,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         private readonly Review review;
         private readonly ReviewTarget reviewTarget;
         private readonly FileMetadata drawingMetadata;
-
+        private readonly ILogger logger;
         private static Dictionary<string, UserDetails> userDetailsIndex = new Dictionary<string, UserDetails>();
 
         public static string TempDownloadedMarkupFile { get; set; } 
@@ -37,9 +37,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         public IVersionSynchronizer Synchronizer { get; private set; }
 
         public OpenDrawingForViewingCommand(IVersionSynchronizer synchronizer,
-                                            OpenDrawingForViewingEventArgs e)
+                                            OpenDrawingForViewingEventArgs e,
+                                            ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             review = e.Review;
             reviewTarget = e.ReviewTarget;
             drawingMetadata = e.DrawingMetadata;
@@ -47,42 +49,42 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public async Task RunAsync()
         {
-            Log.Debug("OpenDrawingForViewingCommand started...");
+            logger.Debug("OpenDrawingForViewingCommand started...");
             var ui = Synchronizer.UI;
             try
             {
                 Synchronizer.CurrentDrawingReview = review;
                 Synchronizer.CurrentDrawingReviewTarget = reviewTarget;
 
-                Log.Debug("Preparing UI elements...");
+                logger.Debug("Preparing UI elements...");
                 ui.DrawingReviewerStatusText.Text = "Opening drawing...";
                 ui.SetDrawingReviewStatusText(reviewTarget.Status);
                 ui.DrawingReviewsTreeView.Enabled = false;
                 ui.DrawingReviewerProgress.Visible = true;
 
-                Log.Debug("Getting reviewer details...");
+                logger.Debug("Getting reviewer details...");
                 var reviewerDetails = await GetReviewerDetailsAsync(review.ReviewerId);
                 ui.DrawingReviewerTitle.Text = $"Drawing {Path.GetFileName(drawingMetadata.RelativeFilePath)} reviewed by {reviewerDetails.FullName}";
                 ui.DrawingReviewerTitle.Visible = true;
-                Log.Debug(ui.DrawingReviewerTitle.Text);
+                logger.Debug(ui.DrawingReviewerTitle.Text);
 
                 ui.MarkDrawingAsFixedButton.Visible = reviewTarget.Status.ToLower() == "rejected";
 
                 if (ui.DrawingReviewer != null)
                 {
-                    Log.Debug("Disposing existing DrawingReviewer instance before creating a new one...");
+                    logger.Debug("Disposing existing DrawingReviewer instance before creating a new one...");
                     ui.DrawingReviewerPanel.Controls.Remove(ui.DrawingReviewer.HostControl);
                     ui.DrawingReviewer.Dispose();
                 }
-                Log.Debug("Downloading drawing file...");
+                logger.Debug("Downloading drawing file...");
                 await DownloadDrawingFileAsync();
 
                 if (StatusesHavingMarkupFile.Contains(reviewTarget.Status))
                 {
-                    Log.Debug("Downloading drawing markup file...");
+                    logger.Debug("Downloading drawing markup file...");
                     await DownloadMarkupFileAsync();
 
-                    Log.Debug("Instantiating DrawingReviewerControl with markup file...");
+                    logger.Debug("Instantiating DrawingReviewerControl with markup file...");
                     ui.DrawingReviewer = new DrawingReviewerControl(TempDownloadedDrawingFile, TempDownloadedMarkupFile)
                     {
                         DeleteFilesOnDispose = true
@@ -90,7 +92,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 }
                 else
                 {
-                    Log.Debug("Instantiating DrawingReviewerControl without markup file...");
+                    logger.Debug("Instantiating DrawingReviewerControl without markup file...");
                     ui.DrawingReviewer = new DrawingReviewerControl(TempDownloadedDrawingFile)
                     {
                         DeleteFilesOnDispose = true
@@ -101,7 +103,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             catch(Exception ex)
             {
                 var message = $"Could not open drawing for viewing, {ex}";
-                Log.Error(message);
+                logger.Error(message);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -109,7 +111,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 ui.DrawingReviewsTreeView.Enabled = true;
                 ui.DrawingReviewerProgress.Visible = false;
                 ui.DrawingReviewerStatusText.Text = "Ready";
-                Log.Debug("OpenDrawingForViewingCommand complete.");
+                logger.Debug("OpenDrawingForViewingCommand complete.");
             }
         }
 
