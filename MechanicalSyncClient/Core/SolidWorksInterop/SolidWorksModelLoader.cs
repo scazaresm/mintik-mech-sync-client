@@ -60,7 +60,7 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
             var model = app.OpenDoc6(
                 filePath, GetModelType(filePath), OpenDocOptions, "", errors, warnings
             );
-            logger.Debug($"Successfully loaded model {filePath}.");
+            logger.Debug($"Successfully loaded model {model.GetTitle()}.");
 
             return model ?? throw new ArgumentException($"Failed to open file. Errors {errors}, Warnings {warnings}");
         }

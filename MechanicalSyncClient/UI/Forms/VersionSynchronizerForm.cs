@@ -350,6 +350,15 @@ namespace MechanicalSyncApp.UI.Forms
                     {
                         Console.WriteLine($"{key}: {properties[key]}");
                     }
+
+                    var assemblyPath = @"C:\Users\Sergio Cazares\Desktop\PROD Parts\TestPropertyRemoval\Assembly w Configuration properties\19145-A004.SLDASM";
+
+                    var assemblyPartList = await new AssemblyPartListRetriever(swStarter, Log.Logger)
+                    {
+                        PathsRelativeTo = @"C:\Users\Sergio Cazares\Desktop\PROD Parts\TestPropertyRemoval\Assembly w Configuration properties"
+                    }.ExtractDistinctPartListAsync(assemblyPath);
+
+
                 }
             }
             catch (Exception ex)

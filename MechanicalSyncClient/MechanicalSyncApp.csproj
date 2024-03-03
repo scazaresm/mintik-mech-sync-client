@@ -235,11 +235,13 @@
     <Compile Include="Core\Services\MechSync\Models\ReviewTarget.cs" />
     <Compile Include="Core\Services\VerboseHandler.cs" />
     <Compile Include="Core\SolidWorksInterop\DrawingRevisionRetriever.cs" />
+    <Compile Include="Core\SolidWorksInterop\IAssemblyPartListRetriever.cs" />
     <Compile Include="Core\SolidWorksInterop\IDrawingRevisionRetriever.cs" />
     <Compile Include="Core\SolidWorksInterop\IModelPropertiesRetriever.cs" />
     <Compile Include="Core\SolidWorksInterop\ISolidWorksModelLoader.cs" />
     <Compile Include="Core\SolidWorksInterop\ISolidWorksStarter.cs" />
     <Compile Include="Core\SolidWorksInterop\ModelPropertiesRetriever.cs" />
+    <Compile Include="Core\SolidWorksInterop\AssemblyPartListRetriever.cs" />
     <Compile Include="Core\SolidWorksInterop\SolidWorksModelLoader.cs" />
     <Compile Include="Core\SolidWorksInterop\SolidWorksStarter.cs" />
     <Compile Include="Core\Util\ConcurrentLocalFileIndexer.cs" />
