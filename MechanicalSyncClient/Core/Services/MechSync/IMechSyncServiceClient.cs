@@ -36,7 +36,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task<Version> PublishVersionAsync(PublishVersionRequest request);
         Task<ReviewTarget> UpdateReviewTargetAsync(UpdateReviewTargetRequest request);
         Task<List<Project>> GetPublishedProjectsAsync();
-        Task<List<Review>> GetVersionReviews(string versionId);
+        Task<List<Review>> GetVersionReviewsAsync(string versionId);
 
         Task<List<AggregatedProjectDetails>> AggregateProjectDetailsAsync();
 

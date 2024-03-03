@@ -41,7 +41,7 @@ namespace MechanicalSyncApp.UI
         {
             Log.Debug("eDrawings control has been loaded...");
             ModelViewControl = ctrl;
-            ModelMarkupControl = ModelViewControl.CoCreateInstance("EModelViewMarkup.EModelMarkupControl");
+            ModelMarkupControl = (EModelMarkupControl)ModelViewControl.CoCreateInstance("EModelViewMarkup.EModelMarkupControl");
 
             if (OnFailedLoadingDocument != null)
             {

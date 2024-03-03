@@ -89,6 +89,15 @@ namespace MechanicalSyncApp.UI
             AttachedTreeView.Nodes.Add(myReviewsNode);
 
             AttachedTreeView.NodeMouseDoubleClick += AttachedTreeView_NodeMouseDoubleClick;
+            AttachedTreeView.AfterExpand += AttachedTreeView_AfterExpand;
+        }
+
+        private void AttachedTreeView_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Parent != null) return;
+            foreach (TreeNode node in AttachedTreeView.Nodes)
+                if (node != e.Node)
+                    node.Collapse();
         }
 
         public async Task Refresh()

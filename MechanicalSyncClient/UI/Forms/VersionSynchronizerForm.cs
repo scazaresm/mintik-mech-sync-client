@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
+using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using Serilog;
@@ -180,7 +181,11 @@ namespace MechanicalSyncApp.UI.Forms
                         break;
 
                     case "AssemblyFile":
-
+                        reviewForm = new AssemblyReviewerForm(
+                           AuthenticationServiceClient.Instance,
+                           MechSyncServiceClient.Instance,
+                           e.Review
+                       );
                         break;
 
                     default:
@@ -315,6 +320,41 @@ namespace MechanicalSyncApp.UI.Forms
                     MessageBoxIcon.Information
                 );
                 await workspaceTreeView.Refresh();
+            }
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (ISolidWorksStarter swStarter = new SolidWorksStarter(Log.Logger)
+                {
+                    SolidWorksExePath = @"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\SLDWORKS.exe",
+                    SolidWorksStartTimeoutSeconds = 10,
+                    Hidden = true,
+                    ShowSplash = false,
+                })
+                {
+                    await swStarter.StartSolidWorksAsync();
+
+                    var drawingRevision = await new DrawingRevisionRetriever(swStarter, Log.Logger)
+                        .GetRevisionAsync(@"C:\Users\Sergio Cazares\Desktop\PROD Parts\210181-031.SLDDRW");
+
+                    Console.WriteLine($"Drawing revision is: {drawingRevision}");
+
+                    var properties = await new ModelPropertiesRetriever(swStarter, Log.Logger)
+                        .GetAllCustomPropertiesAsync(@"C:\Users\Sergio Cazares\Desktop\PROD Parts\210181-031.SLDPRT");
+
+                    Console.WriteLine($"{properties.Count} custom properties have been found on the file:");
+                    foreach (var key in properties.Keys)
+                    {
+                        Console.WriteLine($"{key}: {properties[key]}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

@@ -180,7 +180,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new UpdateReviewTargetHandler(restClient, request).HandleAsync();
         }
-        public async Task<List<Review>> GetVersionReviews(string versionId)
+        public async Task<List<Review>> GetVersionReviewsAsync(string versionId)
         {
             return await new GetVersionReviewsHandler(restClient, versionId).HandleAsync();
         }

@@ -13,13 +13,12 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 {
     public class DrawingReviewer : IDrawingReviewer
     {
-
         public IDrawingReviewerUI UI { get; }
 
         public IAuthenticationServiceClient AuthServiceClient { get; }
         public IMechSyncServiceClient SyncServiceClient { get; }
 
-        public DeltaDrawingsTreeView DeltaDrawingsTreeView { get; set; }
+        public ReviewableFilesTreeView DrawingExplorer { get; set; }
 
         public LocalReview Review { get; }
 
@@ -59,9 +58,9 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         public async Task InitializeUiAsync()
         {
-            DeltaDrawingsTreeView = new DeltaDrawingsTreeView(SyncServiceClient, Review);
-            DeltaDrawingsTreeView.AttachTreeView(UI.DeltaDrawingsTreeView);
-            DeltaDrawingsTreeView.OnOpenDrawingForReviewing += DeltaDrawingsTreeView_OnOpenDrawingForReviewing;
+            DrawingExplorer = new ReviewableDrawingsTreeView(SyncServiceClient, Review);
+            DrawingExplorer.AttachTreeView(UI.DeltaDrawingsTreeView);
+            DrawingExplorer.OnOpenReviewTarget += DrawingsExplorer_OnOpenReviewTarget;
 
             var designerDetails = await AuthServiceClient.GetUserDetailsAsync(Review.RemoteVersion.Owner.UserId);
 
@@ -106,9 +105,9 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             await new RejectDrawingCommand(this).RunAsync();
         }
 
-        public async Task RefreshDeltaTargetsAsync()
+        public async Task RefreshReviewTargetsAsync()
         {
-            await DeltaDrawingsTreeView.Refresh();
+            await DrawingExplorer.RefreshAsync();
         }
 
         public async Task SaveReviewProgressAsync()
@@ -159,7 +158,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         private async void RefreshReviewTargetsButton_Click(object sender, EventArgs e)
         {
-            await DeltaDrawingsTreeView.Refresh();
+            await DrawingExplorer.FetchReviewableFileMetadata();
         }
 
         private void PanButton_Click(object sender, EventArgs e)
@@ -173,7 +172,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             UI.DrawingReviewerControl.SetZoomOperator();
         }
 
-        private async void DeltaDrawingsTreeView_OnOpenDrawingForReviewing(object sender, OpenDrawingForReviewingEventArgs e)
+        private async void DrawingsExplorer_OnOpenReviewTarget(object sender, OpenReviewTargetEventArgs e)
         {
             await OpenReviewTargetAsync(e.ReviewTarget);
         }

@@ -24,7 +24,7 @@ namespace MechanicalSyncApp.Core
 
         IMechSyncServiceClient SyncServiceClient { get; }
 
-        DeltaDrawingsTreeView DeltaDrawingsTreeView { get; }
+        ReviewableFilesTreeView DrawingExplorer { get; }
 
         LocalReview Review { get; }
 
@@ -47,7 +47,7 @@ namespace MechanicalSyncApp.Core
 
         Task RejectReviewTargetAsync();
 
-        Task RefreshDeltaTargetsAsync();
+        Task RefreshReviewTargetsAsync();
 
 
         Task<bool> UploadMarkupFileAsync();

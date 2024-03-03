@@ -6,6 +6,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI;
+using MechanicalSyncApp.UI.Forms;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -213,14 +214,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private async void PublishVersionButton_Click(object sender, EventArgs e)
         {
-            var confirmation = MessageBox.Show(
-                "Are you sure to publish this version?", 
-                "Publish confirmation", 
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question
-            );
-            if (confirmation != DialogResult.Yes) return;
+            var result = new VersionChecklistForm(this).ShowDialog();
 
-            await PublishVersionAsync();
+            if (result == DialogResult.OK)
+                await PublishVersionAsync();
         }
 
         private async void TransferOwnershipButton_Click(object sender, EventArgs e)

@@ -45,7 +45,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
             // update UI
             UI.HideDrawingMarkupPanel();
             UI.SetHeaderText($"Reviewing {Reviewer.Review}");
-            await Reviewer.RefreshDeltaTargetsAsync();
+            await Reviewer.RefreshReviewTargetsAsync();
         }
     }
 }

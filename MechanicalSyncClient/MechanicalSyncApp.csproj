@@ -78,11 +78,13 @@
   <ItemGroup>
     <Reference Include="eDrawings.Interop.EModelMarkupControl">
       <HintPath>C:\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelMarkupControl.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
     </Reference>
     <Reference Include="eDrawings.Interop.EModelViewControl">
       <HintPath>C:\Program Files\Common Files\eDrawings2023\eDrawings.Interop.EModelViewControl.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -126,6 +128,14 @@
     </Reference>
     <Reference Include="Serilog.Sinks.File, Version=5.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>packages\Serilog.Sinks.File.5.0.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+    </Reference>
+    <Reference Include="SolidWorks.Interop.sldworks">
+      <HintPath>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\SolidWorks.Interop.sldworks.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SolidWorks.Interop.swconst">
+      <HintPath>C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\SolidWorks.Interop.swconst.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -176,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Domain\LocalReview.cs" />
+    <Compile Include="Core\IReviewableFileMetadataFetcher.cs" />
     <Compile Include="Core\IDrawingReviewer.cs" />
     <Compile Include="Core\IDrawingReviewerCommandAsync.cs" />
     <Compile Include="Core\IDrawingReviewerUI.cs" />
@@ -223,6 +234,14 @@
     <Compile Include="Core\Services\MechSync\Models\Review.cs" />
     <Compile Include="Core\Services\MechSync\Models\ReviewTarget.cs" />
     <Compile Include="Core\Services\VerboseHandler.cs" />
+    <Compile Include="Core\SolidWorksInterop\DrawingRevisionRetriever.cs" />
+    <Compile Include="Core\SolidWorksInterop\IDrawingRevisionRetriever.cs" />
+    <Compile Include="Core\SolidWorksInterop\IModelPropertiesRetriever.cs" />
+    <Compile Include="Core\SolidWorksInterop\ISolidWorksModelLoader.cs" />
+    <Compile Include="Core\SolidWorksInterop\ISolidWorksStarter.cs" />
+    <Compile Include="Core\SolidWorksInterop\ModelPropertiesRetriever.cs" />
+    <Compile Include="Core\SolidWorksInterop\SolidWorksModelLoader.cs" />
+    <Compile Include="Core\SolidWorksInterop\SolidWorksStarter.cs" />
     <Compile Include="Core\Util\ConcurrentLocalFileIndexer.cs" />
     <Compile Include="Core\Domain\FileSyncStatus.cs" />
     <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
@@ -270,11 +289,19 @@
     <Compile Include="Sync\VersionSynchronizer\States\IndexRemoteFilesState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\ProcessSyncCheckSummaryState.cs" />
     <Compile Include="Sync\VersionSynchronizer\WorkingCopyDownloader.cs" />
-    <Compile Include="UI\DeltaDrawingsTreeView.cs" />
+    <Compile Include="UI\ReviewableFilesTreeView.cs" />
+    <Compile Include="UI\ReviewableDrawingsTreeView.cs" />
+    <Compile Include="Sync\ReviewableFileMetadataFetcher.cs" />
     <Compile Include="UI\DesignFileViewerControl.cs" />
     <Compile Include="UI\DrawingReviewsTreeView.cs" />
     <Compile Include="UI\EDrawingsHost.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\AssemblyReviewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\AssemblyReviewerForm.Designer.cs">
+      <DependentUpon>AssemblyReviewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\ChangeYourPasswordForm.cs">
       <SubType>Form</SubType>
@@ -362,17 +389,17 @@
     <Compile Include="UI\Forms\ProjectSelectorForm.Designer.cs">
       <DependentUpon>ProjectSelectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Forms\PublishVersionConfirmationDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Forms\PublishVersionConfirmationDialog.Designer.cs">
-      <DependentUpon>PublishVersionConfirmationDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Forms\PublishVersionProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Forms\PublishVersionProgressDialog.Designer.cs">
       <DependentUpon>PublishVersionProgressDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\VersionChecklistForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\VersionChecklistForm.Designer.cs">
+      <DependentUpon>VersionChecklistForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SelectedVersionDetails.cs" />
     <Compile Include="UI\Forms\SyncCheckSummaryForm.cs">
@@ -445,6 +472,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\WorkspaceTreeView.cs" />
+    <EmbeddedResource Include="UI\Forms\AssemblyReviewerForm.resx">
+      <DependentUpon>AssemblyReviewerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ChangeYourPasswordForm.resx">
       <DependentUpon>ChangeYourPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -484,6 +514,9 @@
     <EmbeddedResource Include="UI\Forms\SyncCheckSummaryForm.resx">
       <DependentUpon>SyncCheckSummaryForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\VersionChecklistForm.resx">
+      <DependentUpon>VersionChecklistForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\VersionSelectorForm.resx">
       <DependentUpon>VersionSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -505,9 +538,6 @@
     </Compile>
     <EmbeddedResource Include="UI\Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\PublishVersionConfirmationDialog.resx">
-      <DependentUpon>PublishVersionConfirmationDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\PublishVersionProgressDialog.resx">
       <DependentUpon>PublishVersionProgressDialog.cs</DependentUpon>

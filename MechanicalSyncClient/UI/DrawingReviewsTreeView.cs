@@ -70,7 +70,7 @@ namespace MechanicalSyncApp.UI
 
         public async Task Refresh()
         {
-            var reviews = await MechSyncService.GetVersionReviews(Version.RemoteVersion.Id);
+            var reviews = await MechSyncService.GetVersionReviewsAsync(Version.RemoteVersion.Id);
 
             AttachedTreeView.Nodes.Clear();
             foreach (var review in reviews)
