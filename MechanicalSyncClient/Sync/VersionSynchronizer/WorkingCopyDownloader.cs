@@ -97,7 +97,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             synchronizer.SetState(syncCheckStep);
             await synchronizer.RunStepAsync();
 
-            synchronizer.SetState(new IdleState(logger));
+            synchronizer.SetState(new SynchronizerIdleState(logger));
             await synchronizer.RunStepAsync();
 
             return syncCheckStep;

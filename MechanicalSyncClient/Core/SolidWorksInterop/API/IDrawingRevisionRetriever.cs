@@ -1,6 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 
-namespace MechanicalSyncApp.Core.SolidWorksInterop
+namespace MechanicalSyncApp.Core.SolidWorksInterop.API
 {
     public interface IDrawingRevisionRetriever
     {

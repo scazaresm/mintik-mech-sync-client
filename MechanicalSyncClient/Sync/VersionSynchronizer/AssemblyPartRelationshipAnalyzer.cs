@@ -1,5 +1,6 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.SolidWorksInterop;
+using MechanicalSyncApp.Core.SolidWorksInterop.API;
 using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using Serilog.Core;
@@ -53,18 +54,19 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             {
                 cts.Token.ThrowIfCancellationRequested();
 
-                Dialog?.SetDetails($"Analyzing {Path.GetFileName(assembly.RelativeFilePath)}...");
-
+                var assemblyFileName = Path.GetFileName(assembly.RelativeFilePath);
                 var fullAssemblyPath = Path.Combine(
                     synchronizer.Version.LocalDirectory,
                     assembly.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar)
                 );
 
+                Dialog?.SetDetails($"Analyzing {assemblyFileName}...");
                 var partsInAssembly = await partListRetriever.ExtractDistinctPartListAsync(fullAssemblyPath);
 
                 foreach (var part in partsInAssembly)
                 {
                     cts.Token.ThrowIfCancellationRequested();
+                    var partFileName = Path.GetFileName(part);
 
                     if (!partsInAssemblyLookup.ContainsKey(part))
                         partsInAssemblyLookup.Add(part, new HashSet<string> { fullAssemblyPath });

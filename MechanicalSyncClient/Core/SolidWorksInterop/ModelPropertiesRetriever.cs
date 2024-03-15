@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using MechanicalSyncApp.Core.SolidWorksInterop.API;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,12 +23,12 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
             modelLoader = new SolidWorksModelLoader(solidWorksStarter, logger);
         }
 
-        public async Task<Dictionary<string, string>> GetAllCustomPropertiesAsync(string filePath)
+        public async Task<Dictionary<string, string>> GetAllCustomPropertyValuesAsync(string filePath)
         {
-            return await Task.Run(() => GetAllCustomProperties(filePath));
+            return await Task.Run(() => GetAllCustomPropertyValues(filePath));
         }
 
-        public Dictionary<string, string> GetAllCustomProperties(string filePath)
+        public Dictionary<string, string> GetAllCustomPropertyValues(string filePath)
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException(nameof(filePath));
@@ -36,16 +37,16 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
 
             logger.Debug($"Getting custom properties from {filePath}...");
             var manager = model.Extension.CustomPropertyManager[""];
-            var propertyNames = (string[])manager.GetNames();
+            var allPropertyNames = (string[])manager.GetNames();
 
             var properties = new Dictionary<string, string>();
 
-            foreach (var property in propertyNames)
+            foreach (var propertyName in allPropertyNames)
             {
-                manager.Get2(property, out string value, out _);
-                properties.Add(key: property, value);
+                manager.Get2(propertyName, out _, out string evaluatedValue);
+                properties.Add(propertyName, evaluatedValue);
             }
-            logger.Debug($"Successfully retrieved {propertyNames.Count()} custom properties.");
+            logger.Debug($"Successfully retrieved {properties.Count()} custom properties.");
             modelLoader.UnloadModel(model);
             return properties;
         }

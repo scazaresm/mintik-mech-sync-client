@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,6 +33,7 @@ namespace MechanicalSyncApp.UI
 
         protected readonly IMechSyncServiceClient serviceClient;
         protected readonly LocalReview review;
+        protected readonly ILogger logger;
 
         public TreeView AttachedTreeView { get; private set; }
 
@@ -42,10 +44,11 @@ namespace MechanicalSyncApp.UI
 
         protected Dictionary<string, ReviewTarget> reviewTargetLookup;
 
-        public ReviewableFilesTreeView(IMechSyncServiceClient serviceClient, LocalReview review)
+        public ReviewableFilesTreeView(IMechSyncServiceClient serviceClient, LocalReview review, ILogger logger)
         {
             this.serviceClient = serviceClient ?? throw new ArgumentNullException(nameof(serviceClient));
             this.review = review ?? throw new ArgumentNullException(nameof(review));
+            this.logger = logger;
             AttachTreeView(new TreeView());
         }
 

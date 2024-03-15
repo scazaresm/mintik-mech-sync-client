@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Serilog;
+using MechanicalSyncApp.Core.SolidWorksInterop.API;
 
 namespace MechanicalSyncApp.Core.SolidWorksInterop
 {

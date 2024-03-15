@@ -14,12 +14,12 @@ using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 {
-    public class PublishVersionHandler
+    public class ArchiveVersionHandler
     {
         private readonly HttpClient client;
-        private readonly PublishVersionRequest request;
+        private readonly ArchiveVersionRequest request;
 
-        public PublishVersionHandler(HttpClient client, PublishVersionRequest request)
+        public ArchiveVersionHandler(HttpClient client, ArchiveVersionRequest request)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
             this.request = request ?? throw new ArgumentNullException(nameof(request));
@@ -37,7 +37,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 
             // Execute the HTTP request with the retry policy
             HttpResponseMessage response = await retryPolicy.ExecuteAsync(() =>
-                client.PostAsync("versions/publish", new StringContent(jsonRequest, Encoding.UTF8, "application/json")));
+                client.PostAsync("versions/archive", new StringContent(jsonRequest, Encoding.UTF8, "application/json")));
 
             var responseContent = await response.Content.ReadAsStringAsync();
 

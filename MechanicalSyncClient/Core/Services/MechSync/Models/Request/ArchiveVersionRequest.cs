@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models.Request
 {
-    public class PublishVersionRequest
+    public class ArchiveVersionRequest
     {
         public string VersionId { get; set; }         
     }

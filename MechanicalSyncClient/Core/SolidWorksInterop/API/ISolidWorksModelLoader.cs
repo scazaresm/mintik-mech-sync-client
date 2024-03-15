@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MechanicalSyncApp.Core.SolidWorksInterop
+namespace MechanicalSyncApp.Core.SolidWorksInterop.API
 {
     public interface ISolidWorksModelLoader
     {

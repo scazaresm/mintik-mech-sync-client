@@ -35,8 +35,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             ui.WorkOfflineButton.Enabled = true;
             ui.WorkOfflineButton.Visible = true;
 
-            ui.PublishVersionButton.Enabled = false;
-            ui.PublishVersionButton.Visible = true;
+            ui.PublishDeliverablesButton.Enabled = false;
+            ui.PublishDeliverablesButton.Visible = true;
 
             ui.TransferOwnershipButton.Enabled = false;
             ui.TransferOwnershipButton.Visible = true;
@@ -49,7 +49,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                 if (Synchronizer.ChangeMonitor.IsMonitoring())
                     Synchronizer.SetState(this);
                 else
-                    Synchronizer.SetState(new IdleState(logger));
+                    Synchronizer.SetState(new SynchronizerIdleState(logger));
 
                 await Task.Delay(1000);
                 _ = Synchronizer.RunStepAsync();

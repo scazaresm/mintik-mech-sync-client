@@ -50,7 +50,7 @@ namespace MechanicalSyncApp.Core
         Task WorkOfflineAsync();
         Task SyncRemoteAsync();
         Task CloseVersionAsync();
-        Task PublishVersionAsync();
+        Task PublishDeliverablesAsync();
         Task TransferOwnershipAsync();
         Task OpenDrawingForViewingAsync(OpenDrawingForViewingEventArgs e);
 

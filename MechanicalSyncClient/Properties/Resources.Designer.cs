@@ -63,6 +63,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap archive_24 {
+            get {
+                object obj = ResourceManager.GetObject("archive-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap close_16 {
             get {
                 object obj = ResourceManager.GetObject("close-16", resourceCulture);
@@ -96,6 +106,16 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap cursor_32 {
             get {
                 object obj = ResourceManager.GetObject("cursor-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cursor_select_24 {
+            get {
+                object obj = ResourceManager.GetObject("cursor-select-24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,6 +173,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap error_alert_24 {
+            get {
+                object obj = ResourceManager.GetObject("error-alert-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap error_file_icon_24 {
             get {
                 object obj = ResourceManager.GetObject("error-file-icon-24", resourceCulture);
@@ -176,6 +206,26 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap error_icon_48 {
             get {
                 object obj = ResourceManager.GetObject("error-icon-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap file_icon_16 {
+            get {
+                object obj = ResourceManager.GetObject("file_icon_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap file_icon_24 {
+            get {
+                object obj = ResourceManager.GetObject("file_icon_24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -236,6 +286,16 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap go_32 {
             get {
                 object obj = ResourceManager.GetObject("go-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap inspect_deliverables_24 {
+            get {
+                object obj = ResourceManager.GetObject("inspect-deliverables-24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -306,6 +366,16 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap open_folder_24 {
             get {
                 object obj = ResourceManager.GetObject("open-folder-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap paper_plane_24 {
+            get {
+                object obj = ResourceManager.GetObject("paper-plane-24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -436,6 +506,16 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap thumbs_up_24 {
             get {
                 object obj = ResourceManager.GetObject("thumbs-up-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap undo_24 {
+            get {
+                object obj = ResourceManager.GetObject("undo-24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -98,7 +98,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                 else
                 {
                     logger.Debug("We are in offline mode now, stop monitoring...");
-                    Synchronizer.SetState(new IdleState(logger));
+                    Synchronizer.SetState(new SynchronizerIdleState(logger));
                 }
                 _ = Synchronizer.RunStepAsync();
             }

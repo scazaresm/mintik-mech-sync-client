@@ -10,16 +10,19 @@ using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
 
 namespace MechanicalSyncApp.UI.Forms
 {
-    public partial class PublishVersionProgressDialog : Form
+    public partial class ArchiveVersionProgressDialog : Form
     {
+        private const string ARCHIVING_VERSION_STATUS = "archiving";
+        private const string ARCHIVE_SUCCESS_STATUS = "latest";
+
         private readonly string versionId;
         private readonly string localDirectory;
 
-        public bool IsPublishingComplete { get; set; }
-        public bool IsPublishingSuccess { get; set; }
+        public bool IsArchivingComplete { get; set; }
+        public bool IsArchivingSuccess { get; set; }
         public IVersionSynchronizer Synchronizer { get; }
 
-        public PublishVersionProgressDialog(IVersionSynchronizer synchronizer, string versionId, string localDirectory)
+        public ArchiveVersionProgressDialog(IVersionSynchronizer synchronizer, string versionId, string localDirectory)
         {
             InitializeComponent();
             Synchronizer = synchronizer;
@@ -29,27 +32,27 @@ namespace MechanicalSyncApp.UI.Forms
 
         private async void PublishVersionProgressDialog_Load(object sender, EventArgs e)
         {
-            await UpdatePublishingDetailsAsync();
+            await UpdateArchivingDetailsAsync();
         }
 
-        private async Task UpdatePublishingDetailsAsync()
+        private async Task UpdateArchivingDetailsAsync()
         {
-            Log.Debug("Publishing is happening on the server...");
+            Log.Debug("Archiving is happening on the server...");
 
             Version version;
-            PublishingIcon.Image = Properties.Resources.paper_plane_48;
-            PublishingMessage.Text = "Publishing your changes, please wait...";
+            ArchivingIcon.Image = Properties.Resources.archive_24;
+            ArchivingMessage.Text = "Archiving design data in server, please wait...";
             OkButton.Enabled = false;
-            PublishingProgressBar.Visible = true;
+            ArchivingProgressBar.Visible = true;
             do
             {
                 try
                 {
 
                     version = await Synchronizer.SyncServiceClient.GetVersionAsync(versionId);
-                    IsPublishingComplete = version.Status.ToLower() != "publishing";
-                    IsPublishingSuccess = version.Status.ToLower() == "latest";
-                    Log.Debug($"Polling publishing status: Complete = {IsPublishingComplete}");
+                    IsArchivingComplete = version.Status.ToLower() != ARCHIVING_VERSION_STATUS;
+                    IsArchivingSuccess = version.Status.ToLower() == ARCHIVE_SUCCESS_STATUS;
+                    Log.Debug($"Polling version status: Complete = {IsArchivingComplete}");
 
                     await Task.Delay(2000);
                 } 
@@ -58,33 +61,33 @@ namespace MechanicalSyncApp.UI.Forms
                     Console.WriteLine(ex.ToString());
                 }
             }
-            while (!IsPublishingComplete);
+            while (!IsArchivingComplete);
 
-            if (IsPublishingSuccess && Directory.Exists(localDirectory))
+            if (IsArchivingSuccess && Directory.Exists(localDirectory))
             {
-                Log.Debug("Publishing succeeded, sending local folder to recycle bin.");
+                Log.Debug("Archiving succeeded, sending local folder to recycle bin.");
 
-                PublishingMessage.Text = "Almost there, cleaning up your local workspace...";
+                ArchivingMessage.Text = "Cleaning up your local workspace...";
                 await Task.Run(() => MoveFolderToRecycleBin());
             }
 
-            PublishingMessage.Text = IsPublishingSuccess
-                ? "Your changes were successfully published, thanks for your hard work!"
-                : "There was a problem publishing your changes, please try again later " +
+            ArchivingMessage.Text = IsArchivingSuccess
+                ? "This version has been successfully archived! Please open a new version if further design changes are required in future."
+                : "There was a problem archiving the version, please try again later " +
                   "and reach your IT department if the issue persists." + Environment.NewLine + Environment.NewLine +
-                  "No worries, we got you covered and any publishing progress was rollbacked.";
+                  "No worries, we got you covered and any archiving progress was rollbacked.";
 
-            PublishingIcon.Image = IsPublishingSuccess
+            ArchivingIcon.Image = IsArchivingSuccess
                 ? Properties.Resources.ok_icon_48
                 : Properties.Resources.error_icon_48;
 
             OkButton.Enabled = true;
-            PublishingProgressBar.Visible = false;
+            ArchivingProgressBar.Visible = false;
 
-            if (IsPublishingSuccess)
-                Log.Debug("Publishing complete.");
+            if (IsArchivingSuccess)
+                Log.Debug("Archiving complete.");
             else
-                Log.Debug("Publishing has failed, check the mech-sync-service logs in docker for more details.");
+                Log.Debug("Archiving has failed, check the mech-sync-service logs in docker for more details.");
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -100,9 +103,9 @@ namespace MechanicalSyncApp.UI.Forms
             }
             catch(OperationCanceledException)
             {
-                Log.Debug("Changes were successfully published but local copy could not be sent to recycle bin due to user cancel, shall be deleted manually.");
+                Log.Debug("Version was successfully archived but local copy could not be sent to recycle bin due to user cancel, shall be deleted manually.");
                 MessageBox.Show(
-                    "Your changes were successfully published but your local copy could not be sent to recycle bin, please delete it manually.",
+                    "This version has been archived on server but your local copy could not be sent to recycle bin, please delete it manually.",
                     "Could not remove local copy",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning

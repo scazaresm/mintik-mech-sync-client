@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MechanicalSyncApp.Core.SolidWorksInterop
+namespace MechanicalSyncApp.Core.SolidWorksInterop.API
 {
     public interface IAssemblyPartListRetriever
     {

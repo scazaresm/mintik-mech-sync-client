@@ -34,7 +34,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public IAuthenticationServiceClient AuthServiceClient { get; }
 
-        public OpenVersionCommand(VersionSynchronizer synchronizer, ILogger logger)
+        public OpenVersionCommand(IVersionSynchronizer synchronizer, ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));

@@ -37,8 +37,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             ui.WorkOnlineButton.Visible = true;
             ui.SyncRemoteButton.Visible = true;
 
-            ui.PublishVersionButton.Enabled = true;
-            ui.PublishVersionButton.Visible = true;
+            ui.PublishDeliverablesButton.Enabled = true;
+            ui.PublishDeliverablesButton.Visible = true;
 
             ui.TransferOwnershipButton.Enabled = true;
             ui.TransferOwnershipButton.Visible = true;
@@ -60,7 +60,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             ui.StatusLabel.Text = "Clearing online work summary...";
             Synchronizer.OnlineWorkSummary = null;
 
-            Synchronizer.SetState(new IdleState(logger));
+            Synchronizer.SetState(new SynchronizerIdleState(logger));
             await Synchronizer.RunStepAsync();
 
             logger.Debug("Completed WorkOfflineCommand.");

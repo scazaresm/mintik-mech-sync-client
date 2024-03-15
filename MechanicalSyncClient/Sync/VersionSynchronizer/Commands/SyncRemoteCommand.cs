@@ -92,7 +92,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     );
                 }
 
-                Synchronizer.SetState(new IdleState(logger));
+                Synchronizer.SetState(new SynchronizerIdleState(logger));
                 await Synchronizer.RunStepAsync();
             }
             catch (IOException ex)
@@ -118,7 +118,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             finally
             {
                 // always go back to idle state
-                Synchronizer.SetState(new IdleState(logger));
+                Synchronizer.SetState(new SynchronizerIdleState(logger));
                 await Synchronizer.RunStepAsync();
             }
             logger.Debug("Completed SyncRemoteCommand...");

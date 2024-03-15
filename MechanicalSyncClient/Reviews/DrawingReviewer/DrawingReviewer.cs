@@ -63,7 +63,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         public async Task InitializeUiAsync()
         {
-            DrawingExplorer = new ReviewableDrawingsTreeView(SyncServiceClient, Review);
+            DrawingExplorer = new ReviewableDrawingsTreeView(SyncServiceClient, Review, logger);
             DrawingExplorer.AttachTreeView(UI.DeltaDrawingsTreeView);
             DrawingExplorer.OnOpenReviewTarget += DrawingsExplorer_OnOpenReviewTarget;
 

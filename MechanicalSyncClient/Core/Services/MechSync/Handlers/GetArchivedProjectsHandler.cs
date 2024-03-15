@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
 {
-    public class GetPublishedProjectsHandler
+    public class GetArchivedProjectsHandler
     {
         private readonly HttpClient client;
 
-        public GetPublishedProjectsHandler(HttpClient client)
+        public GetArchivedProjectsHandler(HttpClient client)
         {
             this.client = client;
         }
@@ -29,7 +29,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                 .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
                 .ExecuteAsync(async () =>
                 {
-                    HttpResponseMessage response = await client.GetAsync("projects/published");
+                    HttpResponseMessage response = await client.GetAsync("projects/archived");
                     var responseContent = await response.Content.ReadAsStringAsync();
 
                     if (!response.IsSuccessStatusCode)

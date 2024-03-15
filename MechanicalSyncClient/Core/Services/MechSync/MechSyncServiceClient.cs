@@ -144,9 +144,9 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new GetAllProjectsHandler(restClient).HandleAsync(); 
         }
-        public async Task<List<Project>> GetPublishedProjectsAsync()
+        public async Task<List<Project>> GetArchivedProjectsAsync()
         {
-            return await new GetPublishedProjectsHandler(restClient).HandleAsync();
+            return await new GetArchivedProjectsHandler(restClient).HandleAsync();
         }
         public async Task<Version> CreateVersionAsync(CreateVersionRequest request)
         {
@@ -172,9 +172,9 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new AcknowledgeVersionOwnershipHandler(restClient, request).HandleAsync();
         }
-        public async Task<Version> PublishVersionAsync(PublishVersionRequest request)
+        public async Task<Version> ArchiveVersionAsync(ArchiveVersionRequest request)
         {
-            return await new PublishVersionHandler(restClient, request).HandleAsync();
+            return await new ArchiveVersionHandler(restClient, request).HandleAsync();
         }
         public async Task<ReviewTarget> UpdateReviewTargetAsync(UpdateReviewTargetRequest request)
         {

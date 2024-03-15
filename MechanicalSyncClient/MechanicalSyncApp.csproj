@@ -185,8 +185,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\DeliverablePublisherState.cs" />
+    <Compile Include="Core\Domain\CustomProperty.cs" />
     <Compile Include="Core\Domain\DesignFilesAnalysisResult.cs" />
+    <Compile Include="Core\Domain\DrawingPublishingRequest.cs" />
     <Compile Include="Core\Domain\LocalReview.cs" />
+    <Compile Include="Core\Domain\ManufacturingMetadata.cs" />
+    <Compile Include="Core\IDrawingAnalyzer.cs" />
+    <Compile Include="Core\IDrawingRevisionValidationStrategy.cs" />
+    <Compile Include="Core\INextDrawingRevisionCalculator.cs" />
     <Compile Include="Core\IReviewableFileMetadataFetcher.cs" />
     <Compile Include="Core\IDrawingReviewer.cs" />
     <Compile Include="Core\IDrawingReviewerCommandAsync.cs" />
@@ -209,14 +216,14 @@
     <Compile Include="Core\Services\MechSync\Handlers\GetDeltaFileMetadataHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetMyReviewsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetFileMetadataByIdHandler.cs" />
-    <Compile Include="Core\Services\MechSync\Handlers\GetPublishedProjectsHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetArchivedProjectsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetAllVersionsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetReviewHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionReviewsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DeleteExplorerFilesHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionsWithStatusHandler.cs" />
-    <Compile Include="Core\Services\MechSync\Handlers\PublishVersionHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\ArchiveVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\SyncReviewTargetsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\TransferVersionOwnershipHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\UpdateReviewTargetHandler.cs" />
@@ -228,7 +235,7 @@
     <Compile Include="Core\Services\MechSync\Models\Request\CreateVersionRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\FixReviewTargetRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetDeltaFileMetadataRequest.cs" />
-    <Compile Include="Core\Services\MechSync\Models\Request\PublishVersionRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\ArchiveVersionRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\TransferVersionOwnershipRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Job.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\UpdateReviewTargetRequest.cs" />
@@ -236,11 +243,13 @@
     <Compile Include="Core\Services\MechSync\Models\ReviewTarget.cs" />
     <Compile Include="Core\Services\VerboseHandler.cs" />
     <Compile Include="Core\SolidWorksInterop\DrawingRevisionRetriever.cs" />
-    <Compile Include="Core\SolidWorksInterop\IAssemblyPartListRetriever.cs" />
-    <Compile Include="Core\SolidWorksInterop\IDrawingRevisionRetriever.cs" />
-    <Compile Include="Core\SolidWorksInterop\IModelPropertiesRetriever.cs" />
-    <Compile Include="Core\SolidWorksInterop\ISolidWorksModelLoader.cs" />
-    <Compile Include="Core\SolidWorksInterop\ISolidWorksStarter.cs" />
+    <Compile Include="Core\SolidWorksInterop\API\IAssemblyPartListRetriever.cs" />
+    <Compile Include="Core\SolidWorksInterop\API\IDrawingRevisionRetriever.cs" />
+    <Compile Include="Core\SolidWorksInterop\API\IModelPropertiesRetriever.cs" />
+    <Compile Include="Core\SolidWorksInterop\API\ISolidWorksModelLoader.cs" />
+    <Compile Include="Core\SolidWorksInterop\API\ISolidWorksStarter.cs" />
+    <Compile Include="Core\SolidWorksInterop\API\ISolidWorksModelExporter.cs" />
+    <Compile Include="Core\SolidWorksInterop\SolidWorksModelExporter.cs" />
     <Compile Include="Core\SolidWorksInterop\ModelPropertiesRetriever.cs" />
     <Compile Include="Core\SolidWorksInterop\AssemblyPartListRetriever.cs" />
     <Compile Include="Core\SolidWorksInterop\SolidWorksModelLoader.cs" />
@@ -249,7 +258,7 @@
     <Compile Include="Core\Domain\FileSyncStatus.cs" />
     <Compile Include="Core\Domain\FileSyncStatusIconIndex.cs" />
     <Compile Include="Core\Domain\SyncCheckSummary.cs" />
-    <Compile Include="Core\ILocalFileListViewControl.cs" />
+    <Compile Include="Core\ILocalFileListView.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionFileMetadataHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetMyWorkHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetProjectHandler.cs" />
@@ -259,10 +268,21 @@
     <Compile Include="Core\Services\MechSync\Models\Version.cs" />
     <Compile Include="Core\Services\MechSync\Models\VersionOwner.cs" />
     <Compile Include="Core\IVersionSynchronizerCommandAsync.cs" />
+    <Compile Include="Core\Util\DictionaryDataGridViewAdapter.cs" />
+    <Compile Include="Core\Util\EnumExtensions.cs" />
     <Compile Include="Core\Util\PathUtils.cs" />
     <Compile Include="Core\Util\SettingsUtils.cs" />
     <Compile Include="Explorer\ProjectExplorer.cs" />
     <Compile Include="Explorer\ProjectExplorerUI.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\DeliverablePublisher.cs" />
+    <Compile Include="Core\IDeliverablePublisher.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\DeliverablePublisherUI.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\Strategies\DefaultDrawingRevisionValidationStrategy.cs" />
+    <Compile Include="Publishing\NextDrawingRevisionCalculator.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\States\ValidateDrawingsState.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\States\PublishDeliverablesState.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\States\PublisherIdleState.cs" />
+    <Compile Include="Publishing\DrawingValidator.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\ApproveDrawingCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\CloseDrawingReviewCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\OpenDrawingReviewCommand.cs" />
@@ -274,12 +294,13 @@
     <Compile Include="Reviews\DrawingReviewer\DrawingMarkupFileUploader.cs" />
     <Compile Include="Core\IDrawingReviewViewer.cs" />
     <Compile Include="Sync\VersionSynchronizer\AssemblyPartRelationshipAnalyzer.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\ArchiveVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CompareDesignFileCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\MarkDrawingAsFixedCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenDrawingForViewingCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
-    <Compile Include="Sync\VersionSynchronizer\Commands\PublishVersionCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\PublishDeliverablesCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\SyncRemoteCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\TransferOwnershipCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\WorkOfflineCommand.cs" />
@@ -288,17 +309,30 @@
     <Compile Include="Sync\VersionSynchronizer\Exceptions\OpenVersionCanceledException.cs" />
     <Compile Include="Core\Services\MechSync\Exceptions\ProjectFolderAlreadyExistsException.cs" />
     <Compile Include="Sync\VersionSynchronizer\Exceptions\VersionOwnershipNotAcknowledgedException.cs" />
-    <Compile Include="Sync\VersionSynchronizer\States\IdleState.cs" />
+    <Compile Include="Sync\VersionSynchronizer\States\SynchronizerIdleState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IndexLocalFiles.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IndexRemoteFilesState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\ProcessSyncCheckSummaryState.cs" />
     <Compile Include="Sync\VersionSynchronizer\WorkingCopyDownloader.cs" />
+    <Compile Include="UI\Forms\DeliverablePublishingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\DeliverablePublishingForm.Designer.cs">
+      <DependentUpon>DeliverablePublishingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\DesignFilesAnalysisDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Forms\DesignFilesAnalysisDialog.Designer.cs">
       <DependentUpon>DesignFilesAnalysisDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Forms\PublishingBlockersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\PublishingBlockersForm.Designer.cs">
+      <DependentUpon>PublishingBlockersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ReviewableDrawingsGrid.cs" />
     <Compile Include="UI\ReviewableFilesTreeView.cs" />
     <Compile Include="UI\ReviewableDrawingsTreeView.cs" />
     <Compile Include="Sync\ReviewableFileMetadataFetcher.cs" />
@@ -399,17 +433,17 @@
     <Compile Include="UI\Forms\ProjectSelectorForm.Designer.cs">
       <DependentUpon>ProjectSelectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Forms\PublishVersionProgressDialog.cs">
+    <Compile Include="UI\Forms\ArchiveVersionProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\PublishVersionProgressDialog.Designer.cs">
-      <DependentUpon>PublishVersionProgressDialog.cs</DependentUpon>
+    <Compile Include="UI\Forms\ArchiveVersionProgressDialog.Designer.cs">
+      <DependentUpon>ArchiveVersionProgressDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Forms\VersionChecklistForm.cs">
+    <Compile Include="UI\Forms\ReviewSummaryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\VersionChecklistForm.Designer.cs">
-      <DependentUpon>VersionChecklistForm.cs</DependentUpon>
+    <Compile Include="UI\Forms\ReviewSummaryForm.Designer.cs">
+      <DependentUpon>ReviewSummaryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SelectedVersionDetails.cs" />
     <Compile Include="UI\Forms\SyncCheckSummaryForm.cs">
@@ -472,7 +506,7 @@
     <Compile Include="Sync\VersionSynchronizer\States\MonitorFileSyncEventsState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\HandleFileSyncEventsState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\SyncCheckState.cs" />
-    <Compile Include="UI\LocalFileListViewControl.cs" />
+    <Compile Include="UI\LocalFileListView.cs" />
     <Compile Include="UI\Forms\VersionSynchronizerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -503,6 +537,9 @@
     <EmbeddedResource Include="UI\Forms\CreateVersionForm.resx">
       <DependentUpon>CreateVersionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\DeliverablePublishingForm.resx">
+      <DependentUpon>DeliverablePublishingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\DesignFileComparatorForm.resx">
       <DependentUpon>DesignFileComparatorForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -524,11 +561,14 @@
     <EmbeddedResource Include="UI\Forms\DesignFilesAnalysisDialog.resx">
       <DependentUpon>DesignFilesAnalysisDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\PublishingBlockersForm.resx">
+      <DependentUpon>PublishingBlockersForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\SyncCheckSummaryForm.resx">
       <DependentUpon>SyncCheckSummaryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\VersionChecklistForm.resx">
-      <DependentUpon>VersionChecklistForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Forms\ReviewSummaryForm.resx">
+      <DependentUpon>ReviewSummaryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\VersionSelectorForm.resx">
       <DependentUpon>VersionSelectorForm.cs</DependentUpon>
@@ -552,8 +592,8 @@
     <EmbeddedResource Include="UI\Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\PublishVersionProgressDialog.resx">
-      <DependentUpon>PublishVersionProgressDialog.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Forms\ArchiveVersionProgressDialog.resx">
+      <DependentUpon>ArchiveVersionProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\UserSelectorForm.resx">
       <DependentUpon>UserSelectorForm.cs</DependentUpon>
@@ -690,6 +730,14 @@
   <ItemGroup>
     <None Include="Resources\generate-keys-24-icon.png" />
     <None Include="Resources\edit-icon-24.png" />
+    <None Include="Resources\archive-24.png" />
+    <None Include="Resources\paper-plane-24.png" />
+    <None Include="Resources\undo-24.png" />
+    <None Include="Resources\error-alert-24.png" />
+    <None Include="Resources\inspect-deliverables-24.png" />
+    <None Include="Resources\cursor-select-24.png" />
+    <None Include="Resources\file-icon-24.png" />
+    <None Include="Resources\file-icon-16.png" />
     <Content Include="sync-icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -707,6 +755,8 @@
   <ItemGroup>
     <None Include="Resources\ok-apply-icon-32.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Publishing\DeliverablePublisher\Commands\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

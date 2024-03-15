@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,23 +17,18 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
 {
-    public partial class VersionChecklistForm : Form
+    public partial class ReviewSummaryForm : Form
     {
         // key is FileMetadata Id, value is the actual FileMetadata object for assemblies and drawings 
         private readonly Dictionary<string, FileMetadata> ReviewableAssemblyIndex = new Dictionary<string, FileMetadata>();
         private readonly Dictionary<string, FileMetadata> ReviewableDrawingsIndex = new Dictionary<string, FileMetadata>();
 
-        // key is a FileMetadata Id, value is the count of ReviewTarget with Approved status in server
-        private readonly Dictionary<string, int> FileApprovalCounts = new Dictionary<string, int>();
-
-
         private int approvedDrawingsCount = 0;
         private int approvedAssembliesCount = 0;
 
-
         public IVersionSynchronizer Synchronizer { get; }
 
-        public VersionChecklistForm(IVersionSynchronizer synchronizer)
+        public ReviewSummaryForm(IVersionSynchronizer synchronizer)
         {
             InitializeComponent();
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
@@ -42,7 +38,7 @@ namespace MechanicalSyncApp.UI.Forms
         private async Task RefreshChecklist()
         {
             await FetchReviewableFiles();
-            await FetchFileApprovalCounts();
+            await FetchFileApprovals();
             PopulateReviewableDrawings();
         }
 
@@ -55,17 +51,15 @@ namespace MechanicalSyncApp.UI.Forms
                 var item = new ListViewItem(drawing.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
                 item.UseItemStyleForSubItems = false;
 
-                var approvalCount = FileApprovalCounts.ContainsKey(drawing.Id)
-                    ? FileApprovalCounts[drawing.Id] : 0;
-
-                if (approvalCount > 0)
+                if (drawing.ApprovalCount > 0)
                     approvedDrawingsCount++;
 
-                var status = GetStatusText(approvalCount);
+                var status = GetStatusText(drawing.ApprovalCount);
 
-                var approvalCountSubitem = item.SubItems.Add(approvalCount.ToString());
-                approvalCountSubitem.ForeColor = approvalCount == 0 ? Color.Red : Color.Green;
+                var approvalCountSubitem = item.SubItems.Add(drawing.ApprovalCount.ToString());
+                approvalCountSubitem.ForeColor = drawing.ApprovalCount == 0 ? Color.Red : Color.Green;
                 item.SubItems.Add(status);
+                item.Tag = drawing;
                 ReviewableDrawingsListView.Items.Add(item);
             }
             drawingVerificationTab.ImageIndex = IsDrawingsComplete() ? 0 : 1;
@@ -75,10 +69,9 @@ namespace MechanicalSyncApp.UI.Forms
         {
             try
             {
-                var reviewableDrawings = await new ReviewableFileMetadataFetcher(
-                    Synchronizer.SyncServiceClient,
-                    Synchronizer.Version.RemoteVersion.Id
-                ).FetchReviewableDrawingsAsync();
+                var fetcher = new ReviewableFileMetadataFetcher(Synchronizer, Log.Logger);
+
+                var reviewableDrawings = await fetcher.FetchReviewableDrawingsAsync();
                     
                 foreach (var drawing in reviewableDrawings)
                 {
@@ -88,10 +81,7 @@ namespace MechanicalSyncApp.UI.Forms
                         ReviewableDrawingsIndex[drawing.Id] = drawing;
                 }
 
-                var reviewableAssemblies = await new ReviewableFileMetadataFetcher(
-                    Synchronizer.SyncServiceClient,
-                    Synchronizer.Version.RemoteVersion.Id
-                ).FetchReviewableAssembliesAsync();
+                var reviewableAssemblies = await fetcher.FetchReviewableAssembliesAsync();
 
                 foreach (var assembly in reviewableAssemblies)
                 {
@@ -107,23 +97,22 @@ namespace MechanicalSyncApp.UI.Forms
             }
         }
 
-        private async Task FetchFileApprovalCounts()
+        private async Task FetchFileApprovals()
         {
             try
             {
                 var reviews = await Synchronizer.SyncServiceClient.GetVersionReviewsAsync(Synchronizer.Version.RemoteVersion.Id);
 
-                FileApprovalCounts.Clear();
                 foreach(var review in reviews)
                 {
                     foreach(var target in review.Targets)
                     {
                         if (target.Status != "Approved") continue;
 
-                        if (!FileApprovalCounts.ContainsKey(target.TargetId))
-                            FileApprovalCounts[target.TargetId] = 1;
-                        else
-                            FileApprovalCounts[target.TargetId]++;
+                        if (ReviewableDrawingsIndex.ContainsKey(target.TargetId))
+                            ReviewableDrawingsIndex[target.TargetId].ApprovalCount++;
+                        else if (ReviewableAssemblyIndex.ContainsKey(target.TargetId))
+                            ReviewableAssemblyIndex[target.TargetId].ApprovalCount++;
                     }
                 }
             }
@@ -135,9 +124,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private string GetStatusText(int approvalCount)
         {
-            var status = approvalCount > 0
-               ? "Ready"
-               : "Needs at least 1 approval";
+            var status = approvalCount > 0 ? "Ready" : "Needs at least 1 approval";
             return status;
         }
 

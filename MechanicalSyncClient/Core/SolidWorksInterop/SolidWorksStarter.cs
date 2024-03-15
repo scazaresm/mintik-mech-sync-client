@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using MechanicalSyncApp.Core.SolidWorksInterop.API;
+using Serilog;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Diagnostics;

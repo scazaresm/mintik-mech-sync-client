@@ -1,6 +1,6 @@
 ﻿namespace MechanicalSyncApp.UI.Forms
 {
-    partial class VersionChecklistForm
+    partial class ReviewSummaryForm
     {
         /// <summary>
         /// Required designer variable.
@@ -33,7 +33,7 @@
             "ExampleDrawing.slddrw",
             "0",
             "Needs at least 1 approval"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VersionChecklistForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReviewSummaryForm));
             this.ChecklistTabs = new System.Windows.Forms.TabControl();
             this.assemblyVerificationTab = new System.Windows.Forms.TabPage();
             this.drawingVerificationTab = new System.Windows.Forms.TabPage();
@@ -41,10 +41,9 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.attachmentsTab = new System.Windows.Forms.TabPage();
             this.TabIcons = new System.Windows.Forms.ImageList(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.PublishButton = new System.Windows.Forms.Button();
+            this.PublishAllButton = new System.Windows.Forms.Button();
             this.CancelPublishButton = new System.Windows.Forms.Button();
             this.RefreshButton = new System.Windows.Forms.Button();
             this.ChecklistTabs.SuspendLayout();
@@ -55,21 +54,20 @@
             // 
             this.ChecklistTabs.Controls.Add(this.assemblyVerificationTab);
             this.ChecklistTabs.Controls.Add(this.drawingVerificationTab);
-            this.ChecklistTabs.Controls.Add(this.attachmentsTab);
             this.ChecklistTabs.ImageList = this.TabIcons;
-            this.ChecklistTabs.Location = new System.Drawing.Point(16, 46);
+            this.ChecklistTabs.Location = new System.Drawing.Point(16, 64);
             this.ChecklistTabs.Name = "ChecklistTabs";
             this.ChecklistTabs.SelectedIndex = 0;
-            this.ChecklistTabs.Size = new System.Drawing.Size(691, 330);
+            this.ChecklistTabs.Size = new System.Drawing.Size(691, 312);
             this.ChecklistTabs.TabIndex = 1;
             // 
             // assemblyVerificationTab
             // 
             this.assemblyVerificationTab.Location = new System.Drawing.Point(4, 23);
             this.assemblyVerificationTab.Name = "assemblyVerificationTab";
-            this.assemblyVerificationTab.Size = new System.Drawing.Size(683, 303);
+            this.assemblyVerificationTab.Size = new System.Drawing.Size(683, 193);
             this.assemblyVerificationTab.TabIndex = 1;
-            this.assemblyVerificationTab.Text = "3D Review";
+            this.assemblyVerificationTab.Text = "Assemblies";
             this.assemblyVerificationTab.UseVisualStyleBackColor = true;
             // 
             // drawingVerificationTab
@@ -78,12 +76,12 @@
             this.drawingVerificationTab.Location = new System.Drawing.Point(4, 23);
             this.drawingVerificationTab.Name = "drawingVerificationTab";
             this.drawingVerificationTab.Padding = new System.Windows.Forms.Padding(3);
-            this.drawingVerificationTab.Size = new System.Drawing.Size(683, 303);
+            this.drawingVerificationTab.Size = new System.Drawing.Size(683, 285);
             this.drawingVerificationTab.TabIndex = 0;
-            this.drawingVerificationTab.Text = "2D Review";
+            this.drawingVerificationTab.Text = "Drawings";
             this.drawingVerificationTab.UseVisualStyleBackColor = true;
             // 
-            // DrawingListView
+            // ReviewableDrawingsListView
             // 
             this.ReviewableDrawingsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -96,8 +94,8 @@
             listViewItem2});
             this.ReviewableDrawingsListView.Location = new System.Drawing.Point(3, 3);
             this.ReviewableDrawingsListView.MultiSelect = false;
-            this.ReviewableDrawingsListView.Name = "DrawingListView";
-            this.ReviewableDrawingsListView.Size = new System.Drawing.Size(677, 297);
+            this.ReviewableDrawingsListView.Name = "ReviewableDrawingsListView";
+            this.ReviewableDrawingsListView.Size = new System.Drawing.Size(677, 279);
             this.ReviewableDrawingsListView.TabIndex = 17;
             this.ReviewableDrawingsListView.TileSize = new System.Drawing.Size(150, 30);
             this.ReviewableDrawingsListView.UseCompatibleStateImageBehavior = false;
@@ -112,22 +110,12 @@
             // 
             this.columnHeader2.Text = "Approval count";
             this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader2.Width = 150;
+            this.columnHeader2.Width = 100;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Status";
-            this.columnHeader3.Width = 160;
-            // 
-            // attachmentsTab
-            // 
-            this.attachmentsTab.Location = new System.Drawing.Point(4, 23);
-            this.attachmentsTab.Name = "attachmentsTab";
-            this.attachmentsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.attachmentsTab.Size = new System.Drawing.Size(683, 303);
-            this.attachmentsTab.TabIndex = 2;
-            this.attachmentsTab.Text = "Attachments";
-            this.attachmentsTab.UseVisualStyleBackColor = true;
+            this.columnHeader3.Width = 220;
             // 
             // TabIcons
             // 
@@ -141,27 +129,26 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(370, 13);
+            this.label1.Size = new System.Drawing.Size(285, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "This version needs to pass the following verification before you can publish it:\r" +
-    "\n";
+            this.label1.Text = "Here is the summary of 3D and 2D reviews for this version. \r\n";
             // 
-            // PublishButton
+            // PublishAllButton
             // 
-            this.PublishButton.Enabled = false;
-            this.PublishButton.Location = new System.Drawing.Point(628, 390);
-            this.PublishButton.Name = "PublishButton";
-            this.PublishButton.Size = new System.Drawing.Size(75, 23);
-            this.PublishButton.TabIndex = 3;
-            this.PublishButton.Text = "Publish now";
-            this.PublishButton.UseVisualStyleBackColor = true;
+            this.PublishAllButton.Enabled = false;
+            this.PublishAllButton.Location = new System.Drawing.Point(612, 388);
+            this.PublishAllButton.Name = "PublishAllButton";
+            this.PublishAllButton.Size = new System.Drawing.Size(95, 23);
+            this.PublishAllButton.TabIndex = 3;
+            this.PublishAllButton.Text = "Next";
+            this.PublishAllButton.UseVisualStyleBackColor = true;
             // 
             // CancelPublishButton
             // 
             this.CancelPublishButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelPublishButton.Location = new System.Drawing.Point(543, 390);
+            this.CancelPublishButton.Location = new System.Drawing.Point(507, 388);
             this.CancelPublishButton.Name = "CancelPublishButton";
-            this.CancelPublishButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelPublishButton.Size = new System.Drawing.Size(95, 23);
             this.CancelPublishButton.TabIndex = 4;
             this.CancelPublishButton.Text = "Cancel";
             this.CancelPublishButton.UseVisualStyleBackColor = true;
@@ -177,23 +164,23 @@
             this.RefreshButton.UseVisualStyleBackColor = true;
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
-            // VersionChecklistForm
+            // ReviewSummaryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelPublishButton;
-            this.ClientSize = new System.Drawing.Size(719, 430);
+            this.ClientSize = new System.Drawing.Size(719, 427);
             this.Controls.Add(this.RefreshButton);
             this.Controls.Add(this.CancelPublishButton);
-            this.Controls.Add(this.PublishButton);
+            this.Controls.Add(this.PublishAllButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ChecklistTabs);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "VersionChecklistForm";
+            this.Name = "ReviewSummaryForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Version verification";
+            this.Text = "Review summary";
             this.ChecklistTabs.ResumeLayout(false);
             this.drawingVerificationTab.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -205,15 +192,14 @@
         private System.Windows.Forms.TabControl ChecklistTabs;
         private System.Windows.Forms.TabPage drawingVerificationTab;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button PublishButton;
+        private System.Windows.Forms.Button PublishAllButton;
         private System.Windows.Forms.TabPage assemblyVerificationTab;
-        private System.Windows.Forms.TabPage attachmentsTab;
         private System.Windows.Forms.Button CancelPublishButton;
         private System.Windows.Forms.ListView ReviewableDrawingsListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ImageList TabIcons;
         private System.Windows.Forms.Button RefreshButton;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
     }
 }

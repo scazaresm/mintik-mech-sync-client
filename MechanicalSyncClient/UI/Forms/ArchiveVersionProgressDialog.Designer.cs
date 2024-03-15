@@ -1,6 +1,6 @@
 ﻿namespace MechanicalSyncApp.UI.Forms
 {
-    partial class PublishVersionProgressDialog
+    partial class ArchiveVersionProgressDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.OkButton = new System.Windows.Forms.Button();
-            this.PublishingMessage = new System.Windows.Forms.Label();
-            this.PublishingProgressBar = new System.Windows.Forms.ProgressBar();
-            this.PublishingIcon = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.PublishingIcon)).BeginInit();
+            this.ArchivingMessage = new System.Windows.Forms.Label();
+            this.ArchivingProgressBar = new System.Windows.Forms.ProgressBar();
+            this.ArchivingIcon = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.ArchivingIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // OkButton
@@ -48,56 +48,56 @@
             // 
             // PublishingMessage
             // 
-            this.PublishingMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PublishingMessage.Location = new System.Drawing.Point(82, 21);
-            this.PublishingMessage.Name = "PublishingMessage";
-            this.PublishingMessage.Size = new System.Drawing.Size(360, 96);
-            this.PublishingMessage.TabIndex = 5;
-            this.PublishingMessage.Text = "Publishing";
+            this.ArchivingMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ArchivingMessage.Location = new System.Drawing.Point(82, 21);
+            this.ArchivingMessage.Name = "PublishingMessage";
+            this.ArchivingMessage.Size = new System.Drawing.Size(360, 96);
+            this.ArchivingMessage.TabIndex = 5;
+            this.ArchivingMessage.Text = "Archiving...";
             // 
             // PublishingProgressBar
             // 
-            this.PublishingProgressBar.Location = new System.Drawing.Point(14, 130);
-            this.PublishingProgressBar.Name = "PublishingProgressBar";
-            this.PublishingProgressBar.Size = new System.Drawing.Size(428, 23);
-            this.PublishingProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.PublishingProgressBar.TabIndex = 6;
+            this.ArchivingProgressBar.Location = new System.Drawing.Point(14, 130);
+            this.ArchivingProgressBar.Name = "PublishingProgressBar";
+            this.ArchivingProgressBar.Size = new System.Drawing.Size(428, 23);
+            this.ArchivingProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.ArchivingProgressBar.TabIndex = 6;
             // 
             // PublishingIcon
             // 
-            this.PublishingIcon.Location = new System.Drawing.Point(22, 33);
-            this.PublishingIcon.Name = "PublishingIcon";
-            this.PublishingIcon.Size = new System.Drawing.Size(48, 48);
-            this.PublishingIcon.TabIndex = 7;
-            this.PublishingIcon.TabStop = false;
+            this.ArchivingIcon.Location = new System.Drawing.Point(22, 33);
+            this.ArchivingIcon.Name = "PublishingIcon";
+            this.ArchivingIcon.Size = new System.Drawing.Size(48, 48);
+            this.ArchivingIcon.TabIndex = 7;
+            this.ArchivingIcon.TabStop = false;
             // 
-            // PublishVersionProgressDialog
+            // ArchiveVersionProgressDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.OkButton;
             this.ClientSize = new System.Drawing.Size(455, 202);
             this.ControlBox = false;
-            this.Controls.Add(this.PublishingIcon);
-            this.Controls.Add(this.PublishingMessage);
-            this.Controls.Add(this.PublishingProgressBar);
+            this.Controls.Add(this.ArchivingIcon);
+            this.Controls.Add(this.ArchivingMessage);
+            this.Controls.Add(this.ArchivingProgressBar);
             this.Controls.Add(this.OkButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "PublishVersionProgressDialog";
+            this.Name = "ArchiveVersionProgressDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Publishing in progress";
+            this.Text = "Archive version";
             this.Load += new System.EventHandler(this.PublishVersionProgressDialog_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.PublishingIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ArchivingIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
         private System.Windows.Forms.Button OkButton;
-        private System.Windows.Forms.Label PublishingMessage;
-        private System.Windows.Forms.ProgressBar PublishingProgressBar;
-        private System.Windows.Forms.PictureBox PublishingIcon;
+        private System.Windows.Forms.Label ArchivingMessage;
+        private System.Windows.Forms.ProgressBar ArchivingProgressBar;
+        private System.Windows.Forms.PictureBox ArchivingIcon;
     }
 }

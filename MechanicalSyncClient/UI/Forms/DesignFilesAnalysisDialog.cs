@@ -30,19 +30,30 @@ namespace MechanicalSyncApp.UI.Forms
 
         public void SetProgress(int progress)
         {
-            if (progress < 0) progress = 0;
-            if (progress > 100) progress = 100;
-            AnalysisProgressBar.Value = progress;
+            if (AnalysisProgressBar.InvokeRequired)
+                AnalysisProgressBar.Invoke((MethodInvoker)(() => SetProgress(progress)));
+            else
+            {
+                if (progress < 0) progress = 0;
+                if (progress > 100) progress = 100;
+                AnalysisProgressBar.Value = progress;
+            }
         }
 
         public void SetStatus(string status)
         {
-            StatusLabel.Text = status ?? "";
+            if (StatusLabel.InvokeRequired)
+                DetailsLabel.Invoke((MethodInvoker)(() => SetStatus(status)));
+            else
+                StatusLabel.Text = status ?? "";
         }
 
         public void SetDetails(string details)
         {
-            DetailsLabel.Text = details ?? "";
+            if (DetailsLabel.InvokeRequired)
+                DetailsLabel.Invoke((MethodInvoker)(() => SetDetails(details)));
+            else
+                DetailsLabel.Text = details ?? "";
         }
 
         private void CancelAnalysisButton_Click(object sender, EventArgs e)

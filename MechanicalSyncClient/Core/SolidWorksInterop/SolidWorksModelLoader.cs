@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using MechanicalSyncApp.Core.SolidWorksInterop.API;
+using Serilog;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.SolidWorksInterop
 {
-    public enum SolidDocumentType
+    public enum SolidWorksDocumentType
     {
         Part = 1,
         Assembly = 2,
@@ -67,12 +68,12 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
 
         public void UnloadModel(ModelDoc2 model)
         {
-            logger.Debug($"Unloading model {model.GetTitle()}...");
             if (model == null)
             {
                 logger.Debug("Model object is null, nothing to unload.");
                 return;
             }
+            logger.Debug($"Unloading model {model.GetTitle()}...");
             (solidWorksStarter as SolidWorksStarter).SolidWorksApp.CloseDoc(model.GetTitle());
             logger.Debug($"Successfully unloaded model.");
         }
@@ -82,9 +83,9 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
             string fileExtension = Path.GetExtension(filePath).ToLower();
 
             var fileType =
-                fileExtension.EndsWith(".sldprt") ? SolidDocumentType.Part :
-                fileExtension.EndsWith(".sldasm") ? SolidDocumentType.Assembly :
-                fileExtension.EndsWith(".slddrw") ? SolidDocumentType.Drawing :
+                fileExtension.EndsWith(".sldprt") ? SolidWorksDocumentType.Part :
+                fileExtension.EndsWith(".sldasm") ? SolidWorksDocumentType.Assembly :
+                fileExtension.EndsWith(".slddrw") ? SolidWorksDocumentType.Drawing :
                     throw new ArgumentException("Unknown file type");
 
             return (int)fileType;

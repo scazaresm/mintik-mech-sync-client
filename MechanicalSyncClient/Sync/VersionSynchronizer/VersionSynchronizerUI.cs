@@ -11,7 +11,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 {
     public class VersionSynchronizerUI : IDisposable
     {
-        public LocalFileListViewControl LocalFileViewer { get; private set; }
+        public LocalFileListView LocalFileViewer { get; private set; }
 
         public DrawingReviewerControl DrawingReviewer { get; set; }
 
@@ -27,7 +27,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public ToolStripButton SyncRemoteButton { get; set; }
         public ToolStripButton RefreshDrawingExplorerButton { get; set; }
         public Button CloseVersionButton { get; set; }
-        public ToolStripButton PublishVersionButton { get; set; }
+        public ToolStripButton PublishDeliverablesButton { get; set; }
         public ToolStripButton TransferOwnershipButton { get; set; }
 
         public ToolStripProgressBar SyncProgressBar { get; set; }
@@ -73,7 +73,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 throw new ArgumentNullException(nameof(changeMonitor));
 
             DisposeFileViewer();
-            LocalFileViewer = new LocalFileListViewControl(
+            LocalFileViewer = new LocalFileListView(
                 version.LocalDirectory, 
                 "*.sldasm | *.sldprt | *.slddrw",
                 changeMonitor

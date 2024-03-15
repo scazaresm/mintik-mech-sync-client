@@ -101,7 +101,7 @@ namespace MechanicalSyncApp.UI.Forms
                 RefreshLocalFilesButton = RefreshLocalFilesButton,
                 RefreshDrawingExplorerButton = RefreshDrawingExplorerButton,
                 CloseVersionButton = CloseVersionButton,
-                PublishVersionButton = PublishVersionButton,
+                PublishDeliverablesButton = PublishDeliverablesButton,
                 TransferOwnershipButton = TransferOwnershipButton,
                 SyncProgressBar = SyncProgressBar,
                 MainSplitContainer = MainSplitContainer,
@@ -323,6 +323,42 @@ namespace MechanicalSyncApp.UI.Forms
                     MessageBoxIcon.Information
                 );
                 await workspaceTreeView.Refresh();
+            }
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var solidWorksStarter = new SolidWorksStarter(Log.Logger)
+                {
+                    SolidWorksExePath = @"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\SLDWORKS.exe",
+                    SolidWorksStartTimeoutSeconds = 60,
+                    Hidden = true,
+                    ShowSplash = false,
+                })
+                {
+                    await solidWorksStarter.StartSolidWorksAsync();
+
+                    var modelExporter = new SolidWorksModelExporter(solidWorksStarter, Log.Logger);
+
+                    await modelExporter.ExportModelAsync(
+                        @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.SLDPRT",
+                        @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.STEP"
+                    );
+
+                    await modelExporter.ExportModelAsync(
+                       @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.SLDDRW",
+                       new string[] {
+                            @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.PDF",
+                            @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.DWG"
+                       }
+                   );
+                }
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show($"Something has failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

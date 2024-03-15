@@ -65,7 +65,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             CurrentDrawingReview = null;
             CurrentDrawingReviewTarget = null;
 
-            SetState(new IdleState(logger));
+            SetState(new SynchronizerIdleState(logger));
             _ = RunStepAsync();
         }
 
@@ -88,6 +88,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         {
             if (state != null)
                 await state.RunAsync();
+            else
+                throw new InvalidOperationException("Trying to run a step before actually setting the current step.");
         }
 
         #endregion
@@ -119,9 +121,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await new CloseVersionCommand(this, logger).RunAsync();
         }
 
-        public async Task PublishVersionAsync()
+        public async Task PublishDeliverablesAsync()
         {
-            await new PublishVersionCommand(this, logger).RunAsync();
+            await new PublishDeliverablesCommand(this, logger).RunAsync();
         }
 
         public async Task TransferOwnershipAsync()
@@ -159,7 +161,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
             UI.RefreshLocalFilesButton.Click += RefreshLocalFilesButton_Click;
             UI.CloseVersionButton.Click += CloseVersionButton_Click;
-            UI.PublishVersionButton.Click += PublishVersionButton_Click;
+            UI.PublishDeliverablesButton.Click += PublishDeliverablesButton_Click;
             UI.TransferOwnershipButton.Click += TransferOwnershipButton_Click;
 
             UI.CopyLocalCopyPathMenuItem.Click += CopyLocalCopyPathMenuItem_Click;
@@ -215,9 +217,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await CloseVersionAsync();
         }
 
-        private async void PublishVersionButton_Click(object sender, EventArgs e)
+        private async void PublishDeliverablesButton_Click(object sender, EventArgs e)
         {
-            await PublishVersionAsync();
+            await PublishDeliverablesAsync();
         }
 
         private async void TransferOwnershipButton_Click(object sender, EventArgs e)
@@ -260,7 +262,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.SyncRemoteButton.Click -= SyncRemoteButton_Click;
             UI.RefreshLocalFilesButton.Click -= RefreshLocalFilesButton_Click;
             UI.CloseVersionButton.Click -= CloseVersionButton_Click;
-            UI.PublishVersionButton.Click -= PublishVersionButton_Click;
+            UI.PublishDeliverablesButton.Click -= PublishDeliverablesButton_Click;
             UI.TransferOwnershipButton.Click -= TransferOwnershipButton_Click;
             UI.CopyLocalCopyPathMenuItem.Click -= CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click -= OpenLocalCopyFolderMenuItem_Click;

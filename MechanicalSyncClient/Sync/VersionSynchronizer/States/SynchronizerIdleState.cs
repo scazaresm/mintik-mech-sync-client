@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
-    class IdleState : VersionSynchronizerState
+    class SynchronizerIdleState : VersionSynchronizerState
     {
         private readonly ILogger logger;
 
-        public IdleState(ILogger logger)
+        public SynchronizerIdleState(ILogger logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public override async Task RunAsync()
         {
-            logger.Debug("State machine moved to IdleState, delaying for 1000ms.");
+            logger.Debug("State machine moved to SynchronizerIdleState, delaying for 1000ms.");
             await Task.Delay(1000);
         }
 
@@ -39,7 +39,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
             ui.WorkOfflineButton.Visible = false;
 
-            ui.PublishVersionButton.Enabled = true;
+            ui.PublishDeliverablesButton.Enabled = true;
             ui.TransferOwnershipButton.Enabled = true;
         }
     }

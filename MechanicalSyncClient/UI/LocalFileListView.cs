@@ -11,7 +11,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MechanicalSyncApp.UI
 {
-    public class LocalFileListViewControl : ILocalFileListViewControl
+    public class LocalFileListView : ILocalFileListView
     {
         private string localDirectory;
         private readonly string extensionFilter;
@@ -22,7 +22,7 @@ namespace MechanicalSyncApp.UI
 
         public DictionaryListViewAdapter FileLookup { get; private set; }
 
-        public LocalFileListViewControl(string localDirectory, string extensionFilter, IVersionChangeMonitor changeMonitor)
+        public LocalFileListView(string localDirectory, string extensionFilter, IVersionChangeMonitor changeMonitor)
         {
             this.localDirectory = localDirectory ?? throw new ArgumentNullException(nameof(localDirectory));
             this.extensionFilter = extensionFilter ?? throw new ArgumentNullException(nameof(extensionFilter));
@@ -32,7 +32,7 @@ namespace MechanicalSyncApp.UI
 
         public void AttachListView(ListView listView)
         {
-            AttachedListView = listView;
+            AttachedListView = listView ?? throw new ArgumentNullException(nameof(listView));
             AttachedListView.MouseDoubleClick += AttachedListView_MouseDoubleClick;
             FileLookup = new DictionaryListViewAdapter(listView.Items);
             PopulateFiles();
