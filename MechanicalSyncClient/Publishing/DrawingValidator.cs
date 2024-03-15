@@ -17,15 +17,18 @@ namespace MechanicalSyncApp.Publishing
     public class DrawingValidator
     {
         private readonly ISolidWorksStarter solidWorksStarter;
-        private readonly string relativePublishingDirectory;
+        private readonly INextDrawingRevisionCalculator drawingRevisionCalculator;
+        private readonly IDrawingRevisionRetriever drawingRevisionRetriever;
         private readonly ILogger logger;
 
         public DrawingValidator(ISolidWorksStarter solidWorksStarter,
-                                string relativePublishingDirectory,
+                                INextDrawingRevisionCalculator drawingRevisionCalculator,
+                                IDrawingRevisionRetriever drawingRevisionRetriever,
                                 ILogger logger)
         {
             this.solidWorksStarter = solidWorksStarter ?? throw new ArgumentNullException(nameof(solidWorksStarter));
-            this.relativePublishingDirectory = relativePublishingDirectory ?? throw new ArgumentNullException(nameof(relativePublishingDirectory));
+            this.drawingRevisionCalculator = drawingRevisionCalculator ?? throw new ArgumentNullException(nameof(drawingRevisionCalculator));
+            this.drawingRevisionRetriever = drawingRevisionRetriever ?? throw new ArgumentNullException(nameof(drawingRevisionRetriever));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -35,8 +38,8 @@ namespace MechanicalSyncApp.Publishing
 
             // validate drawing revision
             await new DefaultDrawingRevisionValidationStrategy(
-                solidWorksStarter, 
-                new NextDrawingRevisionCalculator(relativePublishingDirectory),
+                drawingRevisionCalculator,
+                drawingRevisionRetriever,
                 logger
             ).ValidateAsync(drawing);
         }

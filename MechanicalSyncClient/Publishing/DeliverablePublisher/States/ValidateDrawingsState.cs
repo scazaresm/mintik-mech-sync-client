@@ -1,5 +1,6 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
+using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Core.Util;
 using Serilog;
 using System;
@@ -39,7 +40,12 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
             var projectFolderName = Publisher.Synchronizer.Version.RemoteProject.FolderName;
             var relativePublishingDirectory = Path.Combine(DateTime.Now.Year.ToString(), projectFolderName, "PDF");
 
-            var validator = new DrawingValidator(Publisher.SolidWorksStarter, relativePublishingDirectory, logger);
+            var validator = new DrawingValidator(
+                Publisher.SolidWorksStarter, 
+                new NextDrawingRevisionCalculator(relativePublishingDirectory, logger), 
+                new DrawingRevisionRetriever(Publisher.SolidWorksStarter, logger),
+                logger
+            );
 
             int validatedDrawingsCount = 0;
 

@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
     public class NextDrawingRevisionCalculator : INextDrawingRevisionCalculator
     {
         private readonly string relativePublishingDirectory;
+        private readonly ILogger logger;
 
         public bool UseInitialRevisionSuffix { get; private set; } = false;
 
@@ -22,15 +24,18 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         public string PublishedFileExtension { get; set; } = ".pdf";
 
-        public NextDrawingRevisionCalculator(string relativePublishingDirectory)
+        public NextDrawingRevisionCalculator(string relativePublishingDirectory, ILogger logger)
         {
             this.relativePublishingDirectory = relativePublishingDirectory ?? throw new ArgumentNullException(nameof(relativePublishingDirectory));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public string GetNextRevision(string drawingFilename)
         {
             if (drawingFilename is null)
-                throw new ArgumentNullException(nameof(drawingFilename));
+                throw new ArgumentNullException($"Argument cannot be null ({nameof(drawingFilename)})");
+
+            logger.Debug($"Calculating next revision for drawing {drawingFilename}...");
 
             if (!Directory.Exists(BasePublishingDirectory))
                 throw new DirectoryNotFoundException(
@@ -46,18 +51,26 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
                 Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFilename}.*\{PublishedFileExtension}", RegexOptions)
             );
 
+            var nextRevision = "";
+
             if (allExistingPublishings.Count() == 0)
-                return "A"; // no publishings yet, so this is initial revision
+            {
+                nextRevision = "A"; // no publishings yet, so this is initial revision
+            }
+            else
+            {
+                var publishingsWithRevisionSuffix = Directory.EnumerateFiles(publishingLocation).Where(file =>
+                    Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFilename}-.*\{PublishedFileExtension}", RegexOptions)
+                );
 
-            var publishingsWithRevisionSuffix = Directory.EnumerateFiles(publishingLocation).Where(file =>
-                Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFilename}-.*\{PublishedFileExtension}", RegexOptions)
-            );
+                var numericRevision = !UseInitialRevisionSuffix
+                    ? publishingsWithRevisionSuffix.Count() + 2  // existing revisions + initial revision (without suffix) + next revision 
+                    : publishingsWithRevisionSuffix.Count() + 1; // existing revisions + next revision
 
-            var numericRevision = !UseInitialRevisionSuffix
-                ? publishingsWithRevisionSuffix.Count() + 2  // existing revisions + initial revision (without suffix) + next revision 
-                : publishingsWithRevisionSuffix.Count() + 1; // existing revisions + next revision
-
-            return GetRevisionString(numericRevision);
+                nextRevision = GetRevisionString(numericRevision);
+            }
+            logger.Debug($"Next revision for drawing {drawingFilename} should be '{nextRevision}'.");
+            return nextRevision;
         }
 
         private string GetRevisionString(int revisionNumber)

@@ -14,17 +14,18 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
 {
     public class DefaultDrawingRevisionValidationStrategy : IDrawingRevisionValidationStrategy
     {
-        private readonly ISolidWorksStarter solidWorksStarter;
-        private readonly INextDrawingRevisionCalculator nextRevisionCalculator;
+        private readonly INextDrawingRevisionCalculator drawingRevisionCalculator;
+        private readonly IDrawingRevisionRetriever drawingRevisionRetriever;
         private readonly ILogger logger;
 
-        public DefaultDrawingRevisionValidationStrategy(ISolidWorksStarter solidWorksStarter,
-                                               INextDrawingRevisionCalculator nextRevisionCalculator,
-                                               ILogger logger
+        public DefaultDrawingRevisionValidationStrategy(
+                INextDrawingRevisionCalculator drawingRevisionCalculator,
+                IDrawingRevisionRetriever drawingRevisionRetriever,
+                ILogger logger
             )
         {
-            this.solidWorksStarter = solidWorksStarter ?? throw new ArgumentNullException(nameof(solidWorksStarter));
-            this.nextRevisionCalculator = nextRevisionCalculator ?? throw new ArgumentNullException(nameof(nextRevisionCalculator));
+            this.drawingRevisionCalculator = drawingRevisionCalculator ?? throw new ArgumentNullException(nameof(drawingRevisionCalculator));
+            this.drawingRevisionRetriever = drawingRevisionRetriever ?? throw new ArgumentNullException(nameof(drawingRevisionRetriever));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -36,11 +37,11 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             if (!File.Exists(drawing.FullFilePath))
                 throw new FileNotFoundException($"Drawing file not found, make sure that FullFilePath contains a valid file path.");
 
-            var drawingFileName = Path.GetFileName(drawing.RelativeFilePath);
-            var expectedRevision = nextRevisionCalculator.GetNextRevision(drawingFileName);
+            logger.Debug($"Validating drawing {Path.GetFileName(drawing.RelativeFilePath)}");
 
-            var drawingRevision = await new DrawingRevisionRetriever(solidWorksStarter, logger)
-                .GetRevisionAsync(drawing.FullFilePath);
+            var drawingFileName = Path.GetFileName(drawing.RelativeFilePath);
+            var expectedRevision = drawingRevisionCalculator.GetNextRevision(drawingFileName);
+            var drawingRevision = await drawingRevisionRetriever.GetRevisionAsync(drawing.FullFilePath);
 
             if (expectedRevision != drawingRevision)
             {
