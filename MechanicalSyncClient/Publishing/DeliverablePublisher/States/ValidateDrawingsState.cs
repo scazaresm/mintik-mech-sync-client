@@ -1,7 +1,9 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.SolidWorksInterop;
+using MechanicalSyncApp.Core.SolidWorksInterop.API;
 using MechanicalSyncApp.Core.Util;
+using MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -41,9 +43,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
             var relativePublishingDirectory = Path.Combine(DateTime.Now.Year.ToString(), projectFolderName, "PDF");
 
             var validator = new DrawingValidator(
-                Publisher.SolidWorksStarter, 
-                new NextDrawingRevisionCalculator(relativePublishingDirectory, logger), 
-                new DrawingRevisionRetriever(Publisher.SolidWorksStarter, logger),
+                GetDrawingRevisionValidationStrategy(relativePublishingDirectory),
                 logger
             );
 
@@ -99,6 +99,15 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
 
             if (ui.Progress != null && progress >= 0 && progress <= 100)
                 ui.Progress.Value = progress;
+        }
+
+        private IDrawingRevisionValidationStrategy GetDrawingRevisionValidationStrategy(string relativePublishingDirectory)
+        {
+            return new DefaultDrawingRevisionValidationStrategy(
+                new NextDrawingRevisionCalculator(relativePublishingDirectory, logger),
+                new DrawingRevisionRetriever(Publisher.SolidWorksStarter, logger),
+                logger
+            );
         }
     }
 }

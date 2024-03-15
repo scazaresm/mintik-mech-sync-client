@@ -30,12 +30,12 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public string GetNextRevision(string drawingFilename)
+        public string GetNextRevision(string drawingFileNameWithoutExtension)
         {
-            if (drawingFilename is null)
-                throw new ArgumentNullException($"Argument cannot be null ({nameof(drawingFilename)})");
+            if (drawingFileNameWithoutExtension is null)
+                throw new ArgumentNullException($"Argument cannot be null ({nameof(drawingFileNameWithoutExtension)})");
 
-            logger.Debug($"Calculating next revision for drawing {drawingFilename}...");
+            logger.Debug($"Calculating next revision for drawing {drawingFileNameWithoutExtension}...");
 
             if (!Directory.Exists(BasePublishingDirectory))
                 throw new DirectoryNotFoundException(
@@ -48,7 +48,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
                 Directory.CreateDirectory(publishingLocation);
 
             var allExistingPublishings = Directory.EnumerateFiles(publishingLocation).Where(file =>
-                Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFilename}.*\{PublishedFileExtension}", RegexOptions)
+                Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFileNameWithoutExtension}.*\{PublishedFileExtension}", RegexOptions)
             );
 
             var nextRevision = "";
@@ -60,7 +60,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             else
             {
                 var publishingsWithRevisionSuffix = Directory.EnumerateFiles(publishingLocation).Where(file =>
-                    Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFilename}-.*\{PublishedFileExtension}", RegexOptions)
+                    Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFileNameWithoutExtension}-.*\{PublishedFileExtension}", RegexOptions)
                 );
 
                 var numericRevision = !UseInitialRevisionSuffix
@@ -69,7 +69,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
                 nextRevision = GetRevisionString(numericRevision);
             }
-            logger.Debug($"Next revision for drawing {drawingFilename} should be '{nextRevision}'.");
+            logger.Debug($"Next revision for drawing {drawingFileNameWithoutExtension} should be '{nextRevision}'.");
             return nextRevision;
         }
 

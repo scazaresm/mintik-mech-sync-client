@@ -37,10 +37,12 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             if (!File.Exists(drawing.FullFilePath))
                 throw new FileNotFoundException($"Drawing file not found, make sure that FullFilePath contains a valid file path.");
 
-            logger.Debug($"Validating drawing {Path.GetFileName(drawing.RelativeFilePath)}");
+            string drawingFileName = Path.GetFileName(drawing.RelativeFilePath);
+            string drawingFileNameWithoutExtension = Path.GetFileNameWithoutExtension(drawing.FullFilePath);
 
-            var drawingFileName = Path.GetFileName(drawing.RelativeFilePath);
-            var expectedRevision = drawingRevisionCalculator.GetNextRevision(drawingFileName);
+            logger.Debug($"Validating revision on drawing {drawingFileName}...");
+
+            var expectedRevision = drawingRevisionCalculator.GetNextRevision(drawingFileNameWithoutExtension);
             var drawingRevision = await drawingRevisionRetriever.GetRevisionAsync(drawing.FullFilePath);
 
             if (expectedRevision != drawingRevision)
@@ -50,6 +52,8 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
                     : $"Incorrect revision: expected '{expectedRevision}' but found '{drawingRevision}'.";
 
                 drawing.ValidationIssues.Add(issue);
+
+                logger.Debug($"Issue encountered on drawing {drawingFileName}, {issue}");
             }
         }
     }
