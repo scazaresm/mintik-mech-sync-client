@@ -67,5 +67,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
 
         [JsonIgnore]
         public bool IsPublished { get; set; } = false;
+
+        [JsonIgnore]
+        public string Revision { get; set; }
     }
 }

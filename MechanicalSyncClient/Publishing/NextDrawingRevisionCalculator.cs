@@ -13,20 +13,17 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 {
     public class NextDrawingRevisionCalculator : INextDrawingRevisionCalculator
     {
-        private readonly string relativePublishingDirectory;
+        private readonly string projectPublishingDirectory;
         private readonly ILogger logger;
 
         public bool UseInitialRevisionSuffix { get; private set; } = false;
 
-        public string BasePublishingDirectory { get; set; } = @"Z:\MANUFACTURING\";
-
         public RegexOptions RegexOptions { get; set; } = RegexOptions.IgnoreCase;
 
-        public string PublishedFileExtension { get; set; } = ".pdf";
 
-        public NextDrawingRevisionCalculator(string relativePublishingDirectory, ILogger logger)
+        public NextDrawingRevisionCalculator(string projectPublishingDirectory, ILogger logger)
         {
-            this.relativePublishingDirectory = relativePublishingDirectory ?? throw new ArgumentNullException(nameof(relativePublishingDirectory));
+            this.projectPublishingDirectory = projectPublishingDirectory ?? throw new ArgumentNullException(nameof(projectPublishingDirectory));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -37,18 +34,16 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
             logger.Debug($"Calculating next revision for drawing {drawingFileNameWithoutExtension}...");
 
-            if (!Directory.Exists(BasePublishingDirectory))
-                throw new DirectoryNotFoundException(
-                    $"Could not determine a publishing location because the base directory does not exist at '{BasePublishingDirectory}'"
-                );
+            if (!Directory.Exists(projectPublishingDirectory))
+                Directory.CreateDirectory(projectPublishingDirectory);
 
-            var publishingLocation = Path.Combine(BasePublishingDirectory, relativePublishingDirectory);
+            var pdfDirectory = Path.Combine(projectPublishingDirectory, "PDF");
 
-            if (!Directory.Exists(publishingLocation))
-                Directory.CreateDirectory(publishingLocation);
+            if (!Directory.Exists(pdfDirectory))
+                Directory.CreateDirectory(pdfDirectory);
 
-            var allExistingPublishings = Directory.EnumerateFiles(publishingLocation).Where(file =>
-                Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFileNameWithoutExtension}.*\{PublishedFileExtension}", RegexOptions)
+            var allExistingPublishings = Directory.EnumerateFiles(pdfDirectory).Where(file =>
+                Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFileNameWithoutExtension}.*\.pdf", RegexOptions)
             );
 
             var nextRevision = "";
@@ -59,8 +54,8 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             }
             else
             {
-                var publishingsWithRevisionSuffix = Directory.EnumerateFiles(publishingLocation).Where(file =>
-                    Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFileNameWithoutExtension}-.*\{PublishedFileExtension}", RegexOptions)
+                var publishingsWithRevisionSuffix = Directory.EnumerateFiles(pdfDirectory).Where(file =>
+                    Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFileNameWithoutExtension}-.*\.pdf", RegexOptions)
                 );
 
                 var numericRevision = !UseInitialRevisionSuffix

@@ -1,24 +1,20 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Core.SolidWorksInterop.API;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
 {
-    public class DefaultDrawingRevisionValidationStrategy : IDrawingRevisionValidationStrategy
+    public class DrawingRevisionValidationStrategy : IDrawingRevisionValidationStrategy
     {
         private readonly INextDrawingRevisionCalculator drawingRevisionCalculator;
         private readonly IDrawingRevisionRetriever drawingRevisionRetriever;
         private readonly ILogger logger;
 
-        public DefaultDrawingRevisionValidationStrategy(
+        public DrawingRevisionValidationStrategy(
                 INextDrawingRevisionCalculator drawingRevisionCalculator,
                 IDrawingRevisionRetriever drawingRevisionRetriever,
                 ILogger logger
@@ -43,13 +39,13 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             logger.Debug($"Validating revision on drawing {drawingFileName}...");
 
             var expectedRevision = drawingRevisionCalculator.GetNextRevision(drawingFileNameWithoutExtension);
-            var drawingRevision = await drawingRevisionRetriever.GetRevisionAsync(drawing.FullFilePath);
+            drawing.Revision = await drawingRevisionRetriever.GetRevisionAsync(drawing.FullFilePath);
 
-            if (expectedRevision != drawingRevision)
+            if (expectedRevision != drawing.Revision)
             {
-                var issue = drawingRevision == string.Empty
+                var issue = drawing.Revision == string.Empty
                     ? "Revision not found."
-                    : $"Incorrect revision: expected '{expectedRevision}' but found '{drawingRevision}'.";
+                    : $"Incorrect revision: expected '{expectedRevision}' but found '{drawing.Revision}'.";
 
                 drawing.ValidationIssues.Add(issue);
 

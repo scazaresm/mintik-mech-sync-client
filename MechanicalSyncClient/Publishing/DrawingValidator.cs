@@ -14,15 +14,18 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Publishing
 {
-    public class DrawingValidator
+    public class DrawingValidator : IDrawingValidator
     {
         private readonly IDrawingRevisionValidationStrategy drawingRevisionValidationStrategy;
+        private readonly ICustomPropertiesValidationStrategy customPropertiesValidationStrategy;
         private readonly ILogger logger;
 
         public DrawingValidator(IDrawingRevisionValidationStrategy drawingRevisionValidationStrategy,
+                                ICustomPropertiesValidationStrategy customPropertiesValidationStrategy,
                                 ILogger logger)
         {
             this.drawingRevisionValidationStrategy = drawingRevisionValidationStrategy ?? throw new ArgumentNullException(nameof(drawingRevisionValidationStrategy));
+            this.customPropertiesValidationStrategy = customPropertiesValidationStrategy ?? throw new ArgumentNullException(nameof(customPropertiesValidationStrategy));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -30,8 +33,13 @@ namespace MechanicalSyncApp.Publishing
         {
             drawing.ValidationIssues.Clear();
 
+            if (drawing.ApprovalCount <= 0) return;
+
             // validate drawing revision
             await drawingRevisionValidationStrategy.ValidateAsync(drawing);
+
+            // validate custom properties for associated part document
+            await customPropertiesValidationStrategy.ValidateAsync(drawing);
         }
     }
 }

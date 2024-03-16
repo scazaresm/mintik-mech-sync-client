@@ -342,18 +342,19 @@ namespace MechanicalSyncApp.UI.Forms
 
                     var modelExporter = new SolidWorksModelExporter(solidWorksStarter, Log.Logger);
 
+                    /*
                     await modelExporter.ExportModelAsync(
                         @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.SLDPRT",
                         @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.STEP"
-                    );
+                    );*/
 
                     await modelExporter.ExportModelAsync(
-                       @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.SLDDRW",
+                       @"D:\Sync\My Work\PUBLISH FILES V1\19145-11038.SLDDRW",
                        new string[] {
-                            @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.PDF",
-                            @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.DWG"
+                            @"C:\Users\Sergio Cazares\Desktop\19145-11038.PDF",
+                            @"C:\Users\Sergio Cazares\Desktop\19145-11038.DWG"
                        }
-                   );
+                    );
                 }
             }
             catch (Exception ex) 

@@ -37,8 +37,11 @@ namespace MechanicalSyncApp.UI.Forms
                     Progress = Progress,
                     MainToolStrip = MainToolStrip,
                     MainStatusStrip = MainStatusStrip,
+                    PublishSelectedButton = PublishSelectedButton,
+                    CancelSelectedButton = CancelSelectedButton,
                 };
                 publisher = new DeliverablePublisher(synchronizer, solidWorksStarter, ui, logger);
+                publisher.InitializeUI();
                 await publisher.AnalyzeDeliverablesAsync();
             }
             catch(Exception ex)

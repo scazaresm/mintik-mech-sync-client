@@ -55,13 +55,19 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
                 foreach (var outputFilePath in outputFiles)
                 {
                     logger.Debug($"Exporting {sourceFile} into {outputFilePath}...");
+
+                    var outputDirectory = Path.GetDirectoryName(outputFilePath);
+
+                    if (!Directory.Exists(outputDirectory))
+                        Directory.CreateDirectory(outputDirectory);
+
                     bool success = model.Extension.SaveAs(outputFilePath, (int)swSaveAsVersion_e.swSaveAsCurrentVersion,
                        (int)swSaveAsOptions_e.swSaveAsOptions_Silent, null, 0, 0);
 
                     if (!success)
                         throw new Exception($"Failed to export {sourceFile} into {outputFilePath}, " +
-                            "make sure that source file exists and that you are passing supported " +
-                            "file extensions in the output files.");
+                            "make sure that source file and target directory exist, also verify that you are passing supported " +
+                            "file extensions in the output files array.");
 
                     logger.Debug($"Successfully exported {sourceFile} into {outputFilePath}.");
                 }

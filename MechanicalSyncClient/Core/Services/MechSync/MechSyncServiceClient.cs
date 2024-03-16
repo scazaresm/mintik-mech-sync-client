@@ -184,17 +184,14 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new GetVersionReviewsHandler(restClient, versionId).HandleAsync();
         }
-
         public async Task<List<AggregatedProjectDetails>> AggregateProjectDetailsAsync()
         {
             return await new AggregateProjectDetailsHandler(restClient).HandleAsync();
         }
-
         public async Task<Review> GetReviewAsync(string reviewId)
         {
             return await new GetReviewHandler(restClient, reviewId).HandleAsync();
         }
-
         public async Task DeleteExplorerFilesAsync(string relativeEquipmentPath, string explorerTransactionId)
         {
             await new DeleteExplorerFilesHandler(
@@ -202,6 +199,22 @@ namespace MechanicalSyncApp.Core.Services.MechSync
                 relativeEquipmentPath, 
                 explorerTransactionId
             ).HandleAsync();
+        }
+        public async Task<FilePublishing> PublishFileAsync(PublishFileRequest request)
+        {
+            return await new PublishFileHandler(restClient, request).HandleAsync();
+        }
+        public async Task<List<FilePublishing>> GetVersionFilePublishingsAsync(string versionId)
+        {
+            return await new GetVersionFilePublishingsHandler(restClient, versionId).HandleAsync();
+        }
+        public async Task<FilePublishing> GetFilePublishingAsync(string publishingId)
+        {
+            return await new GetFilePublishingHandler(restClient, publishingId).HandleAsync();
+        }
+        public async Task DeleteFilePublishingAsync(string publishingId)
+        {
+            await new DeleteFilePublishingHandler(fileClient, publishingId).HandleAsync();
         }
 
         #region Disposing pattern

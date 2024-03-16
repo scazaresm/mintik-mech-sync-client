@@ -43,5 +43,9 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task<Review> GetReviewAsync(string reviewId);
 
         Task DeleteExplorerFilesAsync(string relativeEquipmentPath, string explorerTransactionId);
+        Task<FilePublishing> PublishFileAsync(PublishFileRequest request);
+        Task<List<FilePublishing>> GetVersionFilePublishingsAsync(string versionId);
+        Task<FilePublishing> GetFilePublishingAsync(string publishingId);
+        Task DeleteFilePublishingAsync(string publishingId);
     }
 }

@@ -191,9 +191,12 @@
     <Compile Include="Core\Domain\DrawingPublishingRequest.cs" />
     <Compile Include="Core\Domain\LocalReview.cs" />
     <Compile Include="Core\Domain\ManufacturingMetadata.cs" />
+    <Compile Include="Core\ICustomPropertiesValidationStrategy.cs" />
     <Compile Include="Core\IDrawingAnalyzer.cs" />
     <Compile Include="Core\IDrawingRevisionValidationStrategy.cs" />
+    <Compile Include="Core\IDrawingValidator.cs" />
     <Compile Include="Core\INextDrawingRevisionCalculator.cs" />
+    <Compile Include="Core\IPublishDeliverablesStrategy.cs" />
     <Compile Include="Core\IReviewableFileMetadataFetcher.cs" />
     <Compile Include="Core\IDrawingReviewer.cs" />
     <Compile Include="Core\IDrawingReviewerCommandAsync.cs" />
@@ -212,8 +215,10 @@
     <Compile Include="Core\Services\MechSync\Handlers\CreateProjectHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateReviewHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateVersionHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\DeleteFilePublishingHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetAllProjectsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetDeltaFileMetadataHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetFilePublishingHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetMyReviewsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetFileMetadataByIdHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetArchivedProjectsHandler.cs" />
@@ -224,11 +229,14 @@
     <Compile Include="Core\Services\MechSync\Handlers\DeleteExplorerFilesHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionsWithStatusHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\ArchiveVersionHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetVersionFilePublishingsHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\PublishFileHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\SyncReviewTargetsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\TransferVersionOwnershipHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\UpdateReviewTargetHandler.cs" />
     <Compile Include="Core\Services\MechSync\Models\AggregatedProjectDetails.cs" />
     <Compile Include="Core\Services\MechSync\Models\ChangeRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\FilePublishing.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\AcknowledgeVersionOwnershipRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\CreateProjectRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\CreateReviewRequest.cs" />
@@ -236,6 +244,7 @@
     <Compile Include="Core\Services\MechSync\Models\Request\FixReviewTargetRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetDeltaFileMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\ArchiveVersionRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\PublishFileRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\TransferVersionOwnershipRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Job.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\UpdateReviewTargetRequest.cs" />
@@ -277,7 +286,9 @@
     <Compile Include="Publishing\DeliverablePublisher\DeliverablePublisher.cs" />
     <Compile Include="Core\IDeliverablePublisher.cs" />
     <Compile Include="Publishing\DeliverablePublisher\DeliverablePublisherUI.cs" />
-    <Compile Include="Publishing\DeliverablePublisher\Strategies\DefaultDrawingRevisionValidationStrategy.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\Strategies\CustomPropertiesValidationStrategy.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\Strategies\DrawingRevisionValidationStrategy.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\Strategies\PublishDeliverablesStrategy.cs" />
     <Compile Include="Publishing\NextDrawingRevisionCalculator.cs" />
     <Compile Include="Publishing\DeliverablePublisher\States\ValidateDrawingsState.cs" />
     <Compile Include="Publishing\DeliverablePublisher\States\PublishDeliverablesState.cs" />

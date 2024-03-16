@@ -21,6 +21,10 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         public ToolStripButton ViewBlockersButton { get; set; }
 
+        public ToolStripButton PublishSelectedButton { get; set; }
+
+        public ToolStripButton CancelSelectedButton { get; set; }
+
         public ToolStripLabel StatusLabel { get; set; }
 
         public ToolStripProgressBar Progress { get; set; }
@@ -37,32 +41,8 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             MainToolStrip.Enabled = false;
             StatusLabel.Text = "Initializing...";
             Progress.Visible = false;
-
-            DrawingsGridView.SelectionChanged += DrawingsGridView_SelectionChanged;
-            ViewBlockersButton.Click += ViewBlockersButton_Click;
         }
 
-        private void DrawingsGridView_SelectionChanged(object sender, EventArgs e)
-        {
-            var selectedRows = DrawingsGridView.SelectedRows;
-
-            if (selectedRows == null)
-                return;
-
-            ViewBlockersButton.Enabled = 
-                selectedRows.Count == 1 && 
-                (selectedRows[0].Tag as FileMetadata).PublishingStatus == PublishingStatus.Blocked;
-        }
-
-        private void ViewBlockersButton_Click(object sender, EventArgs e)
-        {
-            var selectedRows = DrawingsGridView.SelectedRows;
-
-            if (selectedRows == null || selectedRows.Count != 1)
-                return;
-
-            var selectedDrawing = selectedRows[0].Tag as FileMetadata;
-            new PublishingBlockersForm(selectedDrawing).ShowDialog();
-        }
+    
     }
 }

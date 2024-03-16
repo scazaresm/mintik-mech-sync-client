@@ -1,30 +1,28 @@
 ﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.SolidWorksInterop;
-using MechanicalSyncApp.Core.SolidWorksInterop.API;
 using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
 {
     public class ValidateDrawingsState : DeliverablePublisherState
     {
-        private readonly IReviewableFileMetadataFetcher metadataFetcher;
+        private readonly IReviewableFileMetadataFetcher drawingFetcher;
+        private readonly IDrawingValidator drawingValidator;
         private readonly ILogger logger;
 
-        public ValidateDrawingsState(IReviewableFileMetadataFetcher metadataFetcher, ILogger logger)
+        public ValidateDrawingsState(
+                IReviewableFileMetadataFetcher drawingFetcher, 
+                IDrawingValidator drawingValidator,
+                ILogger logger
+            )
         {
-            this.metadataFetcher = metadataFetcher ?? throw new ArgumentNullException(nameof(metadataFetcher));
+            this.drawingFetcher = drawingFetcher ?? throw new ArgumentNullException(nameof(drawingFetcher));
+            this.drawingValidator = drawingValidator ?? throw new ArgumentNullException(nameof(drawingValidator));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -35,17 +33,10 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
             var ui = Publisher.UI;
             ui.StatusLabel.Text = "Validating drawings...";
 
-            var allDrawings = await metadataFetcher.FetchReviewableDrawingsAsync();
+            var allDrawings = await drawingFetcher.FetchReviewableDrawingsAsync();
             var viewer = Publisher.UI.ReviewableDrawingsViewer;
 
             var localVersionDirectory = Publisher.Synchronizer.Version.LocalDirectory;
-            var projectFolderName = Publisher.Synchronizer.Version.RemoteProject.FolderName;
-            var relativePublishingDirectory = Path.Combine(DateTime.Now.Year.ToString(), projectFolderName, "PDF");
-
-            var validator = new DrawingValidator(
-                GetDrawingRevisionValidationStrategy(relativePublishingDirectory),
-                logger
-            );
 
             int validatedDrawingsCount = 0;
 
@@ -57,19 +48,19 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
                 viewer.AddDrawing(drawing, "Validating...");
                 ui.DrawingsGridView.ClearSelection();
 
-                // replace server's full file path with local path
+                // replace server's full file path with local full file path
                 drawing.FullFilePath = Path.Combine(localVersionDirectory, drawing.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
 
-                // validate drawing if not already published
-                if (!drawing.IsPublished)
-                    await validator.ValidateAsync(drawing);
+                // validate drawing if approved and not already published
+                if (drawing.ApprovalCount > 0 && !drawing.IsPublished)
+                    await drawingValidator.ValidateAsync(drawing);
 
                 // update publishing status on the grid
                 if (viewer.DrawingLookup.ContainsKey(drawing.Id))
                 {
                     var drawingRow = viewer.DrawingLookup[drawing.Id];
                     drawingRow.Tag = drawing;
-                    viewer.DrawingLookup[drawing.Id].Cells[3].Value = drawing.PublishingStatus.GetDescription();
+                    viewer.DrawingLookup[drawing.Id].Cells["PublishingStatus"].Value = drawing.PublishingStatus.GetDescription();
                 }
 
                 validatedDrawingsCount++;
@@ -78,19 +69,22 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
             ui.MainToolStrip.Enabled = true;
             ui.StatusLabel.Text = "Ready";
             ui.Progress.Visible = false;
+            ui.DrawingsGridView.Enabled = true;
 
             logger.Debug("ValidateDrawingsState complete.");
         }
 
         public override void UpdateUI()
         {
-            Publisher.UI.Initialize();
+            var ui = Publisher.UI;
+            ui.Initialize();
+            if (!ui.Progress.Visible) ui.Progress.Visible = true;
+            ui.DrawingsGridView.Enabled = false;
         }
 
         private void UpdateProgress(int totalDrawingsCount, int validatedDrawingsCount)
         {
             var ui = Publisher.UI;
-            if (!ui.Progress.Visible) ui.Progress.Visible = true;
 
             // compute progress, check division by zero
             int progress = totalDrawingsCount > 0
@@ -101,13 +95,5 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
                 ui.Progress.Value = progress;
         }
 
-        private IDrawingRevisionValidationStrategy GetDrawingRevisionValidationStrategy(string relativePublishingDirectory)
-        {
-            return new DefaultDrawingRevisionValidationStrategy(
-                new NextDrawingRevisionCalculator(relativePublishingDirectory, logger),
-                new DrawingRevisionRetriever(Publisher.SolidWorksStarter, logger),
-                logger
-            );
-        }
     }
 }

@@ -20,9 +20,7 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
         private readonly ISolidWorksStarter solidWorksStarter;
         private readonly ILogger logger;
 
-
-        public int OpenDocOptions { get; set; } = (int)swOpenDocOptions_e.swOpenDocOptions_RapidDraft;
-
+        public int OpenDocOptions { get; set; } = (int)swOpenDocOptions_e.swOpenDocOptions_Silent;
 
         public SolidWorksModelLoader(ISolidWorksStarter solidWorksStarter, ILogger logger)
         {
@@ -61,8 +59,6 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
             var model = app.OpenDoc6(
                 filePath, GetModelType(filePath), OpenDocOptions, "", errors, warnings
             );
-            logger.Debug($"Successfully loaded model {model.GetTitle()}.");
-
             return model ?? throw new ArgumentException($"Failed to open file. Errors {errors}, Warnings {warnings}");
         }
 
@@ -83,9 +79,9 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
             string fileExtension = Path.GetExtension(filePath).ToLower();
 
             var fileType =
-                fileExtension.EndsWith(".sldprt") ? SolidWorksDocumentType.Part :
-                fileExtension.EndsWith(".sldasm") ? SolidWorksDocumentType.Assembly :
-                fileExtension.EndsWith(".slddrw") ? SolidWorksDocumentType.Drawing :
+                fileExtension == ".sldprt" ? SolidWorksDocumentType.Part :
+                fileExtension == ".sldasm" ? SolidWorksDocumentType.Assembly :
+                fileExtension == ".slddrw" ? SolidWorksDocumentType.Drawing :
                     throw new ArgumentException("Unknown file type");
 
             return (int)fileType;

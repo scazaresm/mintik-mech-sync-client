@@ -9,14 +9,13 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 {
     public interface IDeliverablePublisher
     {
-        ConcurrentQueue<FileMetadata> PublishingQueue { get; }
         DeliverablePublisherUI UI { get; }
         ISolidWorksStarter SolidWorksStarter { get; }
         IVersionSynchronizer Synchronizer { get; }
 
         Task AnalyzeDeliverablesAsync();
-        Task CancelPublishAsync(List<FileMetadata> deliverablesToCancel);
-        Task PublishAsync(List<FileMetadata> deliverablesToPublish);
+        Task CancelPublishAsync(List<FileMetadata> toBeCancelled);
+        Task PublishAsync(List<FileMetadata> toBePublished);
         Task RunStepAsync();
         void SetState(DeliverablePublisherState state);
     } 
