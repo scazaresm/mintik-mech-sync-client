@@ -5,6 +5,8 @@ using MechanicalSyncApp.Core.SolidWorksInterop.API;
 using MechanicalSyncApp.Publishing.DeliverablePublisher.States;
 using MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies;
 using MechanicalSyncApp.Sync;
+using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
+using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using System;
@@ -15,6 +17,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls.Adapters;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -24,7 +27,6 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
     {
         private DeliverablePublisherState state;
 
-        public string BasePublishingDirectory { get; set; } = @"Z:\MANUFACTURING\";
 
         public DeliverablePublisherUI UI { get; }
         public ISolidWorksStarter SolidWorksStarter { get; }
@@ -50,8 +52,11 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             UI.DrawingsGridView.SelectionChanged += DrawingsGridView_SelectionChanged;
             UI.ViewBlockersButton.Click += ViewBlockersButton_Click;
             UI.PublishSelectedButton.Click += PublishSelectedButton_Click;
+            UI.CancelSelectedButton.Click += CancelSelectedButton_Click;
+            UI.ValidateButton.Click += ValidateButton_Click;
         }
 
+       
         public void SetState(DeliverablePublisherState state)
         {
             this.state = state ?? throw new ArgumentNullException(nameof(state));
@@ -67,12 +72,12 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
                 throw new InvalidOperationException("Trying to run a step before actually setting the current step.");
         }
 
-        public async Task AnalyzeDeliverablesAsync()
+        public async Task ValidateDrawingsAsync()
         {
             var drawingFetcher = new ReviewableFileMetadataFetcher(Synchronizer, logger);
 
             var drawingRevisionValidationStrategy = new DrawingRevisionValidationStrategy(
-                new NextDrawingRevisionCalculator(GetProjectPublishingDirectory(), logger),
+                new NextDrawingRevisionCalculator(GetFullProjectPublishingDirectory(), logger),
                 new DrawingRevisionRetriever(SolidWorksStarter, logger),
                 logger
             );
@@ -94,9 +99,20 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         public async Task PublishAsync(List<FileMetadata> validDrawings)
         {
+            var response = MessageBox.Show(
+                "Publish selected drawings?", 
+                "Confirmation", 
+                MessageBoxButtons.OKCancel, 
+                MessageBoxIcon.Question
+            );
+            if (response != DialogResult.OK) return;
+
             var modelExporter = new SolidWorksModelExporter(SolidWorksStarter, logger);
             var publishStrategy = new PublishDeliverablesStrategy(
-                modelExporter, GetProjectPublishingDirectory(), logger
+                modelExporter, 
+                GetFullProjectPublishingDirectory(), 
+                GetRelativePublishingDirectory(),
+                logger
             );
 
             SetState(new PublishDeliverablesState(validDrawings, publishStrategy, logger));
@@ -105,13 +121,29 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         public async Task CancelPublishAsync(List<FileMetadata> toBeCancelled)
         {
+            var response = MessageBox.Show(
+                "Cancel publishings for selected drawings?",
+                "Confirmation",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question
+            );
+            if (response != DialogResult.OK) return;
 
+            var cancelStrategy = new CancelPublishingStrategy(Synchronizer.SyncServiceClient, logger);
+            SetState(new CancelPublishingsState(cancelStrategy, toBeCancelled, logger));
+            await RunStepAsync();
         }
 
-        public string GetProjectPublishingDirectory()
+        private string GetFullProjectPublishingDirectory()
+        {
+            var basePublishingDirectory = Synchronizer.BasePublishingDirectory;
+            return Path.Combine(basePublishingDirectory, GetRelativePublishingDirectory());
+        }
+
+        private string GetRelativePublishingDirectory()
         {
             var projectFolderName = Synchronizer.Version.RemoteProject.FolderName;
-            return Path.Combine(BasePublishingDirectory, DateTime.Now.Year.ToString(), projectFolderName);
+            return Path.Combine(DateTime.Now.Year.ToString(), projectFolderName);
         }
 
         #region UI Management
@@ -166,6 +198,54 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
                 .ToList();
 
             await PublishAsync(readyDrawings);
+        }
+
+        private async void CancelSelectedButton_Click(object sender, EventArgs e)
+        {
+            var selectedRows = UI.DrawingsGridView.SelectedRows;
+
+            if (selectedRows == null || selectedRows.Count < 1)
+                return;
+
+            var publishedDrawings = selectedRows.Cast<DataGridViewRow>()
+                .Where((row) => row.Cells["PublishingStatus"].Value.ToString() == "Published")
+                .Select((row) => row.Tag as FileMetadata)
+                .ToList();
+
+            await CancelPublishAsync(publishedDrawings);
+        }
+
+        private async void ValidateButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                UI.MainToolStrip.Enabled = false;
+                UI.StatusLabel.Text = "Looking for changes in local copy...";
+
+                var syncRemoteCommand = new SyncRemoteCommand(Synchronizer, logger)
+                {
+                    NotifyWhenComplete = false,
+                    EnableToolStripWhenComplete = false
+                };
+
+                await syncRemoteCommand.RunAsync();
+
+                if (!syncRemoteCommand.Complete)
+                {
+                    MessageBox.Show(
+                        "Your local copy has changes and needs to be synced with the remote server before validating, please try again.",
+                        "Local copy has changes",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation
+                    );
+                    return;
+                }
+                await ValidateDrawingsAsync();
+            }
+            finally
+            {
+                UI.MainToolStrip.Enabled = true;
+            }
         }
 
         #endregion

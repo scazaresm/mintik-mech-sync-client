@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MechanicalSyncApp.Core.Domain;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -70,5 +71,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
 
         [JsonIgnore]
         public string Revision { get; set; }
+
+        [JsonIgnore]
+        public List<CustomProperty> CustomProperties { get; } = new List<CustomProperty>();
     }
 }

@@ -29,10 +29,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             ui.StatusLabel.Text = "Working offline, remember to sync frequently";
             ui.SyncProgressBar.Visible = false;
 
-            ui.SynchronizerToolStrip.Enabled = true;
-
             ui.SyncRemoteButton.Enabled = true;
             ui.SyncRemoteButton.Visible = true;
+
+            ui.PublishDeliverablesButton.Enabled = true;
+            ui.PublishDeliverablesButton.Visible = true;
+
+            ui.ArchiveVersionButton.Enabled = true;
+            ui.ArchiveVersionButton.Visible = true;
 
             ui.WorkOnlineButton.Visible = true;
             ui.WorkOnlineButton.Enabled = true;
@@ -41,6 +45,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 
             ui.PublishDeliverablesButton.Enabled = true;
             ui.TransferOwnershipButton.Enabled = true;
+
         }
     }
 }

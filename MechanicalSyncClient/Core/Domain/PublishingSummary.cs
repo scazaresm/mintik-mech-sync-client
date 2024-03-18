@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Domain
 {
-    public class DrawingPublishingRequest
+    public class PublishingSummary
     {
+        public string DesignerEmail { get; set; }
         public string ProjectName { get; set; }
         public string RelativeProjectDirectory { get; set; }
-
         public ManufacturingMetadata ManufacturingMetadata { get; set; }
-
         public List<string> RelativeFilePaths { get; set; }
     }
 }

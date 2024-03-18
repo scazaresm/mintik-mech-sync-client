@@ -25,10 +25,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             ui.StatusLabel.Text = "Working online, changes to your local folder will be pushed to server in real time...";
 
             ui.SyncProgressBar.Visible = false;
-            ui.SynchronizerToolStrip.Enabled = true;
+            ui.SynchronizerToolStrip.Enabled = Synchronizer.ChangeMonitor.IsMonitoring();
 
             ui.SyncRemoteButton.Enabled = false;
             ui.SyncRemoteButton.Visible = true;
+
+            ui.PublishDeliverablesButton.Enabled = false;
+            ui.PublishDeliverablesButton.Visible = true;
+
+            ui.ArchiveVersionButton.Enabled = false;
+            ui.ArchiveVersionButton.Visible = true;
 
             ui.WorkOnlineButton.Visible = false;
 

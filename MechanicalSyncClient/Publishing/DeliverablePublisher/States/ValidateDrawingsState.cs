@@ -1,7 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Core.Util;
-using MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies;
 using Serilog;
 using System;
 using System.IO;
@@ -38,8 +36,8 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
 
             var localVersionDirectory = Publisher.Synchronizer.Version.LocalDirectory;
 
-            int validatedDrawingsCount = 0;
-
+            int processedCount = 0;
+            ui.DrawingsGridView.Rows.Clear();
             foreach (var drawing in allDrawings)
             {
                 ui.StatusLabel.Text = $"Validating {Path.GetFileName(drawing.RelativeFilePath)}...";
@@ -63,13 +61,16 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
                     viewer.DrawingLookup[drawing.Id].Cells["PublishingStatus"].Value = drawing.PublishingStatus.GetDescription();
                 }
 
-                validatedDrawingsCount++;
-                UpdateProgress(allDrawings.Count, validatedDrawingsCount);
+                processedCount++;
+                UpdateProgress(allDrawings.Count, processedCount);
             }
             ui.MainToolStrip.Enabled = true;
             ui.StatusLabel.Text = "Ready";
             ui.Progress.Visible = false;
             ui.DrawingsGridView.Enabled = true;
+            ui.PublishSelectedButton.Enabled = false;
+            ui.CancelSelectedButton.Enabled = false;
+            ui.ValidateButton.Enabled = true;
 
             logger.Debug("ValidateDrawingsState complete.");
         }
@@ -78,17 +79,19 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
         {
             var ui = Publisher.UI;
             ui.Initialize();
-            if (!ui.Progress.Visible) ui.Progress.Visible = true;
+            ui.Progress.Value = 0;
+            ui.Progress.Visible = true;
             ui.DrawingsGridView.Enabled = false;
+            ui.ValidateButton.Enabled = false;
         }
 
-        private void UpdateProgress(int totalDrawingsCount, int validatedDrawingsCount)
+        private void UpdateProgress(int totalCount, int processedCount)
         {
             var ui = Publisher.UI;
 
             // compute progress, check division by zero
-            int progress = totalDrawingsCount > 0
-                ? (int)((double)validatedDrawingsCount / totalDrawingsCount * 100.0)
+            int progress = totalCount > 0
+                ? (int)((double)processedCount / totalCount * 100.0)
                 : 0;
 
             if (ui.Progress != null && progress >= 0 && progress <= 100)

@@ -38,12 +38,13 @@
             this.ApprovalCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PublishingStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MainToolStrip = new System.Windows.Forms.ToolStrip();
-            this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.Progress = new System.Windows.Forms.ToolStripProgressBar();
             this.ViewBlockersButton = new System.Windows.Forms.ToolStripButton();
             this.CancelSelectedButton = new System.Windows.Forms.ToolStripButton();
             this.PublishSelectedButton = new System.Windows.Forms.ToolStripButton();
+            this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Progress = new System.Windows.Forms.ToolStripProgressBar();
+            this.ValidateButton = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DrawingsGridView)).BeginInit();
             this.MainToolStrip.SuspendLayout();
@@ -116,6 +117,7 @@
             // MainToolStrip
             // 
             this.MainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ValidateButton,
             this.ViewBlockersButton,
             this.CancelSelectedButton,
             this.PublishSelectedButton});
@@ -124,30 +126,6 @@
             this.MainToolStrip.Size = new System.Drawing.Size(613, 25);
             this.MainToolStrip.TabIndex = 2;
             this.MainToolStrip.Text = "toolStrip1";
-            // 
-            // MainStatusStrip
-            // 
-            this.MainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StatusLabel,
-            this.Progress});
-            this.MainStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.MainStatusStrip.Location = new System.Drawing.Point(0, 357);
-            this.MainStatusStrip.Name = "MainStatusStrip";
-            this.MainStatusStrip.Size = new System.Drawing.Size(644, 22);
-            this.MainStatusStrip.TabIndex = 7;
-            this.MainStatusStrip.Text = "statusStrip1";
-            // 
-            // StatusLabel
-            // 
-            this.StatusLabel.Name = "StatusLabel";
-            this.StatusLabel.Size = new System.Drawing.Size(59, 17);
-            this.StatusLabel.Text = "Loading...";
-            // 
-            // Progress
-            // 
-            this.Progress.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.Progress.Name = "Progress";
-            this.Progress.Size = new System.Drawing.Size(100, 16);
             // 
             // ViewBlockersButton
             // 
@@ -177,6 +155,39 @@
             this.PublishSelectedButton.Size = new System.Drawing.Size(112, 22);
             this.PublishSelectedButton.Text = "Publish selected";
             this.PublishSelectedButton.ToolTipText = "Publish deliverables for manufacturing";
+            // 
+            // MainStatusStrip
+            // 
+            this.MainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StatusLabel,
+            this.Progress});
+            this.MainStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.MainStatusStrip.Location = new System.Drawing.Point(0, 357);
+            this.MainStatusStrip.Name = "MainStatusStrip";
+            this.MainStatusStrip.Size = new System.Drawing.Size(644, 22);
+            this.MainStatusStrip.TabIndex = 7;
+            this.MainStatusStrip.Text = "statusStrip1";
+            // 
+            // StatusLabel
+            // 
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(59, 17);
+            this.StatusLabel.Text = "Loading...";
+            // 
+            // Progress
+            // 
+            this.Progress.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.Progress.Name = "Progress";
+            this.Progress.Size = new System.Drawing.Size(100, 16);
+            // 
+            // ValidateButton
+            // 
+            this.ValidateButton.Image = global::MechanicalSyncApp.Properties.Resources.inspect_deliverables_24;
+            this.ValidateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ValidateButton.Name = "ValidateButton";
+            this.ValidateButton.Size = new System.Drawing.Size(68, 22);
+            this.ValidateButton.Text = "Validate";
+            this.ValidateButton.ToolTipText = "Publish deliverables for manufacturing";
             // 
             // DeliverablePublishingForm
             // 
@@ -219,5 +230,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DrawingFile;
         private System.Windows.Forms.DataGridViewTextBoxColumn ApprovalCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn PublishingStatus;
+        private System.Windows.Forms.ToolStripButton ValidateButton;
     }
 }

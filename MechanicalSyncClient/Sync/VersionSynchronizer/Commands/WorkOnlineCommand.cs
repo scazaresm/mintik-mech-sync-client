@@ -56,7 +56,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.SetState(new IndexRemoteFilesState(logger));
                 await Synchronizer.RunStepAsync();
 
-                Synchronizer.SetState(new IndexLocalFiles(logger));
+                Synchronizer.SetState(new IndexPublishingsState(logger));
+                await Synchronizer.RunStepAsync();
+
+                Synchronizer.SetState(new IndexLocalFilesState(logger));
                 await Synchronizer.RunStepAsync();
 
                 var syncCheckState = new SyncCheckState(logger);

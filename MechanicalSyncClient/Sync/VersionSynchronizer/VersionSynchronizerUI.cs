@@ -29,6 +29,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public Button CloseVersionButton { get; set; }
         public ToolStripButton PublishDeliverablesButton { get; set; }
         public ToolStripButton TransferOwnershipButton { get; set; }
+        public ToolStripButton ArchiveVersionButton { get; set; }
 
         public ToolStripProgressBar SyncProgressBar { get; set; }
         public SplitContainer MainSplitContainer { get; set; }

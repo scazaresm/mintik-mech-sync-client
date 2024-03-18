@@ -87,7 +87,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private async Task<SyncCheckState> CheckLocalCopyAsync()
         {
-            synchronizer.SetState(new IndexLocalFiles(logger));
+            synchronizer.SetState(new IndexLocalFilesState(logger));
             await synchronizer.RunStepAsync();
 
             synchronizer.SetState(new IndexRemoteFilesState(logger));

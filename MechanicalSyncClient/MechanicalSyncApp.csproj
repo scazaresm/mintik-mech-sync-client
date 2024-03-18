@@ -188,9 +188,10 @@
     <Compile Include="Core\DeliverablePublisherState.cs" />
     <Compile Include="Core\Domain\CustomProperty.cs" />
     <Compile Include="Core\Domain\DesignFilesAnalysisResult.cs" />
-    <Compile Include="Core\Domain\DrawingPublishingRequest.cs" />
+    <Compile Include="Core\Domain\PublishingSummary.cs" />
     <Compile Include="Core\Domain\LocalReview.cs" />
     <Compile Include="Core\Domain\ManufacturingMetadata.cs" />
+    <Compile Include="Core\ICancelPublishingStrategy.cs" />
     <Compile Include="Core\ICustomPropertiesValidationStrategy.cs" />
     <Compile Include="Core\IDrawingAnalyzer.cs" />
     <Compile Include="Core\IDrawingRevisionValidationStrategy.cs" />
@@ -286,6 +287,8 @@
     <Compile Include="Publishing\DeliverablePublisher\DeliverablePublisher.cs" />
     <Compile Include="Core\IDeliverablePublisher.cs" />
     <Compile Include="Publishing\DeliverablePublisher\DeliverablePublisherUI.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\States\CancelPublishingsState.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\Strategies\CancelPublishingStrategy.cs" />
     <Compile Include="Publishing\DeliverablePublisher\Strategies\CustomPropertiesValidationStrategy.cs" />
     <Compile Include="Publishing\DeliverablePublisher\Strategies\DrawingRevisionValidationStrategy.cs" />
     <Compile Include="Publishing\DeliverablePublisher\Strategies\PublishDeliverablesStrategy.cs" />
@@ -320,8 +323,9 @@
     <Compile Include="Sync\VersionSynchronizer\Exceptions\OpenVersionCanceledException.cs" />
     <Compile Include="Core\Services\MechSync\Exceptions\ProjectFolderAlreadyExistsException.cs" />
     <Compile Include="Sync\VersionSynchronizer\Exceptions\VersionOwnershipNotAcknowledgedException.cs" />
+    <Compile Include="Sync\VersionSynchronizer\States\IndexPublishingsState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\SynchronizerIdleState.cs" />
-    <Compile Include="Sync\VersionSynchronizer\States\IndexLocalFiles.cs" />
+    <Compile Include="Sync\VersionSynchronizer\States\IndexLocalFilesState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\IndexRemoteFilesState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\ProcessSyncCheckSummaryState.cs" />
     <Compile Include="Sync\VersionSynchronizer\WorkingCopyDownloader.cs" />
@@ -766,8 +770,6 @@
   <ItemGroup>
     <None Include="Resources\ok-apply-icon-32.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Publishing\DeliverablePublisher\Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

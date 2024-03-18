@@ -9,6 +9,11 @@ namespace MechanicalSyncApp.Core
 {
     public interface IPublishDeliverablesStrategy
     {
+        List<string> Deliverables { get; }
+        string FullProjectPublishingDirectory { get; }
+        string RelativeProjectPublishingDirectory { get; }
+        string RevisionSuffix { get; }
+
         Task PublishAsync(FileMetadata validDrawing);
     }
 }

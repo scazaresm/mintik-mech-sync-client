@@ -5,6 +5,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,6 +20,8 @@ namespace MechanicalSyncApp.Sync
         private readonly string ASSEMBLY_FILTER_REGEX = @"\.sldasm$";
 
         private readonly Dictionary<string, int> FileApprovalCount = new Dictionary<string, int>();
+
+        private readonly Dictionary<string, FilePublishing> FilePublishingIndex = new Dictionary<string, FilePublishing>();
 
         private readonly IMechSyncServiceClient serviceClient;
         private readonly ILogger logger;
@@ -72,6 +75,7 @@ namespace MechanicalSyncApp.Sync
                 TargetVersionId = VersionId
             });
             await FetchFileApprovals();
+            await FetchFilePublishings();
 
             var reviewableDrawings = deltaFileMetadata
                 .Where(m => Regex.IsMatch(m.RelativeFilePath, DRAWING_FILTER_REGEX, RegexOptions.IgnoreCase))
@@ -83,6 +87,9 @@ namespace MechanicalSyncApp.Sync
                     drawing.ApprovalCount = FileApprovalCount[drawing.Id];
                 else
                     drawing.ApprovalCount = 0;
+
+                var partNumber = Path.GetFileNameWithoutExtension(drawing.FullFilePath);
+                drawing.IsPublished = FilePublishingIndex.ContainsKey(partNumber);
             }
             return reviewableDrawings;
         }
@@ -104,6 +111,21 @@ namespace MechanicalSyncApp.Sync
                     else
                         FileApprovalCount[target.TargetId]++;
                 }
+            }
+        }
+
+        private async Task FetchFilePublishings()
+        {
+            var publishings = await serviceClient.GetVersionFilePublishingsAsync(VersionId);
+
+            foreach(var publishing in publishings)
+            {
+                var index = publishing.PartNumber.Replace('/', Path.DirectorySeparatorChar);
+
+                if (!FilePublishingIndex.ContainsKey(index))
+                    FilePublishingIndex.Add(index, publishing);
+                else
+                    FilePublishingIndex[index] = publishing;
             }
         }
     }

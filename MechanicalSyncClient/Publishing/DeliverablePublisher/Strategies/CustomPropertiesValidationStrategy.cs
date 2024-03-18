@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.SolidWorksInterop.API;
 using Serilog;
@@ -39,8 +40,10 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             var customProperties = await modelPropertiesRetriever.GetAllCustomPropertyValuesAsync(partDocumentPath);
             var mandatoryCustomProperties = GetMandatoryCustomPropertiesList();
 
+            // validate mandatory custom properties
             foreach(var mandatoryProperty in mandatoryCustomProperties)
             {
+                // check that mandatory custom property exists and is not empty
                 bool isValidProperty = customProperties.ContainsKey(mandatoryProperty) &&
                     customProperties[mandatoryProperty].Trim() != string.Empty;
 
@@ -50,6 +53,18 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
                 drawing.ValidationIssues.Add(issue);
                 logger.Debug($"Issue encountered on drawing {Path.GetFileName(drawing.RelativeFilePath)}, {issue}");
             }
+
+            // store the custom properties on the drawing
+            drawing.CustomProperties.Clear();
+            drawing.CustomProperties.AddRange(
+                customProperties.Keys.Select((customPropertyName) =>
+                    new CustomProperty()
+                    {
+                        Name = customPropertyName,
+                        Value = customProperties[customPropertyName]
+                    }
+                )
+            );
         }
 
         private string GetPartDocumentPath(FileMetadata drawing)

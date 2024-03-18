@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
-    public class IndexLocalFiles : VersionSynchronizerState
+    public class IndexLocalFilesState : VersionSynchronizerState
     {
         private readonly ILogger logger;
 
-        public IndexLocalFiles(ILogger logger)
+        public IndexLocalFilesState(ILogger logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }

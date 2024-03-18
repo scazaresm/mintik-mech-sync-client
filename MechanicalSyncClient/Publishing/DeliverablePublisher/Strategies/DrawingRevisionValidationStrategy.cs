@@ -39,8 +39,11 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             logger.Debug($"Validating revision on drawing {drawingFileName}...");
 
             var expectedRevision = drawingRevisionCalculator.GetNextRevision(drawingFileNameWithoutExtension);
+
+            // store the current revision on the drawing
             drawing.Revision = await drawingRevisionRetriever.GetRevisionAsync(drawing.FullFilePath);
 
+            // check that drawing revision is as expected
             if (expectedRevision != drawing.Revision)
             {
                 var issue = drawing.Revision == string.Empty

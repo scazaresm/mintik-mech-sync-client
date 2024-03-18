@@ -116,6 +116,7 @@ namespace MechanicalSyncApp.UI.Forms
                 DrawingReviewerDrawingStatus = DrawingReviewerDrawingStatus,
                 DrawingReviewerTitle = DrawingReviewerTitle,
                 MarkDrawingAsFixedButton = MarkDrawingAsFixedButton,
+                ArchiveVersionButton = ArchiveVersionButton,
             };
 
             // create a new version synchronizer
@@ -323,43 +324,6 @@ namespace MechanicalSyncApp.UI.Forms
                     MessageBoxIcon.Information
                 );
                 await workspaceTreeView.Refresh();
-            }
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (var solidWorksStarter = new SolidWorksStarter(Log.Logger)
-                {
-                    SolidWorksExePath = @"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\SLDWORKS.exe",
-                    SolidWorksStartTimeoutSeconds = 60,
-                    Hidden = true,
-                    ShowSplash = false,
-                })
-                {
-                    await solidWorksStarter.StartSolidWorksAsync();
-
-                    var modelExporter = new SolidWorksModelExporter(solidWorksStarter, Log.Logger);
-
-                    /*
-                    await modelExporter.ExportModelAsync(
-                        @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.SLDPRT",
-                        @"C:\Users\Sergio Cazares\Desktop\PROD Parts\DrawingToPdf\210181-031.STEP"
-                    );*/
-
-                    await modelExporter.ExportModelAsync(
-                       @"D:\Sync\My Work\PUBLISH FILES V1\19145-11038.SLDDRW",
-                       new string[] {
-                            @"C:\Users\Sergio Cazares\Desktop\19145-11038.PDF",
-                            @"C:\Users\Sergio Cazares\Desktop\19145-11038.DWG"
-                       }
-                    );
-                }
-            }
-            catch (Exception ex) 
-            {
-                MessageBox.Show($"Something has failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

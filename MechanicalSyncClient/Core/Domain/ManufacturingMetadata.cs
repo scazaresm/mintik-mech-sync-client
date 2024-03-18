@@ -9,21 +9,9 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Domain
 {
-    public enum ReferencedModelType
-    {
-        Part = 1,
-        Assembly = 2
-    }
 
     public class ManufacturingMetadata
     {
-        // The file metadata for the source drawing file where all this data comes from
-        [JsonIgnore]
-        public FileMetadata DrawingFile { get; private set; }
-
-        // Model type which is referenced by the drawing file, either Part or Assembly
-        public ReferencedModelType ReferencedModelType { get; private set; }
-
         // Drawing file name without extension
         public string DrawingName { get; set; }
 
@@ -32,10 +20,5 @@ namespace MechanicalSyncApp.Core.Domain
         
         // Custom properties from referenced model, either Part or Assembly
         public List<CustomProperty> CustomProperties { get; set; } = new List<CustomProperty>();
-
-        public ManufacturingMetadata(FileMetadata drawingFile)
-        {
-            DrawingFile = drawingFile ?? throw new ArgumentNullException(nameof(drawingFile));
-        }
     }
 }

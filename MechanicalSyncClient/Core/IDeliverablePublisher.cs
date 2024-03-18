@@ -13,7 +13,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
         ISolidWorksStarter SolidWorksStarter { get; }
         IVersionSynchronizer Synchronizer { get; }
 
-        Task AnalyzeDeliverablesAsync();
+        Task ValidateDrawingsAsync();
         Task CancelPublishAsync(List<FileMetadata> toBeCancelled);
         Task PublishAsync(List<FileMetadata> toBePublished);
         Task RunStepAsync();

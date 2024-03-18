@@ -20,6 +20,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public bool NotifyWhenComplete { get; set; } = true;
 
+        public bool EnableToolStripWhenComplete { get; set; } = true;
+
+        public bool Complete {  get; set; } = false;
+
         public SyncRemoteCommand(IVersionSynchronizer synchronizer, ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
@@ -45,7 +49,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.SetState(new IndexRemoteFilesState(logger));
                 await Synchronizer.RunStepAsync();
 
-                Synchronizer.SetState(new IndexLocalFiles(logger));
+                Synchronizer.SetState(new IndexLocalFilesState(logger));
+                await Synchronizer.RunStepAsync();
+
+                Synchronizer.SetState(new IndexPublishingsState(logger));
                 await Synchronizer.RunStepAsync();
 
                 var syncCheckState = new SyncCheckState(logger);
@@ -91,9 +98,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                         MessageBoxIcon.Information
                     );
                 }
-
-                Synchronizer.SetState(new SynchronizerIdleState(logger));
-                await Synchronizer.RunStepAsync();
+                Complete = true;
             }
             catch (IOException ex)
             {
@@ -120,6 +125,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 // always go back to idle state
                 Synchronizer.SetState(new SynchronizerIdleState(logger));
                 await Synchronizer.RunStepAsync();
+
+                if (EnableToolStripWhenComplete)
+                    Synchronizer.UI.SynchronizerToolStrip.Enabled = true;
             }
             logger.Debug("Completed SyncRemoteCommand...");
         }

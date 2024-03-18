@@ -25,6 +25,8 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         public ToolStripButton CancelSelectedButton { get; set; }
 
+        public ToolStripButton ValidateButton { get; set; }
+
         public ToolStripLabel StatusLabel { get; set; }
 
         public ToolStripProgressBar Progress { get; set; }
@@ -39,6 +41,9 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             ReviewableDrawingsViewer.AttachDataGridView(DrawingsGridView);
             
             MainToolStrip.Enabled = false;
+            ViewBlockersButton.Enabled = false;
+            PublishSelectedButton.Enabled = false;
+            CancelSelectedButton.Enabled = false;
             StatusLabel.Text = "Initializing...";
             Progress.Visible = false;
         }

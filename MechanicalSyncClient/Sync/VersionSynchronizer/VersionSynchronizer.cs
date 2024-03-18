@@ -27,12 +27,23 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public IVersionChangeMonitor ChangeMonitor { get; private set; }
 
+        // Local file metadata indexed by relative file path (linux-based)
         public ConcurrentDictionary<string, FileMetadata> LocalFileIndex { get; set; }
+
+        // Remote file metadata indexed by relative file path (linux-based)
         public ConcurrentDictionary<string, FileMetadata> RemoteFileIndex { get; private set; }
+
+        // File publishings indexed by relative file path (windows-based)
+        public ConcurrentDictionary<string, FilePublishing> PublishingIndexByPartNumber { get; private set; }
 
         public VersionSynchronizerUI UI { get; private set; }
 
         public string SnapshotDirectory { get; private set; } = Path.Combine(Path.GetTempPath(), "sync-snapshot");
+
+        public string BasePublishingDirectory { get; set; } = @"Z:\MANUFACTURING\";
+
+        public string RelativePublishingSummaryDirectory { get; set; } = @".publishing\pending";
+
 
         private VersionSynchronizerState state;
         private bool disposedValue;
@@ -61,6 +72,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             LocalFileIndex = new ConcurrentDictionary<string, FileMetadata>();
             RemoteFileIndex = new ConcurrentDictionary<string, FileMetadata>();
+            PublishingIndexByPartNumber = new ConcurrentDictionary<string, FilePublishing>();
 
             CurrentDrawingReview = null;
             CurrentDrawingReviewTarget = null;

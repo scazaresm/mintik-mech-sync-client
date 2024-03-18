@@ -38,6 +38,9 @@ namespace MechanicalSyncApp.Core
 
         Review CurrentDrawingReview { get; set; }
         ReviewTarget CurrentDrawingReviewTarget { get; set; }
+        ConcurrentDictionary<string, FilePublishing> PublishingIndexByPartNumber { get; }
+        string BasePublishingDirectory { get; set; }
+        string RelativePublishingSummaryDirectory { get; set; }
 
         // State related methods
         VersionSynchronizerState GetState();
