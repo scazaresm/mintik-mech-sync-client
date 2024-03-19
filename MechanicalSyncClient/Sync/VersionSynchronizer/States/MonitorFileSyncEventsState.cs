@@ -64,6 +64,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             {
                 Synchronizer.SetState(new HandleFileSyncEventsState(logger));
                 await Synchronizer.RunStepAsync();
+                Synchronizer.UI.LocalFileViewer.PopulateFiles();
             }
         }
     }

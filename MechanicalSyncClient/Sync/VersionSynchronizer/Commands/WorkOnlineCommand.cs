@@ -115,9 +115,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             try
             {
                 if (!Directory.Exists(localCopyDirectory))
-                {
                     throw new DirectoryNotFoundException($"Local copy directory not found: {localCopyDirectory}");
-                }
 
                 string snapshotDirectory = Synchronizer.SnapshotDirectory;
 

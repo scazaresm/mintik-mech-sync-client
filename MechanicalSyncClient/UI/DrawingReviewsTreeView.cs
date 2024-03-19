@@ -75,10 +75,13 @@ namespace MechanicalSyncApp.UI
             AttachedTreeView.Nodes.Clear();
             foreach (var review in reviews)
             {
-                var reviewerDetails = await AuthService.GetUserDetailsAsync(review.ReviewerId);
+                // sync review targets to detect deleted files
+                var syncedReview = await MechSyncService.SyncReviewTargetsAsync(review.Id);
+
+                var reviewerDetails = await AuthService.GetUserDetailsAsync(syncedReview.ReviewerId);
 
                 var reviewNode = new TreeNode(reviewerDetails.FullName);
-                reviewNode.Tag = review;
+                reviewNode.Tag = syncedReview;
                 reviewNode.ImageIndex = 1;
                 reviewNode.SelectedImageIndex = 1;
 

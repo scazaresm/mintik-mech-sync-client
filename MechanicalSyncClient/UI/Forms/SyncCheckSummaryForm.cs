@@ -52,7 +52,7 @@ namespace MechanicalSyncApp.UI.Forms
             foreach (FileMetadata file in summary.CreatedFiles.Values)
             {
                 var item = new ListViewItem(file.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
-                item.SubItems.Add("Add");
+                item.SubItems.Add("Add remote");
                 item.ImageIndex = 0;
                 item.Group = SummaryListView.Groups[0];
                 item.Tag = file;
@@ -65,7 +65,7 @@ namespace MechanicalSyncApp.UI.Forms
             foreach (FileMetadata file in summary.ChangedFiles.Values)
             {
                 var item = new ListViewItem(file.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
-                item.SubItems.Add("Update");
+                item.SubItems.Add("Update remote");
                 item.ImageIndex = 1;
                 item.Group = SummaryListView.Groups[1];
                 item.Tag = file;
@@ -75,10 +75,17 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void PopulateDeletedFiles()
         {
+            var publishingIndex = versionSynchronizer.PublishingIndexByPartNumber;
+
             foreach (FileMetadata file in summary.DeletedFiles.Values)
             {
+                var partNumber = Path.GetFileNameWithoutExtension(file.FullFilePath);
+                var action = publishingIndex.ContainsKey(partNumber)
+                    ? "Restore local (already published)"
+                    : "Delete remote";
+
                 var item = new ListViewItem(file.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
-                item.SubItems.Add("Delete");
+                item.SubItems.Add(action);
                 item.ImageIndex = 2;
                 item.Group = SummaryListView.Groups[2];
                 item.Tag = file;
