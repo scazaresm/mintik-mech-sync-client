@@ -7,9 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
 {
@@ -174,7 +172,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             var isOnlineMode = sourceState.Synchronizer.ChangeMonitor.IsMonitoring();
             try
             {
-
                 var baseDirectory = sourceState.Synchronizer.Version.LocalDirectory;
                 foreach (var file in publishedFiles)
                 {
@@ -184,7 +181,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                     if (!Directory.Exists(fileDirectory))
                         Directory.CreateDirectory(fileDirectory);
 
-                    if (isOnlineMode) sourceState.Synchronizer.ChangeMonitor.StopMonitoring();
+                    // pause online mode if we are online, this will avoid throwing unwanted file creation
+                    // event when the file being rollbacked is downloaded
+                    if (isOnlineMode) 
+                        sourceState.Synchronizer.ChangeMonitor.StopMonitoring();
+
                     await client.DownloadFileAsync(new DownloadFileRequest()
                     {
                         VersionFolder = ONGOING_FOLDER,
@@ -192,11 +193,15 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                         RelativeFilePath = file.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/'),
                         LocalFilename = localFilePath,
                     });
-                    if (isOnlineMode) sourceState.Synchronizer.ChangeMonitor.StartMonitoring();
+
+                    // put rollbacked published file as read-only
+                    if (File.Exists(localFilePath))
+                        File.SetAttributes(localFilePath, File.GetAttributes(localFilePath) | FileAttributes.ReadOnly);
                 }
             }
             finally
             {
+                // go back to online mode if we were online before
                 if (isOnlineMode)
                     sourceState.Synchronizer.ChangeMonitor.StartMonitoring();
             }

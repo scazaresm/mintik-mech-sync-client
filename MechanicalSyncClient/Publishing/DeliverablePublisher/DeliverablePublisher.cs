@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Args;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Core.SolidWorksInterop.API;
@@ -6,20 +7,14 @@ using MechanicalSyncApp.Publishing.DeliverablePublisher.States;
 using MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies;
 using MechanicalSyncApp.Sync;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
-using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls.Adapters;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 
 namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 {
@@ -77,7 +72,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             var drawingFetcher = new ReviewableFileMetadataFetcher(Synchronizer, logger);
 
             var drawingRevisionValidationStrategy = new DrawingRevisionValidationStrategy(
-                new NextDrawingRevisionCalculator(GetFullProjectPublishingDirectory(), logger),
+                new NextDrawingRevisionCalculator(GetFullPublishingDirectory(), logger),
                 new DrawingRevisionRetriever(SolidWorksStarter, logger),
                 logger
             );
@@ -107,14 +102,29 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             );
             if (response != DialogResult.OK) return;
 
+            var designerEmail = Synchronizer.AuthServiceClient.LoggedUserDetails.Email;
+            var projectName = Synchronizer.Version.RemoteProject.FolderName;
+
             var modelExporter = new SolidWorksModelExporter(SolidWorksStarter, logger);
-            var publishStrategy = new PublishDeliverablesStrategy(
-                modelExporter, 
-                GetFullProjectPublishingDirectory(), 
-                GetRelativePublishingDirectory(),
-                logger
+
+            var summaryFileDirectory = Path.Combine(
+                Synchronizer.BasePublishingDirectory,
+                Synchronizer.RelativePublishingSummaryDirectory
             );
 
+            var publishStrategy = new PublishDeliverablesToFolderStrategy(
+                new PublishDeliverablesToFolderStrategyArgs()
+                {
+                    SyncServiceClient = Synchronizer.SyncServiceClient,
+                    ModelExporter = modelExporter,
+                    FullPublishingDirectory = GetFullPublishingDirectory(),
+                    RelativePublishingDirectory = GetRelativePublishingDirectory(),
+                    DesignerEmail = designerEmail, 
+                    ProjectName = projectName,
+                    SummaryFileDirectory = summaryFileDirectory,
+                },
+                logger
+            );
             SetState(new PublishDeliverablesState(validDrawings, publishStrategy, logger));
             await RunStepAsync();
         }
@@ -134,7 +144,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             await RunStepAsync();
         }
 
-        private string GetFullProjectPublishingDirectory()
+        private string GetFullPublishingDirectory()
         {
             var basePublishingDirectory = Synchronizer.BasePublishingDirectory;
             return Path.Combine(basePublishingDirectory, GetRelativePublishingDirectory());

@@ -41,9 +41,15 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
                     var partNumber = Path.GetFileNameWithoutExtension(drawing.FullFilePath);
 
                     if (!publishingIndexByPartNumber.ContainsKey(partNumber))
-                        throw new InvalidOperationException("could not find publishing object.");
+                        throw new InvalidOperationException("could not find publishing object in index, is the drawing published?");
 
+                    // run cancel strategy
                     await cancelStrategy.CancelAsync(publishingIndexByPartNumber[partNumber]);
+
+                    // remove read-only attribute
+                    SetSourceFilesAsReadAndWrite(drawing);
+
+                    // remove the drawing from publishing index
                     publishingIndexByPartNumber.TryRemove(partNumber, out FilePublishing cancelledPublishing);
                     drawingLookup[drawing.Id].Cells["PublishingStatus"].Value = "Cancelled";
                 }
@@ -66,7 +72,6 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
             ui.ValidateButton.Enabled = false;
         }
 
-
         private void UpdateProgress(int totalCount, int processedCount)
         {
             var ui = Publisher.UI;
@@ -78,6 +83,19 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
 
             if (ui.Progress != null && progress >= 0 && progress <= 100)
                 ui.Progress.Value = progress;
+        }
+
+        private void SetSourceFilesAsReadAndWrite(FileMetadata drawing)
+        {
+            var baseDirectory = Path.GetDirectoryName(drawing.FullFilePath);
+            var partNumber = Path.GetFileNameWithoutExtension(drawing.FullFilePath);
+
+            var sourceFiles = Directory.GetFiles(baseDirectory)
+                .Where(file => Path.GetFileNameWithoutExtension(file) == partNumber)
+                .ToArray();
+
+            foreach (string file in sourceFiles)
+                File.SetAttributes(file, File.GetAttributes(file) & ~FileAttributes.ReadOnly);
         }
     }
 }

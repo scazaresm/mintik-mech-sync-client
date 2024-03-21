@@ -34,15 +34,8 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
         {
             var ui = Publisher.UI;
             var drawingLookup = ui.ReviewableDrawingsViewer.DrawingLookup;
-            var syncServiceClient = Publisher.Synchronizer.SyncServiceClient;
             var publishingIndexByPartNumber = Publisher.Synchronizer.PublishingIndexByPartNumber;
-            var publishingSummaryDirectory = Path.Combine(
-                Publisher.Synchronizer.BasePublishingDirectory,
-                Publisher.Synchronizer.RelativePublishingSummaryDirectory
-            );
 
-            if (!Directory.Exists(publishingSummaryDirectory))
-                Directory.CreateDirectory(publishingSummaryDirectory);
 
             int processedCount = 0;
             foreach (var drawing in validDrawings)
@@ -61,12 +54,11 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
                     // execute publishing strategy
                     drawingLookup[drawing.Id].Cells["PublishingStatus"].Value = "Publishing...";
                     ui.StatusLabel.Text = $"Publishing {partNumber}...";
-                    await publishStrategy.PublishAsync(drawing);
+                    var publishing = await publishStrategy.PublishAsync(drawing);
 
-                    var publishing = await PublishFileInDatabaseAsync(syncServiceClient, drawing);
+                    // set source file as read only to avoid further changes after publish
+                    SetSourceFilesAsReadOnly(drawing);
 
-                    WritePublishingSummaryAsJsonFile(publishing, publishingSummaryDirectory);
-                   
                     // add this publishing to the index, so that we can identify the drawing as published
                     publishingIndexByPartNumber.TryAdd(partNumber, publishing);
                     drawingLookup[drawing.Id].Cells["PublishingStatus"].Value = "Published";
@@ -97,50 +89,6 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
             ui.ValidateButton.Enabled = false;
         }
 
-        private async Task<FilePublishing> PublishFileInDatabaseAsync(
-                IMechSyncServiceClient syncServiceClient, FileMetadata drawing
-            )
-        {
-            return await syncServiceClient.PublishFileAsync(new PublishFileRequest()
-            {
-                FileMetadataId = drawing.Id,
-                Revision = drawing.Revision,
-                Deliverables = publishStrategy.Deliverables,
-                CustomProperties = drawing.CustomProperties,
-            });
-        }
-
-        private void WritePublishingSummaryAsJsonFile(FilePublishing publishing, string publishingSummaryDirectory)
-        {
-            var designerEmail = Publisher.Synchronizer.AuthServiceClient.LoggedUserDetails.Email;
-            var projectName = Publisher.Synchronizer.Version.RemoteProject.FolderName;
-
-            var relativeFilePaths = publishing.Deliverables.Select((filePath) => 
-                filePath.Replace(publishStrategy.FullProjectPublishingDirectory, "")
-            ).ToList();
-
-            var publishingSummary = new PublishingSummary()
-            {
-                DesignerEmail = designerEmail,
-                ProjectName = projectName,
-                RelativeProjectDirectory = publishStrategy.RelativeProjectPublishingDirectory,
-                ManufacturingMetadata = new ManufacturingMetadata()
-                {
-                    DrawingName = publishing.PartNumber,
-                    DrawingRevision = publishing.Revision,
-                    CustomProperties = publishing.CustomProperties,
-                },
-                RelativeFilePaths = relativeFilePaths
-            };
-
-            var publishingSummaryJson = JsonUtils.SerializeWithCamelCase(publishingSummary);
-            var summaryFilePath = Path.Combine(
-                publishingSummaryDirectory,
-                $"{publishing.PartNumber}_{publishing.Id}.json"
-            );
-            File.WriteAllText(summaryFilePath, publishingSummaryJson);
-        }
-
         private void UpdateProgress(int totalCount, int processedCount)
         {
             var ui = Publisher.UI;
@@ -152,6 +100,19 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
 
             if (ui.Progress != null && progress >= 0 && progress <= 100)
                 ui.Progress.Value = progress;
+        }
+
+        private void SetSourceFilesAsReadOnly(FileMetadata drawing)
+        {
+            var baseDirectory = Path.GetDirectoryName(drawing.FullFilePath);
+            var partNumber = Path.GetFileNameWithoutExtension(drawing.FullFilePath);
+
+            var sourceFiles = Directory.GetFiles(baseDirectory)
+                .Where(file => Path.GetFileNameWithoutExtension(file) == partNumber)
+                .ToArray();
+
+            foreach (string file in sourceFiles)
+                File.SetAttributes(file, File.GetAttributes(file) | FileAttributes.ReadOnly);
         }
     }
 }

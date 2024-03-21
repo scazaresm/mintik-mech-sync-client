@@ -185,6 +185,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Args\PublishDeliverablesToFolderStrategyArgs.cs" />
     <Compile Include="Core\DeliverablePublisherState.cs" />
     <Compile Include="Core\Domain\CustomProperty.cs" />
     <Compile Include="Core\Domain\DesignFilesAnalysisResult.cs" />
@@ -291,7 +292,7 @@
     <Compile Include="Publishing\DeliverablePublisher\Strategies\CancelPublishingStrategy.cs" />
     <Compile Include="Publishing\DeliverablePublisher\Strategies\CustomPropertiesValidationStrategy.cs" />
     <Compile Include="Publishing\DeliverablePublisher\Strategies\DrawingRevisionValidationStrategy.cs" />
-    <Compile Include="Publishing\DeliverablePublisher\Strategies\PublishDeliverablesStrategy.cs" />
+    <Compile Include="Publishing\DeliverablePublisher\Strategies\PublishDeliverablesToFolderStrategy.cs" />
     <Compile Include="Publishing\NextDrawingRevisionCalculator.cs" />
     <Compile Include="Publishing\DeliverablePublisher\States\ValidateDrawingsState.cs" />
     <Compile Include="Publishing\DeliverablePublisher\States\PublishDeliverablesState.cs" />
