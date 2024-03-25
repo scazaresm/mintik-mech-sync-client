@@ -45,7 +45,6 @@ namespace MechanicalSyncApp.UI.Forms
             };
             drawingReviewer = new DrawingReviewer(authServiceClient, syncServiceClient, ui, review, logger);
             drawingReviewer.InitializeUiAsync();
-            _ = drawingReviewer.RefreshReviewTargetsAsync();
         }
 
         private void DrawingReviewerForm_FormClosed(object sender, FormClosedEventArgs e)

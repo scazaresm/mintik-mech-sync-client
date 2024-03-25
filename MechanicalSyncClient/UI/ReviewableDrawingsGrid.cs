@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Util;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -26,7 +27,7 @@ namespace MechanicalSyncApp.UI
             var row = new DataGridViewRow();
             row.CreateCells(AttachedDataGridView, 
                 drawingIcon, 
-                drawing.RelativeFilePath, 
+                drawing.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar), 
                 drawing.ApprovalCount,
                 defaultPublishingStatus
             );

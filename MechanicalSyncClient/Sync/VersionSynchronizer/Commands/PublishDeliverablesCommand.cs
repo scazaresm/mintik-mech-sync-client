@@ -8,6 +8,7 @@ using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using Serilog.Core;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
     public class PublishDeliverablesCommand : IVersionSynchronizerCommandAsync
     {
         private readonly ILogger logger;
-
+        private readonly string SOLIDWORKS_EXE_PATH = "SOLIDWORKS_EXE_PATH";
         public IVersionSynchronizer Synchronizer { get; private set; }
 
         public PublishDeliverablesCommand(IVersionSynchronizer synchronizer, ILogger logger)
@@ -61,7 +62,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 using (var solidWorksStarter = new SolidWorksStarter(logger)
                 {
-                    SolidWorksExePath = @"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS (2)\SLDWORKS.exe",
+                    SolidWorksExePath = ConfigurationManager.AppSettings[SOLIDWORKS_EXE_PATH],
                     Hidden = true,
                     ShowSplash = false,
                     SolidWorksStartTimeoutSeconds = 60,

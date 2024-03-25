@@ -185,11 +185,11 @@ namespace MechanicalSyncApp.UI.Forms
 
                     case "AssemblyFile":
                         reviewForm = new AssemblyReviewerForm(
-                           AuthenticationServiceClient.Instance,
-                           MechSyncServiceClient.Instance,
-                           e.Review,
-                           Log.Logger
-                       );
+                            AuthenticationServiceClient.Instance,
+                            MechSyncServiceClient.Instance,
+                            e.Review,
+                            Log.Logger
+                        );
                         break;
 
                     default:

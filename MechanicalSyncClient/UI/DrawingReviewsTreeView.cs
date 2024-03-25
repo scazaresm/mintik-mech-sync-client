@@ -75,6 +75,9 @@ namespace MechanicalSyncApp.UI
             AttachedTreeView.Nodes.Clear();
             foreach (var review in reviews)
             {
+                // we are interested on drawing reviews only
+                if (review.TargetType != "DrawingFile") continue;
+
                 // sync review targets to detect deleted files
                 var syncedReview = await MechSyncService.SyncReviewTargetsAsync(review.Id);
 

@@ -50,7 +50,6 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.FilterUserTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.UsersTabImages = new System.Windows.Forms.ImageList(this.components);
             this.syncTabPage = new System.Windows.Forms.TabPage();
             this.BrowseWorkspaceDirectory = new System.Windows.Forms.Button();
             this.ApplySyncChanges = new System.Windows.Forms.Button();
@@ -58,6 +57,10 @@
             this.EdrawingsViewerClsid = new System.Windows.Forms.TextBox();
             this.WorkspaceDirectory = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.UsersTabImages = new System.Windows.Forms.ImageList(this.components);
+            this.BrowseSolidWorksExePath = new System.Windows.Forms.Button();
+            this.SolidWorksExePath = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.Tabs.SuspendLayout();
             this.usersTabPage.SuspendLayout();
             this.SynchronizerToolStrip.SuspendLayout();
@@ -214,15 +217,11 @@
             this.toolStripLabel1.Size = new System.Drawing.Size(36, 22);
             this.toolStripLabel1.Text = "Filter:";
             // 
-            // UsersTabImages
-            // 
-            this.UsersTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("UsersTabImages.ImageStream")));
-            this.UsersTabImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.UsersTabImages.Images.SetKeyName(0, "users-icon-24.png");
-            this.UsersTabImages.Images.SetKeyName(1, "sync-24.png");
-            // 
             // syncTabPage
             // 
+            this.syncTabPage.Controls.Add(this.BrowseSolidWorksExePath);
+            this.syncTabPage.Controls.Add(this.SolidWorksExePath);
+            this.syncTabPage.Controls.Add(this.label1);
             this.syncTabPage.Controls.Add(this.BrowseWorkspaceDirectory);
             this.syncTabPage.Controls.Add(this.ApplySyncChanges);
             this.syncTabPage.Controls.Add(this.label4);
@@ -240,7 +239,7 @@
             // 
             // BrowseWorkspaceDirectory
             // 
-            this.BrowseWorkspaceDirectory.Location = new System.Drawing.Point(314, 30);
+            this.BrowseWorkspaceDirectory.Location = new System.Drawing.Point(527, 30);
             this.BrowseWorkspaceDirectory.Name = "BrowseWorkspaceDirectory";
             this.BrowseWorkspaceDirectory.Size = new System.Drawing.Size(75, 23);
             this.BrowseWorkspaceDirectory.TabIndex = 10;
@@ -251,7 +250,7 @@
             // ApplySyncChanges
             // 
             this.ApplySyncChanges.Enabled = false;
-            this.ApplySyncChanges.Location = new System.Drawing.Point(11, 125);
+            this.ApplySyncChanges.Location = new System.Drawing.Point(527, 184);
             this.ApplySyncChanges.Name = "ApplySyncChanges";
             this.ApplySyncChanges.Size = new System.Drawing.Size(75, 23);
             this.ApplySyncChanges.TabIndex = 11;
@@ -281,7 +280,7 @@
             this.WorkspaceDirectory.Location = new System.Drawing.Point(11, 30);
             this.WorkspaceDirectory.Name = "WorkspaceDirectory";
             this.WorkspaceDirectory.ReadOnly = true;
-            this.WorkspaceDirectory.Size = new System.Drawing.Size(297, 20);
+            this.WorkspaceDirectory.Size = new System.Drawing.Size(510, 20);
             this.WorkspaceDirectory.TabIndex = 8;
             this.WorkspaceDirectory.TextChanged += new System.EventHandler(this.WorkspaceDirectory_TextChanged);
             // 
@@ -293,6 +292,41 @@
             this.label3.Size = new System.Drawing.Size(108, 13);
             this.label3.TabIndex = 9;
             this.label3.Text = "Workspace directory:";
+            // 
+            // UsersTabImages
+            // 
+            this.UsersTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("UsersTabImages.ImageStream")));
+            this.UsersTabImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.UsersTabImages.Images.SetKeyName(0, "users-icon-24.png");
+            this.UsersTabImages.Images.SetKeyName(1, "sync-24.png");
+            // 
+            // BrowseSolidWorksExePath
+            // 
+            this.BrowseSolidWorksExePath.Location = new System.Drawing.Point(527, 128);
+            this.BrowseSolidWorksExePath.Name = "BrowseSolidWorksExePath";
+            this.BrowseSolidWorksExePath.Size = new System.Drawing.Size(75, 23);
+            this.BrowseSolidWorksExePath.TabIndex = 16;
+            this.BrowseSolidWorksExePath.Text = "Browse...";
+            this.BrowseSolidWorksExePath.UseVisualStyleBackColor = true;
+            this.BrowseSolidWorksExePath.Click += new System.EventHandler(this.BrowseSolidWorksExePath_Click);
+            // 
+            // SolidWorksExePath
+            // 
+            this.SolidWorksExePath.Location = new System.Drawing.Point(11, 130);
+            this.SolidWorksExePath.Name = "SolidWorksExePath";
+            this.SolidWorksExePath.ReadOnly = true;
+            this.SolidWorksExePath.Size = new System.Drawing.Size(510, 20);
+            this.SolidWorksExePath.TabIndex = 14;
+            this.SolidWorksExePath.TextChanged += new System.EventHandler(this.SolidWorksExePath_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 114);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(143, 13);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "SolidWorks executable path:";
             // 
             // ManagementConsoleForm
             // 
@@ -345,5 +379,8 @@
         private System.Windows.Forms.TextBox EdrawingsViewerClsid;
         private System.Windows.Forms.TextBox WorkspaceDirectory;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button BrowseSolidWorksExePath;
+        private System.Windows.Forms.TextBox SolidWorksExePath;
+        private System.Windows.Forms.Label label1;
     }
 }

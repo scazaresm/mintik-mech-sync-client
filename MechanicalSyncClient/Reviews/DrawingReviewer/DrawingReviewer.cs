@@ -21,7 +21,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
         public IAuthenticationServiceClient AuthServiceClient { get; }
         public IMechSyncServiceClient SyncServiceClient { get; }
 
-        public ReviewableFilesTreeView DrawingExplorer { get; set; }
+        public ReviewableFilesTreeView DrawingExplorer { get; private set; }
 
         public LocalReview Review { get; }
 
@@ -46,11 +46,12 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             "Fixed"
         };
 
-        public DrawingReviewer(IAuthenticationServiceClient authService,
-                               IMechSyncServiceClient mechService,
-                               IDrawingReviewerUI ui,
-                               LocalReview review,
-                               ILogger logger
+        public DrawingReviewer(
+                IAuthenticationServiceClient authService,
+                IMechSyncServiceClient mechService,
+                IDrawingReviewerUI ui,
+                LocalReview review,
+                ILogger logger
             )
         {
             // validate inputs and assign properties
@@ -82,6 +83,8 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             UI.ApproveDrawingButton.Click += ApproveDrawingButton_Click;
             UI.RejectDrawingButton.Click += RejectDrawingButton_Click;
             UI.RefreshReviewTargetsButton.Click += RefreshReviewTargetsButton_Click;
+
+            await RefreshReviewTargetsAsync();
         }
 
         public async void DrawingReviewerControl_OpenDocError(string FileName, int ErrorCode, string ErrorString)

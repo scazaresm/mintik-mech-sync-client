@@ -23,6 +23,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private readonly string WORKSPACE_DIRECTORY = "WORKSPACE_DIRECTORY";
         private readonly string EDRAWINGS_VIEWER_CLSID = "EDRAWINGS_VIEWER_CLSID";
+        private readonly string SOLIDWORKS_EXE_PATH = "SOLIDWORKS_EXE_PATH";
 
         #region Singleton
         private static Form _instance = null;
@@ -94,9 +95,9 @@ namespace MechanicalSyncApp.UI.Forms
         {
             try
             {
-                WorkspaceDirectory.Text = ConfigurationManager.AppSettings[WORKSPACE_DIRECTORY] ?? "";
-                EdrawingsViewerClsid.Text = ConfigurationManager.AppSettings[EDRAWINGS_VIEWER_CLSID] ?? "";
-
+                WorkspaceDirectory.Text = ConfigurationManager.AppSettings[WORKSPACE_DIRECTORY] ?? string.Empty;
+                EdrawingsViewerClsid.Text = ConfigurationManager.AppSettings[EDRAWINGS_VIEWER_CLSID] ?? string.Empty;
+                SolidWorksExePath.Text = ConfigurationManager.AppSettings[SOLIDWORKS_EXE_PATH] ?? string.Empty;
                 ApplySyncChanges.Enabled = false;
             }
             catch (Exception ex)
@@ -112,6 +113,7 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 SettingsUtils.UpsertSetting(WORKSPACE_DIRECTORY, WorkspaceDirectory.Text);
                 SettingsUtils.UpsertSetting(EDRAWINGS_VIEWER_CLSID, EdrawingsViewerClsid.Text);
+                SettingsUtils.UpsertSetting(SOLIDWORKS_EXE_PATH, SolidWorksExePath.Text);
                 ConfigurationManager.RefreshSection("appSettings");
                 ApplySyncChanges.Enabled = false;
             }
@@ -125,25 +127,41 @@ namespace MechanicalSyncApp.UI.Forms
 
         private bool ValidateSyncSettings()
         {
-            return Directory.Exists(WorkspaceDirectory.Text) && EdrawingsViewerClsid.Text != "";
+            return 
+                Directory.Exists(WorkspaceDirectory.Text) && 
+                EdrawingsViewerClsid.Text != "" &&
+                File.Exists(SolidWorksExePath.Text);
         }
 
         private void BrowseWorkspaceDirectory_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
+            using (var folderBrowserDialog = new FolderBrowserDialog())
             {
-                // Set the initial directory (optional)
                 folderBrowserDialog.SelectedPath = "C:\\";
 
-                // Show the dialog and check if the user clicked OK
                 DialogResult result = folderBrowserDialog.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    // Get the selected folder path
                     string selectedFolderPath = folderBrowserDialog.SelectedPath;
-
-                    // Do something with the selected folder path, such as displaying it in a textbox
                     WorkspaceDirectory.Text = selectedFolderPath;
+                }
+            }
+        }
+
+        private void BrowseSolidWorksExePath_Click(object sender, EventArgs e)
+        {
+            using (var openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                openFileDialog.Filter = "Executable Files (*.exe)|*.exe";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+
+                DialogResult result = openFileDialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(openFileDialog.FileName))
+                {
+                    SolidWorksExePath.Text = openFileDialog.FileName;
                 }
             }
         }
@@ -154,6 +172,11 @@ namespace MechanicalSyncApp.UI.Forms
         }
 
         private void EdrawingsViewerClsid_TextChanged(object sender, EventArgs e)
+        {
+            ApplySyncChanges.Enabled = ValidateSyncSettings();
+        }
+
+        private void SolidWorksExePath_TextChanged(object sender, EventArgs e)
         {
             ApplySyncChanges.Enabled = ValidateSyncSettings();
         }
@@ -170,5 +193,6 @@ namespace MechanicalSyncApp.UI.Forms
                     break;
             }
         }
+
     }
 }

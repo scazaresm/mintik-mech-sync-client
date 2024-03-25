@@ -26,27 +26,27 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
 
         public async Task RunAsync()
         {
-            var UI = Reviewer.UI;
+            var ui = Reviewer.UI;
 
             try
             {
                 Reviewer.ReviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
 
-                UI.MarkupStatus.Text = "Opening drawing...";
-                UI.SetReviewTargetStatusText(reviewTarget.Status);
-                UI.SetReviewControlsEnabled(
+                ui.MarkupStatus.Text = "Opening drawing...";
+                ui.SetReviewTargetStatusText(reviewTarget.Status);
+                ui.SetReviewControlsEnabled(
                     Reviewer.StatusesHavingReviewControlsEnabled.Contains(reviewTarget.Status)
                 );
 
                 Reviewer.DrawingMetadata = await Reviewer.SyncServiceClient.GetFileMetadataAsync(reviewTarget.TargetId);
-                UI.SetHeaderText(
+                ui.SetHeaderText(
                     $"Reviewing {Path.GetFileNameWithoutExtension(Reviewer.DrawingMetadata.RelativeFilePath)} from {Reviewer.Review}"
                 );
 
                 Reviewer.TempDownloadedDrawingFile = PathUtils.GetTempFileNameWithExtension(".slddrw");
 
-                UI.ShowDrawingMarkupPanel();
-                UI.ShowDownloadProgress();
+                ui.ShowDrawingMarkupPanel();
+                ui.ShowDownloadProgress();
 
                 await Reviewer.SyncServiceClient.DownloadFileAsync(new DownloadFileRequest()
                 {
@@ -54,9 +54,9 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                     RelativeEquipmentPath = Reviewer.Review.RemoteProject.RelativeEquipmentPath,
                     RelativeFilePath = Reviewer.DrawingMetadata.RelativeFilePath,
                     VersionFolder = "Ongoing"
-                }, UI.ReportDownloadProgress);
+                }, ui.ReportDownloadProgress);
 
-                UI.HideDownloadProgress();
+                ui.HideDownloadProgress();
 
                 if (Reviewer.StatusesHavingMarkupFile.Contains(reviewTarget.Status))
                 {
@@ -64,7 +64,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                     await Reviewer.DownloadMarkupFileAsync();
 
                     // open drawing with markup
-                    UI.LoadDrawing(
+                    ui.LoadDrawing(
                         Reviewer.TempDownloadedDrawingFile, 
                         Reviewer.TempDownloadedMarkupFile, 
                         Reviewer.DrawingReviewerControl_OpenDocError
@@ -72,7 +72,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                 }
                 else
                     // open drawing without markup
-                    UI.LoadDrawing(Reviewer.TempDownloadedDrawingFile, Reviewer.DrawingReviewerControl_OpenDocError);
+                    ui.LoadDrawing(Reviewer.TempDownloadedDrawingFile, Reviewer.DrawingReviewerControl_OpenDocError);
 
                 Reviewer.UI.MarkupStatus.Text = "Ready";
             }

@@ -185,6 +185,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Args\AssemblyReviewerArgs.cs" />
     <Compile Include="Core\Args\PublishDeliverablesToFolderStrategyArgs.cs" />
     <Compile Include="Core\DeliverablePublisherState.cs" />
     <Compile Include="Core\Domain\CustomProperty.cs" />
@@ -192,6 +193,9 @@
     <Compile Include="Core\Domain\PublishingSummary.cs" />
     <Compile Include="Core\Domain\LocalReview.cs" />
     <Compile Include="Core\Domain\ManufacturingMetadata.cs" />
+    <Compile Include="Core\IAssemblyReviewer.cs" />
+    <Compile Include="Core\IAssemblyReviewerCommandAsync.cs" />
+    <Compile Include="Core\IAssemblyReviewerUI.cs" />
     <Compile Include="Core\ICancelPublishingStrategy.cs" />
     <Compile Include="Core\ICustomPropertiesValidationStrategy.cs" />
     <Compile Include="Core\IDrawingAnalyzer.cs" />
@@ -298,6 +302,10 @@
     <Compile Include="Publishing\DeliverablePublisher\States\PublishDeliverablesState.cs" />
     <Compile Include="Publishing\DeliverablePublisher\States\PublisherIdleState.cs" />
     <Compile Include="Publishing\DrawingValidator.cs" />
+    <Compile Include="Reviews\AssemblyReviewer\AssemblyReviewer.cs" />
+    <Compile Include="Reviews\AssemblyReviewer\AssemblyReviewerUI.cs" />
+    <Compile Include="Reviews\AssemblyReviewer\Commands\CloseAssemblyReviewCommand.cs" />
+    <Compile Include="Reviews\AssemblyReviewer\Commands\OpenAssemblyReviewCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\ApproveDrawingCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\CloseDrawingReviewCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\OpenDrawingReviewCommand.cs" />
@@ -348,6 +356,7 @@
     <Compile Include="UI\Forms\PublishingBlockersForm.Designer.cs">
       <DependentUpon>PublishingBlockersForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ReviewableAssembliesTreeView.cs" />
     <Compile Include="UI\ReviewableDrawingsGrid.cs" />
     <Compile Include="UI\ReviewableFilesTreeView.cs" />
     <Compile Include="UI\ReviewableDrawingsTreeView.cs" />

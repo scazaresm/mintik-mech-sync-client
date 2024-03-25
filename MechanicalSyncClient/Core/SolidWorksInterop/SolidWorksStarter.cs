@@ -8,9 +8,12 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Core.SolidWorksInterop
 {
+
+
     public class SolidWorksStarter : ISolidWorksStarter
     {
         [DllImport("ole32.dll")]
@@ -18,6 +21,8 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
 
         [DllImport("user32.dll")]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        public event EventHandler OnDestroy;
 
         public int SolidWorksStartTimeoutSeconds { get; set; } = 60;
         public string SolidWorksExePath { get; set; } = @"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\SLDWORKS.exe";
@@ -65,13 +70,20 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
                 FileName = SolidWorksExePath,
                 Arguments = ShowSplash ? "" : "/r",
                 CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden
+                WindowStyle = Hidden ? ProcessWindowStyle.Hidden : ProcessWindowStyle.Normal,
             };
 
             logger.Debug("Preparing on idle notify event handler...");
-            var onIdleFunc = new DSldWorksEvents_OnIdleNotifyEventHandler(() =>
+            var onIdleHandler = new DSldWorksEvents_OnIdleNotifyEventHandler(() =>
             {
                 isLoaded = true;
+                return 0;
+            });
+
+            logger.Debug("Preparing on destroy notify event handler...");
+            var onDestroyHandler = new DSldWorksEvents_DestroyNotifyEventHandler(() =>
+            {
+                OnDestroy?.Invoke(this, EventArgs.Empty);
                 return 0;
             });
 
@@ -90,7 +102,8 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
 
                     if (SolidWorksApp != null)
                     {
-                        (SolidWorksApp as SldWorks).OnIdleNotify += onIdleFunc;
+                        (SolidWorksApp as SldWorks).OnIdleNotify += onIdleHandler;
+                        (SolidWorksApp as SldWorks).DestroyNotify += onDestroyHandler;
                         logger.Debug("Waiting for SolidWorks initialization...");
                     }
                     Task.Delay(1000);
@@ -101,7 +114,31 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
             if (Hidden && SolidWorksApp != null)
                 ShowWindow(new IntPtr(SolidWorksApp.IFrameObject().GetHWnd()), 0);
 
-            (SolidWorksApp as SldWorks).OnIdleNotify -= onIdleFunc;
+            (SolidWorksApp as SldWorks).OnIdleNotify -= onIdleHandler;
+        }
+
+        private void StopSolidWorks()
+        {
+            try
+            {
+                logger.Debug("StopSolidWorks begins...");
+
+                logger.Debug("Releasing COM objects...");
+                ReleaseComObjects();
+
+                logger.Debug("Closing SolidWorks App...");
+                SolidWorksApp?.ExitApp();
+
+                logger.Debug("Killing and disposing process...");
+                process?.Kill();
+                process?.Dispose();
+
+                logger.Debug("StopSolidWorks complete.");
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex.Message, ex);
+            }
         }
 
         private void ReleaseComObjects()
@@ -168,15 +205,7 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
                 logger.Debug("SolidWorksStarter instance is being disposed...");
                 if (disposing)
                 {
-                    logger.Debug("Releasing COM objects...");
-                    ReleaseComObjects();
-
-                    logger.Debug("Closing SolidWorks App...");
-                    SolidWorksApp?.ExitApp();
-
-                    logger.Debug("Killing and disposing process...");
-                    process?.Kill();
-                    process?.Dispose();
+                    StopSolidWorks();
                 }
                 process = null;
                 monikers = null;

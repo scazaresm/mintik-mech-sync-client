@@ -30,6 +30,11 @@ namespace MechanicalSyncApp.UI.Forms
             Status.Text = status;
         }
 
+        public void SetTitle(string title)
+        {
+            Text = title;
+        }
+
         private void CancelButton_Click(object sender, EventArgs e)
         {
             // if user clicked on cancel button, then cancel the async task to download files

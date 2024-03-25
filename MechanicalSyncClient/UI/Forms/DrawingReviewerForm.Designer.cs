@@ -33,11 +33,22 @@
             this.MainSplit = new System.Windows.Forms.SplitContainer();
             this.DeltaDrawingsTreeView = new System.Windows.Forms.TreeView();
             this.SynchronizerToolStrip = new System.Windows.Forms.ToolStrip();
+            this.RefreshReviewTargetsButton = new System.Windows.Forms.ToolStripButton();
             this.MarkupPanel = new System.Windows.Forms.Panel();
             this.MarkupOperatorsToolStrip = new System.Windows.Forms.ToolStrip();
+            this.ChangeRequestButton = new System.Windows.Forms.ToolStripButton();
+            this.PanButton = new System.Windows.Forms.ToolStripButton();
+            this.ZoomToAreaButton = new System.Windows.Forms.ToolStripButton();
+            this.ZoomButton = new System.Windows.Forms.ToolStripButton();
             this.ReviewMarkupToolStrip = new System.Windows.Forms.ToolStrip();
+            this.CloseDrawingButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ReviewTargetStatus = new System.Windows.Forms.ToolStripLabel();
+            this.SaveProgressButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.ApproveDrawingButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.RejectDrawingButton = new System.Windows.Forms.ToolStripButton();
             this.MarkupStatusStrip = new System.Windows.Forms.StatusStrip();
             this.MarkupStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.DownloadProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -46,17 +57,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.HeaderLabel = new System.Windows.Forms.Label();
             this.TreeViewIcons = new System.Windows.Forms.ImageList(this.components);
-            this.RefreshReviewTargetsButton = new System.Windows.Forms.ToolStripButton();
-            this.ChangeRequestButton = new System.Windows.Forms.ToolStripButton();
-            this.PanButton = new System.Windows.Forms.ToolStripButton();
-            this.ZoomToAreaButton = new System.Windows.Forms.ToolStripButton();
-            this.ZoomButton = new System.Windows.Forms.ToolStripButton();
-            this.CloseDrawingButton = new System.Windows.Forms.ToolStripButton();
-            this.SaveProgressButton = new System.Windows.Forms.ToolStripButton();
-            this.ApproveDrawingButton = new System.Windows.Forms.ToolStripButton();
-            this.RejectDrawingButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
             this.MainSplit.Panel1.SuspendLayout();
             this.MainSplit.Panel2.SuspendLayout();
@@ -107,6 +107,16 @@
             this.SynchronizerToolStrip.TabIndex = 16;
             this.SynchronizerToolStrip.Text = "toolStrip2";
             // 
+            // RefreshReviewTargetsButton
+            // 
+            this.RefreshReviewTargetsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.RefreshReviewTargetsButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
+            this.RefreshReviewTargetsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshReviewTargetsButton.Name = "RefreshReviewTargetsButton";
+            this.RefreshReviewTargetsButton.Size = new System.Drawing.Size(66, 22);
+            this.RefreshReviewTargetsButton.Text = "Refresh";
+            this.RefreshReviewTargetsButton.ToolTipText = "Refresh drawings";
+            // 
             // MarkupPanel
             // 
             this.MarkupPanel.Controls.Add(this.MarkupOperatorsToolStrip);
@@ -132,6 +142,51 @@
             this.MarkupOperatorsToolStrip.TabIndex = 3;
             this.MarkupOperatorsToolStrip.Text = "toolStrip2";
             // 
+            // ChangeRequestButton
+            // 
+            this.ChangeRequestButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ChangeRequestButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ChangeRequestButton.Image = global::MechanicalSyncApp.Properties.Resources.error_file_icon_32;
+            this.ChangeRequestButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.ChangeRequestButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ChangeRequestButton.Name = "ChangeRequestButton";
+            this.ChangeRequestButton.Size = new System.Drawing.Size(38, 36);
+            this.ChangeRequestButton.Text = "Zoom to area";
+            this.ChangeRequestButton.ToolTipText = "Add change request";
+            // 
+            // PanButton
+            // 
+            this.PanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.PanButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanButton.Image = global::MechanicalSyncApp.Properties.Resources.move_icon_32;
+            this.PanButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.PanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.PanButton.Name = "PanButton";
+            this.PanButton.Size = new System.Drawing.Size(38, 36);
+            this.PanButton.Text = "Pan";
+            // 
+            // ZoomToAreaButton
+            // 
+            this.ZoomToAreaButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ZoomToAreaButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ZoomToAreaButton.Image = global::MechanicalSyncApp.Properties.Resources.zoom_fit_32;
+            this.ZoomToAreaButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.ZoomToAreaButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ZoomToAreaButton.Name = "ZoomToAreaButton";
+            this.ZoomToAreaButton.Size = new System.Drawing.Size(38, 36);
+            this.ZoomToAreaButton.Text = "Zoom to area";
+            // 
+            // ZoomButton
+            // 
+            this.ZoomButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ZoomButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ZoomButton.Image = global::MechanicalSyncApp.Properties.Resources.zoom_32;
+            this.ZoomButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.ZoomButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ZoomButton.Name = "ZoomButton";
+            this.ZoomButton.Size = new System.Drawing.Size(38, 36);
+            this.ZoomButton.Text = "Zoom";
+            // 
             // ReviewMarkupToolStrip
             // 
             this.ReviewMarkupToolStrip.AutoSize = false;
@@ -150,6 +205,15 @@
             this.ReviewMarkupToolStrip.TabIndex = 4;
             this.ReviewMarkupToolStrip.Text = "toolStrip1";
             // 
+            // CloseDrawingButton
+            // 
+            this.CloseDrawingButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.CloseDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
+            this.CloseDrawingButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CloseDrawingButton.Name = "CloseDrawingButton";
+            this.CloseDrawingButton.Size = new System.Drawing.Size(56, 30);
+            this.CloseDrawingButton.Text = "Close";
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -164,6 +228,44 @@
             this.ReviewTargetStatus.Name = "ReviewTargetStatus";
             this.ReviewTargetStatus.Size = new System.Drawing.Size(59, 30);
             this.ReviewTargetStatus.Text = "Loading...";
+            // 
+            // SaveProgressButton
+            // 
+            this.SaveProgressButton.Image = global::MechanicalSyncApp.Properties.Resources.save_icon_24;
+            this.SaveProgressButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SaveProgressButton.Name = "SaveProgressButton";
+            this.SaveProgressButton.Size = new System.Drawing.Size(99, 30);
+            this.SaveProgressButton.Text = "Save progress";
+            this.SaveProgressButton.ToolTipText = "Save progress (Ctrl + S)";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 33);
+            // 
+            // ApproveDrawingButton
+            // 
+            this.ApproveDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.ok_apply_icon_24;
+            this.ApproveDrawingButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.ApproveDrawingButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ApproveDrawingButton.Name = "ApproveDrawingButton";
+            this.ApproveDrawingButton.Size = new System.Drawing.Size(80, 30);
+            this.ApproveDrawingButton.Text = "Approve";
+            this.ApproveDrawingButton.ToolTipText = "Approve drawing";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 33);
+            // 
+            // RejectDrawingButton
+            // 
+            this.RejectDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.delete_icon_24;
+            this.RejectDrawingButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RejectDrawingButton.Name = "RejectDrawingButton";
+            this.RejectDrawingButton.Size = new System.Drawing.Size(59, 30);
+            this.RejectDrawingButton.Text = "Reject";
+            this.RejectDrawingButton.ToolTipText = "Reject drawing";
             // 
             // MarkupStatusStrip
             // 
@@ -238,108 +340,6 @@
             this.TreeViewIcons.Images.SetKeyName(2, "file-ok-24.png");
             this.TreeViewIcons.Images.SetKeyName(3, "file-nok-24.png");
             this.TreeViewIcons.Images.SetKeyName(4, "tools-icon-24.png");
-            // 
-            // RefreshReviewTargetsButton
-            // 
-            this.RefreshReviewTargetsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.RefreshReviewTargetsButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
-            this.RefreshReviewTargetsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RefreshReviewTargetsButton.Name = "RefreshReviewTargetsButton";
-            this.RefreshReviewTargetsButton.Size = new System.Drawing.Size(66, 22);
-            this.RefreshReviewTargetsButton.Text = "Refresh";
-            this.RefreshReviewTargetsButton.ToolTipText = "Refresh local files";
-            // 
-            // ChangeRequestButton
-            // 
-            this.ChangeRequestButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ChangeRequestButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ChangeRequestButton.Image = global::MechanicalSyncApp.Properties.Resources.error_file_icon_32;
-            this.ChangeRequestButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ChangeRequestButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ChangeRequestButton.Name = "ChangeRequestButton";
-            this.ChangeRequestButton.Size = new System.Drawing.Size(38, 36);
-            this.ChangeRequestButton.Text = "Zoom to area";
-            this.ChangeRequestButton.ToolTipText = "Add change request";
-            // 
-            // PanButton
-            // 
-            this.PanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.PanButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanButton.Image = global::MechanicalSyncApp.Properties.Resources.move_icon_32;
-            this.PanButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.PanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.PanButton.Name = "PanButton";
-            this.PanButton.Size = new System.Drawing.Size(38, 36);
-            this.PanButton.Text = "Pan";
-            // 
-            // ZoomToAreaButton
-            // 
-            this.ZoomToAreaButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ZoomToAreaButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ZoomToAreaButton.Image = global::MechanicalSyncApp.Properties.Resources.zoom_fit_32;
-            this.ZoomToAreaButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ZoomToAreaButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ZoomToAreaButton.Name = "ZoomToAreaButton";
-            this.ZoomToAreaButton.Size = new System.Drawing.Size(38, 36);
-            this.ZoomToAreaButton.Text = "Zoom to area";
-            // 
-            // ZoomButton
-            // 
-            this.ZoomButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ZoomButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ZoomButton.Image = global::MechanicalSyncApp.Properties.Resources.zoom_32;
-            this.ZoomButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ZoomButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ZoomButton.Name = "ZoomButton";
-            this.ZoomButton.Size = new System.Drawing.Size(38, 36);
-            this.ZoomButton.Text = "Zoom";
-            // 
-            // CloseDrawingButton
-            // 
-            this.CloseDrawingButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.CloseDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.close_16;
-            this.CloseDrawingButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CloseDrawingButton.Name = "CloseDrawingButton";
-            this.CloseDrawingButton.Size = new System.Drawing.Size(56, 30);
-            this.CloseDrawingButton.Text = "Close";
-            // 
-            // SaveProgressButton
-            // 
-            this.SaveProgressButton.Image = global::MechanicalSyncApp.Properties.Resources.save_icon_24;
-            this.SaveProgressButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SaveProgressButton.Name = "SaveProgressButton";
-            this.SaveProgressButton.Size = new System.Drawing.Size(99, 30);
-            this.SaveProgressButton.Text = "Save progress";
-            this.SaveProgressButton.ToolTipText = "Save progress (Ctrl + S)";
-            // 
-            // ApproveDrawingButton
-            // 
-            this.ApproveDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.ok_apply_icon_24;
-            this.ApproveDrawingButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.ApproveDrawingButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ApproveDrawingButton.Name = "ApproveDrawingButton";
-            this.ApproveDrawingButton.Size = new System.Drawing.Size(80, 30);
-            this.ApproveDrawingButton.Text = "Approve";
-            this.ApproveDrawingButton.ToolTipText = "Approve drawing";
-            // 
-            // RejectDrawingButton
-            // 
-            this.RejectDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.delete_icon_24;
-            this.RejectDrawingButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RejectDrawingButton.Name = "RejectDrawingButton";
-            this.RejectDrawingButton.Size = new System.Drawing.Size(59, 30);
-            this.RejectDrawingButton.Text = "Reject";
-            this.RejectDrawingButton.ToolTipText = "Reject drawing";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 33);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 33);
             // 
             // DrawingReviewerForm
             // 
