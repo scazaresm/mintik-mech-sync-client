@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssemblyReviewerForm));
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.DesignerLabel = new System.Windows.Forms.Label();
@@ -38,12 +39,23 @@
             this.DeltaAssembliesTreeView = new System.Windows.Forms.TreeView();
             this.SynchronizerToolStrip = new System.Windows.Forms.ToolStrip();
             this.RefreshReviewTargetsButton = new System.Windows.Forms.ToolStripButton();
+            this.ReviewTabs = new System.Windows.Forms.TabControl();
+            this.ChangeRequestsTab = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.ChangeRequestsGrid = new System.Windows.Forms.DataGridView();
+            this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ChangeRequestInput = new System.Windows.Forms.TextBox();
+            this.ObservationsTab = new System.Windows.Forms.TabPage();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.OvservationsGrid = new System.Windows.Forms.DataGridView();
+            this.ObservationToolStrip = new System.Windows.Forms.ToolStrip();
+            this.ObservationInput = new System.Windows.Forms.TextBox();
+            this.TabIcons = new System.Windows.Forms.ImageList(this.components);
             this.ReviewToolStrip = new System.Windows.Forms.ToolStrip();
             this.CloseAssemblyButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ReviewTargetStatus = new System.Windows.Forms.ToolStripLabel();
-            this.SaveProgressButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ApproveAssemblyButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.RejectAssemblyButton = new System.Windows.Forms.ToolStripButton();
@@ -56,6 +68,19 @@
             this.MainSplit.Panel2.SuspendLayout();
             this.MainSplit.SuspendLayout();
             this.SynchronizerToolStrip.SuspendLayout();
+            this.ReviewTabs.SuspendLayout();
+            this.ChangeRequestsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ChangeRequestsGrid)).BeginInit();
+            this.ObservationsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.OvservationsGrid)).BeginInit();
             this.ReviewToolStrip.SuspendLayout();
             this.MarkupStatusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -113,6 +138,7 @@
             // 
             // MainSplit.Panel2
             // 
+            this.MainSplit.Panel2.Controls.Add(this.ReviewTabs);
             this.MainSplit.Panel2.Controls.Add(this.ReviewToolStrip);
             this.MainSplit.Panel2.Controls.Add(this.MarkupStatusStrip);
             this.MainSplit.Size = new System.Drawing.Size(974, 472);
@@ -147,20 +173,172 @@
             this.RefreshReviewTargetsButton.Text = "Refresh";
             this.RefreshReviewTargetsButton.ToolTipText = "Refresh assemblies";
             // 
-            // ReviewMarkupToolStrip
+            // ReviewTabs
+            // 
+            this.ReviewTabs.Controls.Add(this.ChangeRequestsTab);
+            this.ReviewTabs.Controls.Add(this.ObservationsTab);
+            this.ReviewTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ReviewTabs.ImageList = this.TabIcons;
+            this.ReviewTabs.Location = new System.Drawing.Point(0, 33);
+            this.ReviewTabs.Name = "ReviewTabs";
+            this.ReviewTabs.SelectedIndex = 0;
+            this.ReviewTabs.Size = new System.Drawing.Size(696, 417);
+            this.ReviewTabs.TabIndex = 6;
+            // 
+            // ChangeRequestsTab
+            // 
+            this.ChangeRequestsTab.Controls.Add(this.splitContainer1);
+            this.ChangeRequestsTab.ImageIndex = 0;
+            this.ChangeRequestsTab.Location = new System.Drawing.Point(4, 31);
+            this.ChangeRequestsTab.Name = "ChangeRequestsTab";
+            this.ChangeRequestsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.ChangeRequestsTab.Size = new System.Drawing.Size(688, 382);
+            this.ChangeRequestsTab.TabIndex = 0;
+            this.ChangeRequestsTab.Text = "Change requests";
+            this.ChangeRequestsTab.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.ChangeRequestsGrid);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.ChangeRequestInput);
+            this.splitContainer1.Size = new System.Drawing.Size(682, 376);
+            this.splitContainer1.SplitterDistance = 291;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // ChangeRequestsGrid
+            // 
+            this.ChangeRequestsGrid.AllowUserToAddRows = false;
+            this.ChangeRequestsGrid.AllowUserToDeleteRows = false;
+            this.ChangeRequestsGrid.AllowUserToResizeRows = false;
+            this.ChangeRequestsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ChangeRequestsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ChangeRequestDescriptionColumn,
+            this.ChangeRequestStatusColumn});
+            this.ChangeRequestsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ChangeRequestsGrid.Location = new System.Drawing.Point(0, 0);
+            this.ChangeRequestsGrid.MultiSelect = false;
+            this.ChangeRequestsGrid.Name = "ChangeRequestsGrid";
+            this.ChangeRequestsGrid.ReadOnly = true;
+            this.ChangeRequestsGrid.RowHeadersVisible = false;
+            this.ChangeRequestsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ChangeRequestsGrid.Size = new System.Drawing.Size(682, 291);
+            this.ChangeRequestsGrid.TabIndex = 1;
+            // 
+            // ChangeRequestDescriptionColumn
+            // 
+            this.ChangeRequestDescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ChangeRequestDescriptionColumn.HeaderText = "Description";
+            this.ChangeRequestDescriptionColumn.Name = "ChangeRequestDescriptionColumn";
+            this.ChangeRequestDescriptionColumn.ReadOnly = true;
+            // 
+            // ChangeRequestStatusColumn
+            // 
+            this.ChangeRequestStatusColumn.HeaderText = "Status";
+            this.ChangeRequestStatusColumn.Name = "ChangeRequestStatusColumn";
+            this.ChangeRequestStatusColumn.ReadOnly = true;
+            this.ChangeRequestStatusColumn.Width = 150;
+            // 
+            // ChangeRequestInput
+            // 
+            this.ChangeRequestInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ChangeRequestInput.ForeColor = System.Drawing.Color.Silver;
+            this.ChangeRequestInput.Location = new System.Drawing.Point(0, 0);
+            this.ChangeRequestInput.Multiline = true;
+            this.ChangeRequestInput.Name = "ChangeRequestInput";
+            this.ChangeRequestInput.Size = new System.Drawing.Size(682, 81);
+            this.ChangeRequestInput.TabIndex = 0;
+            this.ChangeRequestInput.Text = "Type here to create a new change request...";
+            // 
+            // ObservationsTab
+            // 
+            this.ObservationsTab.Controls.Add(this.splitContainer2);
+            this.ObservationsTab.ImageIndex = 1;
+            this.ObservationsTab.Location = new System.Drawing.Point(4, 31);
+            this.ObservationsTab.Name = "ObservationsTab";
+            this.ObservationsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.ObservationsTab.Size = new System.Drawing.Size(688, 382);
+            this.ObservationsTab.TabIndex = 1;
+            this.ObservationsTab.Text = "Observations";
+            this.ObservationsTab.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.OvservationsGrid);
+            this.splitContainer2.Panel1.Controls.Add(this.ObservationToolStrip);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.ObservationInput);
+            this.splitContainer2.Size = new System.Drawing.Size(682, 376);
+            this.splitContainer2.SplitterDistance = 291;
+            this.splitContainer2.TabIndex = 1;
+            // 
+            // OvservationsGrid
+            // 
+            this.OvservationsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.OvservationsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OvservationsGrid.Location = new System.Drawing.Point(0, 25);
+            this.OvservationsGrid.Name = "OvservationsGrid";
+            this.OvservationsGrid.Size = new System.Drawing.Size(682, 266);
+            this.OvservationsGrid.TabIndex = 1;
+            // 
+            // ObservationToolStrip
+            // 
+            this.ObservationToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.ObservationToolStrip.Name = "ObservationToolStrip";
+            this.ObservationToolStrip.Size = new System.Drawing.Size(682, 25);
+            this.ObservationToolStrip.TabIndex = 0;
+            this.ObservationToolStrip.Text = "toolStrip2";
+            // 
+            // ObservationInput
+            // 
+            this.ObservationInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ObservationInput.ForeColor = System.Drawing.Color.Silver;
+            this.ObservationInput.Location = new System.Drawing.Point(0, 0);
+            this.ObservationInput.Multiline = true;
+            this.ObservationInput.Name = "ObservationInput";
+            this.ObservationInput.Size = new System.Drawing.Size(682, 81);
+            this.ObservationInput.TabIndex = 0;
+            this.ObservationInput.Text = "Type here to create a new observation...";
+            // 
+            // TabIcons
+            // 
+            this.TabIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("TabIcons.ImageStream")));
+            this.TabIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.TabIcons.Images.SetKeyName(0, "change-request-24.png");
+            this.TabIcons.Images.SetKeyName(1, "observation-24.png");
+            // 
+            // ReviewToolStrip
             // 
             this.ReviewToolStrip.AutoSize = false;
             this.ReviewToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CloseAssemblyButton,
             this.toolStripSeparator2,
             this.ReviewTargetStatus,
-            this.SaveProgressButton,
-            this.toolStripSeparator3,
             this.ApproveAssemblyButton,
             this.toolStripSeparator1,
             this.RejectAssemblyButton});
             this.ReviewToolStrip.Location = new System.Drawing.Point(0, 0);
-            this.ReviewToolStrip.Name = "ReviewMarkupToolStrip";
+            this.ReviewToolStrip.Name = "ReviewToolStrip";
             this.ReviewToolStrip.Size = new System.Drawing.Size(696, 33);
             this.ReviewToolStrip.TabIndex = 5;
             this.ReviewToolStrip.Text = "toolStrip1";
@@ -189,28 +367,14 @@
             this.ReviewTargetStatus.Size = new System.Drawing.Size(59, 30);
             this.ReviewTargetStatus.Text = "Loading...";
             // 
-            // SaveProgressButton
-            // 
-            this.SaveProgressButton.Image = global::MechanicalSyncApp.Properties.Resources.save_icon_24;
-            this.SaveProgressButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SaveProgressButton.Name = "SaveProgressButton";
-            this.SaveProgressButton.Size = new System.Drawing.Size(99, 30);
-            this.SaveProgressButton.Text = "Save progress";
-            this.SaveProgressButton.ToolTipText = "Save progress (Ctrl + S)";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 33);
-            // 
             // ApproveAssemblyButton
             // 
             this.ApproveAssemblyButton.Image = global::MechanicalSyncApp.Properties.Resources.ok_apply_icon_24;
             this.ApproveAssemblyButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ApproveAssemblyButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ApproveAssemblyButton.Name = "ApproveAssemblyButton";
-            this.ApproveAssemblyButton.Size = new System.Drawing.Size(80, 30);
-            this.ApproveAssemblyButton.Text = "Approve";
+            this.ApproveAssemblyButton.Size = new System.Drawing.Size(105, 30);
+            this.ApproveAssemblyButton.Text = "Approve assy";
             this.ApproveAssemblyButton.ToolTipText = "Approve assembly";
             // 
             // toolStripSeparator1
@@ -220,11 +384,11 @@
             // 
             // RejectAssemblyButton
             // 
-            this.RejectAssemblyButton.Image = global::MechanicalSyncApp.Properties.Resources.delete_icon_24;
+            this.RejectAssemblyButton.Image = global::MechanicalSyncApp.Properties.Resources.reject_24;
             this.RejectAssemblyButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RejectAssemblyButton.Name = "RejectAssemblyButton";
-            this.RejectAssemblyButton.Size = new System.Drawing.Size(59, 30);
-            this.RejectAssemblyButton.Text = "Reject";
+            this.RejectAssemblyButton.Size = new System.Drawing.Size(84, 30);
+            this.RejectAssemblyButton.Text = "Reject assy";
             this.RejectAssemblyButton.ToolTipText = "Reject assembly";
             // 
             // MarkupStatusStrip
@@ -277,6 +441,22 @@
             this.MainSplit.ResumeLayout(false);
             this.SynchronizerToolStrip.ResumeLayout(false);
             this.SynchronizerToolStrip.PerformLayout();
+            this.ReviewTabs.ResumeLayout(false);
+            this.ChangeRequestsTab.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ChangeRequestsGrid)).EndInit();
+            this.ObservationsTab.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.OvservationsGrid)).EndInit();
             this.ReviewToolStrip.ResumeLayout(false);
             this.ReviewToolStrip.PerformLayout();
             this.MarkupStatusStrip.ResumeLayout(false);
@@ -302,10 +482,21 @@
         private System.Windows.Forms.ToolStripButton CloseAssemblyButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel ReviewTargetStatus;
-        private System.Windows.Forms.ToolStripButton SaveProgressButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton ApproveAssemblyButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton RejectAssemblyButton;
+        private System.Windows.Forms.TabControl ReviewTabs;
+        private System.Windows.Forms.TabPage ChangeRequestsTab;
+        private System.Windows.Forms.TabPage ObservationsTab;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.TextBox ChangeRequestInput;
+        private System.Windows.Forms.DataGridView ChangeRequestsGrid;
+        private System.Windows.Forms.ImageList TabIcons;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.DataGridView OvservationsGrid;
+        private System.Windows.Forms.ToolStrip ObservationToolStrip;
+        private System.Windows.Forms.TextBox ObservationInput;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestDescriptionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestStatusColumn;
     }
 }

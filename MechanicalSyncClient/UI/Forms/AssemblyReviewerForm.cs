@@ -59,7 +59,11 @@ namespace MechanicalSyncApp.UI.Forms
                 HeaderLabel = HeaderLabel,
                 DesignerLabel = DesignerLabel,
                 CloseAssemblyButton = CloseAssemblyButton,
-                ReviewToolStrip = ReviewToolStrip
+                ReviewToolStrip = ReviewToolStrip,
+                StatusLabel = StatusLabel,
+                ReviewTargetStatus = ReviewTargetStatus,
+                ChangeRequestInput = ChangeRequestInput,
+                ChangeRequestsGrid = ChangeRequestsGrid,
             };
             assemblyReviewer = new AssemblyReviewer(
                 new AssemblyReviewerArgs()

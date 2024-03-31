@@ -1,13 +1,9 @@
 ﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.SolidWorksInterop;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -33,26 +29,41 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 
         public async Task RunAsync()
         {
+            logger.Debug("OpenAssemblyReviewCommand begins...");
+
             var ui = Reviewer.Args.UI;
             var starter = Reviewer.Args.SolidWorksStarter;
             var syncService = Reviewer.Args.SyncServiceClient;
 
             try
             {
+                ui.ChangeRequestInput.Enabled = false;
                 ui.ReviewToolStrip.Enabled = false;
+                ui.ChangeRequestsGrid.Enabled = false;
+                ui.StatusLabel.Text = "Loading assembly...";
+
+                ui.PopulateChangeRequestGrid(reviewTarget);
                 ui.ShowReviewPanel();
 
                 Reviewer.ReviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
                 Reviewer.AssemblyMetadata = await syncService.GetFileMetadataAsync(reviewTarget.TargetId);
-
-                ui.SetHeaderText(
-                   $"Reviewing {Path.GetFileNameWithoutExtension(Reviewer.AssemblyMetadata.RelativeFilePath)} from {Reviewer.Args.Review}"
+                
+                var assemblyFilePath = Path.Combine(
+                    Reviewer.Args.TempWorkingCopyDirectory,
+                    Reviewer.AssemblyMetadata.RelativeFilePath
                 );
 
-                var assemblyFilePath = Path.Combine(Reviewer.Args.TempWorkingCopyDirectory, Reviewer.AssemblyMetadata.RelativeFilePath);
+                ui.SetHeaderText(
+                   $"Reviewing {Path.GetFileNameWithoutExtension(assemblyFilePath)} from {Reviewer.Args.Review}"
+                );
                 await new SolidWorksModelLoader(starter, logger).LoadModelAsync(assemblyFilePath);
 
                 ui.ReviewToolStrip.Enabled = true;
+                ui.StatusLabel.Text = "Ready.";
+                ui.ChangeRequestInput.Enabled = true;
+                ui.ChangeRequestsGrid.Enabled = true;
+
+                logger.Debug("OpenAssemblyReviewCommand complete.");
             }
             catch(Exception ex)
             {

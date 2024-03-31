@@ -260,7 +260,7 @@
             // 
             // RejectDrawingButton
             // 
-            this.RejectDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.delete_icon_24;
+            this.RejectDrawingButton.Image = global::MechanicalSyncApp.Properties.Resources.reject_24;
             this.RejectDrawingButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RejectDrawingButton.Name = "RejectDrawingButton";
             this.RejectDrawingButton.Size = new System.Drawing.Size(59, 30);

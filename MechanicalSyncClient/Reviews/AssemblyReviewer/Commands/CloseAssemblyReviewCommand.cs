@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 {
@@ -25,20 +26,30 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 
         public async Task RunAsync()
         {
+            logger.Debug("CloseAssemblyReviewCommand begins...");
+
             var ui = Reviewer.Args.UI;
+            ui.CloseAssemblyButton.Enabled = false;
             try
             {
                 var fileName = Path.GetFileName(Reviewer.AssemblyMetadata.RelativeFilePath);
-                var sw = Reviewer.Args.SolidWorksStarter;
-                (sw as SolidWorksStarter).SolidWorksApp.CloseDoc(fileName);
+
+                var starter = (Reviewer.Args.SolidWorksStarter as SolidWorksStarter);
+                starter.SolidWorksApp.CloseDoc(fileName);
+
+                logger.Debug("CloseAssemblyReviewCommand complete.");
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message, ex);   
+                var message = $"Failed to close assembly review: ${ex.Message}";
+
+                logger.Error(message, ex);
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 ui.HideReviewPanel();
+                ui.CloseAssemblyButton.Enabled = true;
             }
         }
     }

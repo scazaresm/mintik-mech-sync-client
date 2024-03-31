@@ -218,6 +218,7 @@
     <Compile Include="Core\Services\MechSync\Exceptions\InvalidProjectFolderException.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\AcknowledgeVersionOwnershipHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\AggregateProjectDetailsHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\CreateChangeRequestHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateProjectHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateReviewHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateVersionHandler.cs" />
@@ -305,7 +306,9 @@
     <Compile Include="Reviews\AssemblyReviewer\AssemblyReviewer.cs" />
     <Compile Include="Reviews\AssemblyReviewer\AssemblyReviewerUI.cs" />
     <Compile Include="Reviews\AssemblyReviewer\Commands\CloseAssemblyReviewCommand.cs" />
+    <Compile Include="Reviews\AssemblyReviewer\Commands\CreateChangeRequestCommand.cs" />
     <Compile Include="Reviews\AssemblyReviewer\Commands\OpenAssemblyReviewCommand.cs" />
+    <Compile Include="Reviews\AssemblyReviewer\Commands\ViewEditChangeRequestCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\ApproveDrawingCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\CloseDrawingReviewCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\OpenDrawingReviewCommand.cs" />
@@ -338,6 +341,12 @@
     <Compile Include="Sync\VersionSynchronizer\States\IndexRemoteFilesState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\ProcessSyncCheckSummaryState.cs" />
     <Compile Include="Sync\VersionSynchronizer\WorkingCopyDownloader.cs" />
+    <Compile Include="UI\Forms\ChangeRequestDetailsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ChangeRequestDetailsDialog.Designer.cs">
+      <DependentUpon>ChangeRequestDetailsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\DeliverablePublishingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -543,6 +552,9 @@
     <Compile Include="UI\WorkspaceTreeView.cs" />
     <EmbeddedResource Include="UI\Forms\AssemblyReviewerForm.resx">
       <DependentUpon>AssemblyReviewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\ChangeRequestDetailsDialog.resx">
+      <DependentUpon>ChangeRequestDetailsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ChangeYourPasswordForm.resx">
       <DependentUpon>ChangeYourPasswordForm.cs</DependentUpon>
@@ -763,6 +775,10 @@
     <None Include="Resources\cursor-select-24.png" />
     <None Include="Resources\file-icon-24.png" />
     <None Include="Resources\file-icon-16.png" />
+    <None Include="Resources\reject-24.png" />
+    <None Include="Resources\pencil-24.png" />
+    <None Include="Resources\paste-24.png" />
+    <None Include="Resources\image-placeholder-350x350.png" />
     <Content Include="sync-icon.ico" />
   </ItemGroup>
   <ItemGroup>

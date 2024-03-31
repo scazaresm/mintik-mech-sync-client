@@ -175,6 +175,9 @@
   <data name="find-32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\find-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="cursor-select-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cursor-select-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="inspect-deliverables-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\inspect-deliverables-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -196,8 +199,17 @@
   <data name="close-32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\close-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="pencil-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pencil-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reject-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reject-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="mail-arrow-up-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mail-arrow-up-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="paste-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\paste-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="cursor-32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cursor-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -220,6 +232,9 @@
   <data name="undo-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\undo-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="file_icon_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\file-icon-16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="file-nok-48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\file-nok-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -234,6 +249,9 @@
   </data>
   <data name="stop-32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stop-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="file_icon_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\file-icon-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="file-ok-48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\file-ok-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -256,13 +274,7 @@
   <data name="archive-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\archive-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cursor-select-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cursor-select-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="file_icon_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\file-icon-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="file_icon_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\file-icon-16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="image-placeholder-350x350" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\image-placeholder-350x350.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

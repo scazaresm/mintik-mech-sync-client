@@ -47,5 +47,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task<List<FilePublishing>> GetVersionFilePublishingsAsync(string versionId);
         Task<FilePublishing> GetFilePublishingAsync(string publishingId);
         Task DeleteFilePublishingAsync(string publishingId);
+        Task<ChangeRequest> CreateChangeRequest(string reviewTargetId, string changeDescription);
     }
 }

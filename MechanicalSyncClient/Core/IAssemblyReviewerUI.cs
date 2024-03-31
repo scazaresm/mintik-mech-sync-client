@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,14 @@ namespace MechanicalSyncApp.Core
         Label DesignerLabel { get; set; }
         ToolStripButton CloseAssemblyButton { get; set; }
         ToolStrip ReviewToolStrip { get; set; }
+        ToolStripLabel StatusLabel { get; set; }
+        ToolStripLabel ReviewTargetStatus { get; set; }
+        TextBox ChangeRequestInput { get; set; }
+        DataGridView ChangeRequestsGrid { get; set; }
 
+        void AddChangeRequestToGrid(ChangeRequest changeRequest);
         void HideReviewPanel();
+        void PopulateChangeRequestGrid(ReviewTarget target);
         void SetDesignerText(string designerText);
         void SetHeaderText(string headerText);
         void ShowReviewPanel();

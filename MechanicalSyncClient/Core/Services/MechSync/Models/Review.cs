@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models
 {
+
     public class Review
     {
         [JsonProperty("_id")]

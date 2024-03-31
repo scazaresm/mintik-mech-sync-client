@@ -293,6 +293,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap image_placeholder_350x350 {
+            get {
+                object obj = ResourceManager.GetObject("image-placeholder-350x350", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap inspect_deliverables_24 {
             get {
                 object obj = ResourceManager.GetObject("inspect-deliverables-24", resourceCulture);
@@ -393,6 +403,26 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap paste_24 {
+            get {
+                object obj = ResourceManager.GetObject("paste-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pencil_24 {
+            get {
+                object obj = ResourceManager.GetObject("pencil-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap plus_icon_24 {
             get {
                 object obj = ResourceManager.GetObject("plus-icon-24", resourceCulture);
@@ -406,6 +436,16 @@ namespace MechanicalSyncApp.Properties {
         internal static System.Drawing.Bitmap refresh_icon_24 {
             get {
                 object obj = ResourceManager.GetObject("refresh-icon-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reject_24 {
+            get {
+                object obj = ResourceManager.GetObject("reject-24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

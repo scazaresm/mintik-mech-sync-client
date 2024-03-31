@@ -4,6 +4,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Handlers;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -20,6 +21,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
         private readonly string SERVER_URL = ConfigurationManager.AppSettings["SERVER_URL"];
         private readonly string DEFAULT_TIMEOUT_SECONDS = ConfigurationManager.AppSettings["DEFAULT_TIMEOUT_SECONDS"];
+
+        private ILogger logger;
 
         private static MechSyncServiceClient _instance = null;
 
@@ -55,6 +58,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
                 // subscribe to authentication token refresh event, so that we can refresh the tokens on local clients
                 AuthenticationService.OnAuthenticationTokenRefresh += AuthenticationService_OnAuthenticationTokenRefresh;
+
+                logger = Log.Logger;
             }
             catch (FormatException ex)
             {
@@ -212,9 +217,17 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new GetFilePublishingHandler(restClient, publishingId).HandleAsync();
         }
+
         public async Task DeleteFilePublishingAsync(string publishingId)
         {
             await new DeleteFilePublishingHandler(fileClient, publishingId).HandleAsync();
+        }
+
+        public async Task<ChangeRequest> CreateChangeRequest(string reviewTargetId, string changeDescription)
+        {
+            return await new 
+                CreateChangeRequestHandler(restClient, reviewTargetId, changeDescription, logger)
+                .HandleAsync();
         }
 
         #region Disposing pattern
