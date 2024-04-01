@@ -1,16 +1,8 @@
 ﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.UI;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using eDrawings.Interop.EModelViewControl;
-using MechanicalSyncApp.Core.Services.MechSync;
-using MechanicalSyncApp.Core.Domain;
 using System.Drawing;
 
 namespace MechanicalSyncApp.Reviews.DrawingReviewer
@@ -35,6 +27,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
         public ToolStripButton RejectDrawingButton { get; set; }
 
         public SplitContainer MainSplit { get; set; }
+
 
         public Panel MarkupPanel { get; set; }
 

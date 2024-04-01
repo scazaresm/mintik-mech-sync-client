@@ -14,6 +14,12 @@ namespace MechanicalSyncApp.Core
         ReviewTarget ReviewTarget { get; set; }
         FileMetadata AssemblyMetadata { get; set; }
 
+        Task OpenReviewTargetAsync(ReviewTarget reviewTarget);
+        Task CloseReviewTargetAsync();
+        Task CreateChangeRequestAsync();
         Task InitializeUiAsync();
+        Task ViewChangeRequestAsync(ChangeRequest changeRequest);
+        Task RefreshReviewTargetsAsync();
+        Task RejectAssemblyAsync();
     }
 }

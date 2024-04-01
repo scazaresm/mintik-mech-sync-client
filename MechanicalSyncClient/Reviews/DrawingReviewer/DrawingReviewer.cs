@@ -110,7 +110,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         public async Task RejectReviewTargetAsync()
         {
-            await new RejectDrawingCommand(this).RunAsync();
+            await new RejectDrawingCommand(this, logger).RunAsync();
         }
 
         public async Task RefreshReviewTargetsAsync()

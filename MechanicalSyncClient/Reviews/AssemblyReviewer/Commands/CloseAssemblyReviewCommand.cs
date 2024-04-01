@@ -32,6 +32,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 
                 var starter = (Reviewer.Args.SolidWorksStarter as SolidWorksStarter);
                 starter.SolidWorksApp.CloseDoc(fileName);
+                await Reviewer.RefreshReviewTargetsAsync();
 
                 logger.Debug("CloseAssemblyReviewCommand complete.");
             }

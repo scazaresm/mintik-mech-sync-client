@@ -46,11 +46,13 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
             ui.ChangeRequestInput.Leave += ChangeRequestInput_Leave;
             ui.ChangeRequestInput.KeyDown += ChangeRequestInput_KeyDown;
             ui.ChangeRequestsGrid.CellDoubleClick += ChangeRequestsGrid_CellDoubleClick;
+            ui.ApproveAssemblyButton.Click += ApproveAssemblyButton_Click;
+            ui.RefreshReviewTargetsButton.Click += RefreshReviewTargetsButton_Click;
+            ui.RejectAssemblyButton.Click += RejectAssemblyButton_Click;
 
             await RefreshReviewTargetsAsync();
         }
 
-     
 
         public async Task OpenReviewTargetAsync(ReviewTarget reviewTarget)
         {
@@ -70,6 +72,16 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
         public async Task ViewChangeRequestAsync(ChangeRequest changeRequest)
         {
             await new ViewChangeRequestCommand(this, changeRequest, Args.Logger).RunAsync();
+        }
+
+        public async Task ApproveAssemblyAsync()
+        {
+            await new ApproveAssemblyCommand(this, Args.Logger).RunAsync();
+        }
+
+        public async Task RejectAssemblyAsync()
+        {
+            await new RejectAssemblyCommand(this, Args.Logger).RunAsync();
         }
 
         public async Task RefreshReviewTargetsAsync()
@@ -125,9 +137,23 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
             await ViewChangeRequestAsync(selectedChangeRequest);
         }
 
+        private async void RefreshReviewTargetsButton_Click(object sender, EventArgs e)
+        {
+            await RefreshReviewTargetsAsync();
+        }
+
         private async void AssembliesTreeView_OnOpenReviewTarget(object sender, OpenReviewTargetEventArgs e)
         {
             await OpenReviewTargetAsync(e.ReviewTarget);
+        }
+
+        private async void ApproveAssemblyButton_Click(object sender, EventArgs e)
+        {
+            await ApproveAssemblyAsync();
+        }
+        private async void RejectAssemblyButton_Click(object sender, EventArgs e)
+        {
+            await RejectAssemblyAsync();
         }
     }
 }

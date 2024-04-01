@@ -41,7 +41,7 @@
             this.RefreshReviewTargetsButton = new System.Windows.Forms.ToolStripButton();
             this.ReviewTabs = new System.Windows.Forms.TabControl();
             this.ChangeRequestsTab = new System.Windows.Forms.TabPage();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.ChangeRequestSplit = new System.Windows.Forms.SplitContainer();
             this.ChangeRequestsGrid = new System.Windows.Forms.DataGridView();
             this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,10 +65,10 @@
             this.SynchronizerToolStrip.SuspendLayout();
             this.ReviewTabs.SuspendLayout();
             this.ChangeRequestsTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ChangeRequestSplit)).BeginInit();
+            this.ChangeRequestSplit.Panel1.SuspendLayout();
+            this.ChangeRequestSplit.Panel2.SuspendLayout();
+            this.ChangeRequestSplit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChangeRequestsGrid)).BeginInit();
             this.ReviewToolStrip.SuspendLayout();
             this.MarkupStatusStrip.SuspendLayout();
@@ -175,7 +175,7 @@
             // 
             // ChangeRequestsTab
             // 
-            this.ChangeRequestsTab.Controls.Add(this.splitContainer1);
+            this.ChangeRequestsTab.Controls.Add(this.ChangeRequestSplit);
             this.ChangeRequestsTab.ImageIndex = 0;
             this.ChangeRequestsTab.Location = new System.Drawing.Point(4, 31);
             this.ChangeRequestsTab.Name = "ChangeRequestsTab";
@@ -185,23 +185,23 @@
             this.ChangeRequestsTab.Text = "Change requests";
             this.ChangeRequestsTab.UseVisualStyleBackColor = true;
             // 
-            // splitContainer1
+            // ChangeRequestSplit
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.ChangeRequestSplit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ChangeRequestSplit.Location = new System.Drawing.Point(3, 3);
+            this.ChangeRequestSplit.Name = "ChangeRequestSplit";
+            this.ChangeRequestSplit.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer1.Panel1
+            // ChangeRequestSplit.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.ChangeRequestsGrid);
+            this.ChangeRequestSplit.Panel1.Controls.Add(this.ChangeRequestsGrid);
             // 
-            // splitContainer1.Panel2
+            // ChangeRequestSplit.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.ChangeRequestInput);
-            this.splitContainer1.Size = new System.Drawing.Size(682, 376);
-            this.splitContainer1.SplitterDistance = 291;
-            this.splitContainer1.TabIndex = 0;
+            this.ChangeRequestSplit.Panel2.Controls.Add(this.ChangeRequestInput);
+            this.ChangeRequestSplit.Size = new System.Drawing.Size(682, 376);
+            this.ChangeRequestSplit.SplitterDistance = 291;
+            this.ChangeRequestSplit.TabIndex = 0;
             // 
             // ChangeRequestsGrid
             // 
@@ -372,11 +372,11 @@
             this.SynchronizerToolStrip.PerformLayout();
             this.ReviewTabs.ResumeLayout(false);
             this.ChangeRequestsTab.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.ChangeRequestSplit.Panel1.ResumeLayout(false);
+            this.ChangeRequestSplit.Panel2.ResumeLayout(false);
+            this.ChangeRequestSplit.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ChangeRequestSplit)).EndInit();
+            this.ChangeRequestSplit.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ChangeRequestsGrid)).EndInit();
             this.ReviewToolStrip.ResumeLayout(false);
             this.ReviewToolStrip.PerformLayout();
@@ -408,7 +408,7 @@
         private System.Windows.Forms.ToolStripButton RejectAssemblyButton;
         private System.Windows.Forms.TabControl ReviewTabs;
         private System.Windows.Forms.TabPage ChangeRequestsTab;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer ChangeRequestSplit;
         private System.Windows.Forms.TextBox ChangeRequestInput;
         private System.Windows.Forms.DataGridView ChangeRequestsGrid;
         private System.Windows.Forms.ImageList TabIcons;

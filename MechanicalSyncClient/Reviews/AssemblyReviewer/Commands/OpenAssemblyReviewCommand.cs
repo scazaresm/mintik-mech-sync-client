@@ -34,12 +34,18 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
             var ui = Reviewer.Args.UI;
             var starter = Reviewer.Args.SolidWorksStarter;
             var syncService = Reviewer.Args.SyncServiceClient;
+            var isAlreadyReviewed = reviewTarget.Status != ReviewTargetStatus.Pending.ToString() &&
+              reviewTarget.Status != ReviewTargetStatus.Reviewing.ToString();
 
             try
             {
                 ui.ChangeRequestInput.Enabled = false;
                 ui.ReviewToolStrip.Enabled = false;
                 ui.ChangeRequestsGrid.Enabled = false;
+                ui.ChangeRequestSplit.Panel2Collapsed = isAlreadyReviewed;
+                ui.RejectAssemblyButton.Enabled = !isAlreadyReviewed;
+                ui.ApproveAssemblyButton.Enabled = !isAlreadyReviewed;
+                ui.SetReviewTargetStatusText(reviewTarget.Status);
                 ui.StatusLabel.Text = "Loading assembly...";
 
                 ui.PopulateChangeRequestGrid(reviewTarget);

@@ -1,23 +1,21 @@
 ﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
+using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Serilog;
 
-namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
+namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 {
-    public class ApproveDrawingCommand : IDrawingReviewerCommandAsync
+    public class ApproveAssemblyCommand : IAssemblyReviewerCommandAsync
     {
         private readonly ILogger logger;
 
-        public IDrawingReviewer Reviewer { get; }
+        public IAssemblyReviewer Reviewer { get; }
 
-        public ApproveDrawingCommand(IDrawingReviewer reviewer, ILogger logger)
+        public ApproveAssemblyCommand(IAssemblyReviewer reviewer, ILogger logger)
         {
             Reviewer = reviewer ?? throw new ArgumentNullException(nameof(reviewer));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -25,28 +23,42 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
 
         public async Task RunAsync()
         {
-            logger.Debug("Starting ApproveDrawingCommand...");
-            var ui = Reviewer.UI;
+            logger.Debug("Starting AppoveAssemblyCommand...");
+            var ui = Reviewer.Args.UI;
             try
             {
-                var Review = Reviewer.Review;
-                var ReviewTarget = Reviewer.ReviewTarget;
+                var Review = Reviewer.Args.Review;
+                var ReviewTarget = Reviewer.ReviewTarget; 
+                
+                var newChangeRequests = ReviewTarget.ChangeRequests.Where((cr) =>
+                    cr.Status == ChangeRequestStatus.Pending.ToString()
+                );
+
+                if (newChangeRequests.Count() > 0)
+                {
+                    MessageBox.Show(
+                        "Delete all change requests with pending status before approving this assembly.",
+                        "Could not approve assembly",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation);
+                    return;
+                }
 
                 var confirmation = MessageBox.Show(
-                  "Approve this drawing?", "Approve drawing",
+                  "Approve this assembly?", "Approve assembly",
                   MessageBoxButtons.YesNo, MessageBoxIcon.Question
                 );
                 if (confirmation != DialogResult.Yes) return;
 
-                ui.ApproveDrawingButton.Enabled = false;
-                ui.MarkupStatus.Text = "Approving drawing...";
+                ui.ApproveAssemblyButton.Enabled = false;
+                ui.StatusLabel.Text = "Approving assembly...";
 
                 logger.Debug("Retrieving latest Review from server...");
-                var recentReview = await Reviewer.SyncServiceClient.GetReviewAsync(Review.RemoteReview.Id) 
+                var recentReview = await Reviewer.Args.SyncServiceClient.GetReviewAsync(Review.RemoteReview.Id)
                     ?? throw new Exception("Review could not be found in server.");
 
                 logger.Debug("Retrieving latest ReviewTarget from server...");
-                var recentReviewTarget = recentReview.Targets.Find((target) => target.Id == ReviewTarget.Id) 
+                var recentReviewTarget = recentReview.Targets.Find((target) => target.Id == ReviewTarget.Id)
                     ?? throw new Exception("Review target could not be found in server.");
 
                 logger.Debug("Checking if ReviewTarget has changed in server while user was reviewing the file...");
@@ -59,12 +71,12 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation
                     );
                     ReviewTarget.UpdatedAt = recentReviewTarget.UpdatedAt;
-                    await new OpenDrawingReviewCommand(Reviewer, ReviewTarget).RunAsync();
+                    await new OpenAssemblyReviewCommand(Reviewer, ReviewTarget, logger).RunAsync();
                     return;
                 }
 
                 // put status as approved
-                Reviewer.ReviewTarget = await Reviewer.SyncServiceClient.UpdateReviewTargetAsync(new UpdateReviewTargetRequest()
+                Reviewer.ReviewTarget = await Reviewer.Args.SyncServiceClient.UpdateReviewTargetAsync(new UpdateReviewTargetRequest()
                 {
                     ReviewId = Review.RemoteReview.Id,
                     ReviewTargetId = ReviewTarget.Id,
@@ -72,17 +84,17 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                 });
                 await Reviewer.CloseReviewTargetAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                var message = $"Could not approve drawing: {ex}";
+                var message = $"Could not approve assembly: {ex}";
                 logger.Error(message);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                ui.ApproveDrawingButton.Enabled = true;
-                ui.MarkupStatus.Text = "Ready";
-                logger.Debug("ApproveDrawingCommand complete.");
+                ui.ApproveAssemblyButton.Enabled = true;
+                ui.StatusLabel.Text = "Ready";
+                logger.Debug("AppoveAssemblyCommand complete.");
             }
         }
     }

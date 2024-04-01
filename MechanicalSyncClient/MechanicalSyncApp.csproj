@@ -308,9 +308,11 @@
     <Compile Include="Publishing\DrawingValidator.cs" />
     <Compile Include="Reviews\AssemblyReviewer\AssemblyReviewer.cs" />
     <Compile Include="Reviews\AssemblyReviewer\AssemblyReviewerUI.cs" />
+    <Compile Include="Reviews\AssemblyReviewer\Commands\ApproveAssemblyCommand.cs" />
     <Compile Include="Reviews\AssemblyReviewer\Commands\CloseAssemblyReviewCommand.cs" />
     <Compile Include="Reviews\AssemblyReviewer\Commands\CreateChangeRequestCommand.cs" />
     <Compile Include="Reviews\AssemblyReviewer\Commands\OpenAssemblyReviewCommand.cs" />
+    <Compile Include="Reviews\AssemblyReviewer\Commands\RejectAssemblyCommand.cs" />
     <Compile Include="Reviews\AssemblyReviewer\Commands\ViewChangeRequestCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\ApproveDrawingCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\CloseDrawingReviewCommand.cs" />

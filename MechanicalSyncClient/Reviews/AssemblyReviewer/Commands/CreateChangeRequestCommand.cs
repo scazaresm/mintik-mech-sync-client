@@ -72,6 +72,18 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                 ui.AddChangeRequestToGrid(changeRequest);
                 Reviewer.ReviewTarget.ChangeRequests.Add(changeRequest);
 
+                // put review target status to 'Reviewing' if not already set.
+                if (Reviewer.ReviewTarget.Status != "Reviewing")
+                {
+                    var updatedTarget = await Reviewer.Args.SyncServiceClient.UpdateReviewTargetAsync(new UpdateReviewTargetRequest()
+                    {
+                        ReviewId = Reviewer.Args.Review.RemoteReview.Id,
+                        ReviewTargetId = Reviewer.ReviewTarget.Id,
+                        Status = "Reviewing"
+                    });
+                    Reviewer.ReviewTarget.Status = updatedTarget.Status;
+                    ui.SetReviewTargetStatusText(Reviewer.ReviewTarget.Status);
+                }
                 logger.Debug("CreateChangeRequestCommand complete.");
             }
             catch (Exception ex)

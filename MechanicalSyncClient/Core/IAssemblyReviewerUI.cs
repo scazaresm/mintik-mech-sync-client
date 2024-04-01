@@ -20,12 +20,17 @@ namespace MechanicalSyncApp.Core
         ToolStripLabel ReviewTargetStatus { get; set; }
         TextBox ChangeRequestInput { get; set; }
         DataGridView ChangeRequestsGrid { get; set; }
+        ToolStripButton ApproveAssemblyButton { get; set; }
+        ToolStripButton RejectAssemblyButton { get; set; }
+        ToolStripButton RefreshReviewTargetsButton { get; set; }
+        SplitContainer ChangeRequestSplit { get; set; }
 
         void AddChangeRequestToGrid(ChangeRequest changeRequest);
         void HideReviewPanel();
         void PopulateChangeRequestGrid(ReviewTarget target);
         void SetDesignerText(string designerText);
         void SetHeaderText(string headerText);
+        void SetReviewTargetStatusText(string status);
         void ShowReviewPanel();
     }
 }

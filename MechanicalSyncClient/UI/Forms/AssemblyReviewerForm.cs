@@ -64,6 +64,10 @@ namespace MechanicalSyncApp.UI.Forms
                 ReviewTargetStatus = ReviewTargetStatus,
                 ChangeRequestInput = ChangeRequestInput,
                 ChangeRequestsGrid = ChangeRequestsGrid,
+                ApproveAssemblyButton = ApproveAssemblyButton,
+                RejectAssemblyButton = RejectAssemblyButton,
+                RefreshReviewTargetsButton = RefreshReviewTargetsButton,
+                ChangeRequestSplit = ChangeRequestSplit,
             };
             assemblyReviewer = new AssemblyReviewer(
                 new AssemblyReviewerArgs()
