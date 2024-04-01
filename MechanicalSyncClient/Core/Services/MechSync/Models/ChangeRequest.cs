@@ -26,7 +26,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public string DesignerComments { get; set; }
 
         [JsonIgnore]
-        public Image DetailsPicture { get; set; }
+        public Image DetailsImage { get; set; }
 
         [JsonIgnore]
         public ReviewTarget Parent { get; set; }

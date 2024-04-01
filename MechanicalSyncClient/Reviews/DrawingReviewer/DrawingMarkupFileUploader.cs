@@ -30,7 +30,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
             // use eDrawings to save the current markup file to a temporary file
             reviewer.TempUploadedMarkupFile = Path.Combine(Path.GetTempPath(), ReviewTarget.TargetId);
-            UI.DrawingReviewerControl.SaveMarkupFile(reviewer.TempUploadedMarkupFile);
+            UI.DrawingReviewerControl.OpenMarkupFile(reviewer.TempUploadedMarkupFile);
 
             // eDrawings will add the file extension
             reviewer.TempUploadedMarkupFile += ".All Reviews.markup";

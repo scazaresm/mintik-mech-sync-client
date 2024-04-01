@@ -223,11 +223,22 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             await new DeleteFilePublishingHandler(fileClient, publishingId).HandleAsync();
         }
 
-        public async Task<ChangeRequest> CreateChangeRequest(string reviewTargetId, string changeDescription)
+        public async Task<ChangeRequest> CreateChangeRequestAsync(string reviewTargetId, string changeDescription)
         {
             return await new 
                 CreateChangeRequestHandler(restClient, reviewTargetId, changeDescription, logger)
                 .HandleAsync();
+        }
+
+        public async Task<ChangeRequest> UpdateChangeRequestAsync(string changeRequestId, ChangeRequestUpdateableFields updateableFields)
+        {
+            return await new
+                UpdateChangeRequestHandler(restClient, changeRequestId, updateableFields).HandleAsync();
+        }
+
+        public async Task DeleteChangeRequestAsync(string changeRequestId)
+        {
+            await new DeleteChangeRequestHandler(restClient, changeRequestId).HandleAsync();
         }
 
         #region Disposing pattern

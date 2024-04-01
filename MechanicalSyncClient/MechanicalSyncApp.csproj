@@ -222,6 +222,7 @@
     <Compile Include="Core\Services\MechSync\Handlers\CreateProjectHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateReviewHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\CreateVersionHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\DeleteChangeRequestHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\DeleteFilePublishingHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetAllProjectsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetDeltaFileMetadataHandler.cs" />
@@ -240,9 +241,11 @@
     <Compile Include="Core\Services\MechSync\Handlers\PublishFileHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\SyncReviewTargetsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\TransferVersionOwnershipHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\UpdateChangeRequestHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\UpdateReviewTargetHandler.cs" />
     <Compile Include="Core\Services\MechSync\Models\AggregatedProjectDetails.cs" />
     <Compile Include="Core\Services\MechSync\Models\ChangeRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\ChangeRequestUpdateableFields.cs" />
     <Compile Include="Core\Services\MechSync\Models\FilePublishing.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\AcknowledgeVersionOwnershipRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\CreateProjectRequest.cs" />
@@ -308,7 +311,7 @@
     <Compile Include="Reviews\AssemblyReviewer\Commands\CloseAssemblyReviewCommand.cs" />
     <Compile Include="Reviews\AssemblyReviewer\Commands\CreateChangeRequestCommand.cs" />
     <Compile Include="Reviews\AssemblyReviewer\Commands\OpenAssemblyReviewCommand.cs" />
-    <Compile Include="Reviews\AssemblyReviewer\Commands\ViewEditChangeRequestCommand.cs" />
+    <Compile Include="Reviews\AssemblyReviewer\Commands\ViewChangeRequestCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\ApproveDrawingCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\CloseDrawingReviewCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\OpenDrawingReviewCommand.cs" />

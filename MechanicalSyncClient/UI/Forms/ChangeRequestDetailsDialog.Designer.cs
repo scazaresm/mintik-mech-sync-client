@@ -29,22 +29,21 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.DetailsPictureBox = new System.Windows.Forms.PictureBox();
             this.ChangeDescription = new System.Windows.Forms.TextBox();
             this.ChangeRequestToolStrip = new System.Windows.Forms.ToolStrip();
-            this.OkButton = new System.Windows.Forms.Button();
-            this.DeleteButton = new System.Windows.Forms.ToolStripButton();
-            this.EditButton = new System.Windows.Forms.ToolStripButton();
-            this.PasteImageButton = new System.Windows.Forms.ToolStripButton();
-            this.DetailsPicture = new System.Windows.Forms.PictureBox();
-            this.RejectChangeButton = new System.Windows.Forms.ToolStripButton();
             this.AcceptChangeButton = new System.Windows.Forms.ToolStripButton();
+            this.RejectChangeButton = new System.Windows.Forms.ToolStripButton();
+            this.DeleteButton = new System.Windows.Forms.ToolStripButton();
+            this.PasteImageButton = new System.Windows.Forms.ToolStripButton();
+            this.OkButton = new System.Windows.Forms.Button();
             this.CancelActionButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DetailsPictureBox)).BeginInit();
             this.ChangeRequestToolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DetailsPicture)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -54,7 +53,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.DetailsPicture);
+            this.splitContainer1.Panel1.Controls.Add(this.DetailsPictureBox);
             // 
             // splitContainer1.Panel2
             // 
@@ -62,6 +61,18 @@
             this.splitContainer1.Size = new System.Drawing.Size(564, 258);
             this.splitContainer1.SplitterDistance = 287;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // DetailsPictureBox
+            // 
+            this.DetailsPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DetailsPictureBox.Image = global::MechanicalSyncApp.Properties.Resources.image_placeholder_350x350;
+            this.DetailsPictureBox.InitialImage = null;
+            this.DetailsPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.DetailsPictureBox.Name = "DetailsPictureBox";
+            this.DetailsPictureBox.Size = new System.Drawing.Size(287, 258);
+            this.DetailsPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.DetailsPictureBox.TabIndex = 0;
+            this.DetailsPictureBox.TabStop = false;
             // 
             // ChangeDescription
             // 
@@ -73,6 +84,7 @@
             this.ChangeDescription.ReadOnly = true;
             this.ChangeDescription.Size = new System.Drawing.Size(273, 258);
             this.ChangeDescription.TabIndex = 0;
+            this.ChangeDescription.TextChanged += new System.EventHandler(this.ChangeDescription_TextChanged);
             // 
             // ChangeRequestToolStrip
             // 
@@ -81,7 +93,6 @@
             this.ChangeRequestToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AcceptChangeButton,
             this.RejectChangeButton,
-            this.EditButton,
             this.DeleteButton,
             this.PasteImageButton});
             this.ChangeRequestToolStrip.Location = new System.Drawing.Point(8, 12);
@@ -90,15 +101,25 @@
             this.ChangeRequestToolStrip.TabIndex = 1;
             this.ChangeRequestToolStrip.Text = "toolStrip1";
             // 
-            // OkButton
+            // AcceptChangeButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(501, 308);
-            this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(75, 23);
-            this.OkButton.TabIndex = 2;
-            this.OkButton.Text = "OK";
-            this.OkButton.UseVisualStyleBackColor = true;
-            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
+            this.AcceptChangeButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.AcceptChangeButton.Image = global::MechanicalSyncApp.Properties.Resources.thumbs_up_24;
+            this.AcceptChangeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AcceptChangeButton.Name = "AcceptChangeButton";
+            this.AcceptChangeButton.Size = new System.Drawing.Size(106, 22);
+            this.AcceptChangeButton.Text = "Accept change";
+            this.AcceptChangeButton.ToolTipText = "Accept change";
+            // 
+            // RejectChangeButton
+            // 
+            this.RejectChangeButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.RejectChangeButton.Image = global::MechanicalSyncApp.Properties.Resources.thumbs_down_24;
+            this.RejectChangeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RejectChangeButton.Name = "RejectChangeButton";
+            this.RejectChangeButton.Size = new System.Drawing.Size(101, 22);
+            this.RejectChangeButton.Text = "Reject change";
+            this.RejectChangeButton.ToolTipText = "Reject change";
             // 
             // DeleteButton
             // 
@@ -107,16 +128,8 @@
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(60, 22);
             this.DeleteButton.Text = "Delete";
-            this.DeleteButton.ToolTipText = "Reject assembly";
-            // 
-            // EditButton
-            // 
-            this.EditButton.Image = global::MechanicalSyncApp.Properties.Resources.pencil_24;
-            this.EditButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.EditButton.Name = "EditButton";
-            this.EditButton.Size = new System.Drawing.Size(47, 22);
-            this.EditButton.Text = "Edit";
-            this.EditButton.ToolTipText = "Reject assembly";
+            this.DeleteButton.ToolTipText = "Delete change request";
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
             // PasteImageButton
             // 
@@ -128,37 +141,15 @@
             this.PasteImageButton.ToolTipText = "Reject assembly";
             this.PasteImageButton.Click += new System.EventHandler(this.PasteImageButton_Click);
             // 
-            // DetailsPicture
+            // OkButton
             // 
-            this.DetailsPicture.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DetailsPicture.Image = global::MechanicalSyncApp.Properties.Resources.image_placeholder_350x350;
-            this.DetailsPicture.InitialImage = null;
-            this.DetailsPicture.Location = new System.Drawing.Point(0, 0);
-            this.DetailsPicture.Name = "DetailsPicture";
-            this.DetailsPicture.Size = new System.Drawing.Size(287, 258);
-            this.DetailsPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.DetailsPicture.TabIndex = 0;
-            this.DetailsPicture.TabStop = false;
-            // 
-            // RejectChangeButton
-            // 
-            this.RejectChangeButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.RejectChangeButton.Image = global::MechanicalSyncApp.Properties.Resources.thumbs_down_24;
-            this.RejectChangeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RejectChangeButton.Name = "RejectChangeButton";
-            this.RejectChangeButton.Size = new System.Drawing.Size(101, 22);
-            this.RejectChangeButton.Text = "Reject change";
-            this.RejectChangeButton.ToolTipText = "Reject assembly";
-            // 
-            // AcceptChangeButton
-            // 
-            this.AcceptChangeButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.AcceptChangeButton.Image = global::MechanicalSyncApp.Properties.Resources.thumbs_up_24;
-            this.AcceptChangeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AcceptChangeButton.Name = "AcceptChangeButton";
-            this.AcceptChangeButton.Size = new System.Drawing.Size(106, 22);
-            this.AcceptChangeButton.Text = "Accept change";
-            this.AcceptChangeButton.ToolTipText = "Reject assembly";
+            this.OkButton.Location = new System.Drawing.Point(501, 308);
+            this.OkButton.Name = "OkButton";
+            this.OkButton.Size = new System.Drawing.Size(75, 23);
+            this.OkButton.TabIndex = 2;
+            this.OkButton.Text = "OK";
+            this.OkButton.UseVisualStyleBackColor = true;
+            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // CancelActionButton
             // 
@@ -191,9 +182,9 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DetailsPictureBox)).EndInit();
             this.ChangeRequestToolStrip.ResumeLayout(false);
             this.ChangeRequestToolStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DetailsPicture)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -201,11 +192,10 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.PictureBox DetailsPicture;
+        private System.Windows.Forms.PictureBox DetailsPictureBox;
         private System.Windows.Forms.TextBox ChangeDescription;
         private System.Windows.Forms.ToolStrip ChangeRequestToolStrip;
         private System.Windows.Forms.ToolStripButton DeleteButton;
-        private System.Windows.Forms.ToolStripButton EditButton;
         private System.Windows.Forms.ToolStripButton PasteImageButton;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.ToolStripButton AcceptChangeButton;

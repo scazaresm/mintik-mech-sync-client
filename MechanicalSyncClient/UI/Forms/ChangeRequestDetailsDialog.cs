@@ -1,77 +1,85 @@
 ﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
 using System;
+using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
 {
     public partial class ChangeRequestDetailsDialog : Form
     {
+        public event EventHandler OnDelete;
+
         public ChangeRequest ChangeRequest { get; }
 
-        private bool editMode = false;
+        private bool viewMode = false;
+
+        private bool hasValidImage = false;
 
         public ChangeRequestDetailsDialog(string changeDescription)
         {
             InitializeComponent();
-            editMode = false;
+            viewMode = false;
             ChangeRequest = new ChangeRequest()
             {
                 ChangeDescription = changeDescription
             };
             ChangeDescription.ReadOnly = false;
             PasteImageButton.Visible = true;
-            EditButton.Visible = false;
             DeleteButton.Visible = false;
             RejectChangeButton.Visible = false;
             AcceptChangeButton.Visible = false;
             OkButton.Text = "Save";
-
+            OkButton.Enabled = false;
         }
 
         public ChangeRequestDetailsDialog(ChangeRequest changeRequest)
         {
             InitializeComponent();
-            editMode = true;
+            viewMode = true;
             ChangeRequest = changeRequest ?? throw new ArgumentNullException(nameof(changeRequest));
 
             if (ChangeRequest.Parent == null)
                 throw new NullReferenceException("ChangeRequest.Parent cannot be null.");
 
-            // is editable only when the parent review target has not been approved or rejected
-            EditButton.Visible = IsChangeRequestEditable(changeRequest);
-            DeleteButton.Visible = IsChangeRequestEditable(changeRequest);
+            // is deleteable only when the parent review target has not been approved or rejected
+            DeleteButton.Visible = IsChangeRequestDeleteable(changeRequest);
 
             // is reviewable only when the change is already implemented and the parent review target has 'Fixed' status
             RejectChangeButton.Visible = IsChangeRequestReviewable(changeRequest);
             AcceptChangeButton.Visible = IsChangeRequestReviewable(changeRequest);
 
-            PasteImageButton.Visible = false;  // will be made visible on edit
-            ChangeDescription.ReadOnly = true; // will be made read-write on edit
-            OkButton.Text = "Close";           // will be changed to 'Save' on edit
+            PasteImageButton.Visible = false; 
+            ChangeDescription.ReadOnly = true;
+            OkButton.Text = "Close"; 
+            CancelActionButton.Visible = false;
         }
 
         private void ChangeRequestDetailsDialog_Load(object sender, EventArgs e)
         {
-            ChangeDescription.Text = ChangeRequest.ChangeDescription;
-
-            if (!editMode)
-                TakePictureFromClipboard();
+            if (!viewMode)
+            {
+                hasValidImage = Clipboard.ContainsImage();
+                TakeImageFromClipboard();
+            }
             else
-                DetailsPicture.Image = ChangeRequest.DetailsPicture;
+            {
+                DetailsPictureBox.Image = ChangeRequest.DetailsImage;
+            }
+            ChangeDescription.Text = ChangeRequest.ChangeDescription;
         }
 
         private void OkButton_Click(object sender, EventArgs e)
         {
+            OkButton.Enabled = false;
             DialogResult = DialogResult.OK;
         }
         
-        private void TakePictureFromClipboard()
+        private void TakeImageFromClipboard()
         {
             if (!Clipboard.ContainsImage())
             {
-                ChangeRequest.DetailsPicture = null;
+                ChangeRequest.DetailsImage = null;
                 return;
             }
 
@@ -79,8 +87,8 @@ namespace MechanicalSyncApp.UI.Forms
 
             if (image != null)
             {
-                ChangeRequest.DetailsPicture = image;
-                DetailsPicture.Image = image;
+                ChangeRequest.DetailsImage = image;
+                DetailsPictureBox.Image = image;
             }
             Clipboard.Clear();
         }
@@ -92,7 +100,12 @@ namespace MechanicalSyncApp.UI.Forms
                 MessageBox.Show("There is no image on the clipboard.", "No image", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            TakePictureFromClipboard();
+
+            TakeImageFromClipboard();
+
+            hasValidImage = true;
+            if (!OkButton.Enabled)
+                OkButton.Enabled = ChangeDescription.Text.Length > 0;
         }
 
         private void CancelActionButton_Click(object sender, EventArgs e)
@@ -100,20 +113,30 @@ namespace MechanicalSyncApp.UI.Forms
             DialogResult = DialogResult.Cancel;
         }
 
-        private bool IsChangeRequestEditable(ChangeRequest changeRequest)
+        private bool IsChangeRequestDeleteable(ChangeRequest changeRequest)
         {
-            var editableStatuses = new string[]
+            var deleteableStatuses = new string[]
             {
                 ReviewTargetStatus.Pending.ToString(),
                 ReviewTargetStatus.Reviewing.ToString()
             };
-            return editableStatuses.Contains(changeRequest.Parent.Status);
+            return deleteableStatuses.Contains(changeRequest.Parent.Status);
         }
 
         private bool IsChangeRequestReviewable(ChangeRequest changeRequest)
         {
             return changeRequest.Status == ChangeRequestStatus.Done.ToString() &&
                 changeRequest.Parent.Status == ReviewTargetStatus.Fixed.ToString();
+        }
+
+        private void ChangeDescription_TextChanged(object sender, EventArgs e)
+        {
+            OkButton.Enabled = OkButton.Text == "Close" || (hasValidImage && ChangeDescription.Text.Length > 0);
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            OnDelete?.Invoke(this, EventArgs.Empty);
         }
     }
 }

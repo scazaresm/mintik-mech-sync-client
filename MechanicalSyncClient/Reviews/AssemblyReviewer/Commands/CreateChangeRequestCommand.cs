@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Imaging;
-using MechanicalSyncApp.Core.Services.MechSync.Models;
 
 namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 {
@@ -48,7 +47,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                 }
 
                 logger.Debug("Creating the new change request...");
-                var changeRequest = await syncService.CreateChangeRequest(
+                var changeRequest = await syncService.CreateChangeRequestAsync(
                     Reviewer.ReviewTarget.Id,
                     newChangeRequestDialog.ChangeRequest.ChangeDescription
                 );
@@ -57,7 +56,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                 tempImagePath = Path.Combine(Path.GetTempPath(), $"{changeRequest.Id}-change.png");
 
                 logger.Debug("Saving temporary change request image...");
-                newChangeRequestDialog.ChangeRequest.DetailsPicture.Save(tempImagePath, ImageFormat.Png);
+                newChangeRequestDialog.ChangeRequest.DetailsImage.Save(tempImagePath, ImageFormat.Png);
 
                 logger.Debug("Uploading change request image...");
                 await syncService.UploadFileAsync(new UploadFileRequest()
@@ -67,7 +66,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                     VersionFolder = "AssyReview",
                     RelativeEquipmentPath = review.RemoteProject.RelativeEquipmentPath,
                     RelativeFilePath = Path.GetFileName(tempImagePath)
-                }); ;
+                });
 
                 logger.Debug("Adding the new change request to the UI grid and memory state...");
                 ui.AddChangeRequestToGrid(changeRequest);

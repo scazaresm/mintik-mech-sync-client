@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssemblyReviewerForm));
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.DesignerLabel = new System.Windows.Forms.Label();
@@ -46,11 +46,6 @@
             this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ChangeRequestInput = new System.Windows.Forms.TextBox();
-            this.ObservationsTab = new System.Windows.Forms.TabPage();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.OvservationsGrid = new System.Windows.Forms.DataGridView();
-            this.ObservationToolStrip = new System.Windows.Forms.ToolStrip();
-            this.ObservationInput = new System.Windows.Forms.TextBox();
             this.TabIcons = new System.Windows.Forms.ImageList(this.components);
             this.ReviewToolStrip = new System.Windows.Forms.ToolStrip();
             this.CloseAssemblyButton = new System.Windows.Forms.ToolStripButton();
@@ -75,12 +70,6 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChangeRequestsGrid)).BeginInit();
-            this.ObservationsTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.OvservationsGrid)).BeginInit();
             this.ReviewToolStrip.SuspendLayout();
             this.MarkupStatusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -176,7 +165,6 @@
             // ReviewTabs
             // 
             this.ReviewTabs.Controls.Add(this.ChangeRequestsTab);
-            this.ReviewTabs.Controls.Add(this.ObservationsTab);
             this.ReviewTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ReviewTabs.ImageList = this.TabIcons;
             this.ReviewTabs.Location = new System.Drawing.Point(0, 33);
@@ -237,8 +225,8 @@
             // ChangeRequestDescriptionColumn
             // 
             this.ChangeRequestDescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle1;
             this.ChangeRequestDescriptionColumn.HeaderText = "Description";
             this.ChangeRequestDescriptionColumn.Name = "ChangeRequestDescriptionColumn";
             this.ChangeRequestDescriptionColumn.ReadOnly = true;
@@ -260,65 +248,6 @@
             this.ChangeRequestInput.Size = new System.Drawing.Size(682, 81);
             this.ChangeRequestInput.TabIndex = 0;
             this.ChangeRequestInput.Text = "Type here to create a new change request...";
-            // 
-            // ObservationsTab
-            // 
-            this.ObservationsTab.Controls.Add(this.splitContainer2);
-            this.ObservationsTab.ImageIndex = 1;
-            this.ObservationsTab.Location = new System.Drawing.Point(4, 31);
-            this.ObservationsTab.Name = "ObservationsTab";
-            this.ObservationsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ObservationsTab.Size = new System.Drawing.Size(688, 382);
-            this.ObservationsTab.TabIndex = 1;
-            this.ObservationsTab.Text = "Observations";
-            this.ObservationsTab.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.OvservationsGrid);
-            this.splitContainer2.Panel1.Controls.Add(this.ObservationToolStrip);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.ObservationInput);
-            this.splitContainer2.Size = new System.Drawing.Size(682, 376);
-            this.splitContainer2.SplitterDistance = 291;
-            this.splitContainer2.TabIndex = 1;
-            // 
-            // OvservationsGrid
-            // 
-            this.OvservationsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.OvservationsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.OvservationsGrid.Location = new System.Drawing.Point(0, 25);
-            this.OvservationsGrid.Name = "OvservationsGrid";
-            this.OvservationsGrid.Size = new System.Drawing.Size(682, 266);
-            this.OvservationsGrid.TabIndex = 1;
-            // 
-            // ObservationToolStrip
-            // 
-            this.ObservationToolStrip.Location = new System.Drawing.Point(0, 0);
-            this.ObservationToolStrip.Name = "ObservationToolStrip";
-            this.ObservationToolStrip.Size = new System.Drawing.Size(682, 25);
-            this.ObservationToolStrip.TabIndex = 0;
-            this.ObservationToolStrip.Text = "toolStrip2";
-            // 
-            // ObservationInput
-            // 
-            this.ObservationInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ObservationInput.ForeColor = System.Drawing.Color.Silver;
-            this.ObservationInput.Location = new System.Drawing.Point(0, 0);
-            this.ObservationInput.Multiline = true;
-            this.ObservationInput.Name = "ObservationInput";
-            this.ObservationInput.Size = new System.Drawing.Size(682, 81);
-            this.ObservationInput.TabIndex = 0;
-            this.ObservationInput.Text = "Type here to create a new observation...";
             // 
             // TabIcons
             // 
@@ -449,14 +378,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ChangeRequestsGrid)).EndInit();
-            this.ObservationsTab.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel1.PerformLayout();
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.OvservationsGrid)).EndInit();
             this.ReviewToolStrip.ResumeLayout(false);
             this.ReviewToolStrip.PerformLayout();
             this.MarkupStatusStrip.ResumeLayout(false);
@@ -487,15 +408,10 @@
         private System.Windows.Forms.ToolStripButton RejectAssemblyButton;
         private System.Windows.Forms.TabControl ReviewTabs;
         private System.Windows.Forms.TabPage ChangeRequestsTab;
-        private System.Windows.Forms.TabPage ObservationsTab;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TextBox ChangeRequestInput;
         private System.Windows.Forms.DataGridView ChangeRequestsGrid;
         private System.Windows.Forms.ImageList TabIcons;
-        private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.DataGridView OvservationsGrid;
-        private System.Windows.Forms.ToolStrip ObservationToolStrip;
-        private System.Windows.Forms.TextBox ObservationInput;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestDescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestStatusColumn;
     }

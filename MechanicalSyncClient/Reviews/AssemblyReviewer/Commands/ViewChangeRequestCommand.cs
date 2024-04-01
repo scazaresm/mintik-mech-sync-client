@@ -5,13 +5,15 @@ using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 {
-    public class ViewEditChangeRequestCommand : IAssemblyReviewerCommandAsync
+    public class ViewChangeRequestCommand : IAssemblyReviewerCommandAsync
     {
         private readonly ChangeRequest changeRequest;
 
@@ -19,7 +21,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
         
         private readonly ILogger logger;
 
-        public ViewEditChangeRequestCommand(
+        public ViewChangeRequestCommand(
                 IAssemblyReviewer reviewer, 
                 ChangeRequest changeRequest,
                 ILogger logger
@@ -36,7 +38,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 
             var ui = Reviewer.Args.UI;
             var remoteRelativeImagePath = $"{changeRequest.Id}-change.png";
-            var localTempImagePath = Path.Combine(Path.GetTempPath(), remoteRelativeImagePath);
+            var tempDownloadedImagePath = Path.Combine(Path.GetTempPath(), remoteRelativeImagePath);
 
             try
             {
@@ -45,36 +47,28 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 
                 changeRequest.Parent = Reviewer.ReviewTarget;
 
-                CleanupTempPictureFile(localTempImagePath);
+                CleanupTempPictureFile(tempDownloadedImagePath);
 
-                logger.Debug($"Downloading picture from server: {remoteRelativeImagePath}");
+                logger.Debug($"Downloading image from server: {remoteRelativeImagePath}");
                 await syncService.DownloadFileAsync(new DownloadFileRequest()
                 {
-                    LocalFilename = localTempImagePath,
+                    LocalFilename = tempDownloadedImagePath,
                     RelativeEquipmentPath = relativeEquipmentPath,
                     VersionFolder = "AssyReview",
                     RelativeFilePath = remoteRelativeImagePath,
                 });
 
-                using (var downloadedImage = Image.FromFile(localTempImagePath)) 
+                using (var downloadedImage = Image.FromFile(tempDownloadedImagePath)) 
                 {
-                    changeRequest.DetailsPicture = downloadedImage;
+                    changeRequest.DetailsImage = downloadedImage;
 
                     logger.Debug($"Showing change request details dialog...");
-                    var result = new ChangeRequestDetailsDialog(changeRequest).ShowDialog();
+                    var dialog = new ChangeRequestDetailsDialog(changeRequest);
+                    dialog.OnDelete += ViewChangeRequestCommand_OnDelete;
 
-                    if (result != DialogResult.OK)
-                    {
-                        logger.Debug($"User has closed the viewer without editing the change request.");
-                        logger.Debug($"ViewEditChangeRequestCommand complete.");
-                        return;
-                    }
+                    var result = dialog.ShowDialog();
                 }
-                logger.Debug($"User has edited the change request and saved the changes.");
-
-
-
-                logger.Debug($"ViewEditChangeRequestCommand complete.");
+                logger.Debug($"ViewChangeRequestCommand complete.");
             }
             catch(Exception ex)
             {
@@ -84,17 +78,56 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
             }
             finally
             {
-                CleanupTempPictureFile(localTempImagePath);
+                CleanupTempPictureFile(tempDownloadedImagePath);
+            }
+        }
+
+        private void ViewChangeRequestCommand_OnDelete(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show(
+                "Delete change request?", 
+                "Delete", 
+                MessageBoxButtons.YesNo, 
+                MessageBoxIcon.Question
+            );
+
+            if (confirm != DialogResult.Yes) return;
+
+            try
+            {
+                var syncService = Reviewer.Args.SyncServiceClient;
+                var ui = Reviewer.Args.UI;
+                var reviewTarget = Reviewer.ReviewTarget;
+
+                syncService.DeleteChangeRequestAsync(changeRequest.Id);
+
+                // remove change request from review target
+                reviewTarget.ChangeRequests.Remove(changeRequest);
+
+                // remove change request from grid in UI
+                var allRows = ui.ChangeRequestsGrid.Rows.Cast<DataGridViewRow>();
+                var rowToDelete = allRows.First((row) => (row.Tag as ChangeRequest).Id == changeRequest.Id);
+                ui.ChangeRequestsGrid.Rows.RemoveAt(rowToDelete.Index);
+
+                (sender as Form).Close();
+            }
+            catch(Exception ex) 
+            {
+                var message = $"Failed to delete change request: {ex.Message}";
+                logger.Error(message, ex);
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         public void CleanupTempPictureFile(string filePath)
         {
-            logger.Debug($"Cleaning up temp picture file...");
             try
             {
                 if (filePath != string.Empty && File.Exists(filePath))
+                {
+                    logger.Debug($"Cleaning up temp picture file at {filePath}");
                     File.Delete(filePath);
+                }
             }
             catch(Exception ex)
             {

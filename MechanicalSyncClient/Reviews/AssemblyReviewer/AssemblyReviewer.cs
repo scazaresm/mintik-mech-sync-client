@@ -69,7 +69,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
 
         public async Task ViewChangeRequestAsync(ChangeRequest changeRequest)
         {
-            await new ViewEditChangeRequestCommand(this, changeRequest, Args.Logger).RunAsync();
+            await new ViewChangeRequestCommand(this, changeRequest, Args.Logger).RunAsync();
         }
 
         public async Task RefreshReviewTargetsAsync()
