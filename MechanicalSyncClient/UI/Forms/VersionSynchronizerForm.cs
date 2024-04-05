@@ -51,8 +51,6 @@ namespace MechanicalSyncApp.UI.Forms
         {
             MainSplitContainer.Panel2Collapsed = true;
 
-            VersionSynchronizerTabs.TabPages.Remove(tabPage3);
-
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
@@ -109,6 +107,7 @@ namespace MechanicalSyncApp.UI.Forms
                 OpenLocalCopyFolderMenuItem = OpenLocalCopyFolderMenuItem,
                 VersionSynchronizerTabs = VersionSynchronizerTabs,
                 DrawingReviewsTreeView = DrawingReviewsTreeView,
+                AssemblyReviewsTreeView = AssemblyReviewsTreeView,
                 DrawingReviewContainer = DrawingReviewContainer,
                 DrawingReviewerPanel = DrawingReviewerPanel,
                 DrawingReviewerProgress = DrawingReviewerProgress,

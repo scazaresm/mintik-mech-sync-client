@@ -69,10 +69,23 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.ArchiveVersionButton = new System.Windows.Forms.ToolStripButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.AssemblyReviewContainer = new System.Windows.Forms.SplitContainer();
+            this.AssemblyReviewsTreeView = new System.Windows.Forms.TreeView();
+            this.DrawingReviewExplorerIcons = new System.Windows.Forms.ImageList(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.DrawingReviewPage = new System.Windows.Forms.TabPage();
             this.DrawingReviewContainer = new System.Windows.Forms.SplitContainer();
             this.DrawingReviewsTreeView = new System.Windows.Forms.TreeView();
-            this.DrawingReviewExplorerIcons = new System.Windows.Forms.ImageList(this.components);
             this.DrawingReviewExplorerToolStrip = new System.Windows.Forms.ToolStrip();
             this.RefreshDrawingExplorerButton = new System.Windows.Forms.ToolStripButton();
             this.DrawingReviewerPanel = new System.Windows.Forms.Panel();
@@ -107,6 +120,14 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage1.SuspendLayout();
             this.DesignFilesStatusStrip.SuspendLayout();
             this.SynchronizerToolStrip.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AssemblyReviewContainer)).BeginInit();
+            this.AssemblyReviewContainer.Panel1.SuspendLayout();
+            this.AssemblyReviewContainer.Panel2.SuspendLayout();
+            this.AssemblyReviewContainer.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.DrawingReviewPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewContainer)).BeginInit();
             this.DrawingReviewContainer.Panel1.SuspendLayout();
@@ -393,12 +414,13 @@ namespace MechanicalSyncApp.UI.Forms
             this.ArchiveVersionButton.Image = global::MechanicalSyncApp.Properties.Resources.archive_24;
             this.ArchiveVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ArchiveVersionButton.Name = "ArchiveVersionButton";
-            this.ArchiveVersionButton.Size = new System.Drawing.Size(108, 22);
-            this.ArchiveVersionButton.Text = "Archive version";
-            this.ArchiveVersionButton.ToolTipText = "Archive design files on server";
+            this.ArchiveVersionButton.Size = new System.Drawing.Size(105, 22);
+            this.ArchiveVersionButton.Text = "Archive design";
+            this.ArchiveVersionButton.ToolTipText = "Archive design in server";
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.AssemblyReviewContainer);
             this.tabPage3.ImageIndex = 2;
             this.tabPage3.Location = new System.Drawing.Point(4, 31);
             this.tabPage3.Name = "tabPage3";
@@ -406,6 +428,145 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "3D Review";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // AssemblyReviewContainer
+            // 
+            this.AssemblyReviewContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AssemblyReviewContainer.Location = new System.Drawing.Point(0, 0);
+            this.AssemblyReviewContainer.Name = "AssemblyReviewContainer";
+            // 
+            // AssemblyReviewContainer.Panel1
+            // 
+            this.AssemblyReviewContainer.Panel1.Controls.Add(this.AssemblyReviewsTreeView);
+            this.AssemblyReviewContainer.Panel1.Controls.Add(this.toolStrip1);
+            // 
+            // AssemblyReviewContainer.Panel2
+            // 
+            this.AssemblyReviewContainer.Panel2.BackColor = System.Drawing.Color.Transparent;
+            this.AssemblyReviewContainer.Panel2.Controls.Add(this.panel1);
+            this.AssemblyReviewContainer.Panel2.Controls.Add(this.statusStrip1);
+            this.AssemblyReviewContainer.Panel2.Controls.Add(this.toolStrip2);
+            this.AssemblyReviewContainer.Size = new System.Drawing.Size(1077, 670);
+            this.AssemblyReviewContainer.SplitterDistance = 236;
+            this.AssemblyReviewContainer.TabIndex = 1;
+            // 
+            // AssemblyReviewsTreeView
+            // 
+            this.AssemblyReviewsTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AssemblyReviewsTreeView.ImageIndex = 0;
+            this.AssemblyReviewsTreeView.ImageList = this.DrawingReviewExplorerIcons;
+            this.AssemblyReviewsTreeView.Location = new System.Drawing.Point(0, 25);
+            this.AssemblyReviewsTreeView.Name = "AssemblyReviewsTreeView";
+            this.AssemblyReviewsTreeView.SelectedImageIndex = 0;
+            this.AssemblyReviewsTreeView.Size = new System.Drawing.Size(236, 645);
+            this.AssemblyReviewsTreeView.TabIndex = 0;
+            // 
+            // DrawingReviewExplorerIcons
+            // 
+            this.DrawingReviewExplorerIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("DrawingReviewExplorerIcons.ImageStream")));
+            this.DrawingReviewExplorerIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.DrawingReviewExplorerIcons.Images.SetKeyName(0, "folder-icon-24.png");
+            this.DrawingReviewExplorerIcons.Images.SetKeyName(1, "user-24.png");
+            this.DrawingReviewExplorerIcons.Images.SetKeyName(2, "file-ok-24.png");
+            this.DrawingReviewExplorerIcons.Images.SetKeyName(3, "file-nok-24.png");
+            this.DrawingReviewExplorerIcons.Images.SetKeyName(4, "tools-icon-24.png");
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(236, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton1.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(66, 22);
+            this.toolStripButton1.Text = "Refresh";
+            this.toolStripButton1.ToolTipText = "Refresh local files";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.DarkGray;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 27);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(837, 621);
+            this.panel1.TabIndex = 5;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripProgressBar1});
+            this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.statusStrip1.Location = new System.Drawing.Point(0, 648);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(837, 22);
+            this.statusStrip1.TabIndex = 4;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(108, 17);
+            this.toolStripStatusLabel1.Text = "Opening drawing...";
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton2,
+            this.toolStripSeparator5,
+            this.toolStripLabel1,
+            this.toolStripLabel2});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(837, 27);
+            this.toolStrip2.TabIndex = 0;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(97, 24);
+            this.toolStripButton2.Text = "Mark as fixed";
+            this.toolStripButton2.ToolTipText = "Refresh local files";
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabel1.AutoSize = false;
+            this.toolStripLabel1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(59, 24);
+            this.toolStripLabel1.Text = "Status";
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(59, 24);
+            this.toolStripLabel2.Text = "Loading...";
             // 
             // DrawingReviewPage
             // 
@@ -449,16 +610,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.DrawingReviewsTreeView.SelectedImageIndex = 0;
             this.DrawingReviewsTreeView.Size = new System.Drawing.Size(236, 645);
             this.DrawingReviewsTreeView.TabIndex = 0;
-            // 
-            // DrawingReviewExplorerIcons
-            // 
-            this.DrawingReviewExplorerIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("DrawingReviewExplorerIcons.ImageStream")));
-            this.DrawingReviewExplorerIcons.TransparentColor = System.Drawing.Color.Transparent;
-            this.DrawingReviewExplorerIcons.Images.SetKeyName(0, "folder-icon-24.png");
-            this.DrawingReviewExplorerIcons.Images.SetKeyName(1, "user-24.png");
-            this.DrawingReviewExplorerIcons.Images.SetKeyName(2, "file-ok-24.png");
-            this.DrawingReviewExplorerIcons.Images.SetKeyName(3, "file-nok-24.png");
-            this.DrawingReviewExplorerIcons.Images.SetKeyName(4, "tools-icon-24.png");
             // 
             // DrawingReviewExplorerToolStrip
             // 
@@ -637,22 +788,22 @@ namespace MechanicalSyncApp.UI.Forms
             // NewProjectButton
             // 
             this.NewProjectButton.Name = "NewProjectButton";
-            this.NewProjectButton.Size = new System.Drawing.Size(121, 22);
+            this.NewProjectButton.Size = new System.Drawing.Size(162, 22);
             this.NewProjectButton.Text = "Project...";
             this.NewProjectButton.Click += new System.EventHandler(this.NewProjectButton_Click);
             // 
             // NewVersionButton
             // 
             this.NewVersionButton.Name = "NewVersionButton";
-            this.NewVersionButton.Size = new System.Drawing.Size(121, 22);
-            this.NewVersionButton.Text = "Version...";
+            this.NewVersionButton.Size = new System.Drawing.Size(162, 22);
+            this.NewVersionButton.Text = "Project change...";
             this.NewVersionButton.Click += new System.EventHandler(this.NewVersionButton_Click);
             // 
             // NewReviewButton
             // 
             this.NewReviewButton.Name = "NewReviewButton";
-            this.NewReviewButton.Size = new System.Drawing.Size(121, 22);
-            this.NewReviewButton.Text = "Review...";
+            this.NewReviewButton.Size = new System.Drawing.Size(162, 22);
+            this.NewReviewButton.Text = "Change review...";
             this.NewReviewButton.Click += new System.EventHandler(this.NewReviewButton_Click);
             // 
             // ProjectExplorerMenuItem
@@ -710,6 +861,19 @@ namespace MechanicalSyncApp.UI.Forms
             this.DesignFilesStatusStrip.PerformLayout();
             this.SynchronizerToolStrip.ResumeLayout(false);
             this.SynchronizerToolStrip.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.AssemblyReviewContainer.Panel1.ResumeLayout(false);
+            this.AssemblyReviewContainer.Panel1.PerformLayout();
+            this.AssemblyReviewContainer.Panel2.ResumeLayout(false);
+            this.AssemblyReviewContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AssemblyReviewContainer)).EndInit();
+            this.AssemblyReviewContainer.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.DrawingReviewPage.ResumeLayout(false);
             this.DrawingReviewContainer.Panel1.ResumeLayout(false);
             this.DrawingReviewContainer.Panel1.PerformLayout();
@@ -789,5 +953,18 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripLabel DrawingReviewerTitle;
         private System.Windows.Forms.ToolStripButton ArchiveVersionButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.SplitContainer AssemblyReviewContainer;
+        private System.Windows.Forms.TreeView AssemblyReviewsTreeView;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
     }
 }

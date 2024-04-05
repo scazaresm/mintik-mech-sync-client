@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -58,7 +57,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 logger.Debug("Preparing UI elements...");
                 ui.DrawingReviewerStatusText.Text = "Opening drawing...";
-                ui.SetDrawingReviewStatusText(reviewTarget.Status);
+                ui.SetDeliverableStatusText(ui.DrawingReviewerDrawingStatus, reviewTarget.Status);
                 ui.DrawingReviewsTreeView.Enabled = false;
                 ui.DrawingReviewerProgress.Visible = true;
 

@@ -29,6 +29,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         private readonly ILogger logger;
 
+        private SyncGlobalConfig globalConfig;
 
         public DeliverablePublisher(IVersionSynchronizer synchronizer, 
                                     ISolidWorksStarter solidWorksStarter,
@@ -77,8 +78,12 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
                 logger
             );
 
+            if (globalConfig is null)
+                globalConfig = await Synchronizer.SyncServiceClient.GetGlobalConfigAsync();
+
             var customPropertiesValidationStrategy = new CustomPropertiesValidationStrategy(
                 new ModelPropertiesRetriever(SolidWorksStarter, logger),
+                globalConfig,
                 logger
             );
 
@@ -120,7 +125,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
                     FullPublishingDirectory = GetFullPublishingDirectory(),
                     RelativePublishingDirectory = GetRelativePublishingDirectory(),
                     DesignerEmail = designerEmail, 
-                    ProjectName = projectName,
+                    Version = Synchronizer.Version,
                     SummaryFileDirectory = summaryFileDirectory,
                 },
                 logger

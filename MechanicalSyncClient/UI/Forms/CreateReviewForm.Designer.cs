@@ -43,7 +43,7 @@
             // 
             this.ErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ErrorMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.ErrorMessage.Location = new System.Drawing.Point(10, 38);
+            this.ErrorMessage.Location = new System.Drawing.Point(10, 45);
             this.ErrorMessage.Name = "ErrorMessage";
             this.ErrorMessage.Size = new System.Drawing.Size(326, 36);
             this.ErrorMessage.TabIndex = 10;
@@ -58,14 +58,14 @@
             this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label5.Location = new System.Drawing.Point(5, 9);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(175, 29);
+            this.label5.Size = new System.Drawing.Size(242, 29);
             this.label5.TabIndex = 9;
-            this.label5.Text = "Create review";
+            this.label5.Text = "New change review";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 70);
+            this.label2.Location = new System.Drawing.Point(7, 77);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 13);
             this.label2.TabIndex = 13;
@@ -73,7 +73,7 @@
             // 
             // SelectVersionButton
             // 
-            this.SelectVersionButton.Location = new System.Drawing.Point(263, 86);
+            this.SelectVersionButton.Location = new System.Drawing.Point(263, 93);
             this.SelectVersionButton.Name = "SelectVersionButton";
             this.SelectVersionButton.Size = new System.Drawing.Size(73, 23);
             this.SelectVersionButton.TabIndex = 12;
@@ -84,7 +84,7 @@
             // OngoingVersionText
             // 
             this.OngoingVersionText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OngoingVersionText.Location = new System.Drawing.Point(10, 86);
+            this.OngoingVersionText.Location = new System.Drawing.Point(10, 93);
             this.OngoingVersionText.Name = "OngoingVersionText";
             this.OngoingVersionText.ReadOnly = true;
             this.OngoingVersionText.Size = new System.Drawing.Size(245, 21);
@@ -98,7 +98,7 @@
             this.ReviewType.Items.AddRange(new object[] {
             "2D Files (Drawings)",
             "3D Files (Assemblies)"});
-            this.ReviewType.Location = new System.Drawing.Point(10, 134);
+            this.ReviewType.Location = new System.Drawing.Point(10, 141);
             this.ReviewType.Name = "ReviewType";
             this.ReviewType.Size = new System.Drawing.Size(245, 21);
             this.ReviewType.TabIndex = 14;
@@ -107,7 +107,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 118);
+            this.label1.Location = new System.Drawing.Point(7, 125);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 15;
@@ -155,7 +155,7 @@
             this.MinimizeBox = false;
             this.Name = "CreateReviewForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Create Review";
+            this.Text = "New change review";
             this.ResumeLayout(false);
             this.PerformLayout();
 

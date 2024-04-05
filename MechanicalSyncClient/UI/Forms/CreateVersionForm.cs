@@ -82,7 +82,10 @@ namespace MechanicalSyncApp.UI.Forms
         private void ValidateData()
         {
             CreateVersionButton.Enabled = 
-                ParentProject != null && VersionOwner != null && Goal.Text.Length > 0;
+                ParentProject != null && 
+                VersionOwner != null && 
+                Goal.Text.Length > 0 && 
+                Reason.Text.Length > 0;
         }
 
         private void Goal_TextChanged(object sender, EventArgs e)
@@ -100,6 +103,7 @@ namespace MechanicalSyncApp.UI.Forms
                     ProjectId = ParentProject.Id,
                     OwnerId = VersionOwner.Id,
                     Goal = Goal.Text,
+                    Reason = Reason.Text,
                 });
                 DialogResult = DialogResult.OK;
             }
@@ -107,6 +111,11 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void Reason_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ValidateData();
         }
     }
 }

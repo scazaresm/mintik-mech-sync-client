@@ -40,13 +40,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.SelectOwnerButton = new System.Windows.Forms.Button();
             this.VersionOwnerFullName = new System.Windows.Forms.TextBox();
+            this.Reason = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ErrorMessage
             // 
             this.ErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ErrorMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.ErrorMessage.Location = new System.Drawing.Point(12, 39);
+            this.ErrorMessage.Location = new System.Drawing.Point(10, 42);
             this.ErrorMessage.Name = "ErrorMessage";
             this.ErrorMessage.Size = new System.Drawing.Size(326, 36);
             this.ErrorMessage.TabIndex = 17;
@@ -59,16 +61,16 @@
             this.label5.BackColor = System.Drawing.SystemColors.Control;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label5.Location = new System.Drawing.Point(7, 7);
+            this.label5.Location = new System.Drawing.Point(5, 9);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(183, 29);
+            this.label5.Size = new System.Drawing.Size(246, 29);
             this.label5.TabIndex = 16;
-            this.label5.Text = "Create version";
+            this.label5.Text = "New project change";
             // 
             // CancelCreateVersionButton
             // 
             this.CancelCreateVersionButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelCreateVersionButton.Location = new System.Drawing.Point(182, 289);
+            this.CancelCreateVersionButton.Location = new System.Drawing.Point(182, 336);
             this.CancelCreateVersionButton.Name = "CancelCreateVersionButton";
             this.CancelCreateVersionButton.Size = new System.Drawing.Size(75, 23);
             this.CancelCreateVersionButton.TabIndex = 15;
@@ -78,7 +80,7 @@
             // CreateVersionButton
             // 
             this.CreateVersionButton.Enabled = false;
-            this.CreateVersionButton.Location = new System.Drawing.Point(263, 289);
+            this.CreateVersionButton.Location = new System.Drawing.Point(263, 336);
             this.CreateVersionButton.Name = "CreateVersionButton";
             this.CreateVersionButton.Size = new System.Drawing.Size(75, 23);
             this.CreateVersionButton.TabIndex = 14;
@@ -89,7 +91,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 75);
+            this.label2.Location = new System.Drawing.Point(7, 78);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 13;
@@ -97,7 +99,7 @@
             // 
             // SelectProjectButton
             // 
-            this.SelectProjectButton.Location = new System.Drawing.Point(265, 91);
+            this.SelectProjectButton.Location = new System.Drawing.Point(265, 94);
             this.SelectProjectButton.Name = "SelectProjectButton";
             this.SelectProjectButton.Size = new System.Drawing.Size(73, 23);
             this.SelectProjectButton.TabIndex = 12;
@@ -108,25 +110,25 @@
             // ParentProjectFolderName
             // 
             this.ParentProjectFolderName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ParentProjectFolderName.Location = new System.Drawing.Point(10, 91);
+            this.ParentProjectFolderName.Location = new System.Drawing.Point(10, 94);
             this.ParentProjectFolderName.Name = "ParentProjectFolderName";
             this.ParentProjectFolderName.ReadOnly = true;
-            this.ParentProjectFolderName.Size = new System.Drawing.Size(245, 21);
+            this.ParentProjectFolderName.Size = new System.Drawing.Size(247, 21);
             this.ParentProjectFolderName.TabIndex = 11;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 171);
+            this.label1.Location = new System.Drawing.Point(7, 221);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
+            this.label1.Size = new System.Drawing.Size(70, 13);
             this.label1.TabIndex = 10;
-            this.label1.Text = "Goal:";
+            this.label1.Text = "Change goal:";
             // 
             // Goal
             // 
             this.Goal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Goal.Location = new System.Drawing.Point(10, 187);
+            this.Goal.Location = new System.Drawing.Point(10, 237);
             this.Goal.Multiline = true;
             this.Goal.Name = "Goal";
             this.Goal.Size = new System.Drawing.Size(326, 84);
@@ -136,15 +138,15 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 119);
+            this.label3.Location = new System.Drawing.Point(7, 122);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.Size = new System.Drawing.Size(79, 13);
             this.label3.TabIndex = 20;
-            this.label3.Text = "Owner:";
+            this.label3.Text = "Change owner:";
             // 
             // SelectOwnerButton
             // 
-            this.SelectOwnerButton.Location = new System.Drawing.Point(263, 135);
+            this.SelectOwnerButton.Location = new System.Drawing.Point(265, 138);
             this.SelectOwnerButton.Name = "SelectOwnerButton";
             this.SelectOwnerButton.Size = new System.Drawing.Size(73, 23);
             this.SelectOwnerButton.TabIndex = 19;
@@ -155,18 +157,42 @@
             // VersionOwnerFullName
             // 
             this.VersionOwnerFullName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VersionOwnerFullName.Location = new System.Drawing.Point(10, 135);
+            this.VersionOwnerFullName.Location = new System.Drawing.Point(10, 138);
             this.VersionOwnerFullName.Name = "VersionOwnerFullName";
             this.VersionOwnerFullName.ReadOnly = true;
-            this.VersionOwnerFullName.Size = new System.Drawing.Size(245, 21);
+            this.VersionOwnerFullName.Size = new System.Drawing.Size(247, 21);
             this.VersionOwnerFullName.TabIndex = 18;
+            // 
+            // Reason
+            // 
+            this.Reason.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Reason.FormattingEnabled = true;
+            this.Reason.Items.AddRange(new object[] {
+            "Customer",
+            "Design"});
+            this.Reason.Location = new System.Drawing.Point(10, 187);
+            this.Reason.Name = "Reason";
+            this.Reason.Size = new System.Drawing.Size(247, 21);
+            this.Reason.TabIndex = 21;
+            this.Reason.SelectedIndexChanged += new System.EventHandler(this.Reason_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 171);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(82, 13);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Change reason:";
             // 
             // CreateVersionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelCreateVersionButton;
-            this.ClientSize = new System.Drawing.Size(348, 326);
+            this.ClientSize = new System.Drawing.Size(348, 373);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.Reason);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.SelectOwnerButton);
             this.Controls.Add(this.VersionOwnerFullName);
@@ -184,7 +210,7 @@
             this.MinimizeBox = false;
             this.Name = "CreateVersionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Create version";
+            this.Text = "New project change";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -204,5 +230,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button SelectOwnerButton;
         private System.Windows.Forms.TextBox VersionOwnerFullName;
+        private System.Windows.Forms.ComboBox Reason;
+        private System.Windows.Forms.Label label4;
     }
 }

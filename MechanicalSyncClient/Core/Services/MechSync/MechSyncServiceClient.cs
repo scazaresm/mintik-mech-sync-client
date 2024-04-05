@@ -241,6 +241,11 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             await new DeleteChangeRequestHandler(restClient, changeRequestId).HandleAsync();
         }
 
+        public async Task<SyncGlobalConfig> GetGlobalConfigAsync()
+        {
+            return await new GetGlobalConfigHandler(restClient).HandleAsync();
+        }
+
         #region Disposing pattern
         protected virtual void Dispose(bool disposing)
         {

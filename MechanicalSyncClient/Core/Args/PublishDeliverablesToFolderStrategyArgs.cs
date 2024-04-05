@@ -1,10 +1,6 @@
-﻿using MechanicalSyncApp.Core.Services.MechSync;
+﻿using MechanicalSyncApp.Core.Domain;
+using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.SolidWorksInterop.API;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Args
 {
@@ -16,6 +12,6 @@ namespace MechanicalSyncApp.Core.Args
         public string RelativePublishingDirectory { get; set; }
         public string SummaryFileDirectory { get; set; }
         public string DesignerEmail { get; set; }
-        public string ProjectName { get; set; }
+        public LocalVersion Version { get; set; }
     }
 }

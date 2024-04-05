@@ -19,5 +19,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public VersionOwner NextOwner { get; set; }
         public DateTime CreatedAt { get; set; }
         public List<VersionOwner> OwnerHistory { get; set; }
+        public string Reason { get; set; }
     }
 }

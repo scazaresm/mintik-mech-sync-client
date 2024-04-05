@@ -41,10 +41,13 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
 
             var properties = new Dictionary<string, string>();
 
-            foreach (var propertyName in allPropertyNames)
+            if (allPropertyNames != null)
             {
-                manager.Get2(propertyName, out _, out string evaluatedValue);
-                properties.Add(propertyName, evaluatedValue);
+                foreach (var propertyName in allPropertyNames)
+                {
+                    manager.Get2(propertyName, out _, out string evaluatedValue);
+                    properties.Add(propertyName, evaluatedValue);
+                }
             }
             logger.Debug($"Successfully retrieved {properties.Count()} custom properties.");
             modelLoader.UnloadModel(model);

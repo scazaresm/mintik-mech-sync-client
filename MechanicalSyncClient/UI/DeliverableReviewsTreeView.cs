@@ -28,9 +28,15 @@ namespace MechanicalSyncApp.UI
         }
     }
 
-    public class DrawingReviewsTreeView : IDisposable
+    public enum ReviewTargetType 
     {
-        public event EventHandler<OpenDrawingForViewingEventArgs> OpenDrawingForViewing;
+        DrawingFile,
+        AssemblyFile
+    }
+
+    public class DeliverableReviewsTreeView : IDisposable
+    {
+        public event EventHandler<OpenDrawingForViewingEventArgs> OpenReviewForViewing;
 
         public IMechSyncServiceClient MechSyncService { get; private set; }
         public IAuthenticationServiceClient AuthService { get; private set; }
@@ -38,6 +44,7 @@ namespace MechanicalSyncApp.UI
         public TreeView AttachedTreeView { get; private set; }
 
         private readonly Dictionary<string, FileMetadata> reviewTargetIndex = new Dictionary<string, FileMetadata>();
+        private readonly ReviewTargetType reviewTargetType;
 
         public string[] ReviewedStatuses { get; } = new string[]
         {
@@ -47,14 +54,15 @@ namespace MechanicalSyncApp.UI
         private TreeNode rootNode;
         private bool disposedValue;
 
-        public DrawingReviewsTreeView(IMechSyncServiceClient mechSyncService,
-                                      IAuthenticationServiceClient authService, 
-                                      LocalVersion version
+        public DeliverableReviewsTreeView(IMechSyncServiceClient mechSyncService, 
+                                          LocalVersion version,
+                                          ReviewTargetType reviewTargetType
             )
         {
             MechSyncService = mechSyncService ?? throw new ArgumentNullException(nameof(mechSyncService));
-            AuthService = authService ?? throw new ArgumentNullException(nameof(authService));
+            AuthService = MechSyncService.AuthenticationService;
             Version = version;
+            this.reviewTargetType = reviewTargetType;
         }
 
         public void AttachTreeView(TreeView treeView)
@@ -75,18 +83,20 @@ namespace MechanicalSyncApp.UI
             AttachedTreeView.Nodes.Clear();
             foreach (var review in reviews)
             {
-                // we are interested on drawing reviews only
-                if (review.TargetType != "DrawingFile") continue;
+                // we are interested on the specified review targets only
+                if (review.TargetType != reviewTargetType.ToString()) continue;
 
                 // sync review targets to detect deleted files
                 var syncedReview = await MechSyncService.SyncReviewTargetsAsync(review.Id);
 
                 var reviewerDetails = await AuthService.GetUserDetailsAsync(syncedReview.ReviewerId);
 
-                var reviewNode = new TreeNode(reviewerDetails.FullName);
-                reviewNode.Tag = syncedReview;
-                reviewNode.ImageIndex = 1;
-                reviewNode.SelectedImageIndex = 1;
+                var reviewNode = new TreeNode(reviewerDetails.FullName)
+                {
+                    Tag = syncedReview,
+                    ImageIndex = 1,
+                    SelectedImageIndex = 1
+                };
 
                 await PopulateReviewTargets(reviewNode);
 
@@ -104,10 +114,9 @@ namespace MechanicalSyncApp.UI
             {
                 var targetDetails = await GetReviewTargetDetailsAsync(reviewTarget.TargetId);
 
-                var isDrawing = targetDetails.FullFilePath.ToLower().EndsWith(".slddrw");
-                var isDrawingReviewed = ReviewedStatuses.Contains(reviewTarget.Status);
+                var isTargetReviewed = ReviewedStatuses.Contains(reviewTarget.Status);
 
-                if (!isDrawing || !isDrawingReviewed)
+                if (!isTargetReviewed)
                     continue;
 
                 var targetFileName = Path.GetFileName(targetDetails.FullFilePath);
@@ -135,16 +144,17 @@ namespace MechanicalSyncApp.UI
             reviewNode.ExpandAll();
         }
 
-        private void AttachedTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        private async void AttachedTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.Tag is ReviewTarget)
             {
                 var review = e.Node.Parent.Tag as Review;
                 var reviewTarget = e.Node.Tag as ReviewTarget;
-                var drawingMetadata = reviewTargetIndex[reviewTarget.TargetId];
 
-                OpenDrawingForViewing.Invoke(sender,
-                    new OpenDrawingForViewingEventArgs(review, reviewTarget, drawingMetadata)
+                var reviewTargetMetadata = await GetReviewTargetDetailsAsync(reviewTarget.TargetId);
+
+                OpenReviewForViewing?.Invoke(sender,
+                    new OpenDrawingForViewingEventArgs(review, reviewTarget, reviewTargetMetadata)
                 );
             }
         }

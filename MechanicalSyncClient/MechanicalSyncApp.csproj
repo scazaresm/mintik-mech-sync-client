@@ -227,6 +227,7 @@
     <Compile Include="Core\Services\MechSync\Handlers\GetAllProjectsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetDeltaFileMetadataHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetFilePublishingHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\GetGlobalConfigHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetMyReviewsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetFileMetadataByIdHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetArchivedProjectsHandler.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="Core\Services\MechSync\Models\Request\UpdateReviewTargetRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Review.cs" />
     <Compile Include="Core\Services\MechSync\Models\ReviewTarget.cs" />
+    <Compile Include="Core\Services\MechSync\Models\SyncGlobalConfig.cs" />
     <Compile Include="Core\Services\VerboseHandler.cs" />
     <Compile Include="Core\SolidWorksInterop\DrawingRevisionRetriever.cs" />
     <Compile Include="Core\SolidWorksInterop\API\IAssemblyPartListRetriever.cs" />
@@ -376,7 +378,7 @@
     <Compile Include="UI\ReviewableDrawingsTreeView.cs" />
     <Compile Include="Sync\ReviewableFileMetadataFetcher.cs" />
     <Compile Include="UI\DesignFileViewerControl.cs" />
-    <Compile Include="UI\DrawingReviewsTreeView.cs" />
+    <Compile Include="UI\DeliverableReviewsTreeView.cs" />
     <Compile Include="UI\EDrawingsHost.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -784,6 +786,7 @@
     <None Include="Resources\pencil-24.png" />
     <None Include="Resources\paste-24.png" />
     <None Include="Resources\image-placeholder-350x350.png" />
+    <None Include="Resources\archive-modern-48.png" />
     <Content Include="sync-icon.ico" />
   </ItemGroup>
   <ItemGroup>

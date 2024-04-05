@@ -115,9 +115,9 @@
             this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label5.Location = new System.Drawing.Point(5, 9);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(179, 29);
+            this.label5.Size = new System.Drawing.Size(154, 29);
             this.label5.TabIndex = 7;
-            this.label5.Text = "Create project";
+            this.label5.Text = "New project";
             // 
             // ErrorMessage
             // 
@@ -150,7 +150,7 @@
             this.MinimizeBox = false;
             this.Name = "CreateProjectForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Create project";
+            this.Text = "New project";
             this.ResumeLayout(false);
             this.PerformLayout();
 

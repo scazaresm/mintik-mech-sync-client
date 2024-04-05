@@ -46,27 +46,27 @@
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
-            // PublishingMessage
+            // ArchivingMessage
             // 
             this.ArchivingMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ArchivingMessage.Location = new System.Drawing.Point(82, 21);
-            this.ArchivingMessage.Name = "PublishingMessage";
+            this.ArchivingMessage.Name = "ArchivingMessage";
             this.ArchivingMessage.Size = new System.Drawing.Size(360, 96);
             this.ArchivingMessage.TabIndex = 5;
             this.ArchivingMessage.Text = "Archiving...";
             // 
-            // PublishingProgressBar
+            // ArchivingProgressBar
             // 
             this.ArchivingProgressBar.Location = new System.Drawing.Point(14, 130);
-            this.ArchivingProgressBar.Name = "PublishingProgressBar";
+            this.ArchivingProgressBar.Name = "ArchivingProgressBar";
             this.ArchivingProgressBar.Size = new System.Drawing.Size(428, 23);
             this.ArchivingProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.ArchivingProgressBar.TabIndex = 6;
             // 
-            // PublishingIcon
+            // ArchivingIcon
             // 
             this.ArchivingIcon.Location = new System.Drawing.Point(22, 33);
-            this.ArchivingIcon.Name = "PublishingIcon";
+            this.ArchivingIcon.Name = "ArchivingIcon";
             this.ArchivingIcon.Size = new System.Drawing.Size(48, 48);
             this.ArchivingIcon.TabIndex = 7;
             this.ArchivingIcon.TabStop = false;
@@ -87,7 +87,7 @@
             this.MinimizeBox = false;
             this.Name = "ArchiveVersionProgressDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Archive version";
+            this.Text = "Archive design";
             this.Load += new System.EventHandler(this.PublishVersionProgressDialog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ArchivingIcon)).EndInit();
             this.ResumeLayout(false);

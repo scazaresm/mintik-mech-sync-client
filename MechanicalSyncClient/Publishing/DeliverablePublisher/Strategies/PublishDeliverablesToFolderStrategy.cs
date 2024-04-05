@@ -75,7 +75,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
                 );
             }
             var publishing = await InsertFilePublishingDocument(validDrawing);
-            WritePublishingSummaryAsJsonFile(publishing, args.SummaryFileDirectory);
+            WritePublishingSummaryAsJsonFile(publishing, validDrawing, args.SummaryFileDirectory);
             return publishing;
         }
 
@@ -117,9 +117,9 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
                 throw new ArgumentNullException(nameof(args.DesignerEmail), "DesignerEmail cannot be null or empty.");
             }
 
-            if (string.IsNullOrEmpty(args.ProjectName))
+            if (args.Version == null)
             {
-                throw new ArgumentNullException(nameof(args.ProjectName), "ProjectName cannot be null or empty.");
+                throw new ArgumentNullException(nameof(args.Version), "Version cannot be null.");
             }
 
             if (string.IsNullOrEmpty(args.SummaryFileDirectory))
@@ -130,6 +130,9 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
 
         private async Task PublishDrawingDeliverablesAsync(FileMetadata validDrawing)
         {
+            if (PublishDrawingsToFormats.Trim() == string.Empty)
+                return; // nothing to publish
+
             var drawingExtension = Path.GetExtension(validDrawing.FullFilePath);
             var drawingFileNameWithoutExtension = Path.GetFileNameWithoutExtension(validDrawing.FullFilePath);
 
@@ -159,6 +162,9 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
 
         private async Task PublishPartDeliverablesAsync(FileMetadata validDrawing, string partFilePath)
         {
+            if (PublishPartsToFormats.Trim() == string.Empty)
+                return; // nothing to publish
+
             var drawingFileNameWithoutExtension = Path.GetFileNameWithoutExtension(validDrawing.FullFilePath);
 
             var expectedPartOutputFiles = PublishPartsToFormats
@@ -187,6 +193,9 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
 
         private async Task PublishAssemblyDeliverablesAsync(FileMetadata validDrawing, string assemblyFilePath)
         {
+            if (PublishAssembliesToFormats.Trim() == string.Empty)
+                return; // nothing to publish
+
             var drawingFileNameWithoutExtension = Path.GetFileNameWithoutExtension(validDrawing.FullFilePath);
 
             var expectedAssemblyOutputFiles = PublishAssembliesToFormats
@@ -218,7 +227,10 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             return revision == "A" ? string.Empty : $"-{revision}";
         }
 
-        private void WritePublishingSummaryAsJsonFile(FilePublishing publishing, string publishingSummaryDirectory)
+        private void WritePublishingSummaryAsJsonFile(
+            FilePublishing publishing,
+            FileMetadata validDrawing,
+            string publishingSummaryDirectory)
         {
             if (!Directory.Exists(publishingSummaryDirectory))
                 Directory.CreateDirectory(publishingSummaryDirectory);
@@ -227,11 +239,15 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
                 filePath.Replace(args.FullPublishingDirectory, "")
             ).ToList();
 
+            var publishingType = DeterminePublishingType(args.Version, validDrawing);
+
             var publishingSummary = new PublishingSummary()
             {
                 DesignerEmail = args.DesignerEmail,
-                ProjectName = args.ProjectName,
+                ProjectName = args.Version.RemoteProject.FolderName,
                 RelativeProjectDirectory = args.RelativePublishingDirectory,
+                Reason = args.Version.RemoteVersion.Reason,
+                Type = publishingType,
                 ManufacturingMetadata = new ManufacturingMetadata()
                 {
                     DrawingName = publishing.PartNumber,
@@ -249,5 +265,16 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             File.WriteAllText(summaryFilePath, publishingSummaryJson);
         }
 
+        public string DeterminePublishingType(LocalVersion version, FileMetadata validDrawing)
+        {
+            if (version.RemoteVersion.Major == 1 && validDrawing.Revision == "A")
+                return "New";
+            else if (version.RemoteVersion.Major > 1 && validDrawing.Revision == "A")
+                return "Aggregated";
+            else if (validDrawing.Revision != "A")
+                return "Rework";
+
+            return "Unknown";
+        }
     }
 }

@@ -108,6 +108,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         #region Commands
 
+        public async Task ArchiveVersionAsync()
+        {
+            await new ArchiveVersionCommand(this, logger).RunAsync();
+        }
+
         public async Task OpenVersionAsync()
         {
             await new OpenVersionCommand(this, logger).RunAsync();
@@ -157,9 +162,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.ProjectFolderNameLabel.Text = $"{Version.RemoteProject.FolderName} V{Version.RemoteVersion.Major} (Ongoing changes)";
             UI.InitializeLocalFileViewer(Version, ChangeMonitor);
             UI.InitializeDrawingReviews(Version);
+            UI.InitializeAssemblyReviews(Version);
 
             UI.LocalFileViewer.AttachListView(UI.FileViewerListView);
             UI.FileViewerListView.SetDoubleBuffered();
+            UI.SynchronizerToolStrip.Enabled = true;
 
             UI.SyncProgressBar.Visible = false;
             UI.SyncRemoteButton.Visible = true;
@@ -180,14 +187,17 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.OpenLocalCopyFolderMenuItem.Click += OpenLocalCopyFolderMenuItem_Click;
 
             UI.VersionSynchronizerTabs.SelectedIndex = 0;
-            UI.DrawingReviewsExplorer.OpenDrawingForViewing += DrawingReviewsExplorer_OpenDrawingForViewing;
+            UI.DrawingReviewsExplorer.OpenReviewForViewing += DrawingReviewsExplorer_OpenDrawingForViewing;
 
             UI.RefreshDrawingExplorerButton.Click += RefreshDrawingExplorerButton_Click;
 
             UI.MarkDrawingAsFixedButton.Click += MarkDrawingAsFixedButton_Click;
 
+            UI.ArchiveVersionButton.Click += ArchiveVersionButton_Click;
+
             UI.ShowVersionExplorer();
         }
+
 
         private async void MarkDrawingAsFixedButton_Click(object sender, EventArgs e)
         {
@@ -202,6 +212,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public void UpdateUI()
         {
             state?.UpdateUI();
+        }
+
+        private async void ArchiveVersionButton_Click(object sender, EventArgs e)
+        {
+            await ArchiveVersionAsync();
         }
 
         private async void WorkOnlineButton_Click(object sender, EventArgs e)
@@ -278,9 +293,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.TransferOwnershipButton.Click -= TransferOwnershipButton_Click;
             UI.CopyLocalCopyPathMenuItem.Click -= CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click -= OpenLocalCopyFolderMenuItem_Click;
-            UI.DrawingReviewsExplorer.OpenDrawingForViewing -= DrawingReviewsExplorer_OpenDrawingForViewing;
+            UI.DrawingReviewsExplorer.OpenReviewForViewing -= DrawingReviewsExplorer_OpenDrawingForViewing;
             UI.RefreshDrawingExplorerButton.Click -= RefreshDrawingExplorerButton_Click;
             UI.MarkDrawingAsFixedButton.Click -= MarkDrawingAsFixedButton_Click;
+            UI.ArchiveVersionButton.Click -= ArchiveVersionButton_Click;
         }
 
         protected virtual void Dispose(bool disposing)

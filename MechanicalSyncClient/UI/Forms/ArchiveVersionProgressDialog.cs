@@ -40,8 +40,8 @@ namespace MechanicalSyncApp.UI.Forms
             Log.Debug("Archiving is happening on the server...");
 
             Version version;
-            ArchivingIcon.Image = Properties.Resources.archive_24;
-            ArchivingMessage.Text = "Archiving design data in server, please wait...";
+            ArchivingIcon.Image = Properties.Resources.archive_modern_48;
+            ArchivingMessage.Text = "Archiving design in server, please wait...";
             OkButton.Enabled = false;
             ArchivingProgressBar.Visible = true;
             do
@@ -72,8 +72,9 @@ namespace MechanicalSyncApp.UI.Forms
             }
 
             ArchivingMessage.Text = IsArchivingSuccess
-                ? "This version has been successfully archived! Please open a new version if further design changes are required in future."
-                : "There was a problem archiving the version, please try again later " +
+                ? "The design has been successfully archived!" + Environment.NewLine + Environment.NewLine + 
+                    " Please open a new version if further design changes are required in future."
+                : "There was a problem archiving the design, please try again later " +
                   "and reach your IT department if the issue persists." + Environment.NewLine + Environment.NewLine +
                   "No worries, we got you covered and any archiving progress was rollbacked.";
 
@@ -87,7 +88,7 @@ namespace MechanicalSyncApp.UI.Forms
             if (IsArchivingSuccess)
                 Log.Debug("Archiving complete.");
             else
-                Log.Debug("Archiving has failed, check the mech-sync-service logs in docker for more details.");
+                Log.Error("Archiving has failed, check the mech-sync-service logs in docker for more details.");
         }
 
         private void OkButton_Click(object sender, EventArgs e)

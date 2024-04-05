@@ -15,11 +15,7 @@ namespace MechanicalSyncApp.Sync
 {
     public class ReviewableFileMetadataFetcher : IReviewableFileMetadataFetcher
     {
-        private readonly string DRAWING_FILTER_REGEX = @"\.slddrw$";
-        //private readonly string ASSEMBLY_FILTER_REGEX = @"^*\-a.*\.sldasm$";
-        private readonly string ASSEMBLY_FILTER_REGEX = @"\.sldasm$";
-
-        private readonly Dictionary<string, int> FileApprovalCount = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> FileApprovalCountIndex = new Dictionary<string, int>();
 
         private readonly Dictionary<string, FilePublishing> FilePublishingIndex = new Dictionary<string, FilePublishing>();
 
@@ -27,6 +23,8 @@ namespace MechanicalSyncApp.Sync
         private readonly ILogger logger;
 
         public string VersionId { get; private set; }
+
+        private SyncGlobalConfig globalConfig;
 
         public ReviewableFileMetadataFetcher(IMechSyncServiceClient serviceClient, string versionId, ILogger logger)
         {
@@ -48,6 +46,9 @@ namespace MechanicalSyncApp.Sync
 
         public async Task<List<FileMetadata>> FetchReviewableAssembliesAsync()
         {
+            if (globalConfig is null)
+                globalConfig = await serviceClient.GetGlobalConfigAsync();
+
             var deltaFileMetadata = await serviceClient.GetDeltaFileMetadataAsync(new GetDeltaFileMetadataRequest()
             {
                 TargetVersionId = VersionId
@@ -55,13 +56,13 @@ namespace MechanicalSyncApp.Sync
             await FetchFileApprovals();
 
             var reviewableAssemblies = deltaFileMetadata
-                .Where(m => Regex.IsMatch(m.RelativeFilePath, ASSEMBLY_FILTER_REGEX, RegexOptions.IgnoreCase))
+                .Where(m => Regex.IsMatch(m.RelativeFilePath, globalConfig.ReviewableAssyRegex, RegexOptions.IgnoreCase))
                 .ToList();
 
             foreach(var assembly in reviewableAssemblies)
             {
-                if (FileApprovalCount.ContainsKey(assembly.Id))
-                    assembly.ApprovalCount = FileApprovalCount[assembly.Id];
+                if (FileApprovalCountIndex.ContainsKey(assembly.Id))
+                    assembly.ApprovalCount = FileApprovalCountIndex[assembly.Id];
                 else
                     assembly.ApprovalCount = 0;
             }
@@ -70,6 +71,9 @@ namespace MechanicalSyncApp.Sync
 
         public async Task<List<FileMetadata>> FetchReviewableDrawingsAsync()
         {
+            if (globalConfig is null)
+                globalConfig = await serviceClient.GetGlobalConfigAsync();
+
             var deltaFileMetadata = await serviceClient.GetDeltaFileMetadataAsync(new GetDeltaFileMetadataRequest()
             {
                 TargetVersionId = VersionId
@@ -78,13 +82,13 @@ namespace MechanicalSyncApp.Sync
             await FetchFilePublishings();
 
             var reviewableDrawings = deltaFileMetadata
-                .Where(m => Regex.IsMatch(m.RelativeFilePath, DRAWING_FILTER_REGEX, RegexOptions.IgnoreCase))
+                .Where(m => Regex.IsMatch(m.RelativeFilePath, globalConfig.ReviewableDrawingRegex, RegexOptions.IgnoreCase))
                 .ToList();
 
             foreach(var drawing in reviewableDrawings)
             {
-                if (FileApprovalCount.ContainsKey(drawing.Id))
-                    drawing.ApprovalCount = FileApprovalCount[drawing.Id];
+                if (FileApprovalCountIndex.ContainsKey(drawing.Id))
+                    drawing.ApprovalCount = FileApprovalCountIndex[drawing.Id];
                 else
                     drawing.ApprovalCount = 0;
 
@@ -98,7 +102,7 @@ namespace MechanicalSyncApp.Sync
         {
             var reviews = await serviceClient.GetVersionReviewsAsync(VersionId);
 
-            FileApprovalCount.Clear();
+            FileApprovalCountIndex.Clear();
 
             foreach (var review in reviews)
             {
@@ -106,10 +110,10 @@ namespace MechanicalSyncApp.Sync
                 {
                     if (target.Status != "Approved") continue;
 
-                    if (!FileApprovalCount.ContainsKey(target.TargetId))
-                        FileApprovalCount[target.TargetId] = 1;
+                    if (!FileApprovalCountIndex.ContainsKey(target.TargetId))
+                        FileApprovalCountIndex[target.TargetId] = 1; // found the first approval for this file, start from 1
                     else
-                        FileApprovalCount[target.TargetId]++;
+                        FileApprovalCountIndex[target.TargetId]++; // found the next approval for this file, increment by one
                 }
             }
         }

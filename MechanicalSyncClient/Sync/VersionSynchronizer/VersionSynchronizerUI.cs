@@ -1,6 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
-using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.UI;
 using System;
@@ -41,10 +40,13 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public WorkspaceTreeView WorkspaceTreeView { get; set; }
 
-
         public TreeView DrawingReviewsTreeView { get; set; }
 
-        public DrawingReviewsTreeView DrawingReviewsExplorer { get; private set; }
+        public TreeView AssemblyReviewsTreeView { get; set; }
+
+        public DeliverableReviewsTreeView DrawingReviewsExplorer { get; private set; }
+
+        public DeliverableReviewsTreeView AssemblyReviewsExplorer { get; private set; }
 
         public TabControl VersionSynchronizerTabs { get; set; }
 
@@ -86,13 +88,26 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             if (DrawingReviewsExplorer != null)
                 DrawingReviewsExplorer.Dispose();
 
-            DrawingReviewsExplorer = new DrawingReviewsTreeView(
+            DrawingReviewsExplorer = new DeliverableReviewsTreeView(
                MechSyncServiceClient.Instance,
-               AuthenticationServiceClient.Instance,
-               version
+               version,
+               ReviewTargetType.DrawingFile
             );
             DrawingReviewsExplorer.AttachTreeView(DrawingReviewsTreeView);
             SetDefaultDrawingReviewControls();
+        }
+
+        public void InitializeAssemblyReviews(LocalVersion version)
+        {
+            if (AssemblyReviewsExplorer != null)
+                AssemblyReviewsExplorer.Dispose();
+
+            AssemblyReviewsExplorer = new DeliverableReviewsTreeView(
+                MechSyncServiceClient.Instance,
+                version,
+                ReviewTargetType.AssemblyFile
+            );
+            AssemblyReviewsExplorer.AttachTreeView(AssemblyReviewsTreeView);
         }
 
         public void SetDefaultDrawingReviewControls()
@@ -106,11 +121,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private async void VersionSynchronizerTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (VersionSynchronizerTabs.SelectedTab.Text.StartsWith("2D") && DrawingReviewsExplorer != null)
-            {
-                await DrawingReviewsExplorer.Refresh();
-                return;
-            }
+            string selectedTabText = VersionSynchronizerTabs.SelectedTab.Text;
+            DeliverableReviewsTreeView deliverableExplorer = null;
+
+            if (selectedTabText.StartsWith("3D"))
+                deliverableExplorer = AssemblyReviewsExplorer;
+            else if (selectedTabText.StartsWith("2D"))
+                deliverableExplorer = DrawingReviewsExplorer;
+
+            if (deliverableExplorer != null)
+                await deliverableExplorer.Refresh();
         }
 
         public void ShowVersionExplorer()
@@ -150,41 +170,41 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             } 
         }
 
-        public void SetDrawingReviewStatusText(string status)
+        public void SetDeliverableStatusText(ToolStripLabel label, string status)
         {
-            DrawingReviewerDrawingStatus.Visible = true;
-            DrawingReviewerDrawingStatus.Text = status;
+            label.Visible = true;
+            label.Text = status;
 
-            DrawingReviewerDrawingStatus.BackgroundImageLayout = ImageLayout.Stretch;
-            DrawingReviewerDrawingStatus.BackgroundImage = new Bitmap(1, 1);
-            var g = Graphics.FromImage(DrawingReviewerDrawingStatus.BackgroundImage);
+            label.BackgroundImageLayout = ImageLayout.Stretch;
+            label.BackgroundImage = new Bitmap(1, 1);
+            var g = Graphics.FromImage(label.BackgroundImage);
 
             switch (status)
             {
                 case "Pending":
                 default:
                     g.Clear(Color.Black);
-                    DrawingReviewerDrawingStatus.ForeColor = Color.White;
+                    label.ForeColor = Color.White;
                     break;
 
                 case "Reviewing":
                     g.Clear(Color.Black);
-                    DrawingReviewerDrawingStatus.ForeColor = Color.Yellow;
+                    label.ForeColor = Color.Yellow;
                     break;
 
                 case "Approved":
                     g.Clear(Color.DarkGreen);
-                    DrawingReviewerDrawingStatus.ForeColor = Color.White;
+                    label.ForeColor = Color.White;
                     break;
 
                 case "Rejected":
                     g.Clear(Color.DarkRed);
-                    DrawingReviewerDrawingStatus.ForeColor = Color.White;
+                    label.ForeColor = Color.White;
                     break;
 
                 case "Fixed":
                     g.Clear(Color.Black);
-                    DrawingReviewerDrawingStatus.ForeColor = Color.Aqua;
+                    label.ForeColor = Color.Aqua;
                     break;
             }
         }
