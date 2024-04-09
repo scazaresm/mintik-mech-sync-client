@@ -39,6 +39,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 
             try
             {
+                ui.ChangeRequestInput.Text = "Type here to create a new change request...";
                 ui.ChangeRequestInput.Enabled = false;
                 ui.ReviewToolStrip.Enabled = false;
                 ui.ChangeRequestsGrid.Enabled = false;

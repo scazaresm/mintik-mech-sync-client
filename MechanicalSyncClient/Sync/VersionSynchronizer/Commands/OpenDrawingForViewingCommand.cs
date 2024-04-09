@@ -36,14 +36,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         public IVersionSynchronizer Synchronizer { get; private set; }
 
         public OpenDrawingForViewingCommand(IVersionSynchronizer synchronizer,
-                                            OpenDrawingForViewingEventArgs e,
+                                            OpenReviewTargetForViewingEventArgs e,
                                             ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             review = e.Review;
             reviewTarget = e.ReviewTarget;
-            drawingMetadata = e.DrawingMetadata;
+            drawingMetadata = e.Metadata;
         }
 
         public async Task RunAsync()

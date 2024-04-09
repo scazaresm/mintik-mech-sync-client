@@ -49,27 +49,35 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         {
             logger.Debug($"Starting OpenVersionCommand, versionId = {RemoteVersion.Id}");
 
-            if (IsNotVersionOwnerAnymore)
+            try
             {
-                logger.Debug(
-                    $"{AuthServiceClient.LoggedUserDetails.FullName} is not version owner anymore, version ownership change is expected..."
-                );
-                await HandleNotVersionOwnerAsync();
-            }
-
-            if (ShallDownloadFiles)
-            {
-                logger.Debug($"Could not find a local copy folder for this version, will download version files from server...");
-
-                using (var cts = new CancellationTokenSource())
+                Synchronizer.UI.WorkspaceTreeView.AttachedTreeView.Enabled = false;
+                if (IsNotVersionOwnerAnymore)
                 {
-                    await DownloadVersionFilesAsync(cts);
+                    logger.Debug(
+                        $"{AuthServiceClient.LoggedUserDetails.FullName} is not version owner anymore, version ownership change is expected..."
+                    );
+                    await HandleNotVersionOwnerAsync();
                 }
-            }
-            Synchronizer.InitializeUI();
-            Synchronizer.ChangeMonitor.Initialize();
 
-            logger.Debug("Completed OpenVersionCommand.");
+                if (ShallDownloadFiles)
+                {
+                    logger.Debug($"Could not find a local copy folder for this version, will download version files from server...");
+
+                    using (var cts = new CancellationTokenSource())
+                    {
+                        await DownloadVersionFilesAsync(cts);
+                    }
+                }
+                Synchronizer.InitializeUI();
+                Synchronizer.ChangeMonitor.Initialize();
+
+                logger.Debug("Completed OpenVersionCommand.");
+            }
+            finally
+            {
+                Synchronizer.UI.WorkspaceTreeView.AttachedTreeView.Enabled = true;
+            }
         }
 
         private async Task MoveFolderToRecycleBinAsync()

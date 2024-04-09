@@ -64,6 +64,17 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public ToolStripButton MarkDrawingAsFixedButton { get; set; }
 
+        public DataGridView AssemblyChangeRequestGrid { get; set; }
+
+        public ToolStripLabel AssemblyReviewViewerTitle { get; set; }
+
+        public ToolStrip AssemblyReviewViewerToolStrip { get; set; }
+
+        public ToolStripLabel AssemblyReviewStatus { get; set; }
+
+        public ToolStripButton MarkAssemblyAsFixedButton { get; set; }
+
+
         #endregion
 
 

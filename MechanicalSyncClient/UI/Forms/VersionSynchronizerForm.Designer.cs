@@ -41,6 +41,8 @@ namespace MechanicalSyncApp.UI.Forms
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.WorkspaceTreeView = new System.Windows.Forms.TreeView();
@@ -75,14 +77,15 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.AssemblyChangeRequestsGrid = new System.Windows.Forms.DataGridView();
+            this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DesignerCommentsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AssemblyReviewViewerToolStrip = new System.Windows.Forms.ToolStrip();
+            this.MarkAssemblyAsFixedButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.AssemblyReviewStatus = new System.Windows.Forms.ToolStripLabel();
+            this.AssemblyReviewViewerTitle = new System.Windows.Forms.ToolStripLabel();
             this.DrawingReviewPage = new System.Windows.Forms.TabPage();
             this.DrawingReviewContainer = new System.Windows.Forms.SplitContainer();
             this.DrawingReviewsTreeView = new System.Windows.Forms.TreeView();
@@ -126,8 +129,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.AssemblyReviewContainer.Panel2.SuspendLayout();
             this.AssemblyReviewContainer.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AssemblyChangeRequestsGrid)).BeginInit();
+            this.AssemblyReviewViewerToolStrip.SuspendLayout();
             this.DrawingReviewPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewContainer)).BeginInit();
             this.DrawingReviewContainer.Panel1.SuspendLayout();
@@ -444,8 +448,7 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             this.AssemblyReviewContainer.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.AssemblyReviewContainer.Panel2.Controls.Add(this.panel1);
-            this.AssemblyReviewContainer.Panel2.Controls.Add(this.statusStrip1);
-            this.AssemblyReviewContainer.Panel2.Controls.Add(this.toolStrip2);
+            this.AssemblyReviewContainer.Panel2.Controls.Add(this.AssemblyReviewViewerToolStrip);
             this.AssemblyReviewContainer.Size = new System.Drawing.Size(1077, 670);
             this.AssemblyReviewContainer.SplitterDistance = 236;
             this.AssemblyReviewContainer.TabIndex = 1;
@@ -494,58 +497,80 @@ namespace MechanicalSyncApp.UI.Forms
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.DarkGray;
+            this.panel1.Controls.Add(this.AssemblyChangeRequestsGrid);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(837, 621);
+            this.panel1.Size = new System.Drawing.Size(837, 643);
             this.panel1.TabIndex = 5;
             // 
-            // statusStrip1
+            // AssemblyChangeRequestsGrid
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripProgressBar1});
-            this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 648);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(837, 22);
-            this.statusStrip1.TabIndex = 4;
-            this.statusStrip1.Text = "statusStrip1";
+            this.AssemblyChangeRequestsGrid.AllowUserToAddRows = false;
+            this.AssemblyChangeRequestsGrid.AllowUserToDeleteRows = false;
+            this.AssemblyChangeRequestsGrid.AllowUserToResizeRows = false;
+            this.AssemblyChangeRequestsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.AssemblyChangeRequestsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ChangeRequestDescriptionColumn,
+            this.ChangeRequestStatusColumn,
+            this.DesignerCommentsColumn});
+            this.AssemblyChangeRequestsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AssemblyChangeRequestsGrid.Location = new System.Drawing.Point(0, 0);
+            this.AssemblyChangeRequestsGrid.MultiSelect = false;
+            this.AssemblyChangeRequestsGrid.Name = "AssemblyChangeRequestsGrid";
+            this.AssemblyChangeRequestsGrid.ReadOnly = true;
+            this.AssemblyChangeRequestsGrid.RowHeadersVisible = false;
+            this.AssemblyChangeRequestsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.AssemblyChangeRequestsGrid.Size = new System.Drawing.Size(837, 643);
+            this.AssemblyChangeRequestsGrid.TabIndex = 2;
             // 
-            // toolStripStatusLabel1
+            // ChangeRequestDescriptionColumn
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(108, 17);
-            this.toolStripStatusLabel1.Text = "Opening drawing...";
+            this.ChangeRequestDescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ChangeRequestDescriptionColumn.HeaderText = "Description";
+            this.ChangeRequestDescriptionColumn.Name = "ChangeRequestDescriptionColumn";
+            this.ChangeRequestDescriptionColumn.ReadOnly = true;
             // 
-            // toolStripProgressBar1
+            // ChangeRequestStatusColumn
             // 
-            this.toolStripProgressBar1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            this.ChangeRequestStatusColumn.HeaderText = "Status";
+            this.ChangeRequestStatusColumn.Name = "ChangeRequestStatusColumn";
+            this.ChangeRequestStatusColumn.ReadOnly = true;
+            this.ChangeRequestStatusColumn.Width = 150;
             // 
-            // toolStrip2
+            // DesignerCommentsColumn
             // 
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2,
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DesignerCommentsColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DesignerCommentsColumn.HeaderText = "Designer comments";
+            this.DesignerCommentsColumn.Name = "DesignerCommentsColumn";
+            this.DesignerCommentsColumn.ReadOnly = true;
+            this.DesignerCommentsColumn.Width = 250;
+            // 
+            // AssemblyReviewViewerToolStrip
+            // 
+            this.AssemblyReviewViewerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MarkAssemblyAsFixedButton,
             this.toolStripSeparator5,
-            this.toolStripLabel1,
-            this.toolStripLabel2});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(837, 27);
-            this.toolStrip2.TabIndex = 0;
-            this.toolStrip2.Text = "toolStrip2";
+            this.AssemblyReviewStatus,
+            this.AssemblyReviewViewerTitle});
+            this.AssemblyReviewViewerToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.AssemblyReviewViewerToolStrip.Name = "AssemblyReviewViewerToolStrip";
+            this.AssemblyReviewViewerToolStrip.Size = new System.Drawing.Size(837, 27);
+            this.AssemblyReviewViewerToolStrip.TabIndex = 0;
+            this.AssemblyReviewViewerToolStrip.Text = "toolStrip2";
             // 
-            // toolStripButton2
+            // MarkAssemblyAsFixedButton
             // 
-            this.toolStripButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(97, 24);
-            this.toolStripButton2.Text = "Mark as fixed";
-            this.toolStripButton2.ToolTipText = "Refresh local files";
+            this.MarkAssemblyAsFixedButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.MarkAssemblyAsFixedButton.Image = ((System.Drawing.Image)(resources.GetObject("MarkAssemblyAsFixedButton.Image")));
+            this.MarkAssemblyAsFixedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MarkAssemblyAsFixedButton.Name = "MarkAssemblyAsFixedButton";
+            this.MarkAssemblyAsFixedButton.Size = new System.Drawing.Size(97, 24);
+            this.MarkAssemblyAsFixedButton.Text = "Mark as fixed";
+            this.MarkAssemblyAsFixedButton.ToolTipText = "Mark assembly as fixed";
             // 
             // toolStripSeparator5
             // 
@@ -553,20 +578,20 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
             // 
-            // toolStripLabel1
+            // AssemblyReviewStatus
             // 
-            this.toolStripLabel1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripLabel1.AutoSize = false;
-            this.toolStripLabel1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(59, 24);
-            this.toolStripLabel1.Text = "Status";
+            this.AssemblyReviewStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.AssemblyReviewStatus.AutoSize = false;
+            this.AssemblyReviewStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AssemblyReviewStatus.Name = "AssemblyReviewStatus";
+            this.AssemblyReviewStatus.Size = new System.Drawing.Size(59, 24);
+            this.AssemblyReviewStatus.Text = "Status";
             // 
-            // toolStripLabel2
+            // AssemblyReviewViewerTitle
             // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(59, 24);
-            this.toolStripLabel2.Text = "Loading...";
+            this.AssemblyReviewViewerTitle.Name = "AssemblyReviewViewerTitle";
+            this.AssemblyReviewViewerTitle.Size = new System.Drawing.Size(59, 24);
+            this.AssemblyReviewViewerTitle.Text = "Loading...";
             // 
             // DrawingReviewPage
             // 
@@ -685,7 +710,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.MarkDrawingAsFixedButton.Name = "MarkDrawingAsFixedButton";
             this.MarkDrawingAsFixedButton.Size = new System.Drawing.Size(97, 24);
             this.MarkDrawingAsFixedButton.Text = "Mark as fixed";
-            this.MarkDrawingAsFixedButton.ToolTipText = "Refresh local files";
+            this.MarkDrawingAsFixedButton.ToolTipText = "Mark drawing as fixed";
             // 
             // toolStripSeparator2
             // 
@@ -870,10 +895,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.AssemblyReviewContainer.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.AssemblyChangeRequestsGrid)).EndInit();
+            this.AssemblyReviewViewerToolStrip.ResumeLayout(false);
+            this.AssemblyReviewViewerToolStrip.PerformLayout();
             this.DrawingReviewPage.ResumeLayout(false);
             this.DrawingReviewContainer.Panel1.ResumeLayout(false);
             this.DrawingReviewContainer.Panel1.PerformLayout();
@@ -958,13 +983,14 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStrip AssemblyReviewViewerToolStrip;
+        private System.Windows.Forms.ToolStripButton MarkAssemblyAsFixedButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripLabel AssemblyReviewStatus;
+        private System.Windows.Forms.ToolStripLabel AssemblyReviewViewerTitle;
+        private System.Windows.Forms.DataGridView AssemblyChangeRequestsGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestDescriptionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestStatusColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DesignerCommentsColumn;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
-using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using Serilog;
@@ -17,6 +16,7 @@ namespace MechanicalSyncApp.UI.Forms
         private IVersionSynchronizer synchronizer;
         private WorkspaceTreeView workspaceTreeView;
         private VersionSynchronizerUI synchronizerUI;
+
 
         private bool isClosingDueToFatalException = false;
         private bool isClosingDueToLogout = false;
@@ -116,6 +116,11 @@ namespace MechanicalSyncApp.UI.Forms
                 DrawingReviewerTitle = DrawingReviewerTitle,
                 MarkDrawingAsFixedButton = MarkDrawingAsFixedButton,
                 ArchiveVersionButton = ArchiveVersionButton,
+                AssemblyChangeRequestGrid = AssemblyChangeRequestsGrid,
+                AssemblyReviewViewerToolStrip = AssemblyReviewViewerToolStrip,
+                AssemblyReviewStatus = AssemblyReviewStatus,
+                MarkAssemblyAsFixedButton = MarkAssemblyAsFixedButton,
+                AssemblyReviewViewerTitle = AssemblyReviewViewerTitle,
             };
 
             // create a new version synchronizer

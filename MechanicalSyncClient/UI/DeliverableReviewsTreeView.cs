@@ -13,18 +13,18 @@ using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
 
 namespace MechanicalSyncApp.UI
 {
-    public class OpenDrawingForViewingEventArgs : EventArgs
+    public class OpenReviewTargetForViewingEventArgs : EventArgs
     {
         public Review Review { get; private set; }
         public ReviewTarget ReviewTarget { get; private set; }
 
-        public FileMetadata DrawingMetadata { get; set; }
+        public FileMetadata Metadata { get; set; }
 
-        public OpenDrawingForViewingEventArgs(Review review, ReviewTarget reviewTarget, FileMetadata drawingMetadata)
+        public OpenReviewTargetForViewingEventArgs(Review review, ReviewTarget reviewTarget, FileMetadata metadata)
         {
             Review = review ?? throw new ArgumentNullException(nameof(review));
             ReviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
-            DrawingMetadata = drawingMetadata ?? throw new ArgumentNullException(nameof(drawingMetadata));
+            Metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
         }
     }
 
@@ -36,7 +36,7 @@ namespace MechanicalSyncApp.UI
 
     public class DeliverableReviewsTreeView : IDisposable
     {
-        public event EventHandler<OpenDrawingForViewingEventArgs> OpenReviewForViewing;
+        public event EventHandler<OpenReviewTargetForViewingEventArgs> OpenReviewForViewing;
 
         public IMechSyncServiceClient MechSyncService { get; private set; }
         public IAuthenticationServiceClient AuthService { get; private set; }
@@ -154,7 +154,7 @@ namespace MechanicalSyncApp.UI
                 var reviewTargetMetadata = await GetReviewTargetDetailsAsync(reviewTarget.TargetId);
 
                 OpenReviewForViewing?.Invoke(sender,
-                    new OpenDrawingForViewingEventArgs(review, reviewTarget, reviewTargetMetadata)
+                    new OpenReviewTargetForViewingEventArgs(review, reviewTarget, reviewTargetMetadata)
                 );
             }
         }

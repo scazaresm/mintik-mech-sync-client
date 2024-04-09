@@ -55,6 +55,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public ReviewTarget CurrentDrawingReviewTarget { get; set; }
 
+        public Review CurrentAssemblyReview { get; set; }
+
+        public ReviewTarget CurrentAssemblyReviewTarget { get; set; }
+
         public string FileExtensionFilter { get; private set; } = "*.sldasm | *.sldprt | *.slddrw";
 
         public VersionSynchronizer(LocalVersion version, 
@@ -148,10 +152,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await new TransferOwnershipCommand(this, logger).RunAsync();
         }
 
-        public async Task OpenDrawingForViewingAsync(OpenDrawingForViewingEventArgs e)
+        public async Task OpenDrawingForViewingAsync(OpenReviewTargetForViewingEventArgs e)
         {
             await new OpenDrawingForViewingCommand(this, e, logger).RunAsync();
         }
+
+        public async Task OpenAssemblyForViewingAsync(OpenReviewTargetForViewingEventArgs e)
+        {
+            await new OpenAssyReviewForViewingCommand(this, e, logger).RunAsync();
+        }
+
 
         #endregion
 
@@ -163,6 +173,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.InitializeLocalFileViewer(Version, ChangeMonitor);
             UI.InitializeDrawingReviews(Version);
             UI.InitializeAssemblyReviews(Version);
+
+            UI.VersionSynchronizerTabs.SelectedIndex = 0;
 
             UI.LocalFileViewer.AttachListView(UI.FileViewerListView);
             UI.FileViewerListView.SetDoubleBuffered();
@@ -188,6 +200,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
             UI.VersionSynchronizerTabs.SelectedIndex = 0;
             UI.DrawingReviewsExplorer.OpenReviewForViewing += DrawingReviewsExplorer_OpenDrawingForViewing;
+            UI.AssemblyReviewsExplorer.OpenReviewForViewing += AssemblyReviewsExplorer_OpenAssemblyForViewing;
 
             UI.RefreshDrawingExplorerButton.Click += RefreshDrawingExplorerButton_Click;
 
@@ -199,14 +212,20 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         }
 
 
+
         private async void MarkDrawingAsFixedButton_Click(object sender, EventArgs e)
         {
             await new MarkDrawingAsFixedCommand(this).RunAsync();
         }
 
-        private async void DrawingReviewsExplorer_OpenDrawingForViewing(object sender, OpenDrawingForViewingEventArgs e)
+        private async void DrawingReviewsExplorer_OpenDrawingForViewing(object sender, OpenReviewTargetForViewingEventArgs e)
         {
             await OpenDrawingForViewingAsync(e);
+        }
+       
+        private async void AssemblyReviewsExplorer_OpenAssemblyForViewing(object sender, OpenReviewTargetForViewingEventArgs e)
+        {
+            await OpenAssemblyForViewingAsync(e);
         }
 
         public void UpdateUI()
@@ -297,6 +316,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.RefreshDrawingExplorerButton.Click -= RefreshDrawingExplorerButton_Click;
             UI.MarkDrawingAsFixedButton.Click -= MarkDrawingAsFixedButton_Click;
             UI.ArchiveVersionButton.Click -= ArchiveVersionButton_Click;
+            UI.AssemblyReviewsExplorer.OpenReviewForViewing -= AssemblyReviewsExplorer_OpenAssemblyForViewing;
         }
 
         protected virtual void Dispose(bool disposing)

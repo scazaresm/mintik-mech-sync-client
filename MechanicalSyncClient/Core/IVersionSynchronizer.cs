@@ -41,6 +41,8 @@ namespace MechanicalSyncApp.Core
         ConcurrentDictionary<string, FilePublishing> PublishingIndexByPartNumber { get; }
         string BasePublishingDirectory { get; set; }
         string RelativePublishingSummaryDirectory { get; set; }
+        ReviewTarget CurrentAssemblyReviewTarget { get; set; }
+        Review CurrentAssemblyReview { get; set; }
 
         // State related methods
         VersionSynchronizerState GetState();
@@ -55,7 +57,7 @@ namespace MechanicalSyncApp.Core
         Task CloseVersionAsync();
         Task PublishDeliverablesAsync();
         Task TransferOwnershipAsync();
-        Task OpenDrawingForViewingAsync(OpenDrawingForViewingEventArgs e);
+        Task OpenDrawingForViewingAsync(OpenReviewTargetForViewingEventArgs e);
 
         // UI related methods
         void InitializeUI();
