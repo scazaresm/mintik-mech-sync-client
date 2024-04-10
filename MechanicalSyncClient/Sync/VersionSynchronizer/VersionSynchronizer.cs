@@ -343,12 +343,17 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.TransferOwnershipButton.Click -= TransferOwnershipButton_Click;
             UI.CopyLocalCopyPathMenuItem.Click -= CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click -= OpenLocalCopyFolderMenuItem_Click;
-            UI.DrawingReviewsExplorer.OpenReviewForViewing -= DrawingReviewsExplorer_OpenDrawingForViewing;
+
+            if (UI.DrawingReviewsExplorer != null) 
+                UI.DrawingReviewsExplorer.OpenReviewForViewing -= DrawingReviewsExplorer_OpenDrawingForViewing;
+                
+            if (UI.AssemblyReviewsExplorer != null)
+                UI.AssemblyReviewsExplorer.OpenReviewForViewing -= AssemblyReviewsExplorer_OpenAssemblyForViewing;
+
             UI.RefreshDrawingExplorerButton.Click -= RefreshDrawingExplorerButton_Click;
             UI.MarkDrawingAsFixedButton.Click -= MarkDrawingAsFixedButton_Click;
             UI.MarkAssemblyAsFixedButton.Click -= MarkAssemblyAsFixedButton_Click;
             UI.ArchiveVersionButton.Click -= ArchiveVersionButton_Click;
-            UI.AssemblyReviewsExplorer.OpenReviewForViewing -= AssemblyReviewsExplorer_OpenAssemblyForViewing;
             UI.AssemblyChangeRequestGrid.DoubleClick -= AssemblyChangeRequestGrid_DoubleClick;
         }
 
