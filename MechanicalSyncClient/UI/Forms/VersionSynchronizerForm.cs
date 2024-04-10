@@ -333,5 +333,10 @@ namespace MechanicalSyncApp.UI.Forms
                 await workspaceTreeView.Refresh();
             }
         }
+
+        private void aboutMechanicalSyncToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new AboutDialog().ShowDialog();
+        }
     }
 }

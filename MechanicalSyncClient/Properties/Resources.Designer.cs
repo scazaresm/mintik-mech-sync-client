@@ -303,6 +303,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap hecho_en_mexico_logo_png_transparent {
+            get {
+                object obj = ResourceManager.GetObject("hecho-en-mexico-logo-png-transparent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap image_placeholder_350x350 {
             get {
                 object obj = ResourceManager.GetObject("image-placeholder-350x350", resourceCulture);

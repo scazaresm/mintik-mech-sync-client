@@ -369,6 +369,12 @@
     <Compile Include="UI\Forms\DesignFilesAnalysisDialog.Designer.cs">
       <DependentUpon>DesignFilesAnalysisDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Forms\AboutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\AboutDialog.Designer.cs">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\PublishingBlockersForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -602,6 +608,9 @@
     <EmbeddedResource Include="UI\Forms\DownloadWorkingCopyDialog.resx">
       <DependentUpon>DownloadWorkingCopyDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\AboutDialog.resx">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ManagementConsoleForm.resx">
       <DependentUpon>ManagementConsoleForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -799,6 +808,7 @@
     <None Include="Resources\paste-24.png" />
     <None Include="Resources\image-placeholder-350x350.png" />
     <None Include="Resources\archive-modern-48.png" />
+    <None Include="Resources\hecho-en-mexico-logo-png-transparent.png" />
     <Content Include="sync-icon.ico" />
   </ItemGroup>
   <ItemGroup>

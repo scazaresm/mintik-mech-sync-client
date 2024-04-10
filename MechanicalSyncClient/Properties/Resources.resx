@@ -139,6 +139,9 @@
   <data name="rotate-icon-32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\rotate-icon-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="close-16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\close-16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="paper-plane-48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\paper-plane-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -190,6 +193,9 @@
   <data name="error-icon-48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\error-icon-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="archive_modern_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\archive-modern-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="open-folder-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\open-folder-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -202,8 +208,8 @@
   <data name="pencil-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pencil-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="reject-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\reject-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="image-placeholder-350x350" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\image-placeholder-350x350.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="mail-arrow-up-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mail-arrow-up-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -268,16 +274,13 @@
   <data name="error-alert-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\error-alert-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="close-16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\close-16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="reject-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reject-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="archive-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\archive-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="image-placeholder-350x350" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\image-placeholder-350x350.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="archive_modern_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\archive-modern-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="hecho-en-mexico-logo-png-transparent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hecho-en-mexico-logo-png-transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
