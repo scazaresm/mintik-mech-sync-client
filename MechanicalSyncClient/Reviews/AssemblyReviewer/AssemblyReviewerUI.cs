@@ -74,7 +74,8 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
             row.CreateCells(
                 ChangeRequestsGrid,
                 changeRequest.ChangeDescription,
-                changeRequest.Status
+                changeRequest.Status,
+                changeRequest.DesignerComments
             );
             row.Tag = changeRequest;
 

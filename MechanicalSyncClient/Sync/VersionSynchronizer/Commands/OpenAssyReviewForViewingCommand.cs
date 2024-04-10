@@ -42,6 +42,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             try
             {
                 ui.AssemblyReviewsSplit.Panel2Collapsed = false;
+                ui.MarkAssemblyAsFixedButton.Visible = reviewTarget.Status == ReviewTargetStatus.Rejected.ToString();
 
                 Synchronizer.CurrentAssemblyReview = review;
                 Synchronizer.CurrentAssemblyReviewTarget = reviewTarget;

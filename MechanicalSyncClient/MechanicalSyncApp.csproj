@@ -333,7 +333,7 @@
     <Compile Include="Sync\VersionSynchronizer\Commands\MarkAssemblyAsFixedCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\MarkDrawingAsFixedCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenAssyReviewForViewingCommand.cs" />
-    <Compile Include="Sync\VersionSynchronizer\Commands\UpdateChangeRequestCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\UpdateAssemblyChangeRequestCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenDrawingForViewingCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\PublishDeliverablesCommand.cs" />

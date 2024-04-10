@@ -22,6 +22,7 @@ namespace MechanicalSyncApp.UI.Forms
         private readonly IAuthenticationServiceClient authenticationService = AuthenticationServiceClient.Instance;
 
         private readonly string WORKSPACE_DIRECTORY = "WORKSPACE_DIRECTORY";
+        private readonly string PUBLISHING_DIRECTORY = "PUBLISHING_DIRECTORY";
         private readonly string EDRAWINGS_VIEWER_CLSID = "EDRAWINGS_VIEWER_CLSID";
         private readonly string SOLIDWORKS_EXE_PATH = "SOLIDWORKS_EXE_PATH";
 
@@ -96,6 +97,7 @@ namespace MechanicalSyncApp.UI.Forms
             try
             {
                 WorkspaceDirectory.Text = ConfigurationManager.AppSettings[WORKSPACE_DIRECTORY] ?? string.Empty;
+                PublishingDirectory.Text = ConfigurationManager.AppSettings[PUBLISHING_DIRECTORY] ?? string.Empty;
                 EdrawingsViewerClsid.Text = ConfigurationManager.AppSettings[EDRAWINGS_VIEWER_CLSID] ?? string.Empty;
                 SolidWorksExePath.Text = ConfigurationManager.AppSettings[SOLIDWORKS_EXE_PATH] ?? string.Empty;
                 ApplySyncChanges.Enabled = false;
@@ -114,6 +116,7 @@ namespace MechanicalSyncApp.UI.Forms
                 SettingsUtils.UpsertSetting(WORKSPACE_DIRECTORY, WorkspaceDirectory.Text);
                 SettingsUtils.UpsertSetting(EDRAWINGS_VIEWER_CLSID, EdrawingsViewerClsid.Text);
                 SettingsUtils.UpsertSetting(SOLIDWORKS_EXE_PATH, SolidWorksExePath.Text);
+                SettingsUtils.UpsertSetting(PUBLISHING_DIRECTORY, PublishingDirectory.Text);
                 ConfigurationManager.RefreshSection("appSettings");
                 ApplySyncChanges.Enabled = false;
             }
@@ -129,6 +132,7 @@ namespace MechanicalSyncApp.UI.Forms
         {
             return 
                 Directory.Exists(WorkspaceDirectory.Text) && 
+                Directory.Exists(PublishingDirectory.Text) &&
                 EdrawingsViewerClsid.Text != "" &&
                 File.Exists(SolidWorksExePath.Text);
         }
@@ -181,6 +185,11 @@ namespace MechanicalSyncApp.UI.Forms
             ApplySyncChanges.Enabled = ValidateSyncSettings();
         }
 
+        private void PublishingDirectory_TextChanged(object sender, EventArgs e)
+        {
+            ApplySyncChanges.Enabled = ValidateSyncSettings();
+        }
+
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (Tabs.SelectedIndex)
@@ -194,5 +203,19 @@ namespace MechanicalSyncApp.UI.Forms
             }
         }
 
+        private void BrowsePublishingDirectory_Click(object sender, EventArgs e)
+        {
+            using (var folderBrowserDialog = new FolderBrowserDialog())
+            {
+                folderBrowserDialog.SelectedPath = "C:\\";
+
+                DialogResult result = folderBrowserDialog.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    string selectedFolderPath = folderBrowserDialog.SelectedPath;
+                    PublishingDirectory.Text = selectedFolderPath;
+                }
+            }
+        }
     }
 }

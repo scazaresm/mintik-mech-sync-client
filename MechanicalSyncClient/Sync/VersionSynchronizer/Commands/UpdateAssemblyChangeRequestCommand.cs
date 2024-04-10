@@ -1,25 +1,22 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.UI;
 using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
-    public class UpdateChangeRequestCommand : IVersionSynchronizerCommandAsync
+    public class UpdateAssemblyChangeRequestCommand : IVersionSynchronizerCommandAsync
     {
         private readonly ChangeRequest changeRequest;
         private readonly ILogger logger;
 
         public IVersionSynchronizer Synchronizer { get; }
 
-        public UpdateChangeRequestCommand(
+        public UpdateAssemblyChangeRequestCommand(
             IVersionSynchronizer synchronizer, 
             ChangeRequest changeRequest,
             ILogger logger)
@@ -33,14 +30,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         {
             try
             {
-                // show change request details and accept updates
+                // show change request details and accept changes only if review target is rejected
+                bool isReadOnly = Synchronizer.CurrentAssemblyReviewTarget.Status != "Rejected";
+
                 var dialog = new UpdateChangeRequestDialog(changeRequest, Synchronizer, logger)
                 {
-                    ReadOnly = Synchronizer.CurrentAssemblyReviewTarget.Status != "Rejected"
+                    ReadOnly = isReadOnly
                 };
                 var result = dialog.ShowDialog();
 
-                if (result != DialogResult.OK) return;
+                if (isReadOnly || result != DialogResult.OK) return;
 
                 // update the change request in db
                 await Synchronizer.SyncServiceClient.UpdateChangeRequestAsync(changeRequest.Id, new ChangeRequestUpdateableFields()

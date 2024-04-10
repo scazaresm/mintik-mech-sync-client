@@ -29,8 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssemblyReviewerForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.DesignerLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,8 +44,6 @@
             this.ChangeRequestsTab = new System.Windows.Forms.TabPage();
             this.ChangeRequestSplit = new System.Windows.Forms.SplitContainer();
             this.ChangeRequestsGrid = new System.Windows.Forms.DataGridView();
-            this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ChangeRequestInput = new System.Windows.Forms.TextBox();
             this.TabIcons = new System.Windows.Forms.ImageList(this.components);
             this.ReviewToolStrip = new System.Windows.Forms.ToolStrip();
@@ -57,6 +56,9 @@
             this.MarkupStatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.TreeViewIcons = new System.Windows.Forms.ImageList(this.components);
+            this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DesignerComments = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
             this.MainSplit.Panel1.SuspendLayout();
@@ -211,7 +213,8 @@
             this.ChangeRequestsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ChangeRequestsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ChangeRequestDescriptionColumn,
-            this.ChangeRequestStatusColumn});
+            this.ChangeRequestStatusColumn,
+            this.DesignerComments});
             this.ChangeRequestsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ChangeRequestsGrid.Location = new System.Drawing.Point(0, 0);
             this.ChangeRequestsGrid.MultiSelect = false;
@@ -221,22 +224,6 @@
             this.ChangeRequestsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ChangeRequestsGrid.Size = new System.Drawing.Size(682, 291);
             this.ChangeRequestsGrid.TabIndex = 1;
-            // 
-            // ChangeRequestDescriptionColumn
-            // 
-            this.ChangeRequestDescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle1;
-            this.ChangeRequestDescriptionColumn.HeaderText = "Description";
-            this.ChangeRequestDescriptionColumn.Name = "ChangeRequestDescriptionColumn";
-            this.ChangeRequestDescriptionColumn.ReadOnly = true;
-            // 
-            // ChangeRequestStatusColumn
-            // 
-            this.ChangeRequestStatusColumn.HeaderText = "Status";
-            this.ChangeRequestStatusColumn.Name = "ChangeRequestStatusColumn";
-            this.ChangeRequestStatusColumn.ReadOnly = true;
-            this.ChangeRequestStatusColumn.Width = 150;
             // 
             // ChangeRequestInput
             // 
@@ -347,6 +334,32 @@
             this.TreeViewIcons.Images.SetKeyName(3, "file-nok-24.png");
             this.TreeViewIcons.Images.SetKeyName(4, "tools-icon-24.png");
             // 
+            // ChangeRequestDescriptionColumn
+            // 
+            this.ChangeRequestDescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ChangeRequestDescriptionColumn.HeaderText = "Description";
+            this.ChangeRequestDescriptionColumn.Name = "ChangeRequestDescriptionColumn";
+            this.ChangeRequestDescriptionColumn.ReadOnly = true;
+            // 
+            // ChangeRequestStatusColumn
+            // 
+            this.ChangeRequestStatusColumn.HeaderText = "Status";
+            this.ChangeRequestStatusColumn.Name = "ChangeRequestStatusColumn";
+            this.ChangeRequestStatusColumn.ReadOnly = true;
+            this.ChangeRequestStatusColumn.Width = 150;
+            // 
+            // DesignerComments
+            // 
+            this.DesignerComments.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DesignerComments.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DesignerComments.HeaderText = "Designer comments";
+            this.DesignerComments.Name = "DesignerComments";
+            this.DesignerComments.ReadOnly = true;
+            this.DesignerComments.Width = 250;
+            // 
             // AssemblyReviewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -414,5 +427,6 @@
         private System.Windows.Forms.ImageList TabIcons;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestDescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestStatusColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DesignerComments;
     }
 }

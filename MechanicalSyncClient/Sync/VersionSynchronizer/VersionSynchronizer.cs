@@ -10,6 +10,7 @@ using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -42,7 +43,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public string SnapshotDirectory { get; private set; } = Path.Combine(Path.GetTempPath(), "sync-snapshot");
 
-        public string BasePublishingDirectory { get; set; } = @"Z:\MANUFACTURING\";
+        public string BasePublishingDirectory { get; set; } = ConfigurationManager.AppSettings["PUBLISHING_DIRECTORY"];
 
         public string RelativePublishingSummaryDirectory { get; set; } = @".publishing\pending";
 
@@ -166,7 +167,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public async Task OpenChangeRequestDetailsAsync(ChangeRequest changeRequest)
         {
-            await new UpdateChangeRequestCommand(this, changeRequest, logger).RunAsync();
+            await new UpdateAssemblyChangeRequestCommand(this, changeRequest, logger).RunAsync();
         }
 
         #endregion
