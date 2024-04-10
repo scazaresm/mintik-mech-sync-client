@@ -62,5 +62,6 @@ namespace MechanicalSyncApp.Core
         // UI related methods
         void InitializeUI();
         void UpdateUI();
+        Task OpenAssemblyForViewingAsync(OpenReviewTargetForViewingEventArgs e);
     }
 }

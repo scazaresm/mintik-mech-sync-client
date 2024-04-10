@@ -71,11 +71,11 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.ArchiveVersionButton = new System.Windows.Forms.ToolStripButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.AssemblyReviewContainer = new System.Windows.Forms.SplitContainer();
+            this.AssemblyReviewsSplit = new System.Windows.Forms.SplitContainer();
             this.AssemblyReviewsTreeView = new System.Windows.Forms.TreeView();
             this.DrawingReviewExplorerIcons = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.RefreshAssemblyExplorerButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.AssemblyChangeRequestsGrid = new System.Windows.Forms.DataGridView();
             this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -87,7 +87,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.AssemblyReviewStatus = new System.Windows.Forms.ToolStripLabel();
             this.AssemblyReviewViewerTitle = new System.Windows.Forms.ToolStripLabel();
             this.DrawingReviewPage = new System.Windows.Forms.TabPage();
-            this.DrawingReviewContainer = new System.Windows.Forms.SplitContainer();
+            this.DrawingReviewsSplit = new System.Windows.Forms.SplitContainer();
             this.DrawingReviewsTreeView = new System.Windows.Forms.TreeView();
             this.DrawingReviewExplorerToolStrip = new System.Windows.Forms.ToolStrip();
             this.RefreshDrawingExplorerButton = new System.Windows.Forms.ToolStripButton();
@@ -124,19 +124,19 @@ namespace MechanicalSyncApp.UI.Forms
             this.DesignFilesStatusStrip.SuspendLayout();
             this.SynchronizerToolStrip.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AssemblyReviewContainer)).BeginInit();
-            this.AssemblyReviewContainer.Panel1.SuspendLayout();
-            this.AssemblyReviewContainer.Panel2.SuspendLayout();
-            this.AssemblyReviewContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AssemblyReviewsSplit)).BeginInit();
+            this.AssemblyReviewsSplit.Panel1.SuspendLayout();
+            this.AssemblyReviewsSplit.Panel2.SuspendLayout();
+            this.AssemblyReviewsSplit.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AssemblyChangeRequestsGrid)).BeginInit();
             this.AssemblyReviewViewerToolStrip.SuspendLayout();
             this.DrawingReviewPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewContainer)).BeginInit();
-            this.DrawingReviewContainer.Panel1.SuspendLayout();
-            this.DrawingReviewContainer.Panel2.SuspendLayout();
-            this.DrawingReviewContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewsSplit)).BeginInit();
+            this.DrawingReviewsSplit.Panel1.SuspendLayout();
+            this.DrawingReviewsSplit.Panel2.SuspendLayout();
+            this.DrawingReviewsSplit.SuspendLayout();
             this.DrawingReviewExplorerToolStrip.SuspendLayout();
             this.MarkupStatusStrip.SuspendLayout();
             this.DrawingViewerToolStrip.SuspendLayout();
@@ -424,7 +424,7 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.AssemblyReviewContainer);
+            this.tabPage3.Controls.Add(this.AssemblyReviewsSplit);
             this.tabPage3.ImageIndex = 2;
             this.tabPage3.Location = new System.Drawing.Point(4, 31);
             this.tabPage3.Name = "tabPage3";
@@ -433,25 +433,25 @@ namespace MechanicalSyncApp.UI.Forms
             this.tabPage3.Text = "3D Review";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // AssemblyReviewContainer
+            // AssemblyReviewsSplit
             // 
-            this.AssemblyReviewContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AssemblyReviewContainer.Location = new System.Drawing.Point(0, 0);
-            this.AssemblyReviewContainer.Name = "AssemblyReviewContainer";
+            this.AssemblyReviewsSplit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AssemblyReviewsSplit.Location = new System.Drawing.Point(0, 0);
+            this.AssemblyReviewsSplit.Name = "AssemblyReviewsSplit";
             // 
-            // AssemblyReviewContainer.Panel1
+            // AssemblyReviewsSplit.Panel1
             // 
-            this.AssemblyReviewContainer.Panel1.Controls.Add(this.AssemblyReviewsTreeView);
-            this.AssemblyReviewContainer.Panel1.Controls.Add(this.toolStrip1);
+            this.AssemblyReviewsSplit.Panel1.Controls.Add(this.AssemblyReviewsTreeView);
+            this.AssemblyReviewsSplit.Panel1.Controls.Add(this.toolStrip1);
             // 
-            // AssemblyReviewContainer.Panel2
+            // AssemblyReviewsSplit.Panel2
             // 
-            this.AssemblyReviewContainer.Panel2.BackColor = System.Drawing.Color.Transparent;
-            this.AssemblyReviewContainer.Panel2.Controls.Add(this.panel1);
-            this.AssemblyReviewContainer.Panel2.Controls.Add(this.AssemblyReviewViewerToolStrip);
-            this.AssemblyReviewContainer.Size = new System.Drawing.Size(1077, 670);
-            this.AssemblyReviewContainer.SplitterDistance = 236;
-            this.AssemblyReviewContainer.TabIndex = 1;
+            this.AssemblyReviewsSplit.Panel2.BackColor = System.Drawing.Color.Transparent;
+            this.AssemblyReviewsSplit.Panel2.Controls.Add(this.panel1);
+            this.AssemblyReviewsSplit.Panel2.Controls.Add(this.AssemblyReviewViewerToolStrip);
+            this.AssemblyReviewsSplit.Size = new System.Drawing.Size(1077, 670);
+            this.AssemblyReviewsSplit.SplitterDistance = 236;
+            this.AssemblyReviewsSplit.TabIndex = 1;
             // 
             // AssemblyReviewsTreeView
             // 
@@ -477,22 +477,22 @@ namespace MechanicalSyncApp.UI.Forms
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1});
+            this.RefreshAssemblyExplorerButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(236, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // RefreshAssemblyExplorerButton
             // 
-            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton1.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(66, 22);
-            this.toolStripButton1.Text = "Refresh";
-            this.toolStripButton1.ToolTipText = "Refresh local files";
+            this.RefreshAssemblyExplorerButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.RefreshAssemblyExplorerButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
+            this.RefreshAssemblyExplorerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshAssemblyExplorerButton.Name = "RefreshAssemblyExplorerButton";
+            this.RefreshAssemblyExplorerButton.Size = new System.Drawing.Size(66, 22);
+            this.RefreshAssemblyExplorerButton.Text = "Refresh";
+            this.RefreshAssemblyExplorerButton.ToolTipText = "Refresh local files";
             // 
             // panel1
             // 
@@ -595,7 +595,7 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // DrawingReviewPage
             // 
-            this.DrawingReviewPage.Controls.Add(this.DrawingReviewContainer);
+            this.DrawingReviewPage.Controls.Add(this.DrawingReviewsSplit);
             this.DrawingReviewPage.ImageIndex = 3;
             this.DrawingReviewPage.Location = new System.Drawing.Point(4, 31);
             this.DrawingReviewPage.Name = "DrawingReviewPage";
@@ -604,26 +604,26 @@ namespace MechanicalSyncApp.UI.Forms
             this.DrawingReviewPage.Text = "2D review";
             this.DrawingReviewPage.UseVisualStyleBackColor = true;
             // 
-            // DrawingReviewContainer
+            // DrawingReviewsSplit
             // 
-            this.DrawingReviewContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DrawingReviewContainer.Location = new System.Drawing.Point(0, 0);
-            this.DrawingReviewContainer.Name = "DrawingReviewContainer";
+            this.DrawingReviewsSplit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DrawingReviewsSplit.Location = new System.Drawing.Point(0, 0);
+            this.DrawingReviewsSplit.Name = "DrawingReviewsSplit";
             // 
-            // DrawingReviewContainer.Panel1
+            // DrawingReviewsSplit.Panel1
             // 
-            this.DrawingReviewContainer.Panel1.Controls.Add(this.DrawingReviewsTreeView);
-            this.DrawingReviewContainer.Panel1.Controls.Add(this.DrawingReviewExplorerToolStrip);
+            this.DrawingReviewsSplit.Panel1.Controls.Add(this.DrawingReviewsTreeView);
+            this.DrawingReviewsSplit.Panel1.Controls.Add(this.DrawingReviewExplorerToolStrip);
             // 
-            // DrawingReviewContainer.Panel2
+            // DrawingReviewsSplit.Panel2
             // 
-            this.DrawingReviewContainer.Panel2.BackColor = System.Drawing.Color.Transparent;
-            this.DrawingReviewContainer.Panel2.Controls.Add(this.DrawingReviewerPanel);
-            this.DrawingReviewContainer.Panel2.Controls.Add(this.MarkupStatusStrip);
-            this.DrawingReviewContainer.Panel2.Controls.Add(this.DrawingViewerToolStrip);
-            this.DrawingReviewContainer.Size = new System.Drawing.Size(1077, 670);
-            this.DrawingReviewContainer.SplitterDistance = 236;
-            this.DrawingReviewContainer.TabIndex = 0;
+            this.DrawingReviewsSplit.Panel2.BackColor = System.Drawing.Color.Transparent;
+            this.DrawingReviewsSplit.Panel2.Controls.Add(this.DrawingReviewerPanel);
+            this.DrawingReviewsSplit.Panel2.Controls.Add(this.MarkupStatusStrip);
+            this.DrawingReviewsSplit.Panel2.Controls.Add(this.DrawingViewerToolStrip);
+            this.DrawingReviewsSplit.Size = new System.Drawing.Size(1077, 670);
+            this.DrawingReviewsSplit.SplitterDistance = 236;
+            this.DrawingReviewsSplit.TabIndex = 0;
             // 
             // DrawingReviewsTreeView
             // 
@@ -887,12 +887,12 @@ namespace MechanicalSyncApp.UI.Forms
             this.SynchronizerToolStrip.ResumeLayout(false);
             this.SynchronizerToolStrip.PerformLayout();
             this.tabPage3.ResumeLayout(false);
-            this.AssemblyReviewContainer.Panel1.ResumeLayout(false);
-            this.AssemblyReviewContainer.Panel1.PerformLayout();
-            this.AssemblyReviewContainer.Panel2.ResumeLayout(false);
-            this.AssemblyReviewContainer.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AssemblyReviewContainer)).EndInit();
-            this.AssemblyReviewContainer.ResumeLayout(false);
+            this.AssemblyReviewsSplit.Panel1.ResumeLayout(false);
+            this.AssemblyReviewsSplit.Panel1.PerformLayout();
+            this.AssemblyReviewsSplit.Panel2.ResumeLayout(false);
+            this.AssemblyReviewsSplit.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AssemblyReviewsSplit)).EndInit();
+            this.AssemblyReviewsSplit.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -900,12 +900,12 @@ namespace MechanicalSyncApp.UI.Forms
             this.AssemblyReviewViewerToolStrip.ResumeLayout(false);
             this.AssemblyReviewViewerToolStrip.PerformLayout();
             this.DrawingReviewPage.ResumeLayout(false);
-            this.DrawingReviewContainer.Panel1.ResumeLayout(false);
-            this.DrawingReviewContainer.Panel1.PerformLayout();
-            this.DrawingReviewContainer.Panel2.ResumeLayout(false);
-            this.DrawingReviewContainer.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewContainer)).EndInit();
-            this.DrawingReviewContainer.ResumeLayout(false);
+            this.DrawingReviewsSplit.Panel1.ResumeLayout(false);
+            this.DrawingReviewsSplit.Panel1.PerformLayout();
+            this.DrawingReviewsSplit.Panel2.ResumeLayout(false);
+            this.DrawingReviewsSplit.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewsSplit)).EndInit();
+            this.DrawingReviewsSplit.ResumeLayout(false);
             this.DrawingReviewExplorerToolStrip.ResumeLayout(false);
             this.DrawingReviewExplorerToolStrip.PerformLayout();
             this.MarkupStatusStrip.ResumeLayout(false);
@@ -957,7 +957,7 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem NewVersionButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
-        private System.Windows.Forms.SplitContainer DrawingReviewContainer;
+        private System.Windows.Forms.SplitContainer DrawingReviewsSplit;
         private System.Windows.Forms.TreeView DrawingReviewsTreeView;
         private System.Windows.Forms.ImageList WorkspaceIcons;
         private System.Windows.Forms.ToolStripMenuItem LogoutMenuItem;
@@ -978,10 +978,10 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripLabel DrawingReviewerTitle;
         private System.Windows.Forms.ToolStripButton ArchiveVersionButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.SplitContainer AssemblyReviewContainer;
+        private System.Windows.Forms.SplitContainer AssemblyReviewsSplit;
         private System.Windows.Forms.TreeView AssemblyReviewsTreeView;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton RefreshAssemblyExplorerButton;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStrip AssemblyReviewViewerToolStrip;
         private System.Windows.Forms.ToolStripButton MarkAssemblyAsFixedButton;

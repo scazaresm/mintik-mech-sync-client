@@ -36,6 +36,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
             var syncService = Reviewer.Args.SyncServiceClient;
             var isAlreadyReviewed = reviewTarget.Status != ReviewTargetStatus.Pending.ToString() &&
               reviewTarget.Status != ReviewTargetStatus.Reviewing.ToString();
+            var isFixed = reviewTarget.Status == ReviewTargetStatus.Fixed.ToString();
 
             try
             {
@@ -43,9 +44,9 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                 ui.ChangeRequestInput.Enabled = false;
                 ui.ReviewToolStrip.Enabled = false;
                 ui.ChangeRequestsGrid.Enabled = false;
-                ui.ChangeRequestSplit.Panel2Collapsed = isAlreadyReviewed;
-                ui.RejectAssemblyButton.Enabled = !isAlreadyReviewed;
-                ui.ApproveAssemblyButton.Enabled = !isAlreadyReviewed;
+                ui.ChangeRequestSplit.Panel2Collapsed = isAlreadyReviewed && !isFixed;
+                ui.RejectAssemblyButton.Enabled = !isAlreadyReviewed || isFixed;
+                ui.ApproveAssemblyButton.Enabled = !isAlreadyReviewed || isFixed;
                 ui.SetReviewTargetStatusText(reviewTarget.Status);
                 ui.StatusLabel.Text = "Loading assembly...";
 

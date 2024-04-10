@@ -41,8 +41,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             try
             {
+                ui.AssemblyReviewsSplit.Panel2Collapsed = false;
+
                 Synchronizer.CurrentAssemblyReview = review;
                 Synchronizer.CurrentAssemblyReviewTarget = reviewTarget;
+      
 
                 logger.Debug("Preparing UI elements...");
                 ui.SetDeliverableStatusText(ui.AssemblyReviewStatus, reviewTarget.Status);

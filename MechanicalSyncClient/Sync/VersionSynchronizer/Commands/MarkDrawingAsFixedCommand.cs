@@ -20,7 +20,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
         public MarkDrawingAsFixedCommand(IVersionSynchronizer synchronizer)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
-            drawingReview = Synchronizer?.CurrentDrawingReview ?? throw new NullReferenceException(nameof(Synchronizer.CurrentDrawingReviewTarget));
+            drawingReview = Synchronizer?.CurrentDrawingReview ?? throw new NullReferenceException(nameof(Synchronizer.CurrentDrawingReview));
             drawingReviewTarget = Synchronizer?.CurrentDrawingReviewTarget ?? throw new NullReferenceException(nameof(Synchronizer.CurrentDrawingReviewTarget));
         }
 
@@ -42,6 +42,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             Synchronizer.UI.DrawingReviewer.Dispose(); 
             Synchronizer.UI.SetDefaultDrawingReviewControls();
+            Synchronizer.UI.DrawingReviewsSplit.Panel2Collapsed = true;
             await Synchronizer.UI.DrawingReviewsExplorer.Refresh();
         }
     }

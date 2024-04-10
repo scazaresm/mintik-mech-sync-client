@@ -98,6 +98,7 @@ namespace MechanicalSyncApp.UI.Forms
                 SyncRemoteButton = SyncRemoteButton,
                 RefreshLocalFilesButton = RefreshLocalFilesButton,
                 RefreshDrawingExplorerButton = RefreshDrawingExplorerButton,
+                RefreshAssemblyExplorerButton = RefreshAssemblyExplorerButton,
                 CloseVersionButton = CloseVersionButton,
                 PublishDeliverablesButton = PublishDeliverablesButton,
                 TransferOwnershipButton = TransferOwnershipButton,
@@ -108,7 +109,7 @@ namespace MechanicalSyncApp.UI.Forms
                 VersionSynchronizerTabs = VersionSynchronizerTabs,
                 DrawingReviewsTreeView = DrawingReviewsTreeView,
                 AssemblyReviewsTreeView = AssemblyReviewsTreeView,
-                DrawingReviewContainer = DrawingReviewContainer,
+                DrawingReviewContainer = DrawingReviewsSplit,
                 DrawingReviewerPanel = DrawingReviewerPanel,
                 DrawingReviewerProgress = DrawingReviewerProgress,
                 DrawingReviewerStatusText = DrawingReviewerStatusText,
@@ -121,6 +122,8 @@ namespace MechanicalSyncApp.UI.Forms
                 AssemblyReviewStatus = AssemblyReviewStatus,
                 MarkAssemblyAsFixedButton = MarkAssemblyAsFixedButton,
                 AssemblyReviewViewerTitle = AssemblyReviewViewerTitle,
+                AssemblyReviewsSplit = AssemblyReviewsSplit,
+                DrawingReviewsSplit = DrawingReviewsSplit,
             };
 
             // create a new version synchronizer

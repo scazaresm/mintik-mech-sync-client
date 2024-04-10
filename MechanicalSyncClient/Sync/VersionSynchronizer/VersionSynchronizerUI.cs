@@ -74,6 +74,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public ToolStripButton MarkAssemblyAsFixedButton { get; set; }
 
+        public SplitContainer AssemblyReviewsSplit { get; set; }
+
+        public SplitContainer DrawingReviewsSplit { get; set; }
+
+        public ToolStripButton RefreshAssemblyExplorerButton { get; set; }
 
         #endregion
 
@@ -106,6 +111,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             );
             DrawingReviewsExplorer.AttachTreeView(DrawingReviewsTreeView);
             SetDefaultDrawingReviewControls();
+            DrawingReviewsSplit.Panel2Collapsed = true;
         }
 
         public void InitializeAssemblyReviews(LocalVersion version)
@@ -119,6 +125,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 ReviewTargetType.AssemblyFile
             );
             AssemblyReviewsExplorer.AttachTreeView(AssemblyReviewsTreeView);
+            AssemblyReviewsSplit.Panel2Collapsed = true;
         }
 
         public void SetDefaultDrawingReviewControls()

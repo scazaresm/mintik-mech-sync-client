@@ -52,6 +52,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             var ui = Synchronizer.UI;
             try
             {
+                ui.DrawingReviewsSplit.Panel2Collapsed = false;
+
                 Synchronizer.CurrentDrawingReview = review;
                 Synchronizer.CurrentDrawingReviewTarget = reviewTarget;
 

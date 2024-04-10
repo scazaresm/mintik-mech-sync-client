@@ -15,6 +15,8 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using ToolTip = System.Windows.Forms.ToolTip;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer
 {
@@ -162,6 +164,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await new OpenAssyReviewForViewingCommand(this, e, logger).RunAsync();
         }
 
+        public async Task OpenChangeRequestDetailsAsync(ChangeRequest changeRequest)
+        {
+            await new UpdateChangeRequestCommand(this, changeRequest, logger).RunAsync();
+        }
 
         #endregion
 
@@ -203,15 +209,24 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.AssemblyReviewsExplorer.OpenReviewForViewing += AssemblyReviewsExplorer_OpenAssemblyForViewing;
 
             UI.RefreshDrawingExplorerButton.Click += RefreshDrawingExplorerButton_Click;
+            UI.RefreshAssemblyExplorerButton.Click += RefreshAssemblyExplorerButton_Click;
 
             UI.MarkDrawingAsFixedButton.Click += MarkDrawingAsFixedButton_Click;
+            UI.MarkAssemblyAsFixedButton.Click += MarkAssemblyAsFixedButton_Click;
 
             UI.ArchiveVersionButton.Click += ArchiveVersionButton_Click;
+
+            UI.AssemblyChangeRequestGrid.DoubleClick += AssemblyChangeRequestGrid_DoubleClick;
 
             UI.ShowVersionExplorer();
         }
 
 
+
+        private async void MarkAssemblyAsFixedButton_Click(object sender, EventArgs e)
+        {
+            await new MarkAssemblyAsFixedCommand(this, logger).RunAsync();
+        }
 
         private async void MarkDrawingAsFixedButton_Click(object sender, EventArgs e)
         {
@@ -278,6 +293,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await UI.DrawingReviewsExplorer.Refresh();
         }
 
+        private async void RefreshAssemblyExplorerButton_Click(object sender, EventArgs e)
+        {
+            await UI.AssemblyReviewsExplorer.Refresh();
+        }
+
         private void CopyLocalCopyPathMenuItem_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(Version.LocalDirectory);
@@ -295,6 +315,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         private void OpenLocalCopyFolderMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start("explorer.exe", Version.LocalDirectory);
+        }
+
+        private async void AssemblyChangeRequestGrid_DoubleClick(object sender, EventArgs e)
+        {
+            var grid = sender as DataGridView;
+
+            if (grid.SelectedRows.Count == 0) return;
+
+            var changeRequest = grid.SelectedRows[0].Tag as ChangeRequest;
+            await OpenChangeRequestDetailsAsync(changeRequest);
         }
 
         #endregion
@@ -315,8 +345,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.DrawingReviewsExplorer.OpenReviewForViewing -= DrawingReviewsExplorer_OpenDrawingForViewing;
             UI.RefreshDrawingExplorerButton.Click -= RefreshDrawingExplorerButton_Click;
             UI.MarkDrawingAsFixedButton.Click -= MarkDrawingAsFixedButton_Click;
+            UI.MarkAssemblyAsFixedButton.Click -= MarkAssemblyAsFixedButton_Click;
             UI.ArchiveVersionButton.Click -= ArchiveVersionButton_Click;
             UI.AssemblyReviewsExplorer.OpenReviewForViewing -= AssemblyReviewsExplorer_OpenAssemblyForViewing;
+            UI.AssemblyChangeRequestGrid.DoubleClick -= AssemblyChangeRequestGrid_DoubleClick;
         }
 
         protected virtual void Dispose(bool disposing)

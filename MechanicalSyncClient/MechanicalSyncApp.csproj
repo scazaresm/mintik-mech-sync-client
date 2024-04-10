@@ -330,8 +330,10 @@
     <Compile Include="Sync\VersionSynchronizer\Commands\ArchiveVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CompareDesignFileCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\MarkAssemblyAsFixedCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\MarkDrawingAsFixedCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenAssyReviewForViewingCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\UpdateChangeRequestCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenDrawingForViewingCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\PublishDeliverablesCommand.cs" />
@@ -372,6 +374,12 @@
     </Compile>
     <Compile Include="UI\Forms\PublishingBlockersForm.Designer.cs">
       <DependentUpon>PublishingBlockersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\UpdateChangeRequestDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\UpdateChangeRequestDialog.Designer.cs">
+      <DependentUpon>UpdateChangeRequestDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ReviewableAssembliesTreeView.cs" />
     <Compile Include="UI\ReviewableDrawingsGrid.cs" />
@@ -614,6 +622,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ReviewSummaryForm.resx">
       <DependentUpon>ReviewSummaryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\UpdateChangeRequestDialog.resx">
+      <DependentUpon>UpdateChangeRequestDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\VersionSelectorForm.resx">
       <DependentUpon>VersionSelectorForm.cs</DependentUpon>
