@@ -20,11 +20,17 @@ namespace MechanicalSyncApp.UI.Forms
         private IAuthenticationServiceClient authenticationService = AuthenticationServiceClient.Instance;
         private UserDetails user = new UserDetails();
 
+        private bool editMode = false;
+
         public CreateEditUserForm(UserDetails editUser = null)
         {
             InitializeComponent();
+
             if (editUser != null)
+            {
                 user = editUser;
+                editMode = true;
+            }
 
             CreateLabel.Text = editUser == null ? "Create user" : "Edit user";
             Text = editUser == null ? "Create user" : "Edit user";
@@ -37,6 +43,8 @@ namespace MechanicalSyncApp.UI.Forms
 
             FirstName.Text = editUser == null ? "" : editUser.FirstName;
             LastName.Text = editUser == null ? "" : editUser.LastName;
+            DisplayName.Text = editUser == null ? "" : editUser.DisplayName;
+
             Role.SelectedIndex = editUser == null ? 0 : GetRoleIndex(editUser.Role);
             Enabled.Checked = editUser == null ? true : editUser.Enabled;
         }
@@ -79,48 +87,57 @@ namespace MechanicalSyncApp.UI.Forms
 
         private async void CreateUserButton_Click(object sender, EventArgs e)
         {
-            // edit
-            if (user != null)
+            try
             {
-                await authenticationService.UpdateUser(
-                    user.Id,
-                    new UpdateUserRequest()
-                    {
-                        FirstName = FirstName.Text,
-                        LastName = LastName.Text,
-                        DisplayName = DisplayName.Text,
-                        Role = Role.Text,
-                        Enabled = Enabled.Checked,
-                    }
+                if (editMode)
+                {
+                    await authenticationService.UpdateUser(
+                        user.Id,
+                        new UpdateUserRequest()
+                        {
+                            FirstName = FirstName.Text,
+                            LastName = LastName.Text,
+                            DisplayName = DisplayName.Text,
+                            Role = Role.Text,
+                            Enabled = Enabled.Checked,
+                        }
+                    );
+                    DialogResult = DialogResult.OK;
+                    return;
+                }
+
+                await authenticationService.RegisterUserAsync(new RegisterUserRequest()
+                {
+                    Email = Email.Text,
+                    FirstName = FirstName.Text,
+                    LastName = LastName.Text,
+                    DisplayName = DisplayName.Text,
+                    Role = Role.Text,
+                    Enabled = Enabled.Checked
+                });
+
+                MessageBox.Show(
+                    "The new user has been created and the first login instructions have been sent to his/her email.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
                 );
+
                 DialogResult = DialogResult.OK;
-                return;
             }
-
-            // create
-            await authenticationService.RegisterUserAsync(new RegisterUserRequest()
+            catch (Exception ex)
             {
-                Email = Email.Text,
-                FirstName = FirstName.Text,
-                LastName = LastName.Text,
-                DisplayName = DisplayName.Text,
-                Role = Role.Text,
-                Enabled = Enabled.Checked
-            });
-
-            MessageBox.Show(
-                "The new user has been created and the first login instructions have been sent to his/her email.",
-                "Success",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
-            DialogResult = DialogResult.OK;
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void FirstName_TextChanged(object sender, EventArgs e)
         {
             user.FirstName = FirstName.Text.Trim();
-            DisplayName.Text = user.FirstName;
+
+            if (!editMode)
+                DisplayName.Text = user.FirstName;
+
             ValidateData();
         }
 
@@ -132,8 +149,6 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void Role_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (user != null) return; // skip when edit
-
             user.Role = Role.Text;
             ValidateData();
         }

@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
@@ -230,6 +231,9 @@ namespace MechanicalSyncApp.UI.Forms
 
             var confirmation = new ConfirmPasswordResetDialog(selectedUser).ShowDialog();
 
+            EditUserButton.Enabled = false;
+            ResetPasswordButton.Enabled = false;
+
             if (confirmation != DialogResult.OK) return;
 
             await authenticationService.ResetPasswordAsync(selectedUser.Id);
@@ -266,6 +270,8 @@ namespace MechanicalSyncApp.UI.Forms
             if (editUserForm.ShowDialog() == DialogResult.OK)
             {
                 await PopulateUsersAsync();
+                EditUserButton.Enabled = false;
+                ResetPasswordButton.Enabled = false;
             }
         }
     }
