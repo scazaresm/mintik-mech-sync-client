@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Sergio Cazares",
             "test"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagementConsoleForm));
@@ -51,6 +51,9 @@
             this.FilterUserTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.syncTabPage = new System.Windows.Forms.TabPage();
+            this.BrowsePublishingDirectory = new System.Windows.Forms.Button();
+            this.PublishingDirectory = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.BrowseSolidWorksExePath = new System.Windows.Forms.Button();
             this.SolidWorksExePath = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,9 +64,6 @@
             this.WorkspaceDirectory = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.UsersTabImages = new System.Windows.Forms.ImageList(this.components);
-            this.BrowsePublishingDirectory = new System.Windows.Forms.Button();
-            this.PublishingDirectory = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.Tabs.SuspendLayout();
             this.usersTabPage.SuspendLayout();
             this.SynchronizerToolStrip.SuspendLayout();
@@ -108,13 +108,14 @@
             this.UserList.FullRowSelect = true;
             this.UserList.HideSelection = false;
             this.UserList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3});
+            listViewItem1});
             this.UserList.Location = new System.Drawing.Point(3, 28);
             this.UserList.Name = "UserList";
             this.UserList.Size = new System.Drawing.Size(714, 413);
             this.UserList.TabIndex = 17;
             this.UserList.UseCompatibleStateImageBehavior = false;
             this.UserList.View = System.Windows.Forms.View.Details;
+            this.UserList.SelectedIndexChanged += new System.EventHandler(this.UserList_SelectedIndexChanged);
             // 
             // emailHeader
             // 
@@ -184,21 +185,25 @@
             // 
             // EditUserButton
             // 
+            this.EditUserButton.Enabled = false;
             this.EditUserButton.Image = global::MechanicalSyncApp.Properties.Resources.edit_icon_24;
             this.EditUserButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.EditUserButton.Name = "EditUserButton";
             this.EditUserButton.Size = new System.Drawing.Size(47, 22);
             this.EditUserButton.Text = "Edit";
             this.EditUserButton.ToolTipText = "Refresh local files";
+            this.EditUserButton.Click += new System.EventHandler(this.EditUserButton_Click);
             // 
             // ResetPasswordButton
             // 
+            this.ResetPasswordButton.Enabled = false;
             this.ResetPasswordButton.Image = global::MechanicalSyncApp.Properties.Resources.generate_keys_24_icon;
             this.ResetPasswordButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ResetPasswordButton.Name = "ResetPasswordButton";
             this.ResetPasswordButton.Size = new System.Drawing.Size(108, 22);
             this.ResetPasswordButton.Text = "Reset password";
             this.ResetPasswordButton.ToolTipText = "Refresh local files";
+            this.ResetPasswordButton.Click += new System.EventHandler(this.ResetPasswordButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -212,6 +217,7 @@
             this.FilterUserTextBox.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FilterUserTextBox.Name = "FilterUserTextBox";
             this.FilterUserTextBox.Size = new System.Drawing.Size(100, 25);
+            this.FilterUserTextBox.TextChanged += new System.EventHandler(this.FilterUserTextBox_TextChanged);
             // 
             // toolStripLabel1
             // 
@@ -242,6 +248,34 @@
             this.syncTabPage.TabIndex = 1;
             this.syncTabPage.Text = "Sync";
             this.syncTabPage.UseVisualStyleBackColor = true;
+            // 
+            // BrowsePublishingDirectory
+            // 
+            this.BrowsePublishingDirectory.Location = new System.Drawing.Point(527, 76);
+            this.BrowsePublishingDirectory.Name = "BrowsePublishingDirectory";
+            this.BrowsePublishingDirectory.Size = new System.Drawing.Size(75, 23);
+            this.BrowsePublishingDirectory.TabIndex = 19;
+            this.BrowsePublishingDirectory.Text = "Browse...";
+            this.BrowsePublishingDirectory.UseVisualStyleBackColor = true;
+            this.BrowsePublishingDirectory.Click += new System.EventHandler(this.BrowsePublishingDirectory_Click);
+            // 
+            // PublishingDirectory
+            // 
+            this.PublishingDirectory.Location = new System.Drawing.Point(11, 78);
+            this.PublishingDirectory.Name = "PublishingDirectory";
+            this.PublishingDirectory.ReadOnly = true;
+            this.PublishingDirectory.Size = new System.Drawing.Size(510, 20);
+            this.PublishingDirectory.TabIndex = 17;
+            this.PublishingDirectory.TextChanged += new System.EventHandler(this.PublishingDirectory_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 62);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(101, 13);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Publishing directory:";
             // 
             // BrowseSolidWorksExePath
             // 
@@ -333,34 +367,6 @@
             this.UsersTabImages.TransparentColor = System.Drawing.Color.Transparent;
             this.UsersTabImages.Images.SetKeyName(0, "users-icon-24.png");
             this.UsersTabImages.Images.SetKeyName(1, "sync-24.png");
-            // 
-            // BrowsePublishingDirectory
-            // 
-            this.BrowsePublishingDirectory.Location = new System.Drawing.Point(527, 76);
-            this.BrowsePublishingDirectory.Name = "BrowsePublishingDirectory";
-            this.BrowsePublishingDirectory.Size = new System.Drawing.Size(75, 23);
-            this.BrowsePublishingDirectory.TabIndex = 19;
-            this.BrowsePublishingDirectory.Text = "Browse...";
-            this.BrowsePublishingDirectory.UseVisualStyleBackColor = true;
-            this.BrowsePublishingDirectory.Click += new System.EventHandler(this.BrowsePublishingDirectory_Click);
-            // 
-            // PublishingDirectory
-            // 
-            this.PublishingDirectory.Location = new System.Drawing.Point(11, 78);
-            this.PublishingDirectory.Name = "PublishingDirectory";
-            this.PublishingDirectory.ReadOnly = true;
-            this.PublishingDirectory.Size = new System.Drawing.Size(510, 20);
-            this.PublishingDirectory.TabIndex = 17;
-            this.PublishingDirectory.TextChanged += new System.EventHandler(this.PublishingDirectory_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 62);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 13);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "Publishing directory:";
             // 
             // ManagementConsoleForm
             // 

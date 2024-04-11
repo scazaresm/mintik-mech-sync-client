@@ -1,5 +1,7 @@
 ﻿using MechanicalSyncApp.Core.AuthenticationService;
 using MechanicalSyncApp.Core.Services.Authentication;
+using MechanicalSyncApp.Core.Services.Authentication.Models;
+using MechanicalSyncApp.Core.Services.Authentication.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Util;
 using Serilog;
@@ -45,9 +47,18 @@ namespace MechanicalSyncApp.UI.Forms
         }
         #endregion
 
-        private async Task PopulateUsers()
+        private async Task PopulateUsersAsync(string filter = null)
         {
             var allUsers = await authenticationService.GetAllUserDetailsAsync();
+
+            if (filter != null)
+                allUsers = allUsers.Where((u) =>
+                    u.FullName.Contains(filter) ||
+                    u.Email.Contains(filter) ||
+                    u.FirstName.Contains(filter) ||
+                    u.LastName.Contains(filter) ||
+                    u.DisplayName.Contains(filter)
+                ).ToList();
 
             UserList.Items.Clear();   
             foreach (var user in allUsers) 
@@ -57,13 +68,14 @@ namespace MechanicalSyncApp.UI.Forms
                 userItem.SubItems.Add(user.DisplayName);
                 userItem.SubItems.Add(user.Role);
                 userItem.SubItems.Add(user.Enabled ? "Yes" : "No");
+                userItem.Tag = user;
                 UserList.Items.Add(userItem);
             }
         }
 
         private async void ManagementConsoleForm_Load(object sender, EventArgs e)
         {
-            await PopulateUsers();
+            await PopulateUsersAsync();
         }
 
         private async void AddUserButton_Click(object sender, EventArgs e)
@@ -71,13 +83,7 @@ namespace MechanicalSyncApp.UI.Forms
             var createUserForm = new CreateEditUserForm();
             
             if (createUserForm.ShowDialog() == DialogResult.OK) {
-                MessageBox.Show(
-                    "The new user has been created and the first login instructions have been sent to his/her email.",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-                await PopulateUsers();
+                await PopulateUsersAsync();
             }
         }
 
@@ -89,7 +95,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private async void RefreshButton_Click(object sender, EventArgs e)
         {
-            await PopulateUsers();
+            await PopulateUsersAsync();
         }
 
         private void LoadSyncConfiguration()
@@ -215,6 +221,51 @@ namespace MechanicalSyncApp.UI.Forms
                     string selectedFolderPath = folderBrowserDialog.SelectedPath;
                     PublishingDirectory.Text = selectedFolderPath;
                 }
+            }
+        }
+
+        private async void ResetPasswordButton_Click(object sender, EventArgs e)
+        {
+            var selectedUser = UserList.SelectedItems[0].Tag as UserDetails;
+
+            var confirmation = new ConfirmPasswordResetDialog(selectedUser).ShowDialog();
+
+            if (confirmation != DialogResult.OK) return;
+
+            await authenticationService.ResetPasswordAsync(selectedUser.Id);
+
+            MessageBox.Show(
+                "Password reset succeeded!", 
+                "Success", 
+                MessageBoxButtons.OK, 
+                MessageBoxIcon.Information
+            );
+        }
+
+        private void UserList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var list = (sender as ListView);
+            var isItemSelected =
+                list.SelectedItems != null && list.SelectedItems.Count == 1;
+
+            ResetPasswordButton.Enabled = isItemSelected;
+            EditUserButton.Enabled = isItemSelected;
+        }
+
+        private async void FilterUserTextBox_TextChanged(object sender, EventArgs e)
+        {
+            await PopulateUsersAsync(FilterUserTextBox.Text == "" ? null : FilterUserTextBox.Text);
+        }
+
+        private async void EditUserButton_Click(object sender, EventArgs e)
+        {
+            var selectedUser = UserList.SelectedItems[0].Tag as UserDetails;
+
+            var editUserForm = new CreateEditUserForm(selectedUser);
+
+            if (editUserForm.ShowDialog() == DialogResult.OK)
+            {
+                await PopulateUsersAsync();
             }
         }
     }

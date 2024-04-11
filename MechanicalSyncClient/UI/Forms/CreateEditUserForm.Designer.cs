@@ -88,7 +88,7 @@
             this.CreateUserButton.Name = "CreateUserButton";
             this.CreateUserButton.Size = new System.Drawing.Size(75, 23);
             this.CreateUserButton.TabIndex = 7;
-            this.CreateUserButton.Text = "Create";
+            this.CreateUserButton.Text = "Save";
             this.CreateUserButton.UseVisualStyleBackColor = true;
             this.CreateUserButton.Click += new System.EventHandler(this.CreateUserButton_Click);
             // 
@@ -247,7 +247,6 @@
             this.Name = "CreateEditUserForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Create user";
-            this.Load += new System.EventHandler(this.CreateEditUserForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

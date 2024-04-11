@@ -214,7 +214,10 @@
     <Compile Include="Core\Services\Authentication\Handlers\GetUserDetailsHandler.cs" />
     <Compile Include="Core\Services\Authentication\Handlers\RegisterUserHandler.cs" />
     <Compile Include="Core\Services\Authentication\Handlers\ChangeInitialPasswordHandler.cs" />
+    <Compile Include="Core\Services\Authentication\Handlers\ResetPasswordHandler.cs" />
+    <Compile Include="Core\Services\Authentication\Handlers\UpdateUserHandler.cs" />
     <Compile Include="Core\Services\Authentication\Models\Request\RegisterUserRequest.cs" />
+    <Compile Include="Core\Services\Authentication\Models\Request\UpdateUserRequest.cs" />
     <Compile Include="Core\Services\MechSync\Exceptions\InvalidProjectFolderException.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\AcknowledgeVersionOwnershipHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\AggregateProjectDetailsHandler.cs" />
@@ -356,6 +359,12 @@
     </Compile>
     <Compile Include="UI\Forms\ChangeRequestDetailsDialog.Designer.cs">
       <DependentUpon>ChangeRequestDetailsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\ConfirmPasswordResetDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ConfirmPasswordResetDialog.Designer.cs">
+      <DependentUpon>ConfirmPasswordResetDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\DeliverablePublishingForm.cs">
       <SubType>Form</SubType>
@@ -580,6 +589,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ChangeYourPasswordForm.resx">
       <DependentUpon>ChangeYourPasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\ConfirmPasswordResetDialog.resx">
+      <DependentUpon>ConfirmPasswordResetDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ConnectionSettingsForm.resx">
       <DependentUpon>ConnectionSettingsForm.cs</DependentUpon>

@@ -29,8 +29,13 @@ namespace MechanicalSyncApp.UI.Forms
                     Email = Email.Text,
                     Password = Password.Text
                 });
-                Hide();
 
+                if (!response.UserDetails.Enabled)
+                {
+                    throw new Exception("User is disabled, check with system administrators.");
+                }
+
+                Hide();
                 if (response.UserDetails.Role.ToLower() == "root")
                 {
                     Log.Debug("Logged in as Root user, showing management console.");
@@ -42,6 +47,7 @@ namespace MechanicalSyncApp.UI.Forms
                     Log.Debug("User has initial password, showing form to change password.");
                     var setCustomPasswordForm = new ChangeYourPasswordForm();
                     setCustomPasswordForm.ShowDialog();
+                    Password.Text = string.Empty;
                     Show();
                 }
                 else if (response.UserDetails.Role == "Viewer")
