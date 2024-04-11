@@ -15,8 +15,8 @@ namespace MechanicalSyncApp.UI.Forms
     {
         private IVersionSynchronizer synchronizer;
         private WorkspaceTreeView workspaceTreeView;
-        private DrawingReviewsTreeView drawingReviewsTreeView;
         private VersionSynchronizerUI synchronizerUI;
+
 
         private bool isClosingDueToFatalException = false;
         private bool isClosingDueToLogout = false;
@@ -49,10 +49,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void VersionSynchronizerForm_Load(object sender, EventArgs e)
         {
-            ShowWorkspaceExplorer();
-            VersionSynchronizerTabs.TabPages.Remove(tabPage2);
-            VersionSynchronizerTabs.TabPages.Remove(tabPage3);
-            VersionSynchronizerTabs.TabPages.Remove(DrawingReviewPage);
+            MainSplitContainer.Panel2Collapsed = true;
 
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -100,13 +97,33 @@ namespace MechanicalSyncApp.UI.Forms
                 WorkOfflineButton = WorkOfflineButton,
                 SyncRemoteButton = SyncRemoteButton,
                 RefreshLocalFilesButton = RefreshLocalFilesButton,
+                RefreshDrawingExplorerButton = RefreshDrawingExplorerButton,
+                RefreshAssemblyExplorerButton = RefreshAssemblyExplorerButton,
                 CloseVersionButton = CloseVersionButton,
-                PublishVersionButton = PublishVersionButton,
+                PublishDeliverablesButton = PublishDeliverablesButton,
                 TransferOwnershipButton = TransferOwnershipButton,
                 SyncProgressBar = SyncProgressBar,
                 MainSplitContainer = MainSplitContainer,
                 CopyLocalCopyPathMenuItem = CopyLocalCopyPathMenuItem,
-                OpenLocalCopyFolderMenuItem = OpenLocalCopyFolderMenuItem
+                OpenLocalCopyFolderMenuItem = OpenLocalCopyFolderMenuItem,
+                VersionSynchronizerTabs = VersionSynchronizerTabs,
+                DrawingReviewsTreeView = DrawingReviewsTreeView,
+                AssemblyReviewsTreeView = AssemblyReviewsTreeView,
+                DrawingReviewContainer = DrawingReviewsSplit,
+                DrawingReviewerPanel = DrawingReviewerPanel,
+                DrawingReviewerProgress = DrawingReviewerProgress,
+                DrawingReviewerStatusText = DrawingReviewerStatusText,
+                DrawingReviewerDrawingStatus = DrawingReviewerDrawingStatus,
+                DrawingReviewerTitle = DrawingReviewerTitle,
+                MarkDrawingAsFixedButton = MarkDrawingAsFixedButton,
+                ArchiveVersionButton = ArchiveVersionButton,
+                AssemblyChangeRequestGrid = AssemblyChangeRequestsGrid,
+                AssemblyReviewViewerToolStrip = AssemblyReviewViewerToolStrip,
+                AssemblyReviewStatus = AssemblyReviewStatus,
+                MarkAssemblyAsFixedButton = MarkAssemblyAsFixedButton,
+                AssemblyReviewViewerTitle = AssemblyReviewViewerTitle,
+                AssemblyReviewsSplit = AssemblyReviewsSplit,
+                DrawingReviewsSplit = DrawingReviewsSplit,
             };
 
             // create a new version synchronizer
@@ -114,13 +131,13 @@ namespace MechanicalSyncApp.UI.Forms
                 version, 
                 synchronizerUI, 
                 MechSyncServiceClient.Instance, 
-                AuthenticationServiceClient.Instance
+                AuthenticationServiceClient.Instance,
+                Log.Logger
             );
 
             try
             {
                 await synchronizer.OpenVersionAsync();
-                ShowVersionExplorer();
             }
             catch (OpenVersionCanceledException)
             {
@@ -142,46 +159,64 @@ namespace MechanicalSyncApp.UI.Forms
             }
             catch (Exception ex)
             {
+                Log.Error($"Could not open version: {ex.Message}");
                 MessageBox.Show(
                     $"Could not open version: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error
                 );
                 synchronizer.Dispose();
                 synchronizer = null;
             }
-
-            if (drawingReviewsTreeView != null)
-            {
-                drawingReviewsTreeView.Dispose();
-            }
-
-            drawingReviewsTreeView = new DrawingReviewsTreeView(
-               MechSyncServiceClient.Instance,
-               AuthenticationServiceClient.Instance,
-               version
-            );
-            drawingReviewsTreeView.AttachTreeView(DrawingReviewsTreeView);
         }
 
         private void Workspace_OpenReview(object sender, OpenReviewEventArgs e)
         {
             Form reviewForm = null;
 
-            switch (e.Review.RemoteReview.TargetType)
+            try
             {
-                case "DrawingFile": 
-                    reviewForm = new DrawingReviewerForm(
-                        AuthenticationServiceClient.Instance, 
-                        MechSyncServiceClient.Instance, 
-                        e.Review
-                    ); 
-                    break;
-                default: break;
-            }
+                if (e.Review.RemoteVersion.Status != "Ongoing")
+                    throw new InvalidOperationException("This review belongs to a version which is no longer in Ongoing status.");
 
-            if(reviewForm != null)
+                var targetType = e.Review.RemoteReview.TargetType;
+
+                switch (targetType)
+                {
+                    case "DrawingFile":
+                        reviewForm = new DrawingReviewerForm(
+                            AuthenticationServiceClient.Instance,
+                            MechSyncServiceClient.Instance,
+                            e.Review,
+                            Log.Logger
+                        );
+                        break;
+
+                    case "AssemblyFile":
+                        reviewForm = new AssemblyReviewerForm(
+                            AuthenticationServiceClient.Instance,
+                            MechSyncServiceClient.Instance,
+                            e.Review,
+                            Log.Logger
+                        );
+                        break;
+
+                    default:
+                        throw new Exception($"Unexcpected TargetType '{targetType}'");
+                }
+
+                if (reviewForm != null)
+                {
+                    Hide();
+                    reviewForm.Show();
+                }
+            }
+            catch (Exception ex)
             {
-                Hide();
-                reviewForm.Show();
+                Log.Error($"Could not open review: {ex.Message}");
+                MessageBox.Show(
+                    $"Could not open review: {ex.Message}", "Error", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -195,18 +230,6 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 Console.Write(ex.ToString());
             }
-        }
-
-        private void ShowVersionExplorer()
-        {
-            MainSplitContainer.Panel2Collapsed = false;
-            MainSplitContainer.Panel1Collapsed = true;
-        }
-
-        private void ShowWorkspaceExplorer()
-        {
-            MainSplitContainer.Panel2Collapsed = true;
-            MainSplitContainer.Panel1Collapsed = false;
         }
 
         private async void NewProjectButton_Click(object sender, EventArgs e)
@@ -249,18 +272,9 @@ namespace MechanicalSyncApp.UI.Forms
             Close();
         }
 
-        private async void VersionSynchronizerTabs_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (VersionSynchronizerTabs.SelectedTab.Text.StartsWith("2D") && drawingReviewsTreeView != null)
-            {
-                await drawingReviewsTreeView.Refresh();
-                return;
-            }
-        }
-
         private void SettingsButton_Click(object sender, EventArgs e)
         {
-            var configurationForm = new ConnectionSettingsForm();
+            var configurationForm = new ConnectionSettingsForm(Log.Logger);
             configurationForm.ShowDialog();
         }
 
@@ -301,6 +315,28 @@ namespace MechanicalSyncApp.UI.Forms
         {
             Hide();
             new ProjectExplorerForm().Show();
+        }
+
+        private async void NewReviewButton_Click(object sender, EventArgs e)
+        {
+            var createReviewForm = new CreateReviewForm(Log.Logger);
+            var response = createReviewForm.ShowDialog();
+
+            if (response == DialogResult.OK)
+            {
+                MessageBox.Show(
+                    "The new review has been created!",
+                    "Review created",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                await workspaceTreeView.Refresh();
+            }
+        }
+
+        private void aboutMechanicalSyncToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new AboutDialog().ShowDialog();
         }
     }
 }

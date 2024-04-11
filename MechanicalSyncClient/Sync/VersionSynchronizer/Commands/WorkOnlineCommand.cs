@@ -17,52 +17,58 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
     public class WorkOnlineCommand : IVersionSynchronizerCommandAsync
     {
+        private readonly ILogger logger;
+
         public IVersionSynchronizer Synchronizer { get; set; }
 
-        public WorkOnlineCommand(VersionSynchronizer synchronizer)
+        public WorkOnlineCommand(VersionSynchronizer synchronizer, ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task RunAsync()
         {
-            Log.Debug("Starting WorkOnlineCommand...");
+            logger.Debug("Starting WorkOnlineCommand...");
 
             var confirmation = MessageBox.Show(
                 "Are you sure to start working online?", "Go online",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question
             );
 
-            Log.Debug($"\tAsking user to confirm before going online, answer: {confirmation}");
+            logger.Debug($"\tAsking user to confirm before going online, answer: {confirmation}");
 
             if (confirmation != DialogResult.Yes) {
-                Log.Debug("\tGoing online has been aborted by user.");
+                logger.Debug("\tGoing online has been aborted by user.");
                 return;
             }
 
             var UI = Synchronizer.UI;
             try
             {
-                Log.Debug("Disabling tool strip buttons while working online...");
+                logger.Debug("Disabling tool strip buttons while working online...");
 
                 UI.SynchronizerToolStrip.Enabled = false;
                 UI.WorkOnlineButton.Visible = false;
                 UI.WorkOfflineButton.Visible = true;
                 UI.SyncRemoteButton.Visible = false;
 
-                Synchronizer.SetState(new IndexRemoteFilesState());
+                Synchronizer.SetState(new IndexRemoteFilesState(logger));
                 await Synchronizer.RunStepAsync();
 
-                Synchronizer.SetState(new IndexLocalFiles());
+                Synchronizer.SetState(new IndexPublishingsState(logger));
                 await Synchronizer.RunStepAsync();
 
-                var syncCheckState = new SyncCheckState();
+                Synchronizer.SetState(new IndexLocalFilesState(logger));
+                await Synchronizer.RunStepAsync();
+
+                var syncCheckState = new SyncCheckState(logger);
                 Synchronizer.SetState(syncCheckState);
                 await Synchronizer.RunStepAsync();
 
                 if (syncCheckState.Summary.HasChanges)
                 {
-                    var result = new SyncCheckSummaryForm(Synchronizer, syncCheckState.Summary).ShowDialog();
+                    var result = new SyncCheckSummaryForm(Synchronizer, syncCheckState.Summary, logger).ShowDialog();
 
                     if (result != DialogResult.OK)
                     {
@@ -82,12 +88,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.ChangeMonitor.StartMonitoring();
                 UI.LocalFileViewer.PopulateFiles();
 
-                Synchronizer.SetState(new MonitorFileSyncEventsState());
+                Synchronizer.SetState(new MonitorFileSyncEventsState(logger));
                 _ = Synchronizer.RunStepAsync();
             }
             catch(IOException ex)
             {
-                Log.Error($"Could not go online because verion files seem to be used by other process: {ex}");
+                logger.Error($"Could not go online because verion files seem to be used by other process: {ex}");
                 MessageBox.Show(
                     "Could not go online, make sure that your version files are not being used by another process (such like SolidWorks) and try again.",
                     "Files already in use",
@@ -101,7 +107,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 MessageBox.Show(ex.Message);
                 await Synchronizer.WorkOfflineAsync();
             }
-            Log.Debug("Finished WorkOnlineCommand.");
+            logger.Debug("Finished WorkOnlineCommand.");
         }
 
         private void CreateLocalCopySnapshot(string localCopyDirectory)
@@ -109,9 +115,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             try
             {
                 if (!Directory.Exists(localCopyDirectory))
-                {
                     throw new DirectoryNotFoundException($"Local copy directory not found: {localCopyDirectory}");
-                }
 
                 string snapshotDirectory = Synchronizer.SnapshotDirectory;
 
@@ -124,7 +128,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             }
             catch(Exception ex)
             {
-                Log.Error($"Failed to create a local copy snapshot before going online: {ex}");
+                logger.Error($"Failed to create a local copy snapshot before going online: {ex}");
             }
         }
     }

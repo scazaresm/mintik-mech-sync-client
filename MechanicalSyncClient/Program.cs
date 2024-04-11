@@ -20,8 +20,6 @@ namespace MechanicalSyncApp
         [STAThread]
         static void Main()
         {
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-
             Log.Logger = new LoggerConfiguration()
                .ReadFrom.AppSettings()
                .CreateLogger();
@@ -29,12 +27,6 @@ namespace MechanicalSyncApp
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginForm());
-        }
-
-        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            string assemblyPath = "C:\\Program Files\\Common Files\\eDrawings2023\\eDrawings.Interop.EModelViewControl.dll";
-            return Assembly.LoadFrom(assemblyPath);
         }
     }
 }

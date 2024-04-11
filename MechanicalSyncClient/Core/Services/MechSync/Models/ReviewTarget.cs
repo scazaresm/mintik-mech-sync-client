@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models
 {
+    public enum ReviewTargetStatus
+    {
+        Pending,
+        Reviewing,
+        Rejected,
+        Approved,
+        Fixed
+    }
+
     public class ReviewTarget
     {
         [JsonProperty("_id")]
@@ -16,5 +25,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public string Status { get; set; }
         public List<ChangeRequest> ChangeRequests { get; set; }
         public List<string> Observations { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

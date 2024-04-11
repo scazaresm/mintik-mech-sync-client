@@ -46,7 +46,7 @@ namespace MechanicalSyncApp.UI.Forms
         private async void PopulateProjects()
         {
             var projects = PublishedOnly
-                ? await ServiceClient.GetPublishedProjectsAsync()
+                ? await ServiceClient.GetArchivedProjectsAsync()
                 : await ServiceClient.GetAllProjectsAsync();
 
             var searchTarget = SearchFilter.Text.ToLower();
@@ -55,6 +55,7 @@ namespace MechanicalSyncApp.UI.Forms
                 ? projects
                 : projects.Where(p => p.FolderName.ToLower().Contains(searchTarget)).ToList();
 
+            ProjectList.SelectedItems.Clear();
             ProjectList.SelectedItems.Clear();
             ProjectList.Items.Clear();
             foreach (var project in filter)

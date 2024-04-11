@@ -124,6 +124,16 @@ namespace MechanicalSyncApp.Core.Services.Authentication
             await new ChangeInitialPasswordHandler(restClient, newPassword).HandleAsync();
         }
 
+        public async Task ResetPasswordAsync(string userId)
+        {
+            await new ResetPasswordHandler(restClient, userId).HandleAsync();
+        }
+
+        public async Task<UserDetails> UpdateUser(string userId, UpdateUserRequest request)
+        {
+            return await new UpdateUserHandler(restClient, userId, request).HandleAsync();
+        }
+
         #region Dispose pattern
         protected virtual void Dispose(bool disposing)
         {

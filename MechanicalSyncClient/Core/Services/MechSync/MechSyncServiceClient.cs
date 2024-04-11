@@ -4,6 +4,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Handlers;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Response;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -20,6 +21,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
         private readonly string SERVER_URL = ConfigurationManager.AppSettings["SERVER_URL"];
         private readonly string DEFAULT_TIMEOUT_SECONDS = ConfigurationManager.AppSettings["DEFAULT_TIMEOUT_SECONDS"];
+
+        private ILogger logger;
 
         private static MechSyncServiceClient _instance = null;
 
@@ -55,6 +58,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync
 
                 // subscribe to authentication token refresh event, so that we can refresh the tokens on local clients
                 AuthenticationService.OnAuthenticationTokenRefresh += AuthenticationService_OnAuthenticationTokenRefresh;
+
+                logger = Log.Logger;
             }
             catch (FormatException ex)
             {
@@ -132,6 +137,10 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new CreateProjectHandler(restClient, request).HandleAsync();
         }
+        public async Task<Review> CreateReviewAsync(CreateReviewRequest request)
+        {
+            return await new CreateReviewHandler(restClient, request).HandleAsync();
+        }
         public async Task<Project> GetProjectAsync(string projectId)
         {
             return await new GetProjectHandler(restClient, projectId).HandleAsync();
@@ -140,13 +149,21 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new GetAllProjectsHandler(restClient).HandleAsync(); 
         }
-        public async Task<List<Project>> GetPublishedProjectsAsync()
+        public async Task<List<Project>> GetArchivedProjectsAsync()
         {
-            return await new GetPublishedProjectsHandler(restClient).HandleAsync();
+            return await new GetArchivedProjectsHandler(restClient).HandleAsync();
         }
         public async Task<Version> CreateVersionAsync(CreateVersionRequest request)
         {
             return await new CreateVersionHandler(restClient, request).HandleAsync();
+        }
+        public async Task<List<Version>> GetAllVersionsAsync()
+        {
+            return await new GetAllVersionsHandler(restClient).HandleAsync();
+        }
+        public async Task<List<Version>> GetVersionsWithStatusAsync(string status)
+        {
+            return await new GetVersionsWithStatusHandler(restClient, status).HandleAsync();
         }
         public async Task<Version> GetVersionAsync(string versionId)
         {
@@ -160,24 +177,26 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         {
             return await new AcknowledgeVersionOwnershipHandler(restClient, request).HandleAsync();
         }
-        public async Task<Version> PublishVersionAsync(PublishVersionRequest request)
+        public async Task<Version> ArchiveVersionAsync(ArchiveVersionRequest request)
         {
-            return await new PublishVersionHandler(restClient, request).HandleAsync();
+            return await new ArchiveVersionHandler(restClient, request).HandleAsync();
         }
         public async Task<ReviewTarget> UpdateReviewTargetAsync(UpdateReviewTargetRequest request)
         {
             return await new UpdateReviewTargetHandler(restClient, request).HandleAsync();
         }
-        public async Task<List<Review>> GetVersionReviews(string versionId)
+        public async Task<List<Review>> GetVersionReviewsAsync(string versionId)
         {
             return await new GetVersionReviewsHandler(restClient, versionId).HandleAsync();
         }
-
         public async Task<List<AggregatedProjectDetails>> AggregateProjectDetailsAsync()
         {
             return await new AggregateProjectDetailsHandler(restClient).HandleAsync();
         }
-
+        public async Task<Review> GetReviewAsync(string reviewId)
+        {
+            return await new GetReviewHandler(restClient, reviewId).HandleAsync();
+        }
         public async Task DeleteExplorerFilesAsync(string relativeEquipmentPath, string explorerTransactionId)
         {
             await new DeleteExplorerFilesHandler(
@@ -185,6 +204,46 @@ namespace MechanicalSyncApp.Core.Services.MechSync
                 relativeEquipmentPath, 
                 explorerTransactionId
             ).HandleAsync();
+        }
+        public async Task<FilePublishing> PublishFileAsync(PublishFileRequest request)
+        {
+            return await new PublishFileHandler(restClient, request).HandleAsync();
+        }
+        public async Task<List<FilePublishing>> GetVersionFilePublishingsAsync(string versionId)
+        {
+            return await new GetVersionFilePublishingsHandler(restClient, versionId).HandleAsync();
+        }
+        public async Task<FilePublishing> GetFilePublishingAsync(string publishingId)
+        {
+            return await new GetFilePublishingHandler(restClient, publishingId).HandleAsync();
+        }
+
+        public async Task DeleteFilePublishingAsync(string publishingId)
+        {
+            await new DeleteFilePublishingHandler(fileClient, publishingId).HandleAsync();
+        }
+
+        public async Task<ChangeRequest> CreateChangeRequestAsync(string reviewTargetId, string changeDescription)
+        {
+            return await new 
+                CreateChangeRequestHandler(restClient, reviewTargetId, changeDescription, logger)
+                .HandleAsync();
+        }
+
+        public async Task<ChangeRequest> UpdateChangeRequestAsync(string changeRequestId, ChangeRequestUpdateableFields updateableFields)
+        {
+            return await new
+                UpdateChangeRequestHandler(restClient, changeRequestId, updateableFields).HandleAsync();
+        }
+
+        public async Task DeleteChangeRequestAsync(string changeRequestId)
+        {
+            await new DeleteChangeRequestHandler(restClient, changeRequestId).HandleAsync();
+        }
+
+        public async Task<SyncGlobalConfig> GetGlobalConfigAsync()
+        {
+            return await new GetGlobalConfigHandler(restClient).HandleAsync();
         }
 
         #region Disposing pattern

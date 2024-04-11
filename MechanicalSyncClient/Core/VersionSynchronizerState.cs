@@ -12,7 +12,7 @@ namespace MechanicalSyncApp.Core
 
         public void SetSynchronizer(IVersionSynchronizer synchronizer)
         {
-            Synchronizer = synchronizer;
+            Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
         }
 
         public abstract void UpdateUI();

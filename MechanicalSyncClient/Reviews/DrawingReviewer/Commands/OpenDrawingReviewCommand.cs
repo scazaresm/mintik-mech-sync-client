@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MechanicalSyncApp.Core.Util;
 
 namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
 {
@@ -25,27 +26,27 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
 
         public async Task RunAsync()
         {
-            var UI = Reviewer.UI;
+            var ui = Reviewer.UI;
 
             try
             {
                 Reviewer.ReviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
 
-                UI.MarkupStatus.Text = "Opening drawing...";
-                UI.SetReviewTargetStatusText(reviewTarget.Status);
-                UI.SetReviewControlsEnabled(
+                ui.MarkupStatus.Text = "Opening drawing...";
+                ui.SetReviewTargetStatusText(reviewTarget.Status);
+                ui.SetReviewControlsEnabled(
                     Reviewer.StatusesHavingReviewControlsEnabled.Contains(reviewTarget.Status)
                 );
 
                 Reviewer.DrawingMetadata = await Reviewer.SyncServiceClient.GetFileMetadataAsync(reviewTarget.TargetId);
-                UI.SetHeaderText(
+                ui.SetHeaderText(
                     $"Reviewing {Path.GetFileNameWithoutExtension(Reviewer.DrawingMetadata.RelativeFilePath)} from {Reviewer.Review}"
                 );
 
-                Reviewer.TempDownloadedDrawingFile = Path.GetTempFileName().Replace(".tmp", ".slddrw");
+                Reviewer.TempDownloadedDrawingFile = PathUtils.GetTempFileNameWithExtension(".slddrw");
 
-                UI.ShowDrawingMarkupPanel();
-                UI.ShowDownloadProgress();
+                ui.ShowDrawingMarkupPanel();
+                ui.ShowDownloadProgress();
 
                 await Reviewer.SyncServiceClient.DownloadFileAsync(new DownloadFileRequest()
                 {
@@ -53,13 +54,25 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer.Commands
                     RelativeEquipmentPath = Reviewer.Review.RemoteProject.RelativeEquipmentPath,
                     RelativeFilePath = Reviewer.DrawingMetadata.RelativeFilePath,
                     VersionFolder = "Ongoing"
-                }, UI.ReportDownloadProgress);
+                }, ui.ReportDownloadProgress);
 
-                UI.HideDownloadProgress();
-                UI.LoadDrawing(Reviewer.TempDownloadedDrawingFile, Reviewer.DrawingReviewerControl_OpenDocError);
+                ui.HideDownloadProgress();
 
                 if (Reviewer.StatusesHavingMarkupFile.Contains(reviewTarget.Status))
+                {
+                    // download the markup file from server
                     await Reviewer.DownloadMarkupFileAsync();
+
+                    // open drawing with markup
+                    ui.LoadDrawing(
+                        Reviewer.TempDownloadedDrawingFile, 
+                        Reviewer.TempDownloadedMarkupFile, 
+                        Reviewer.DrawingReviewerControl_OpenDocError
+                    );
+                }
+                else
+                    // open drawing without markup
+                    ui.LoadDrawing(Reviewer.TempDownloadedDrawingFile, Reviewer.DrawingReviewerControl_OpenDocError);
 
                 Reviewer.UI.MarkupStatus.Text = "Ready";
             }

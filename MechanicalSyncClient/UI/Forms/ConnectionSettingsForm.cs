@@ -11,10 +11,12 @@ namespace MechanicalSyncApp.UI.Forms
     {
         private readonly string SERVER_URL = "SERVER_URL";
         private readonly string DEFAULT_TIMEOUT_SECONDS = "DEFAULT_TIMEOUT_SECONDS";
+        private readonly ILogger logger;
 
-        public ConnectionSettingsForm()
+        public ConnectionSettingsForm(ILogger logger)
         {
             InitializeComponent();
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         private void ConfigurationForm_Load(object sender, EventArgs e)
@@ -34,7 +36,7 @@ namespace MechanicalSyncApp.UI.Forms
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to load server configuration: {ex}");
+                logger.Error($"Failed to load server configuration: {ex}");
                 MessageBox.Show($"Failed to load server configuration: {ex}");
             }
         }
@@ -56,7 +58,7 @@ namespace MechanicalSyncApp.UI.Forms
             catch(Exception ex)
             {
                 var message = $"Could not apply server config changes: ${ex}";
-                Log.Error(message);
+                logger.Error(message);
                 MessageBox.Show(message);
             }
         }

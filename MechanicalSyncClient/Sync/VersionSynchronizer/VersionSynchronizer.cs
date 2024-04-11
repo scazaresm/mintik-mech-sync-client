@@ -6,13 +6,18 @@ using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI;
+using MechanicalSyncApp.UI.Forms;
+using Serilog;
 using System;
 using System.Collections.Concurrent;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using ToolTip = System.Windows.Forms.ToolTip;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer
 {
@@ -25,24 +30,45 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public IVersionChangeMonitor ChangeMonitor { get; private set; }
 
+        // Local file metadata indexed by relative file path (linux-based)
         public ConcurrentDictionary<string, FileMetadata> LocalFileIndex { get; set; }
+
+        // Remote file metadata indexed by relative file path (linux-based)
         public ConcurrentDictionary<string, FileMetadata> RemoteFileIndex { get; private set; }
+
+        // File publishings indexed by relative file path (windows-based)
+        public ConcurrentDictionary<string, FilePublishing> PublishingIndexByPartNumber { get; private set; }
 
         public VersionSynchronizerUI UI { get; private set; }
 
         public string SnapshotDirectory { get; private set; } = Path.Combine(Path.GetTempPath(), "sync-snapshot");
 
+        public string BasePublishingDirectory { get; set; } = ConfigurationManager.AppSettings["PUBLISHING_DIRECTORY"];
+
+        public string RelativePublishingSummaryDirectory { get; set; } = @".publishing\pending";
+
+
         private VersionSynchronizerState state;
         private bool disposedValue;
+        private readonly ILogger logger;
 
         public LocalVersion Version { get; }
+
+        public Review CurrentDrawingReview { get; set; }
+
+        public ReviewTarget CurrentDrawingReviewTarget { get; set; }
+
+        public Review CurrentAssemblyReview { get; set; }
+
+        public ReviewTarget CurrentAssemblyReviewTarget { get; set; }
 
         public string FileExtensionFilter { get; private set; } = "*.sldasm | *.sldprt | *.slddrw";
 
         public VersionSynchronizer(LocalVersion version, 
                                    VersionSynchronizerUI ui,
                                    IMechSyncServiceClient syncServiceClient,
-                                   IAuthenticationServiceClient authenticationServiceClient)
+                                   IAuthenticationServiceClient authenticationServiceClient,
+                                   ILogger logger)
         {
             Version = version ?? throw new ArgumentNullException(nameof(version));
 
@@ -50,11 +76,15 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             ChangeMonitor = new VersionChangeMonitor(version, FileExtensionFilter);
             SyncServiceClient = syncServiceClient;
             AuthServiceClient = authenticationServiceClient;
-
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             LocalFileIndex = new ConcurrentDictionary<string, FileMetadata>();
             RemoteFileIndex = new ConcurrentDictionary<string, FileMetadata>();
+            PublishingIndexByPartNumber = new ConcurrentDictionary<string, FilePublishing>();
 
-            SetState(new IdleState());
+            CurrentDrawingReview = null;
+            CurrentDrawingReviewTarget = null;
+
+            SetState(new SynchronizerIdleState(logger));
             _ = RunStepAsync();
         }
 
@@ -77,45 +107,67 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         {
             if (state != null)
                 await state.RunAsync();
+            else
+                throw new InvalidOperationException("Trying to run a step before actually setting the current step.");
         }
 
         #endregion
 
         #region Commands
 
+        public async Task ArchiveVersionAsync()
+        {
+            await new ArchiveVersionCommand(this, logger).RunAsync();
+        }
+
         public async Task OpenVersionAsync()
         {
-            await new OpenVersionCommand(this).RunAsync();
+            await new OpenVersionCommand(this, logger).RunAsync();
         }
 
         public async Task WorkOnlineAsync()
         {
-           await new WorkOnlineCommand(this).RunAsync();
+           await new WorkOnlineCommand(this, logger).RunAsync();
         }
 
         public async Task WorkOfflineAsync()
         {
-            await new WorkOfflineCommand(this).RunAsync();
+            await new WorkOfflineCommand(this, logger).RunAsync();
         }
 
         public async Task SyncRemoteAsync()
         {
-            await new SyncRemoteCommand(this).RunAsync();
+            await new SyncRemoteCommand(this, logger).RunAsync();
         }
 
         public async Task CloseVersionAsync()
         {
-            await new CloseVersionCommand(this).RunAsync();
+            await new CloseVersionCommand(this, logger).RunAsync();
         }
 
-        public async Task PublishVersionAsync()
+        public async Task PublishDeliverablesAsync()
         {
-            await new PublishVersionCommand(this).RunAsync();
+            await new PublishDeliverablesCommand(this, logger).RunAsync();
         }
 
         public async Task TransferOwnershipAsync()
         {
-            await new TransferOwnershipCommand(this).RunAsync();
+            await new TransferOwnershipCommand(this, logger).RunAsync();
+        }
+
+        public async Task OpenDrawingForViewingAsync(OpenReviewTargetForViewingEventArgs e)
+        {
+            await new OpenDrawingForViewingCommand(this, e, logger).RunAsync();
+        }
+
+        public async Task OpenAssemblyForViewingAsync(OpenReviewTargetForViewingEventArgs e)
+        {
+            await new OpenAssyReviewForViewingCommand(this, e, logger).RunAsync();
+        }
+
+        public async Task OpenChangeRequestDetailsAsync(ChangeRequest changeRequest)
+        {
+            await new UpdateAssemblyChangeRequestCommand(this, changeRequest, logger).RunAsync();
         }
 
         #endregion
@@ -126,9 +178,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         {
             UI.ProjectFolderNameLabel.Text = $"{Version.RemoteProject.FolderName} V{Version.RemoteVersion.Major} (Ongoing changes)";
             UI.InitializeLocalFileViewer(Version, ChangeMonitor);
+            UI.InitializeDrawingReviews(Version);
+            UI.InitializeAssemblyReviews(Version);
+
+            UI.VersionSynchronizerTabs.SelectedIndex = 0;
 
             UI.LocalFileViewer.AttachListView(UI.FileViewerListView);
             UI.FileViewerListView.SetDoubleBuffered();
+            UI.SynchronizerToolStrip.Enabled = true;
 
             UI.SyncProgressBar.Visible = false;
             UI.SyncRemoteButton.Visible = true;
@@ -142,17 +199,59 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
             UI.RefreshLocalFilesButton.Click += RefreshLocalFilesButton_Click;
             UI.CloseVersionButton.Click += CloseVersionButton_Click;
-            UI.PublishVersionButton.Click += PublishVersionButton_Click;
+            UI.PublishDeliverablesButton.Click += PublishDeliverablesButton_Click;
             UI.TransferOwnershipButton.Click += TransferOwnershipButton_Click;
 
             UI.CopyLocalCopyPathMenuItem.Click += CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click += OpenLocalCopyFolderMenuItem_Click;
+
+            UI.VersionSynchronizerTabs.SelectedIndex = 0;
+            UI.DrawingReviewsExplorer.OpenReviewForViewing += DrawingReviewsExplorer_OpenDrawingForViewing;
+            UI.AssemblyReviewsExplorer.OpenReviewForViewing += AssemblyReviewsExplorer_OpenAssemblyForViewing;
+
+            UI.RefreshDrawingExplorerButton.Click += RefreshDrawingExplorerButton_Click;
+            UI.RefreshAssemblyExplorerButton.Click += RefreshAssemblyExplorerButton_Click;
+
+            UI.MarkDrawingAsFixedButton.Click += MarkDrawingAsFixedButton_Click;
+            UI.MarkAssemblyAsFixedButton.Click += MarkAssemblyAsFixedButton_Click;
+
+            UI.ArchiveVersionButton.Click += ArchiveVersionButton_Click;
+
+            UI.AssemblyChangeRequestGrid.DoubleClick += AssemblyChangeRequestGrid_DoubleClick;
+
+            UI.ShowVersionExplorer();
         }
 
-     
+
+
+        private async void MarkAssemblyAsFixedButton_Click(object sender, EventArgs e)
+        {
+            await new MarkAssemblyAsFixedCommand(this, logger).RunAsync();
+        }
+
+        private async void MarkDrawingAsFixedButton_Click(object sender, EventArgs e)
+        {
+            await new MarkDrawingAsFixedCommand(this).RunAsync();
+        }
+
+        private async void DrawingReviewsExplorer_OpenDrawingForViewing(object sender, OpenReviewTargetForViewingEventArgs e)
+        {
+            await OpenDrawingForViewingAsync(e);
+        }
+       
+        private async void AssemblyReviewsExplorer_OpenAssemblyForViewing(object sender, OpenReviewTargetForViewingEventArgs e)
+        {
+            await OpenAssemblyForViewingAsync(e);
+        }
+
         public void UpdateUI()
         {
             state?.UpdateUI();
+        }
+
+        private async void ArchiveVersionButton_Click(object sender, EventArgs e)
+        {
+            await ArchiveVersionAsync();
         }
 
         private async void WorkOnlineButton_Click(object sender, EventArgs e)
@@ -180,21 +279,24 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await CloseVersionAsync();
         }
 
-        private async void PublishVersionButton_Click(object sender, EventArgs e)
+        private async void PublishDeliverablesButton_Click(object sender, EventArgs e)
         {
-            var confirmation = MessageBox.Show(
-                "Are you sure to publish this version?", 
-                "Publish confirmation", 
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question
-            );
-            if (confirmation != DialogResult.Yes) return;
-
-            await PublishVersionAsync();
+            await PublishDeliverablesAsync();
         }
 
         private async void TransferOwnershipButton_Click(object sender, EventArgs e)
         {
             await TransferOwnershipAsync();
+        }
+
+        private async void RefreshDrawingExplorerButton_Click(object sender, EventArgs e)
+        {
+            await UI.DrawingReviewsExplorer.Refresh();
+        }
+
+        private async void RefreshAssemblyExplorerButton_Click(object sender, EventArgs e)
+        {
+            await UI.AssemblyReviewsExplorer.Refresh();
         }
 
         private void CopyLocalCopyPathMenuItem_Click(object sender, EventArgs e)
@@ -216,6 +318,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             Process.Start("explorer.exe", Version.LocalDirectory);
         }
 
+        private async void AssemblyChangeRequestGrid_DoubleClick(object sender, EventArgs e)
+        {
+            var grid = sender as DataGridView;
+
+            if (grid.SelectedRows.Count == 0) return;
+
+            var changeRequest = grid.SelectedRows[0].Tag as ChangeRequest;
+            await OpenChangeRequestDetailsAsync(changeRequest);
+        }
+
         #endregion
 
         #region Disposing and shutdown
@@ -227,10 +339,22 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.SyncRemoteButton.Click -= SyncRemoteButton_Click;
             UI.RefreshLocalFilesButton.Click -= RefreshLocalFilesButton_Click;
             UI.CloseVersionButton.Click -= CloseVersionButton_Click;
-            UI.PublishVersionButton.Click -= PublishVersionButton_Click;
+            UI.PublishDeliverablesButton.Click -= PublishDeliverablesButton_Click;
             UI.TransferOwnershipButton.Click -= TransferOwnershipButton_Click;
             UI.CopyLocalCopyPathMenuItem.Click -= CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click -= OpenLocalCopyFolderMenuItem_Click;
+
+            if (UI.DrawingReviewsExplorer != null) 
+                UI.DrawingReviewsExplorer.OpenReviewForViewing -= DrawingReviewsExplorer_OpenDrawingForViewing;
+                
+            if (UI.AssemblyReviewsExplorer != null)
+                UI.AssemblyReviewsExplorer.OpenReviewForViewing -= AssemblyReviewsExplorer_OpenAssemblyForViewing;
+
+            UI.RefreshDrawingExplorerButton.Click -= RefreshDrawingExplorerButton_Click;
+            UI.MarkDrawingAsFixedButton.Click -= MarkDrawingAsFixedButton_Click;
+            UI.MarkAssemblyAsFixedButton.Click -= MarkAssemblyAsFixedButton_Click;
+            UI.ArchiveVersionButton.Click -= ArchiveVersionButton_Click;
+            UI.AssemblyChangeRequestGrid.DoubleClick -= AssemblyChangeRequestGrid_DoubleClick;
         }
 
         protected virtual void Dispose(bool disposing)

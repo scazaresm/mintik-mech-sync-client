@@ -68,28 +68,42 @@ namespace MechanicalSyncApp.UI
             myWorkNode.SelectedImageIndex = 0;
 
             myReviewsNode = new TreeNode("My Reviews");
+            myReviewsNode.ImageIndex = 2;
+            myReviewsNode.SelectedImageIndex = 2;
 
-            myVersionReviewsNode = new TreeNode("Design");
             myAssemblyFileReviewsNode = new TreeNode("3D Files");
+            myAssemblyFileReviewsNode.ImageIndex = 1; 
+            myAssemblyFileReviewsNode.SelectedImageIndex = 1;
+
             myDrawingFileReviewsNode = new TreeNode("2D Files");
+            myDrawingFileReviewsNode.ImageIndex = 1;
+            myDrawingFileReviewsNode.SelectedImageIndex = 1;
 
             // link related nodes
-            myReviewsNode.Nodes.Add(myVersionReviewsNode);
             myReviewsNode.Nodes.Add(myAssemblyFileReviewsNode);
             myReviewsNode.Nodes.Add(myDrawingFileReviewsNode);
 
             // add root nodes to the new attached TreeView
             AttachedTreeView.Nodes.Clear();
             AttachedTreeView.Nodes.Add(myWorkNode);
-            //AttachedTreeView.Nodes.Add(myReviewsNode);
+            AttachedTreeView.Nodes.Add(myReviewsNode);
 
             AttachedTreeView.NodeMouseDoubleClick += AttachedTreeView_NodeMouseDoubleClick;
+            AttachedTreeView.AfterExpand += AttachedTreeView_AfterExpand;
+        }
+
+        private void AttachedTreeView_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Parent != null) return;
+            foreach (TreeNode node in AttachedTreeView.Nodes)
+                if (node != e.Node)
+                    node.Collapse();
         }
 
         public async Task Refresh()
         {
             await FetchMyWorkAsync();
-            //await FetchMyReviewsAsync();
+            await FetchMyReviewsAsync();
         }
 
         private void AttachedTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -130,16 +144,21 @@ namespace MechanicalSyncApp.UI
             var myReviews = await serviceClient.GetMyReviewsAsync();
 
             // re-populate review-related nodes
-            myVersionReviewsNode.Nodes.Clear();
             myAssemblyFileReviewsNode.Nodes.Clear();
             myDrawingFileReviewsNode.Nodes.Clear();
 
             foreach (var review in myReviews)
             {
                 var remoteVersion = await GetVersion(review.VersionId);
+
+                if (remoteVersion.Status != "Ongoing")
+                    continue;
+
                 var remoteProject = await GetProject(remoteVersion.ProjectId);
                 var localReview = new LocalReview(remoteVersion, remoteProject, review);
                 var reviewNode = new TreeNode(localReview.ToString());
+                reviewNode.ImageIndex = 1;
+                reviewNode.SelectedImageIndex = 1;
                 reviewNode.Tag = localReview;
 
                 switch (review.TargetType)

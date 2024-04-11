@@ -1,16 +1,8 @@
 ﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.UI;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using eDrawings.Interop.EModelViewControl;
-using MechanicalSyncApp.Core.Services.MechSync;
-using MechanicalSyncApp.Core.Domain;
 using System.Drawing;
 
 namespace MechanicalSyncApp.Reviews.DrawingReviewer
@@ -36,6 +28,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
         public SplitContainer MainSplit { get; set; }
 
+
         public Panel MarkupPanel { get; set; }
 
         public ToolStripProgressBar DownloadProgressBar { get; set; }
@@ -51,6 +44,9 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
         public Label DesignerLabel { get; set; }
 
         public DrawingReviewerControl DrawingReviewerControl { get; set; }
+
+        public ToolStripButton RefreshReviewTargetsButton { get; set; }
+
 
         public void SetReviewControlsEnabled(bool enabled)
         {
@@ -161,6 +157,24 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 
             DrawingReviewerControl = new DrawingReviewerControl(localDrawingPath)
             {
+                DeleteFilesOnDispose = true,
+                OnFailedLoadingDocument = onFailedLoadingDocumentEventHandler
+            };
+            MarkupPanel.Controls.Add(DrawingReviewerControl.HostControl);
+        }
+
+        public void LoadDrawing(string localDrawingPath, string localMarkupPath,
+                            _IEModelViewControlEvents_OnFailedLoadingDocumentEventHandler onFailedLoadingDocumentEventHandler)
+        {
+            if (DrawingReviewerControl != null)
+            {
+                MarkupPanel.Controls.Remove(DrawingReviewerControl.HostControl);
+                DrawingReviewerControl?.Dispose();
+            }
+
+            DrawingReviewerControl = new DrawingReviewerControl(localDrawingPath, localMarkupPath)
+            {
+                DeleteFilesOnDispose = true,
                 OnFailedLoadingDocument = onFailedLoadingDocumentEventHandler
             };
             MarkupPanel.Controls.Add(DrawingReviewerControl.HostControl);

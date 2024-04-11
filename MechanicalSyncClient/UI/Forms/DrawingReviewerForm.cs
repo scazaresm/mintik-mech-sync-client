@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.AuthenticationService;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Reviews.DrawingReviewer;
+using Serilog;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,7 +16,8 @@ namespace MechanicalSyncApp.UI.Forms
 
         public DrawingReviewerForm(IAuthenticationServiceClient authServiceClient,
                                    IMechSyncServiceClient syncServiceClient, 
-                                   LocalReview review)
+                                   LocalReview review,
+                                   ILogger logger)
         {
             InitializeComponent();
 
@@ -39,10 +41,10 @@ namespace MechanicalSyncApp.UI.Forms
                 CloseDrawingButton = CloseDrawingButton,
                 SaveProgressButton = SaveProgressButton,
                 ReviewTargetStatus = ReviewTargetStatus,
+                RefreshReviewTargetsButton = RefreshReviewTargetsButton,
             };
-            drawingReviewer = new DrawingReviewer(authServiceClient, syncServiceClient, ui, review);
+            drawingReviewer = new DrawingReviewer(authServiceClient, syncServiceClient, ui, review, logger);
             drawingReviewer.InitializeUiAsync();
-            _ = drawingReviewer.RefreshDeltaTargetsAsync();
         }
 
         private void DrawingReviewerForm_FormClosed(object sender, FormClosedEventArgs e)

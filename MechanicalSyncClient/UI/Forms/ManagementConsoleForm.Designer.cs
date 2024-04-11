@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Sergio Cazares",
             "test"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagementConsoleForm));
@@ -50,14 +50,20 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.FilterUserTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.UsersTabImages = new System.Windows.Forms.ImageList(this.components);
             this.syncTabPage = new System.Windows.Forms.TabPage();
+            this.BrowsePublishingDirectory = new System.Windows.Forms.Button();
+            this.PublishingDirectory = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.BrowseSolidWorksExePath = new System.Windows.Forms.Button();
+            this.SolidWorksExePath = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.BrowseWorkspaceDirectory = new System.Windows.Forms.Button();
             this.ApplySyncChanges = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.EdrawingsViewerClsid = new System.Windows.Forms.TextBox();
             this.WorkspaceDirectory = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.UsersTabImages = new System.Windows.Forms.ImageList(this.components);
             this.Tabs.SuspendLayout();
             this.usersTabPage.SuspendLayout();
             this.SynchronizerToolStrip.SuspendLayout();
@@ -102,13 +108,14 @@
             this.UserList.FullRowSelect = true;
             this.UserList.HideSelection = false;
             this.UserList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem5});
+            listViewItem1});
             this.UserList.Location = new System.Drawing.Point(3, 28);
             this.UserList.Name = "UserList";
             this.UserList.Size = new System.Drawing.Size(714, 413);
             this.UserList.TabIndex = 17;
             this.UserList.UseCompatibleStateImageBehavior = false;
             this.UserList.View = System.Windows.Forms.View.Details;
+            this.UserList.SelectedIndexChanged += new System.EventHandler(this.UserList_SelectedIndexChanged);
             // 
             // emailHeader
             // 
@@ -178,21 +185,25 @@
             // 
             // EditUserButton
             // 
+            this.EditUserButton.Enabled = false;
             this.EditUserButton.Image = global::MechanicalSyncApp.Properties.Resources.edit_icon_24;
             this.EditUserButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.EditUserButton.Name = "EditUserButton";
             this.EditUserButton.Size = new System.Drawing.Size(47, 22);
             this.EditUserButton.Text = "Edit";
             this.EditUserButton.ToolTipText = "Refresh local files";
+            this.EditUserButton.Click += new System.EventHandler(this.EditUserButton_Click);
             // 
             // ResetPasswordButton
             // 
+            this.ResetPasswordButton.Enabled = false;
             this.ResetPasswordButton.Image = global::MechanicalSyncApp.Properties.Resources.generate_keys_24_icon;
             this.ResetPasswordButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ResetPasswordButton.Name = "ResetPasswordButton";
             this.ResetPasswordButton.Size = new System.Drawing.Size(108, 22);
             this.ResetPasswordButton.Text = "Reset password";
             this.ResetPasswordButton.ToolTipText = "Refresh local files";
+            this.ResetPasswordButton.Click += new System.EventHandler(this.ResetPasswordButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -206,6 +217,7 @@
             this.FilterUserTextBox.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FilterUserTextBox.Name = "FilterUserTextBox";
             this.FilterUserTextBox.Size = new System.Drawing.Size(100, 25);
+            this.FilterUserTextBox.TextChanged += new System.EventHandler(this.FilterUserTextBox_TextChanged);
             // 
             // toolStripLabel1
             // 
@@ -214,15 +226,14 @@
             this.toolStripLabel1.Size = new System.Drawing.Size(36, 22);
             this.toolStripLabel1.Text = "Filter:";
             // 
-            // UsersTabImages
-            // 
-            this.UsersTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("UsersTabImages.ImageStream")));
-            this.UsersTabImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.UsersTabImages.Images.SetKeyName(0, "users-icon-24.png");
-            this.UsersTabImages.Images.SetKeyName(1, "sync-24.png");
-            // 
             // syncTabPage
             // 
+            this.syncTabPage.Controls.Add(this.BrowsePublishingDirectory);
+            this.syncTabPage.Controls.Add(this.PublishingDirectory);
+            this.syncTabPage.Controls.Add(this.label2);
+            this.syncTabPage.Controls.Add(this.BrowseSolidWorksExePath);
+            this.syncTabPage.Controls.Add(this.SolidWorksExePath);
+            this.syncTabPage.Controls.Add(this.label1);
             this.syncTabPage.Controls.Add(this.BrowseWorkspaceDirectory);
             this.syncTabPage.Controls.Add(this.ApplySyncChanges);
             this.syncTabPage.Controls.Add(this.label4);
@@ -238,9 +249,65 @@
             this.syncTabPage.Text = "Sync";
             this.syncTabPage.UseVisualStyleBackColor = true;
             // 
+            // BrowsePublishingDirectory
+            // 
+            this.BrowsePublishingDirectory.Location = new System.Drawing.Point(527, 76);
+            this.BrowsePublishingDirectory.Name = "BrowsePublishingDirectory";
+            this.BrowsePublishingDirectory.Size = new System.Drawing.Size(75, 23);
+            this.BrowsePublishingDirectory.TabIndex = 19;
+            this.BrowsePublishingDirectory.Text = "Browse...";
+            this.BrowsePublishingDirectory.UseVisualStyleBackColor = true;
+            this.BrowsePublishingDirectory.Click += new System.EventHandler(this.BrowsePublishingDirectory_Click);
+            // 
+            // PublishingDirectory
+            // 
+            this.PublishingDirectory.Location = new System.Drawing.Point(11, 78);
+            this.PublishingDirectory.Name = "PublishingDirectory";
+            this.PublishingDirectory.ReadOnly = true;
+            this.PublishingDirectory.Size = new System.Drawing.Size(510, 20);
+            this.PublishingDirectory.TabIndex = 17;
+            this.PublishingDirectory.TextChanged += new System.EventHandler(this.PublishingDirectory_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 62);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(101, 13);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Publishing directory:";
+            // 
+            // BrowseSolidWorksExePath
+            // 
+            this.BrowseSolidWorksExePath.Location = new System.Drawing.Point(527, 176);
+            this.BrowseSolidWorksExePath.Name = "BrowseSolidWorksExePath";
+            this.BrowseSolidWorksExePath.Size = new System.Drawing.Size(75, 23);
+            this.BrowseSolidWorksExePath.TabIndex = 16;
+            this.BrowseSolidWorksExePath.Text = "Browse...";
+            this.BrowseSolidWorksExePath.UseVisualStyleBackColor = true;
+            this.BrowseSolidWorksExePath.Click += new System.EventHandler(this.BrowseSolidWorksExePath_Click);
+            // 
+            // SolidWorksExePath
+            // 
+            this.SolidWorksExePath.Location = new System.Drawing.Point(11, 178);
+            this.SolidWorksExePath.Name = "SolidWorksExePath";
+            this.SolidWorksExePath.ReadOnly = true;
+            this.SolidWorksExePath.Size = new System.Drawing.Size(510, 20);
+            this.SolidWorksExePath.TabIndex = 14;
+            this.SolidWorksExePath.TextChanged += new System.EventHandler(this.SolidWorksExePath_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 162);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(143, 13);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "SolidWorks executable path:";
+            // 
             // BrowseWorkspaceDirectory
             // 
-            this.BrowseWorkspaceDirectory.Location = new System.Drawing.Point(314, 30);
+            this.BrowseWorkspaceDirectory.Location = new System.Drawing.Point(527, 28);
             this.BrowseWorkspaceDirectory.Name = "BrowseWorkspaceDirectory";
             this.BrowseWorkspaceDirectory.Size = new System.Drawing.Size(75, 23);
             this.BrowseWorkspaceDirectory.TabIndex = 10;
@@ -251,7 +318,7 @@
             // ApplySyncChanges
             // 
             this.ApplySyncChanges.Enabled = false;
-            this.ApplySyncChanges.Location = new System.Drawing.Point(11, 125);
+            this.ApplySyncChanges.Location = new System.Drawing.Point(527, 232);
             this.ApplySyncChanges.Name = "ApplySyncChanges";
             this.ApplySyncChanges.Size = new System.Drawing.Size(75, 23);
             this.ApplySyncChanges.TabIndex = 11;
@@ -262,7 +329,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 65);
+            this.label4.Location = new System.Drawing.Point(8, 113);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(129, 13);
             this.label4.TabIndex = 13;
@@ -270,7 +337,7 @@
             // 
             // EdrawingsViewerClsid
             // 
-            this.EdrawingsViewerClsid.Location = new System.Drawing.Point(11, 81);
+            this.EdrawingsViewerClsid.Location = new System.Drawing.Point(11, 129);
             this.EdrawingsViewerClsid.Name = "EdrawingsViewerClsid";
             this.EdrawingsViewerClsid.Size = new System.Drawing.Size(297, 20);
             this.EdrawingsViewerClsid.TabIndex = 12;
@@ -281,7 +348,7 @@
             this.WorkspaceDirectory.Location = new System.Drawing.Point(11, 30);
             this.WorkspaceDirectory.Name = "WorkspaceDirectory";
             this.WorkspaceDirectory.ReadOnly = true;
-            this.WorkspaceDirectory.Size = new System.Drawing.Size(297, 20);
+            this.WorkspaceDirectory.Size = new System.Drawing.Size(510, 20);
             this.WorkspaceDirectory.TabIndex = 8;
             this.WorkspaceDirectory.TextChanged += new System.EventHandler(this.WorkspaceDirectory_TextChanged);
             // 
@@ -293,6 +360,13 @@
             this.label3.Size = new System.Drawing.Size(108, 13);
             this.label3.TabIndex = 9;
             this.label3.Text = "Workspace directory:";
+            // 
+            // UsersTabImages
+            // 
+            this.UsersTabImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("UsersTabImages.ImageStream")));
+            this.UsersTabImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.UsersTabImages.Images.SetKeyName(0, "users-icon-24.png");
+            this.UsersTabImages.Images.SetKeyName(1, "sync-24.png");
             // 
             // ManagementConsoleForm
             // 
@@ -345,5 +419,11 @@
         private System.Windows.Forms.TextBox EdrawingsViewerClsid;
         private System.Windows.Forms.TextBox WorkspaceDirectory;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button BrowseSolidWorksExePath;
+        private System.Windows.Forms.TextBox SolidWorksExePath;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button BrowsePublishingDirectory;
+        private System.Windows.Forms.TextBox PublishingDirectory;
+        private System.Windows.Forms.Label label2;
     }
 }

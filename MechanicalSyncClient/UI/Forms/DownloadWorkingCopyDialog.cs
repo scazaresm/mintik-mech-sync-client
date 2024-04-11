@@ -12,6 +12,7 @@ namespace MechanicalSyncApp.UI.Forms
         {
             InitializeComponent();
             this.cts = cts ?? throw new ArgumentNullException(nameof(cts));
+            TopMost = true;
         }
 
         public void SetProgress(int progress)
@@ -27,6 +28,11 @@ namespace MechanicalSyncApp.UI.Forms
         public void SetStatus(string status)
         {
             Status.Text = status;
+        }
+
+        public void SetTitle(string title)
+        {
+            Text = title;
         }
 
         private void CancelButton_Click(object sender, EventArgs e)

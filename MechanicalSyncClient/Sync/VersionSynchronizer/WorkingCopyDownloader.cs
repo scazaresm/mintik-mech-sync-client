@@ -5,6 +5,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI.Forms;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,6 +20,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
     public class WorkingCopyDownloader : IWorkingCopyDownloader
     {
         private readonly IVersionSynchronizer synchronizer;
+        private readonly ILogger logger;
 
         public DownloadWorkingCopyDialog Dialog { get; set; }
         public CancellationTokenSource CancellationTokenSource { get; set; }
@@ -27,9 +29,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         private readonly Project remoteProject;
         private readonly LocalVersion localVersion;
 
-        public WorkingCopyDownloader(IVersionSynchronizer synchronizer)
+        public WorkingCopyDownloader(IVersionSynchronizer synchronizer, ILogger logger)
         {
             this.synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             remoteVersion = synchronizer.Version.RemoteVersion;
             remoteProject = synchronizer.Version.RemoteProject;
             localVersion = synchronizer.Version;
@@ -84,17 +87,17 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private async Task<SyncCheckState> CheckLocalCopyAsync()
         {
-            synchronizer.SetState(new IndexLocalFiles());
+            synchronizer.SetState(new IndexLocalFilesState(logger));
             await synchronizer.RunStepAsync();
 
-            synchronizer.SetState(new IndexRemoteFilesState());
+            synchronizer.SetState(new IndexRemoteFilesState(logger));
             await synchronizer.RunStepAsync();
 
-            var syncCheckStep = new SyncCheckState();
+            var syncCheckStep = new SyncCheckState(logger);
             synchronizer.SetState(syncCheckStep);
             await synchronizer.RunStepAsync();
 
-            synchronizer.SetState(new IdleState());
+            synchronizer.SetState(new SynchronizerIdleState(logger));
             await synchronizer.RunStepAsync();
 
             return syncCheckStep;

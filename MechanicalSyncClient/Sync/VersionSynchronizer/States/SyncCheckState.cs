@@ -17,11 +17,19 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
     public class SyncCheckState : VersionSynchronizerState
     {
+        private readonly ILogger logger;
+
         public SyncCheckSummary Summary { get; private set; }
+        public bool RethrowException { get; set; } = false;
+
+        public SyncCheckState(ILogger logger)
+        {
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
 
         public override async Task RunAsync()
         {
-            Log.Debug($"Starting SyncCheckState: versionId = {Synchronizer.Version.RemoteVersion.Id}, versionLocalDirectory = {Synchronizer.Version.LocalDirectory}");
+            logger.Debug($"Starting SyncCheckState: versionId = {Synchronizer.Version.RemoteVersion.Id}, versionLocalDirectory = {Synchronizer.Version.LocalDirectory}");
          
             try
             {
@@ -37,21 +45,21 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                             // Synced: file exists in both local and remote, and checksum is equals
                             var syncedFile = remoteFileIndex[localFile.Key];
                             Summary.AddSyncedFile(syncedFile);
-                            Log.Debug($"\t{syncedFile.RelativeFilePath} = Synced -> {syncedFile.FileChecksum}");
+                            logger.Debug($"\t{syncedFile.RelativeFilePath} = Synced -> {syncedFile.FileChecksum}");
                         }
                         else
                         {
                             // Unsynced: file exists in both local and remote but checksum is different
                             var changedFile = remoteFileIndex[localFile.Key];
                             Summary.AddChangedFile(changedFile);
-                            Log.Debug($"\t{changedFile.RelativeFilePath} = Changed -> {changedFile.FileChecksum}");
+                            logger.Debug($"\t{changedFile.RelativeFilePath} = Changed -> {changedFile.FileChecksum}");
                         }
                     else
                     {
                         // Created: file exists in local but not in remote
                         var createdFile = localFile.Value;
                         Summary.AddCreatedFile(createdFile);
-                        Log.Debug($"\t{createdFile.RelativeFilePath} = Created -> {createdFile.FileChecksum}");
+                        logger.Debug($"\t{createdFile.RelativeFilePath} = Created -> {createdFile.FileChecksum}");
                     }
                 }
 
@@ -60,17 +68,18 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                 foreach (string deletedFileKey in existingInRemoteButNotInLocal)
                 {
                     Summary.AddDeletedFile(remoteFileIndex[deletedFileKey]);
-                    Log.Debug($"\t{remoteFileIndex[deletedFileKey].RelativeFilePath} = Deleted");
+                    logger.Debug($"\t{remoteFileIndex[deletedFileKey].RelativeFilePath} = Deleted");
                 }
             }
             catch (Exception ex)
             {
                 Summary.ExceptionObject = ex;
                 var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "";
-                Log.Error($"Could not complete SyncCheckState: {ex.GetType()} {ex} {innerExceptionMessage}");
+                logger.Error($"Could not complete SyncCheckState: {ex.GetType()} {ex} {innerExceptionMessage}");
+
+                if (RethrowException) throw ex;
             }
-            
-            Log.Debug("SyncCheckState complete.");
+            logger.Debug("SyncCheckState complete.");
         }
 
         public override void UpdateUI()

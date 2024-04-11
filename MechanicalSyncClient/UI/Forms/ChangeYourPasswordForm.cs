@@ -34,7 +34,10 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void ValidateData()
         {
-            ChangeButton.Enabled = NewPassword.Text.Length > 0 && ConfirmPassword.Text.Length > 0;
+            ChangeButton.Enabled = 
+                NewPassword.Text.Length > 0 && 
+                ConfirmPassword.Text.Length > 0 &&
+                NewPassword.Text == ConfirmPassword.Text;
         }
 
         private async void ChangeButton_Click(object sender, EventArgs e)

@@ -87,13 +87,13 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Local file";
-            this.columnHeader1.Width = 550;
+            this.columnHeader1.Width = 500;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Action in remote";
+            this.columnHeader2.Text = "Sync operation";
             this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader2.Width = 150;
+            this.columnHeader2.Width = 230;
             // 
             // FileIcons
             // 

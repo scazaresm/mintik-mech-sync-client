@@ -34,7 +34,7 @@ namespace MechanicalSyncApp.UI
         private void OnControlLoaded(EModelViewControl ctrl)
         {
             ModelViewControl = ctrl;
-            ModelMarkupControl = ModelViewControl.CoCreateInstance("EModelViewMarkup.EModelMarkupControl"); 
+            ModelMarkupControl = (EModelMarkupControl)ModelViewControl.CoCreateInstance("EModelViewMarkup.EModelMarkupControl"); 
             
             if (OnFailedLoadingDocument != null)
             {

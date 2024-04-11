@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Serilog;
+using MechanicalSyncApp.Core.Util;
 
 namespace MechanicalSyncApp.Reviews.DrawingReviewer
 {
@@ -27,7 +29,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
                 var UI = reviewer.UI;
 
                 // download the markup file from server and save it to a temporary file
-                reviewer.TempDownloadedMarkupFile = Path.GetTempFileName().Replace(".tmp", ".markup");
+                reviewer.TempDownloadedMarkupFile = PathUtils.GetTempFileNameWithExtension(".markup");
 
                 await reviewer.SyncServiceClient.DownloadFileAsync(new DownloadFileRequest()
                 {
@@ -36,15 +38,12 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
                     LocalFilename = reviewer.TempDownloadedMarkupFile,
                     RelativeFilePath = $"{reviewer.ReviewTarget.TargetId}.markup"
                 });
-
-                // open the markup file in the eDrawings viewer
-                UI.DrawingReviewerControl.OpenMarkupFile(reviewer.TempDownloadedMarkupFile);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Failed to load markup file, {ex.Message}",
-                    "Error",
+                var message = $"Failed to load markup file, {ex.Message}";
+                Log.Error(message);
+                MessageBox.Show(message, "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );

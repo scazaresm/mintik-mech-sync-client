@@ -5,6 +5,7 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Reviews.DrawingReviewer.Commands;
 using MechanicalSyncApp.UI;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,13 +14,14 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
 {
     public class DrawingReviewer : IDrawingReviewer
     {
+        private readonly ILogger logger;
 
         public IDrawingReviewerUI UI { get; }
 
         public IAuthenticationServiceClient AuthServiceClient { get; }
         public IMechSyncServiceClient SyncServiceClient { get; }
 
-        public DeltaDrawingsTreeView DeltaDrawingsTreeView { get; set; }
+        public ReviewableFilesTreeView DrawingExplorer { get; private set; }
 
         public LocalReview Review { get; }
 
@@ -44,10 +46,12 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             "Fixed"
         };
 
-        public DrawingReviewer(IAuthenticationServiceClient authService,
-                               IMechSyncServiceClient mechService,
-                               IDrawingReviewerUI ui,
-                               LocalReview review
+        public DrawingReviewer(
+                IAuthenticationServiceClient authService,
+                IMechSyncServiceClient mechService,
+                IDrawingReviewerUI ui,
+                LocalReview review,
+                ILogger logger
             )
         {
             // validate inputs and assign properties
@@ -55,13 +59,14 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             SyncServiceClient = mechService ?? throw new ArgumentNullException(nameof(mechService));
             UI = ui ?? throw new ArgumentNullException(nameof(ui));
             Review = review ?? throw new ArgumentNullException(nameof(review));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task InitializeUiAsync()
         {
-            DeltaDrawingsTreeView = new DeltaDrawingsTreeView(SyncServiceClient, Review);
-            DeltaDrawingsTreeView.AttachTreeView(UI.DeltaDrawingsTreeView);
-            DeltaDrawingsTreeView.OnOpenDrawingForReviewing += DeltaDrawingsTreeView_OnOpenDrawingForReviewing;
+            DrawingExplorer = new ReviewableDrawingsTreeView(SyncServiceClient, Review, logger);
+            DrawingExplorer.AttachTreeView(UI.DeltaDrawingsTreeView);
+            DrawingExplorer.OnOpenReviewTarget += DrawingsExplorer_OnOpenReviewTarget;
 
             var designerDetails = await AuthServiceClient.GetUserDetailsAsync(Review.RemoteVersion.Owner.UserId);
 
@@ -77,6 +82,9 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             UI.ZoomToAreaButton.Click += ZoomToAreaButton_Click;
             UI.ApproveDrawingButton.Click += ApproveDrawingButton_Click;
             UI.RejectDrawingButton.Click += RejectDrawingButton_Click;
+            UI.RefreshReviewTargetsButton.Click += RefreshReviewTargetsButton_Click;
+
+            await RefreshReviewTargetsAsync();
         }
 
         public async void DrawingReviewerControl_OpenDocError(string FileName, int ErrorCode, string ErrorString)
@@ -84,7 +92,6 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             MessageBox.Show($"Failed to open drawing {FileName}: Error {ErrorCode}, {ErrorString}");
             await CloseReviewTargetAsync();
         }
-
 
         public async Task OpenReviewTargetAsync(ReviewTarget reviewTarget)
         {
@@ -96,35 +103,19 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             await new CloseDrawingReviewCommand(this).RunAsync();
         }
 
-        public async Task OpenReviewMarkupAsync(ReviewTarget reviewTarget)
-        {
-
-        }
-
-        public async Task CloseReviewMarkupAsync()
-        {
-
-        }
-
-
         public async Task ApproveReviewTargetAsync()
         {
-            await new ApproveDrawingCommand(this).RunAsync();
+            await new ApproveDrawingCommand(this, logger).RunAsync();
         }
 
         public async Task RejectReviewTargetAsync()
         {
-            await new RejectDrawingCommand(this).RunAsync();
+            await new RejectDrawingCommand(this, logger).RunAsync();
         }
 
-        public async Task RefreshDeltaTargetsAsync()
+        public async Task RefreshReviewTargetsAsync()
         {
-            await DeltaDrawingsTreeView.Refresh();
-        }
-        
-        public async Task RefreshDrawingReviewsAsync()
-        {
-
+            await DrawingExplorer.RefreshAsync();
         }
 
         public async Task SaveReviewProgressAsync()
@@ -173,6 +164,11 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             UI.DrawingReviewerControl.SetCloudWithLeaderMarkupOperator();
         }
 
+        private async void RefreshReviewTargetsButton_Click(object sender, EventArgs e)
+        {
+            await DrawingExplorer.FetchReviewableFileMetadata();
+        }
+
         private void PanButton_Click(object sender, EventArgs e)
         {
             UI.DrawingReviewerControl.SetPanOperator();
@@ -184,7 +180,7 @@ namespace MechanicalSyncApp.Reviews.DrawingReviewer
             UI.DrawingReviewerControl.SetZoomOperator();
         }
 
-        private async void DeltaDrawingsTreeView_OnOpenDrawingForReviewing(object sender, OpenDrawingForReviewingEventArgs e)
+        private async void DrawingsExplorer_OnOpenReviewTarget(object sender, OpenReviewTargetEventArgs e)
         {
             await OpenReviewTargetAsync(e.ReviewTarget);
         }

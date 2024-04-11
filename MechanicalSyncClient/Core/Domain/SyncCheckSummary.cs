@@ -63,7 +63,6 @@ namespace MechanicalSyncApp.Core.Domain
                 ChangedFiles[changedFile.RelativeFilePath] = changedFile;
         }
 
-
         public void AddDeletedFile(FileMetadata deletedFile)
         {
             deletedFile.RelativeFilePath = deletedFile.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar);
@@ -71,9 +70,11 @@ namespace MechanicalSyncApp.Core.Domain
             if (!DeletedFiles.ContainsKey(deletedFile.RelativeFilePath))
                 DeletedFiles[deletedFile.RelativeFilePath] = deletedFile;
 
+            // check if created and then deleted
             if (CreatedFiles.ContainsKey(deletedFile.RelativeFilePath))
                 CreatedFiles.Remove(deletedFile.RelativeFilePath);
 
+            // check if changed and then deleted
             if (ChangedFiles.ContainsKey(deletedFile.RelativeFilePath))
                 ChangedFiles.Remove(deletedFile.RelativeFilePath);
         }

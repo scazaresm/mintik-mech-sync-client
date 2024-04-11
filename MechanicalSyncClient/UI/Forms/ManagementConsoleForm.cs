@@ -1,5 +1,7 @@
 ﻿using MechanicalSyncApp.Core.AuthenticationService;
 using MechanicalSyncApp.Core.Services.Authentication;
+using MechanicalSyncApp.Core.Services.Authentication.Models;
+using MechanicalSyncApp.Core.Services.Authentication.Models.Request;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Util;
 using Serilog;
@@ -13,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.UI.Forms
@@ -22,7 +25,9 @@ namespace MechanicalSyncApp.UI.Forms
         private readonly IAuthenticationServiceClient authenticationService = AuthenticationServiceClient.Instance;
 
         private readonly string WORKSPACE_DIRECTORY = "WORKSPACE_DIRECTORY";
+        private readonly string PUBLISHING_DIRECTORY = "PUBLISHING_DIRECTORY";
         private readonly string EDRAWINGS_VIEWER_CLSID = "EDRAWINGS_VIEWER_CLSID";
+        private readonly string SOLIDWORKS_EXE_PATH = "SOLIDWORKS_EXE_PATH";
 
         #region Singleton
         private static Form _instance = null;
@@ -43,9 +48,18 @@ namespace MechanicalSyncApp.UI.Forms
         }
         #endregion
 
-        private async Task PopulateUsers()
+        private async Task PopulateUsersAsync(string filter = null)
         {
             var allUsers = await authenticationService.GetAllUserDetailsAsync();
+
+            if (filter != null)
+                allUsers = allUsers.Where((u) =>
+                    u.FullName.Contains(filter) ||
+                    u.Email.Contains(filter) ||
+                    u.FirstName.Contains(filter) ||
+                    u.LastName.Contains(filter) ||
+                    u.DisplayName.Contains(filter)
+                ).ToList();
 
             UserList.Items.Clear();   
             foreach (var user in allUsers) 
@@ -55,13 +69,14 @@ namespace MechanicalSyncApp.UI.Forms
                 userItem.SubItems.Add(user.DisplayName);
                 userItem.SubItems.Add(user.Role);
                 userItem.SubItems.Add(user.Enabled ? "Yes" : "No");
+                userItem.Tag = user;
                 UserList.Items.Add(userItem);
             }
         }
 
         private async void ManagementConsoleForm_Load(object sender, EventArgs e)
         {
-            await PopulateUsers();
+            await PopulateUsersAsync();
         }
 
         private async void AddUserButton_Click(object sender, EventArgs e)
@@ -69,13 +84,7 @@ namespace MechanicalSyncApp.UI.Forms
             var createUserForm = new CreateEditUserForm();
             
             if (createUserForm.ShowDialog() == DialogResult.OK) {
-                MessageBox.Show(
-                    "The new user has been created and the first login instructions have been sent to his/her email.",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-                await PopulateUsers();
+                await PopulateUsersAsync();
             }
         }
 
@@ -87,16 +96,17 @@ namespace MechanicalSyncApp.UI.Forms
 
         private async void RefreshButton_Click(object sender, EventArgs e)
         {
-            await PopulateUsers();
+            await PopulateUsersAsync();
         }
 
         private void LoadSyncConfiguration()
         {
             try
             {
-                WorkspaceDirectory.Text = ConfigurationManager.AppSettings[WORKSPACE_DIRECTORY] ?? "";
-                EdrawingsViewerClsid.Text = ConfigurationManager.AppSettings[EDRAWINGS_VIEWER_CLSID] ?? "";
-
+                WorkspaceDirectory.Text = ConfigurationManager.AppSettings[WORKSPACE_DIRECTORY] ?? string.Empty;
+                PublishingDirectory.Text = ConfigurationManager.AppSettings[PUBLISHING_DIRECTORY] ?? string.Empty;
+                EdrawingsViewerClsid.Text = ConfigurationManager.AppSettings[EDRAWINGS_VIEWER_CLSID] ?? string.Empty;
+                SolidWorksExePath.Text = ConfigurationManager.AppSettings[SOLIDWORKS_EXE_PATH] ?? string.Empty;
                 ApplySyncChanges.Enabled = false;
             }
             catch (Exception ex)
@@ -112,6 +122,8 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 SettingsUtils.UpsertSetting(WORKSPACE_DIRECTORY, WorkspaceDirectory.Text);
                 SettingsUtils.UpsertSetting(EDRAWINGS_VIEWER_CLSID, EdrawingsViewerClsid.Text);
+                SettingsUtils.UpsertSetting(SOLIDWORKS_EXE_PATH, SolidWorksExePath.Text);
+                SettingsUtils.UpsertSetting(PUBLISHING_DIRECTORY, PublishingDirectory.Text);
                 ConfigurationManager.RefreshSection("appSettings");
                 ApplySyncChanges.Enabled = false;
             }
@@ -125,25 +137,42 @@ namespace MechanicalSyncApp.UI.Forms
 
         private bool ValidateSyncSettings()
         {
-            return Directory.Exists(WorkspaceDirectory.Text) && EdrawingsViewerClsid.Text != "";
+            return 
+                Directory.Exists(WorkspaceDirectory.Text) && 
+                Directory.Exists(PublishingDirectory.Text) &&
+                EdrawingsViewerClsid.Text != "" &&
+                File.Exists(SolidWorksExePath.Text);
         }
 
         private void BrowseWorkspaceDirectory_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
+            using (var folderBrowserDialog = new FolderBrowserDialog())
             {
-                // Set the initial directory (optional)
                 folderBrowserDialog.SelectedPath = "C:\\";
 
-                // Show the dialog and check if the user clicked OK
                 DialogResult result = folderBrowserDialog.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    // Get the selected folder path
                     string selectedFolderPath = folderBrowserDialog.SelectedPath;
-
-                    // Do something with the selected folder path, such as displaying it in a textbox
                     WorkspaceDirectory.Text = selectedFolderPath;
+                }
+            }
+        }
+
+        private void BrowseSolidWorksExePath_Click(object sender, EventArgs e)
+        {
+            using (var openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                openFileDialog.Filter = "Executable Files (*.exe)|*.exe";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+
+                DialogResult result = openFileDialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(openFileDialog.FileName))
+                {
+                    SolidWorksExePath.Text = openFileDialog.FileName;
                 }
             }
         }
@@ -158,6 +187,16 @@ namespace MechanicalSyncApp.UI.Forms
             ApplySyncChanges.Enabled = ValidateSyncSettings();
         }
 
+        private void SolidWorksExePath_TextChanged(object sender, EventArgs e)
+        {
+            ApplySyncChanges.Enabled = ValidateSyncSettings();
+        }
+
+        private void PublishingDirectory_TextChanged(object sender, EventArgs e)
+        {
+            ApplySyncChanges.Enabled = ValidateSyncSettings();
+        }
+
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (Tabs.SelectedIndex)
@@ -168,6 +207,71 @@ namespace MechanicalSyncApp.UI.Forms
                 case 1:
                     LoadSyncConfiguration();
                     break;
+            }
+        }
+
+        private void BrowsePublishingDirectory_Click(object sender, EventArgs e)
+        {
+            using (var folderBrowserDialog = new FolderBrowserDialog())
+            {
+                folderBrowserDialog.SelectedPath = "C:\\";
+
+                DialogResult result = folderBrowserDialog.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    string selectedFolderPath = folderBrowserDialog.SelectedPath;
+                    PublishingDirectory.Text = selectedFolderPath;
+                }
+            }
+        }
+
+        private async void ResetPasswordButton_Click(object sender, EventArgs e)
+        {
+            var selectedUser = UserList.SelectedItems[0].Tag as UserDetails;
+
+            var confirmation = new ConfirmPasswordResetDialog(selectedUser).ShowDialog();
+
+            EditUserButton.Enabled = false;
+            ResetPasswordButton.Enabled = false;
+
+            if (confirmation != DialogResult.OK) return;
+
+            await authenticationService.ResetPasswordAsync(selectedUser.Id);
+
+            MessageBox.Show(
+                "Password reset succeeded!", 
+                "Success", 
+                MessageBoxButtons.OK, 
+                MessageBoxIcon.Information
+            );
+        }
+
+        private void UserList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var list = (sender as ListView);
+            var isItemSelected =
+                list.SelectedItems != null && list.SelectedItems.Count == 1;
+
+            ResetPasswordButton.Enabled = isItemSelected;
+            EditUserButton.Enabled = isItemSelected;
+        }
+
+        private async void FilterUserTextBox_TextChanged(object sender, EventArgs e)
+        {
+            await PopulateUsersAsync(FilterUserTextBox.Text == "" ? null : FilterUserTextBox.Text);
+        }
+
+        private async void EditUserButton_Click(object sender, EventArgs e)
+        {
+            var selectedUser = UserList.SelectedItems[0].Tag as UserDetails;
+
+            var editUserForm = new CreateEditUserForm(selectedUser);
+
+            if (editUserForm.ShowDialog() == DialogResult.OK)
+            {
+                await PopulateUsersAsync();
+                EditUserButton.Enabled = false;
+                ResetPasswordButton.Enabled = false;
             }
         }
     }

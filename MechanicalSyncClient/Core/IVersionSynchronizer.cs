@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
+using MechanicalSyncApp.UI;
 using MechanicalSyncApp.UI.Forms;
 using System;
 using System.Collections.Concurrent;
@@ -35,6 +36,14 @@ namespace MechanicalSyncApp.Core
         ConcurrentDictionary<string, FileMetadata> LocalFileIndex { get; set; }
         ConcurrentDictionary<string, FileMetadata> RemoteFileIndex { get; }
 
+        Review CurrentDrawingReview { get; set; }
+        ReviewTarget CurrentDrawingReviewTarget { get; set; }
+        ConcurrentDictionary<string, FilePublishing> PublishingIndexByPartNumber { get; }
+        string BasePublishingDirectory { get; set; }
+        string RelativePublishingSummaryDirectory { get; set; }
+        ReviewTarget CurrentAssemblyReviewTarget { get; set; }
+        Review CurrentAssemblyReview { get; set; }
+
         // State related methods
         VersionSynchronizerState GetState();
         void SetState(VersionSynchronizerState state);
@@ -46,11 +55,13 @@ namespace MechanicalSyncApp.Core
         Task WorkOfflineAsync();
         Task SyncRemoteAsync();
         Task CloseVersionAsync();
-        Task PublishVersionAsync();
+        Task PublishDeliverablesAsync();
         Task TransferOwnershipAsync();
+        Task OpenDrawingForViewingAsync(OpenReviewTargetForViewingEventArgs e);
 
         // UI related methods
         void InitializeUI();
         void UpdateUI();
+        Task OpenAssemblyForViewingAsync(OpenReviewTargetForViewingEventArgs e);
     }
 }

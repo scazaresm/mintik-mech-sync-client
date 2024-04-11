@@ -7,9 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
 {
@@ -45,23 +43,49 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             var synchronizer = sourceState.Synchronizer;
             try
             {
-                var targetFiles = await DetermineTargetFilesAsync(fileSyncEvent);
+                var deletedFiles = await DetermineDeletedFilesAsync(fileSyncEvent);
+                var publishedFiles = DeterminePublishedFiles(deletedFiles);
+                var restoredFiles = deletedFiles.Where((file) => publishedFiles.Contains(file)).ToList();
+                var relativeEquipmentPath = fileSyncEvent.Version.RemoteProject.RelativeEquipmentPath;
 
-                SetSyncingStatusInViewer(targetFiles);
-
-                // if RelativeFilePath is a directory, all its contents will be removed in server
-                await client.DeleteFileAsync(new DeleteFileRequest
+                if (publishedFiles.Count > 0)
                 {
-                    VersionId = fileSyncEvent.Version.RemoteVersion.Id,
-                    VersionFolder = ONGOING_FOLDER,
-                    RelativeEquipmentPath = fileSyncEvent.Version.RemoteProject.RelativeEquipmentPath,
-                    RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/')
-                });
-                RemoveDeletedFilesInViewer(targetFiles);
+                    // rollback files which are already published, and skip them for deletion in remote
+                    await RollbackPublishedFilesAsync(publishedFiles, relativeEquipmentPath); 
+                    deletedFiles.RemoveAll((file) => restoredFiles.Contains(file));
+
+                    // delete files which are not published yet (if any), one by one
+                    SetSyncingStatusInViewer(deletedFiles);
+                    foreach (var file in deletedFiles) 
+                    {
+                        await client.DeleteFileAsync(new DeleteFileRequest
+                        {
+                            VersionId = fileSyncEvent.Version.RemoteVersion.Id,
+                            VersionFolder = ONGOING_FOLDER,
+                            RelativeEquipmentPath = relativeEquipmentPath,
+                            RelativeFilePath = file.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/')
+                        });
+                    }
+                    RemoveDeletedFilesInViewer(deletedFiles);
+                }
+                else
+                {
+                    // nothing is published and we can safely delete all the files from remote
+                    // if RelativeFilePath is a directory, all its contents will be removed in server
+                    SetSyncingStatusInViewer(deletedFiles);
+                    await client.DeleteFileAsync(new DeleteFileRequest
+                    {
+                        VersionId = fileSyncEvent.Version.RemoteVersion.Id,
+                        VersionFolder = ONGOING_FOLDER,
+                        RelativeEquipmentPath = relativeEquipmentPath,
+                        RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/')
+                    });
+                    RemoveDeletedFilesInViewer(deletedFiles);
+                }
 
                 if (synchronizer.ChangeMonitor.IsMonitoring())
                 {
-                    foreach(var file in targetFiles)
+                    foreach (var file in deletedFiles)
                         synchronizer.OnlineWorkSummary.AddDeletedFile(file);
                 }
             }
@@ -97,7 +121,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             }
         }
 
-        private async Task<List<FileMetadata>> DetermineTargetFilesAsync(FileSyncEvent fileSyncEvent)
+        private async Task<List<FileMetadata>> DetermineDeletedFilesAsync(FileSyncEvent fileSyncEvent)
         {
             var synchronizer = sourceState.Synchronizer;
             var target = fileSyncEvent.FullPath;
@@ -132,5 +156,55 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
             return targetFiles;
         }
 
+        private List<FileMetadata> DeterminePublishedFiles(List<FileMetadata> deletedFiles)
+        {
+            var publishingIndex = sourceState.Synchronizer.PublishingIndexByPartNumber;
+            return deletedFiles
+                .Where((fileMetadata) => {
+                    var partNumber = Path.GetFileNameWithoutExtension(fileMetadata.FullFilePath);
+                    return publishingIndex.ContainsKey(partNumber);
+                })
+                .ToList();
+        }
+
+        private async Task RollbackPublishedFilesAsync(List<FileMetadata> publishedFiles, string relativeEquipmentPath)
+        {
+            var isOnlineMode = sourceState.Synchronizer.ChangeMonitor.IsMonitoring();
+            try
+            {
+                var baseDirectory = sourceState.Synchronizer.Version.LocalDirectory;
+                foreach (var file in publishedFiles)
+                {
+                    var localFilePath = Path.Combine(baseDirectory, file.RelativeFilePath);
+                    var fileDirectory = Path.GetDirectoryName(localFilePath);
+
+                    if (!Directory.Exists(fileDirectory))
+                        Directory.CreateDirectory(fileDirectory);
+
+                    // pause online mode if we are online, this will avoid throwing unwanted file creation
+                    // event when the file being rollbacked is downloaded
+                    if (isOnlineMode) 
+                        sourceState.Synchronizer.ChangeMonitor.StopMonitoring();
+
+                    await client.DownloadFileAsync(new DownloadFileRequest()
+                    {
+                        VersionFolder = ONGOING_FOLDER,
+                        RelativeEquipmentPath = relativeEquipmentPath,
+                        RelativeFilePath = file.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/'),
+                        LocalFilename = localFilePath,
+                    });
+
+                    // put rollbacked published file as read-only
+                    if (File.Exists(localFilePath))
+                        File.SetAttributes(localFilePath, File.GetAttributes(localFilePath) | FileAttributes.ReadOnly);
+                }
+            }
+            finally
+            {
+                // go back to online mode if we were online before
+                if (isOnlineMode)
+                    sourceState.Synchronizer.ChangeMonitor.StartMonitoring();
+            }
+        }
     }
 }
