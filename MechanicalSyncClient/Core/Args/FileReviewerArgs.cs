@@ -2,6 +2,7 @@
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.SolidWorksInterop.API;
+using MechanicalSyncApp.Reviews.FileReviewer;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Args
 {
-    public class AssemblyReviewerArgs
+    public class FileReviewerArgs
     {
         public IAuthenticationServiceClient AuthServiceClient { get; set; }
 
         public IMechSyncServiceClient SyncServiceClient { get; set; }
 
-        public IAssemblyReviewerUI UI { get; set; }
+        public FileReviewerUI UI { get; set; }
 
         public LocalReview Review { get; set; }
 

@@ -58,9 +58,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public ReviewTarget CurrentDrawingReviewTarget { get; set; }
 
-        public Review CurrentAssemblyReview { get; set; }
+        public Review CurrentFileReview { get; set; }
 
-        public ReviewTarget CurrentAssemblyReviewTarget { get; set; }
+        public ReviewTarget CurrentFileReviewTarget { get; set; }
 
         public string FileExtensionFilter { get; private set; } = "*.sldasm | *.sldprt | *.slddrw";
 
@@ -162,7 +162,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public async Task OpenAssemblyForViewingAsync(OpenReviewTargetForViewingEventArgs e)
         {
-            await new OpenAssyReviewForViewingCommand(this, e, logger).RunAsync();
+            await new OpenFileReviewCommand(this, e, logger).RunAsync();
         }
 
         public async Task OpenChangeRequestDetailsAsync(ChangeRequest changeRequest)
@@ -207,17 +207,17 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
             UI.VersionSynchronizerTabs.SelectedIndex = 0;
             UI.DrawingReviewsExplorer.OpenReviewForViewing += DrawingReviewsExplorer_OpenDrawingForViewing;
-            UI.AssemblyReviewsExplorer.OpenReviewForViewing += AssemblyReviewsExplorer_OpenAssemblyForViewing;
+            UI.ReviewsExplorer.OpenReviewForViewing += AssemblyReviewsExplorer_OpenAssemblyForViewing;
 
             UI.RefreshDrawingExplorerButton.Click += RefreshDrawingExplorerButton_Click;
             UI.RefreshAssemblyExplorerButton.Click += RefreshAssemblyExplorerButton_Click;
 
             UI.MarkDrawingAsFixedButton.Click += MarkDrawingAsFixedButton_Click;
-            UI.MarkAssemblyAsFixedButton.Click += MarkAssemblyAsFixedButton_Click;
+            UI.MarkFileAsFixedButton.Click += MarkAssemblyAsFixedButton_Click;
 
             UI.ArchiveVersionButton.Click += ArchiveVersionButton_Click;
 
-            UI.AssemblyChangeRequestGrid.DoubleClick += AssemblyChangeRequestGrid_DoubleClick;
+            UI.FileChangeRequestGrid.DoubleClick += AssemblyChangeRequestGrid_DoubleClick;
 
             UI.ShowVersionExplorer();
         }
@@ -226,7 +226,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private async void MarkAssemblyAsFixedButton_Click(object sender, EventArgs e)
         {
-            await new MarkAssemblyAsFixedCommand(this, logger).RunAsync();
+            await new MarkFileAsFixedCommand(this, logger).RunAsync();
         }
 
         private async void MarkDrawingAsFixedButton_Click(object sender, EventArgs e)
@@ -296,7 +296,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         private async void RefreshAssemblyExplorerButton_Click(object sender, EventArgs e)
         {
-            await UI.AssemblyReviewsExplorer.Refresh();
+            await UI.ReviewsExplorer.Refresh();
         }
 
         private void CopyLocalCopyPathMenuItem_Click(object sender, EventArgs e)
@@ -347,14 +347,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             if (UI.DrawingReviewsExplorer != null) 
                 UI.DrawingReviewsExplorer.OpenReviewForViewing -= DrawingReviewsExplorer_OpenDrawingForViewing;
                 
-            if (UI.AssemblyReviewsExplorer != null)
-                UI.AssemblyReviewsExplorer.OpenReviewForViewing -= AssemblyReviewsExplorer_OpenAssemblyForViewing;
+            if (UI.ReviewsExplorer != null)
+                UI.ReviewsExplorer.OpenReviewForViewing -= AssemblyReviewsExplorer_OpenAssemblyForViewing;
 
             UI.RefreshDrawingExplorerButton.Click -= RefreshDrawingExplorerButton_Click;
             UI.MarkDrawingAsFixedButton.Click -= MarkDrawingAsFixedButton_Click;
-            UI.MarkAssemblyAsFixedButton.Click -= MarkAssemblyAsFixedButton_Click;
+            UI.MarkFileAsFixedButton.Click -= MarkAssemblyAsFixedButton_Click;
             UI.ArchiveVersionButton.Click -= ArchiveVersionButton_Click;
-            UI.AssemblyChangeRequestGrid.DoubleClick -= AssemblyChangeRequestGrid_DoubleClick;
+            UI.FileChangeRequestGrid.DoubleClick -= AssemblyChangeRequestGrid_DoubleClick;
         }
 
         protected virtual void Dispose(bool disposing)

@@ -117,12 +117,12 @@ namespace MechanicalSyncApp.UI.Forms
                 DrawingReviewerTitle = DrawingReviewerTitle,
                 MarkDrawingAsFixedButton = MarkDrawingAsFixedButton,
                 ArchiveVersionButton = ArchiveVersionButton,
-                AssemblyChangeRequestGrid = AssemblyChangeRequestsGrid,
+                FileChangeRequestGrid = AssemblyChangeRequestsGrid,
                 AssemblyReviewViewerToolStrip = AssemblyReviewViewerToolStrip,
-                AssemblyReviewStatus = AssemblyReviewStatus,
-                MarkAssemblyAsFixedButton = MarkAssemblyAsFixedButton,
-                AssemblyReviewViewerTitle = AssemblyReviewViewerTitle,
-                AssemblyReviewsSplit = AssemblyReviewsSplit,
+                FileReviewStatus = AssemblyReviewStatus,
+                MarkFileAsFixedButton = MarkAssemblyAsFixedButton,
+                FileReviewViewerTitle = AssemblyReviewViewerTitle,
+                FileReviewsSplit = AssemblyReviewsSplit,
                 DrawingReviewsSplit = DrawingReviewsSplit,
             };
 
@@ -170,44 +170,21 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void Workspace_OpenReview(object sender, OpenReviewEventArgs e)
         {
-            Form reviewForm = null;
-
             try
             {
                 if (e.Review.RemoteVersion.Status != "Ongoing")
                     throw new InvalidOperationException("This review belongs to a version which is no longer in Ongoing status.");
 
-                var targetType = e.Review.RemoteReview.TargetType;
+                var reviewForm = 
+                    new FileReviewerForm(
+                        AuthenticationServiceClient.Instance,
+                        MechSyncServiceClient.Instance,
+                        e.Review,
+                        Log.Logger
+                    );
 
-                switch (targetType)
-                {
-                    case "DrawingFile":
-                        reviewForm = new DrawingReviewerForm(
-                            AuthenticationServiceClient.Instance,
-                            MechSyncServiceClient.Instance,
-                            e.Review,
-                            Log.Logger
-                        );
-                        break;
-
-                    case "AssemblyFile":
-                        reviewForm = new AssemblyReviewerForm(
-                            AuthenticationServiceClient.Instance,
-                            MechSyncServiceClient.Instance,
-                            e.Review,
-                            Log.Logger
-                        );
-                        break;
-
-                    default:
-                        throw new Exception($"Unexcpected TargetType '{targetType}'");
-                }
-
-                if (reviewForm != null)
-                {
-                    Hide();
-                    reviewForm.Show();
-                }
+                Hide();
+                reviewForm.Show();
             }
             catch (Exception ex)
             {

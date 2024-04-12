@@ -73,7 +73,7 @@ namespace MechanicalSyncApp.UI.Forms
 
             await synchronizer.SyncServiceClient.DownloadFileAsync(new DownloadFileRequest()
             {
-                VersionFolder = "AssyReview",
+                VersionFolder = "FileReview",
                 RelativeEquipmentPath = synchronizer.Version.RemoteProject.RelativeEquipmentPath,
                 RelativeFilePath = $"{ChangeRequest.Id}-change.png",
                 LocalFilename = tempImageFile

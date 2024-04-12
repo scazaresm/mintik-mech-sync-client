@@ -3,24 +3,24 @@ using MechanicalSyncApp.UI;
 using System;
 using System.Threading.Tasks;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.Reviews.AssemblyReviewer.Commands;
 using MechanicalSyncApp.Core.Args;
 using System.Windows.Forms;
 using System.Drawing;
+using MechanicalSyncApp.Reviews.FileReviewer.Commands;
 
-namespace MechanicalSyncApp.Reviews.AssemblyReviewer
+namespace MechanicalSyncApp.Reviews.FileReviewer
 {
-    public class AssemblyReviewer : IAssemblyReviewer
+    public class FileReviewer : IFileReviewer
     {
         private const string CreateChangeRequestPrompt = "Type here to create a new change request...";
 
-        public AssemblyReviewerArgs Args { get; }
+        public FileReviewerArgs Args { get; }
         public ReviewTarget ReviewTarget { get; set; }
-        public FileMetadata AssemblyMetadata { get; set; }
+        public FileMetadata Metadata { get; set; }
 
-        public ReviewableFilesTreeView AssembliesExplorer { get; private set; }
+        public ReviewableFilesTreeView FileExplorer { get; private set; }
 
-        public AssemblyReviewer(AssemblyReviewerArgs args)
+        public FileReviewer(FileReviewerArgs args)
         {
             Args = args ?? throw new ArgumentNullException(nameof(args));
             Args.Validate();
@@ -28,9 +28,17 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
 
         public async Task InitializeUiAsync()
         {
-            AssembliesExplorer = new ReviewableAssembliesTreeView(Args.SyncServiceClient, Args.Review, Args.Logger);
-            AssembliesExplorer.AttachTreeView(Args.UI.DeltaAssembliesTreeView);
-            AssembliesExplorer.OnOpenReviewTarget += AssembliesTreeView_OnOpenReviewTarget;
+            var remoteReview = Args.Review.RemoteReview;
+
+            if (remoteReview.TargetType == "AssemblyFile")
+                FileExplorer = new ReviewableAssembliesTreeView(Args.SyncServiceClient, Args.Review, Args.Logger);
+            else if (remoteReview.TargetType == "DrawingFile")
+                FileExplorer = new ReviewableDrawingsTreeView(Args.SyncServiceClient, Args.Review, Args.Logger);
+            else
+                throw new Exception($"Unsupported TargetType in review: {remoteReview.TargetType}");
+
+            FileExplorer.AttachTreeView(Args.UI.DeltaFilesTreeView);
+            FileExplorer.OnOpenReviewTarget += AssembliesTreeView_OnOpenReviewTarget;
 
             var designerDetails = await Args.AuthServiceClient.GetUserDetailsAsync(Args.Review.RemoteVersion.Owner.UserId);
 
@@ -41,14 +49,14 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
             ui.SetDesignerText(designerDetails.FullName);
 
             ui.ChangeRequestInput.Text = CreateChangeRequestPrompt;
-            ui.CloseAssemblyButton.Click += CloseAssemblyButton_Click;
+            ui.CloseFileReviewButton.Click += CloseFileReviewButton_Click;
             ui.ChangeRequestInput.Enter += ChangeRequestInput_Enter;
             ui.ChangeRequestInput.Leave += ChangeRequestInput_Leave;
             ui.ChangeRequestInput.KeyDown += ChangeRequestInput_KeyDown;
             ui.ChangeRequestsGrid.CellDoubleClick += ChangeRequestsGrid_CellDoubleClick;
-            ui.ApproveAssemblyButton.Click += ApproveAssemblyButton_Click;
+            ui.ApproveFileButton.Click += ApproveFileButton_Click;
             ui.RefreshReviewTargetsButton.Click += RefreshReviewTargetsButton_Click;
-            ui.RejectAssemblyButton.Click += RejectAssemblyButton_Click;
+            ui.RejectFileButton.Click += RejectFileButton_Click;
 
             await RefreshReviewTargetsAsync();
         }
@@ -56,12 +64,12 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
 
         public async Task OpenReviewTargetAsync(ReviewTarget reviewTarget)
         {
-            await new OpenAssemblyReviewCommand(this, reviewTarget, Args.Logger).RunAsync();
+            await new OpenFileReviewCommand(this, reviewTarget, Args.Logger).RunAsync();
         }
 
         public async Task CloseReviewTargetAsync()
         {
-            await new CloseAssemblyReviewCommand(this, Args.Logger).RunAsync();
+            await new CloseFileReviewCommand(this, Args.Logger).RunAsync();
         }
 
         public async Task CreateChangeRequestAsync()
@@ -74,29 +82,29 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
             await new ViewChangeRequestCommand(this, changeRequest, Args.Logger).RunAsync();
         }
 
-        public async Task ApproveAssemblyAsync()
+        public async Task ApproveFileAsync()
         {
-            await new ApproveAssemblyCommand(this, Args.Logger).RunAsync();
+            await new ApproveFileCommand(this, Args.Logger).RunAsync();
         }
 
-        public async Task RejectAssemblyAsync()
+        public async Task RejectFileAsync()
         {
-            await new RejectAssemblyCommand(this, Args.Logger).RunAsync();
+            await new RejectFileCommand(this, Args.Logger).RunAsync();
         }
 
         public async Task RefreshReviewTargetsAsync()
         {
-            await AssembliesExplorer.RefreshAsync();
+            await FileExplorer.RefreshAsync();
         }
 
-        private async void CloseAssemblyButton_Click(object sender, EventArgs e)
+        private async void CloseFileReviewButton_Click(object sender, EventArgs e)
         {
             await CloseReviewTargetAsync();
         }
 
         private void ChangeRequestInput_Enter(object sender, EventArgs e)
         {
-            var input = (sender as TextBox);
+            var input = sender as TextBox;
 
             // prepare to receive change request description
             if (input.Text.Trim() == CreateChangeRequestPrompt)
@@ -108,7 +116,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
 
         private void ChangeRequestInput_Leave(object sender, EventArgs e)
         {
-            var input = (sender as TextBox);
+            var input = sender as TextBox;
 
             // prompt user to start typing to create a new change request
             if (input.Text.Trim() == string.Empty)
@@ -120,7 +128,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
 
         private async void ChangeRequestInput_KeyDown(object sender, KeyEventArgs e)
         {
-            var input = (sender as TextBox);
+            var input = sender as TextBox;
 
             if (e.KeyCode == Keys.Enter && !e.Shift && input.Text.Trim() != string.Empty)
                 await CreateChangeRequestAsync();
@@ -133,7 +141,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
             if (selectedRowsCollection == null || selectedRowsCollection.Count == 0)
                 return;
 
-            var selectedChangeRequest = (selectedRowsCollection[0].Tag as ChangeRequest);
+            var selectedChangeRequest = selectedRowsCollection[0].Tag as ChangeRequest;
             await ViewChangeRequestAsync(selectedChangeRequest);
         }
 
@@ -147,13 +155,13 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer
             await OpenReviewTargetAsync(e.ReviewTarget);
         }
 
-        private async void ApproveAssemblyButton_Click(object sender, EventArgs e)
+        private async void ApproveFileButton_Click(object sender, EventArgs e)
         {
-            await ApproveAssemblyAsync();
+            await ApproveFileAsync();
         }
-        private async void RejectAssemblyButton_Click(object sender, EventArgs e)
+        private async void RejectFileButton_Click(object sender, EventArgs e)
         {
-            await RejectAssemblyAsync();
+            await RejectFileAsync();
         }
     }
 }

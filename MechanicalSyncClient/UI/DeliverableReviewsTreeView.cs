@@ -73,19 +73,19 @@ namespace MechanicalSyncApp.UI
             AttachedTreeView.Nodes.Clear();
             AttachedTreeView.Nodes.Add(rootNode);
             AttachedTreeView.NodeMouseDoubleClick += AttachedTreeView_NodeMouseDoubleClick;
-          
+
+            
         }
 
         public async Task Refresh()
         {
             var reviews = await MechSyncService.GetVersionReviewsAsync(Version.RemoteVersion.Id);
 
-            AttachedTreeView.Nodes.Clear();
+            AttachedTreeView.Nodes.Clear(); 
+            var assemblyReviewsNode = AttachedTreeView.Nodes.Add("Assemblies");
+            var drawingReviewsNode = AttachedTreeView.Nodes.Add("Drawings");
             foreach (var review in reviews)
             {
-                // we are interested on the specified review targets only
-                if (review.TargetType != reviewTargetType.ToString()) continue;
-
                 // sync review targets to detect deleted files
                 var syncedReview = await MechSyncService.SyncReviewTargetsAsync(review.Id);
 
@@ -100,7 +100,10 @@ namespace MechanicalSyncApp.UI
 
                 await PopulateReviewTargets(reviewNode);
 
-                AttachedTreeView.Nodes.Add(reviewNode);
+                if (review.TargetType == ReviewTargetType.AssemblyFile.ToString())
+                    assemblyReviewsNode.Nodes.Add(reviewNode);
+                else if (review.TargetType == ReviewTargetType.DrawingFile.ToString())
+                    drawingReviewsNode.Nodes.Add(reviewNode);
             }
         }
 

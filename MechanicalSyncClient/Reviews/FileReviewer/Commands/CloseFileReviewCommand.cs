@@ -6,15 +6,15 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
+namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
 {
-    public class CloseAssemblyReviewCommand : IAssemblyReviewerCommandAsync
+    public class CloseFileReviewCommand : IFileReviewerCommandAsync
     {
         private readonly ILogger logger;
 
-        public IAssemblyReviewer Reviewer { get; }
+        public IFileReviewer Reviewer { get; }
 
-        public CloseAssemblyReviewCommand(IAssemblyReviewer reviewer, ILogger logger)
+        public CloseFileReviewCommand(IFileReviewer reviewer, ILogger logger)
         {
             Reviewer = reviewer ?? throw new ArgumentNullException(nameof(reviewer));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -22,23 +22,23 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 
         public async Task RunAsync()
         {
-            logger.Debug("CloseAssemblyReviewCommand begins...");
+            logger.Debug("CloseFileReviewCommand begins...");
 
             var ui = Reviewer.Args.UI;
-            ui.CloseAssemblyButton.Enabled = false;
+            ui.CloseFileReviewButton.Enabled = false;
             try
             {
-                var fileName = Path.GetFileName(Reviewer.AssemblyMetadata.RelativeFilePath);
+                var fileName = Path.GetFileName(Reviewer.Metadata.RelativeFilePath);
 
-                var starter = (Reviewer.Args.SolidWorksStarter as SolidWorksStarter);
+                var starter = Reviewer.Args.SolidWorksStarter as SolidWorksStarter;
                 starter.SolidWorksApp.CloseDoc(fileName);
                 await Reviewer.RefreshReviewTargetsAsync();
 
-                logger.Debug("CloseAssemblyReviewCommand complete.");
+                logger.Debug("CloseFileReviewCommand complete.");
             }
             catch (Exception ex)
             {
-                var message = $"Failed to close assembly review: ${ex.Message}";
+                var message = $"Failed to close file review: ${ex.Message}";
 
                 logger.Error(message, ex);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -46,7 +46,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
             finally
             {
                 ui.HideReviewPanel();
-                ui.CloseAssemblyButton.Enabled = true;
+                ui.CloseFileReviewButton.Enabled = true;
             }
         }
     }

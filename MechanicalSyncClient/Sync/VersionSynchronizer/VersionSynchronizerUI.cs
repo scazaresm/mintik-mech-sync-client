@@ -46,7 +46,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public DeliverableReviewsTreeView DrawingReviewsExplorer { get; private set; }
 
-        public DeliverableReviewsTreeView AssemblyReviewsExplorer { get; private set; }
+        public DeliverableReviewsTreeView ReviewsExplorer { get; private set; }
 
         public TabControl VersionSynchronizerTabs { get; set; }
 
@@ -64,17 +64,17 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public ToolStripButton MarkDrawingAsFixedButton { get; set; }
 
-        public DataGridView AssemblyChangeRequestGrid { get; set; }
+        public DataGridView FileChangeRequestGrid { get; set; }
 
-        public ToolStripLabel AssemblyReviewViewerTitle { get; set; }
+        public ToolStripLabel FileReviewViewerTitle { get; set; }
 
         public ToolStrip AssemblyReviewViewerToolStrip { get; set; }
 
-        public ToolStripLabel AssemblyReviewStatus { get; set; }
+        public ToolStripLabel FileReviewStatus { get; set; }
 
-        public ToolStripButton MarkAssemblyAsFixedButton { get; set; }
+        public ToolStripButton MarkFileAsFixedButton { get; set; }
 
-        public SplitContainer AssemblyReviewsSplit { get; set; }
+        public SplitContainer FileReviewsSplit { get; set; }
 
         public SplitContainer DrawingReviewsSplit { get; set; }
 
@@ -116,16 +116,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public void InitializeAssemblyReviews(LocalVersion version)
         {
-            if (AssemblyReviewsExplorer != null)
-                AssemblyReviewsExplorer.Dispose();
+            if (ReviewsExplorer != null)
+                ReviewsExplorer.Dispose();
 
-            AssemblyReviewsExplorer = new DeliverableReviewsTreeView(
+            ReviewsExplorer = new DeliverableReviewsTreeView(
                 MechSyncServiceClient.Instance,
                 version,
                 ReviewTargetType.AssemblyFile
             );
-            AssemblyReviewsExplorer.AttachTreeView(AssemblyReviewsTreeView);
-            AssemblyReviewsSplit.Panel2Collapsed = true;
+            ReviewsExplorer.AttachTreeView(AssemblyReviewsTreeView);
+            FileReviewsSplit.Panel2Collapsed = true;
         }
 
         public void SetDefaultDrawingReviewControls()
@@ -143,7 +143,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             DeliverableReviewsTreeView deliverableExplorer = null;
 
             if (selectedTabText.StartsWith("3D"))
-                deliverableExplorer = AssemblyReviewsExplorer;
+                deliverableExplorer = ReviewsExplorer;
             else if (selectedTabText.StartsWith("2D"))
                 deliverableExplorer = DrawingReviewsExplorer;
 

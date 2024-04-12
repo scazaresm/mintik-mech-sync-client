@@ -6,7 +6,7 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Core.SolidWorksInterop.API;
-using MechanicalSyncApp.Reviews.AssemblyReviewer;
+using MechanicalSyncApp.Reviews.FileReviewer;
 using Serilog;
 using System;
 using System.IO;
@@ -17,9 +17,9 @@ using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace MechanicalSyncApp.UI.Forms
 {
-    public partial class AssemblyReviewerForm : Form
+    public partial class FileReviewerForm : Form
     {
-        private readonly IAssemblyReviewer assemblyReviewer;
+        private readonly IFileReviewer fileReviewer;
         private readonly IMechSyncServiceClient syncServiceClient;
         private readonly LocalReview review;
         private readonly ILogger logger;
@@ -28,7 +28,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private ISolidWorksStarter solidWorksStarter;
 
-        public AssemblyReviewerForm(
+        public FileReviewerForm(
                 IAuthenticationServiceClient authServiceClient,
                 IMechSyncServiceClient syncServiceClient,
                 LocalReview review,
@@ -40,7 +40,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.review = review ?? throw new ArgumentNullException(nameof(review));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            tempWorkingCopyDirectory = Path.Combine(Path.GetTempPath(), $"3d_{review.RemoteVersion.Id}");
+            tempWorkingCopyDirectory = Path.Combine(Path.GetTempPath(), $"review_{review.RemoteVersion.Id}");
             solidWorksStarter = new SolidWorksStarter(logger)
             {
                 Hidden = false,
@@ -48,29 +48,36 @@ namespace MechanicalSyncApp.UI.Forms
                 ShowSplash = false,
                 SolidWorksStartTimeoutSeconds = 60
             };
-            (solidWorksStarter as SolidWorksStarter).OnDestroy += AssemblyReviewerForm_OnSolidWorksDestroy;
+            (solidWorksStarter as SolidWorksStarter).OnDestroy += FileReviewerForm_OnSolidWorksDestroy;
 
-            DeltaAssembliesTreeView.ImageList = TreeViewIcons;
+            DeltaFilesTreeView.ImageList = TreeViewIcons;
 
-            var ui = new AssemblyReviewerUI()
+            if (review.RemoteReview.TargetType == "AssemblyFile")
+                Text = "3D Review";
+            else if (review.RemoteReview.TargetType == "DrawingFile")
+                Text = "2D Review";
+            else
+                throw new Exception($"Unsupported TargetType in review: {review.RemoteReview.TargetType}");
+
+            var ui = new FileReviewerUI()
             {
                 MainSplit = MainSplit,
-                DeltaAssembliesTreeView = DeltaAssembliesTreeView,
+                DeltaFilesTreeView = DeltaFilesTreeView,
                 HeaderLabel = HeaderLabel,
                 DesignerLabel = DesignerLabel,
-                CloseAssemblyButton = CloseAssemblyButton,
+                CloseFileReviewButton = CloseFileButton,
                 ReviewToolStrip = ReviewToolStrip,
                 StatusLabel = StatusLabel,
                 ReviewTargetStatus = ReviewTargetStatus,
                 ChangeRequestInput = ChangeRequestInput,
                 ChangeRequestsGrid = ChangeRequestsGrid,
-                ApproveAssemblyButton = ApproveAssemblyButton,
-                RejectAssemblyButton = RejectAssemblyButton,
+                ApproveFileButton = ApproveFileButton,
+                RejectFileButton = RejectFileButton,
                 RefreshReviewTargetsButton = RefreshReviewTargetsButton,
                 ChangeRequestSplit = ChangeRequestSplit,
             };
-            assemblyReviewer = new AssemblyReviewer(
-                new AssemblyReviewerArgs()
+            fileReviewer = new FileReviewer(
+                new FileReviewerArgs()
                 {
                     AuthServiceClient = authServiceClient,
                     SyncServiceClient = syncServiceClient,
@@ -83,7 +90,7 @@ namespace MechanicalSyncApp.UI.Forms
             );
         }
 
-        private void AssemblyReviewerForm_OnSolidWorksDestroy(object sender, EventArgs e)
+        private void FileReviewerForm_OnSolidWorksDestroy(object sender, EventArgs e)
         {
             if (InvokeRequired)
                 Invoke(new MethodInvoker(Close));
@@ -92,29 +99,29 @@ namespace MechanicalSyncApp.UI.Forms
         }
 
 
-        private async void AssemblyReviewerForm_Load(object sender, EventArgs e)
+        private async void FileReviewerForm_Load(object sender, EventArgs e)
         {
             try
             {
-                var ui = assemblyReviewer.Args.UI;
-                var sw = assemblyReviewer.Args.SolidWorksStarter;
+                var ui = fileReviewer.Args.UI;
+                var sw = fileReviewer.Args.SolidWorksStarter;
 
-                ui.DeltaAssembliesTreeView.Enabled = false;
-                await assemblyReviewer.InitializeUiAsync();
+                ui.DeltaFilesTreeView.Enabled = false;
+                await fileReviewer.InitializeUiAsync();
                 await sw.StartSolidWorksAsync();
                 await DownloadTemporaryWorkingCopyAsync();
-                ui.DeltaAssembliesTreeView.Enabled = true;
+                ui.DeltaFilesTreeView.Enabled = true;
             }
             catch (Exception ex)
             {
-                var message = $"Failed to open 3D review: {ex.Message}";
+                var message = $"Failed to open review: {ex.Message}";
                 logger.Error(message, ex);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
             }
         }
 
-        private void AssemblyReviewerForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void FileReviewerForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             try
             {

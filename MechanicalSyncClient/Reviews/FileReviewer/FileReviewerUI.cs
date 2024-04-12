@@ -9,22 +9,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MechanicalSyncApp.Reviews.AssemblyReviewer
+namespace MechanicalSyncApp.Reviews.FileReviewer
 {
-    public class AssemblyReviewerUI: IAssemblyReviewerUI
+    public class FileReviewerUI
     {
-        public TreeView DeltaAssembliesTreeView { get; set; }
-        
-        public Label HeaderLabel {  get; set; }
+        public TreeView DeltaFilesTreeView { get; set; }
+
+        public Label HeaderLabel { get; set; }
         public Label DesignerLabel { get; set; }
         public SplitContainer MainSplit { get; set; }
         public SplitContainer ChangeRequestSplit { get; set; }
 
-        public ToolStripButton CloseAssemblyButton { get; set; }
+        public ToolStripButton CloseFileReviewButton { get; set; }
 
-        public ToolStripButton ApproveAssemblyButton { get; set; }
+        public ToolStripButton ApproveFileButton { get; set; }
 
-        public ToolStripButton RejectAssemblyButton { get; set; }
+        public ToolStripButton RejectFileButton { get; set; }
 
         public ToolStripButton RefreshReviewTargetsButton { get; set; }
 

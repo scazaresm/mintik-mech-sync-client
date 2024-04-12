@@ -11,17 +11,17 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
-    public class OpenAssyReviewForViewingCommand : IVersionSynchronizerCommandAsync
+    public class OpenFileReviewCommand : IVersionSynchronizerCommandAsync
     {
         private readonly Review review;
         private readonly ReviewTarget reviewTarget;
-        private readonly FileMetadata assemblyMetadata;
+        private readonly FileMetadata metadata;
         private static Dictionary<string, UserDetails> userDetailsIndex = new Dictionary<string, UserDetails>();
         private readonly ILogger logger;
 
         public IVersionSynchronizer Synchronizer { get; }
 
-        public OpenAssyReviewForViewingCommand(
+        public OpenFileReviewCommand(
             IVersionSynchronizer synchronizer,
             OpenReviewTargetForViewingEventArgs e,
             ILogger logger)
@@ -30,30 +30,30 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));    
             review = e.Review;
             reviewTarget = e.ReviewTarget;
-            assemblyMetadata = e.Metadata;
+            metadata = e.Metadata;
         }
 
         public async Task RunAsync()
         {
             var ui = Synchronizer.UI;
-            var titleLabel = Synchronizer.UI.AssemblyReviewViewerTitle;
-            var grid = Synchronizer.UI.AssemblyChangeRequestGrid;
+            var titleLabel = Synchronizer.UI.FileReviewViewerTitle;
+            var grid = Synchronizer.UI.FileChangeRequestGrid;
 
             try
             {
-                ui.AssemblyReviewsSplit.Panel2Collapsed = false;
-                ui.MarkAssemblyAsFixedButton.Visible = reviewTarget.Status == ReviewTargetStatus.Rejected.ToString();
+                ui.FileReviewsSplit.Panel2Collapsed = false;
+                ui.MarkFileAsFixedButton.Visible = reviewTarget.Status == ReviewTargetStatus.Rejected.ToString();
 
-                Synchronizer.CurrentAssemblyReview = review;
-                Synchronizer.CurrentAssemblyReviewTarget = reviewTarget;
+                Synchronizer.CurrentFileReview = review;
+                Synchronizer.CurrentFileReviewTarget = reviewTarget;
       
 
                 logger.Debug("Preparing UI elements...");
-                ui.SetDeliverableStatusText(ui.AssemblyReviewStatus, reviewTarget.Status);
+                ui.SetDeliverableStatusText(ui.FileReviewStatus, reviewTarget.Status);
 
                 logger.Debug("Getting reviewer details...");
                 var reviewerDetails = await GetReviewerDetailsAsync(review.ReviewerId);
-                titleLabel.Text = $"Assembly {Path.GetFileName(assemblyMetadata.RelativeFilePath)} reviewed by {reviewerDetails.FullName}";
+                titleLabel.Text = $"File {Path.GetFileName(metadata.RelativeFilePath)} reviewed by {reviewerDetails.FullName}";
 
                 grid.Rows.Clear();
 
@@ -73,7 +73,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             }
             catch (Exception ex)
             {
-                var message = $"Failed to open assembly review: {ex.Message}";
+                var message = $"Failed to open file review: {ex.Message}";
                 logger.Error(message);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

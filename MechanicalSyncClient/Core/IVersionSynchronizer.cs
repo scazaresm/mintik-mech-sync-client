@@ -41,8 +41,8 @@ namespace MechanicalSyncApp.Core
         ConcurrentDictionary<string, FilePublishing> PublishingIndexByPartNumber { get; }
         string BasePublishingDirectory { get; set; }
         string RelativePublishingSummaryDirectory { get; set; }
-        ReviewTarget CurrentAssemblyReviewTarget { get; set; }
-        Review CurrentAssemblyReview { get; set; }
+        ReviewTarget CurrentFileReviewTarget { get; set; }
+        Review CurrentFileReview { get; set; }
 
         // State related methods
         VersionSynchronizerState GetState();

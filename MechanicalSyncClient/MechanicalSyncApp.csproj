@@ -185,7 +185,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Args\AssemblyReviewerArgs.cs" />
+    <Compile Include="Core\Args\FileReviewerArgs.cs" />
     <Compile Include="Core\Args\PublishDeliverablesToFolderStrategyArgs.cs" />
     <Compile Include="Core\DeliverablePublisherState.cs" />
     <Compile Include="Core\Domain\CustomProperty.cs" />
@@ -193,14 +193,13 @@
     <Compile Include="Core\Domain\PublishingSummary.cs" />
     <Compile Include="Core\Domain\LocalReview.cs" />
     <Compile Include="Core\Domain\ManufacturingMetadata.cs" />
-    <Compile Include="Core\IAssemblyReviewer.cs" />
-    <Compile Include="Core\IAssemblyReviewerCommandAsync.cs" />
-    <Compile Include="Core\IAssemblyReviewerUI.cs" />
     <Compile Include="Core\ICancelPublishingStrategy.cs" />
     <Compile Include="Core\ICustomPropertiesValidationStrategy.cs" />
     <Compile Include="Core\IDrawingAnalyzer.cs" />
     <Compile Include="Core\IDrawingRevisionValidationStrategy.cs" />
     <Compile Include="Core\IDrawingValidator.cs" />
+    <Compile Include="Core\IFileReviewer.cs" />
+    <Compile Include="Core\IFileReviewerCommandAsync.cs" />
     <Compile Include="Core\INextDrawingRevisionCalculator.cs" />
     <Compile Include="Core\IPublishDeliverablesStrategy.cs" />
     <Compile Include="Core\IReviewableFileMetadataFetcher.cs" />
@@ -311,14 +310,14 @@
     <Compile Include="Publishing\DeliverablePublisher\States\PublishDeliverablesState.cs" />
     <Compile Include="Publishing\DeliverablePublisher\States\PublisherIdleState.cs" />
     <Compile Include="Publishing\DrawingValidator.cs" />
-    <Compile Include="Reviews\AssemblyReviewer\AssemblyReviewer.cs" />
-    <Compile Include="Reviews\AssemblyReviewer\AssemblyReviewerUI.cs" />
-    <Compile Include="Reviews\AssemblyReviewer\Commands\ApproveAssemblyCommand.cs" />
-    <Compile Include="Reviews\AssemblyReviewer\Commands\CloseAssemblyReviewCommand.cs" />
-    <Compile Include="Reviews\AssemblyReviewer\Commands\CreateChangeRequestCommand.cs" />
-    <Compile Include="Reviews\AssemblyReviewer\Commands\OpenAssemblyReviewCommand.cs" />
-    <Compile Include="Reviews\AssemblyReviewer\Commands\RejectAssemblyCommand.cs" />
-    <Compile Include="Reviews\AssemblyReviewer\Commands\ViewChangeRequestCommand.cs" />
+    <Compile Include="Reviews\FileReviewer\Commands\ApproveFileCommand.cs" />
+    <Compile Include="Reviews\FileReviewer\Commands\CloseFileReviewCommand.cs" />
+    <Compile Include="Reviews\FileReviewer\Commands\CreateChangeRequestCommand.cs" />
+    <Compile Include="Reviews\FileReviewer\Commands\OpenFileReviewCommand.cs" />
+    <Compile Include="Reviews\FileReviewer\Commands\RejectFileCommand.cs" />
+    <Compile Include="Reviews\FileReviewer\Commands\ViewChangeRequestCommand.cs" />
+    <Compile Include="Reviews\FileReviewer\FileReviewer.cs" />
+    <Compile Include="Reviews\FileReviewer\FileReviewerUI.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\ApproveDrawingCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\CloseDrawingReviewCommand.cs" />
     <Compile Include="Reviews\DrawingReviewer\Commands\OpenDrawingReviewCommand.cs" />
@@ -333,9 +332,9 @@
     <Compile Include="Sync\VersionSynchronizer\Commands\ArchiveVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CompareDesignFileCommand.cs" />
-    <Compile Include="Sync\VersionSynchronizer\Commands\MarkAssemblyAsFixedCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\MarkFileAsFixedCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\MarkDrawingAsFixedCommand.cs" />
-    <Compile Include="Sync\VersionSynchronizer\Commands\OpenAssyReviewForViewingCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\OpenFileReviewCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\UpdateAssemblyChangeRequestCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenDrawingForViewingCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
@@ -406,11 +405,11 @@
     <Compile Include="UI\EDrawingsHost.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Forms\AssemblyReviewerForm.cs">
+    <Compile Include="UI\Forms\FileReviewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\AssemblyReviewerForm.Designer.cs">
-      <DependentUpon>AssemblyReviewerForm.cs</DependentUpon>
+    <Compile Include="UI\Forms\FileReviewerForm.Designer.cs">
+      <DependentUpon>FileReviewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\ChangeYourPasswordForm.cs">
       <SubType>Form</SubType>
@@ -581,8 +580,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\WorkspaceTreeView.cs" />
-    <EmbeddedResource Include="UI\Forms\AssemblyReviewerForm.resx">
-      <DependentUpon>AssemblyReviewerForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Forms\FileReviewerForm.resx">
+      <DependentUpon>FileReviewerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ChangeRequestDetailsDialog.resx">
       <DependentUpon>ChangeRequestDetailsDialog.cs</DependentUpon>

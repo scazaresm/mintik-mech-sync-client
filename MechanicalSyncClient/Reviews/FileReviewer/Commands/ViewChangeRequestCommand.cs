@@ -11,18 +11,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
+namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
 {
-    public class ViewChangeRequestCommand : IAssemblyReviewerCommandAsync
+    public class ViewChangeRequestCommand : IFileReviewerCommandAsync
     {
         private readonly ChangeRequest changeRequest;
 
-        public IAssemblyReviewer Reviewer { get; }
-        
+        public IFileReviewer Reviewer { get; }
+
         private readonly ILogger logger;
 
         public ViewChangeRequestCommand(
-                IAssemblyReviewer reviewer, 
+                IFileReviewer reviewer,
                 ChangeRequest changeRequest,
                 ILogger logger
             )
@@ -54,11 +54,11 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                 {
                     LocalFilename = tempDownloadedImagePath,
                     RelativeEquipmentPath = relativeEquipmentPath,
-                    VersionFolder = "AssyReview",
+                    VersionFolder = "FileReview",
                     RelativeFilePath = remoteRelativeImagePath,
                 });
 
-                using (var downloadedImage = Image.FromFile(tempDownloadedImagePath)) 
+                using (var downloadedImage = Image.FromFile(tempDownloadedImagePath))
                 {
                     changeRequest.DetailsImage = downloadedImage;
 
@@ -70,10 +70,10 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                 }
                 logger.Debug($"ViewChangeRequestCommand complete.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var message = $"Failed to open change request for viewing: {ex.Message}";
-                logger.Error(message, ex );
+                logger.Error(message, ex);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -85,9 +85,9 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
         private void ViewChangeRequestCommand_OnDelete(object sender, EventArgs e)
         {
             var confirm = MessageBox.Show(
-                "Delete change request?", 
-                "Delete", 
-                MessageBoxButtons.YesNo, 
+                "Delete change request?",
+                "Delete",
+                MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
 
@@ -111,7 +111,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 
                 (sender as Form).Close();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 var message = $"Failed to delete change request: {ex.Message}";
                 logger.Error(message, ex);
@@ -129,7 +129,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                     File.Delete(filePath);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error($"Failed to cleanup temp picture file: {ex.Message}");
             }

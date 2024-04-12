@@ -31,7 +31,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             try
             {
                 // show change request details and accept changes only if review target is rejected
-                bool isReadOnly = Synchronizer.CurrentAssemblyReviewTarget.Status != "Rejected";
+                bool isReadOnly = Synchronizer.CurrentFileReviewTarget.Status != "Rejected";
 
                 var dialog = new UpdateChangeRequestDialog(changeRequest, Synchronizer, logger)
                 {
@@ -50,7 +50,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 });
 
                 // reflect changes on the grid
-                var grid = Synchronizer.UI.AssemblyChangeRequestGrid;
+                var grid = Synchronizer.UI.FileChangeRequestGrid;
 
                 var changeRequestRow = grid.Rows.Cast<DataGridViewRow>().FirstOrDefault((row) =>
                     (row.Tag as ChangeRequest).Id == changeRequest.Id

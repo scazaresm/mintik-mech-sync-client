@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace MechanicalSyncApp.Core
 {
 
-    public interface IAssemblyReviewerCommandAsync
+    public interface IFileReviewerCommandAsync
     {
-        IAssemblyReviewer Reviewer { get; }
+        IFileReviewer Reviewer { get; }
 
         Task RunAsync();
     }

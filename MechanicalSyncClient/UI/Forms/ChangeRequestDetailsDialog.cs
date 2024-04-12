@@ -27,8 +27,8 @@ namespace MechanicalSyncApp.UI.Forms
             ChangeDescription.ReadOnly = false;
             PasteImageButton.Visible = true;
             DeleteButton.Visible = false;
-            RejectChangeButton.Visible = false;
-            AcceptChangeButton.Visible = false;
+            RejectChangeButton.Visible = false; // future implementation
+            AcceptChangeButton.Visible = false; // future implementation
             OkButton.Text = "Save";
             OkButton.Enabled = false;
         }
@@ -44,10 +44,6 @@ namespace MechanicalSyncApp.UI.Forms
 
             // is deleteable only when the parent review target has not been approved or rejected
             DeleteButton.Visible = IsChangeRequestDeleteable(changeRequest);
-
-            // is reviewable only when the change is already implemented and the parent review target has 'Fixed' status
-            RejectChangeButton.Visible = IsChangeRequestReviewable(changeRequest);
-            AcceptChangeButton.Visible = IsChangeRequestReviewable(changeRequest);
 
             PasteImageButton.Visible = false; 
             ChangeDescription.ReadOnly = true;

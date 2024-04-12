@@ -8,15 +8,15 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Imaging;
 
-namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
+namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
 {
-    public class CreateChangeRequestCommand : IAssemblyReviewerCommandAsync
+    public class CreateChangeRequestCommand : IFileReviewerCommandAsync
     {
         private readonly ILogger logger;
-        public IAssemblyReviewer Reviewer { get; }
+        public IFileReviewer Reviewer { get; }
 
 
-        public CreateChangeRequestCommand(IAssemblyReviewer reviewer, ILogger logger)
+        public CreateChangeRequestCommand(IFileReviewer reviewer, ILogger logger)
         {
             Reviewer = reviewer;
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -63,7 +63,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                 {
                     VersionId = review.RemoteVersion.Id,
                     LocalFilePath = tempImagePath,
-                    VersionFolder = "AssyReview",
+                    VersionFolder = "FileReview",
                     RelativeEquipmentPath = review.RemoteProject.RelativeEquipmentPath,
                     RelativeFilePath = Path.GetFileName(tempImagePath)
                 });
