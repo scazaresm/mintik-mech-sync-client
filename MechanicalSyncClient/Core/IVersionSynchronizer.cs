@@ -57,11 +57,10 @@ namespace MechanicalSyncApp.Core
         Task CloseVersionAsync();
         Task PublishDeliverablesAsync();
         Task TransferOwnershipAsync();
-        Task OpenDrawingForViewingAsync(OpenReviewTargetForViewingEventArgs e);
 
         // UI related methods
         void InitializeUI();
         void UpdateUI();
-        Task OpenAssemblyForViewingAsync(OpenReviewTargetForViewingEventArgs e);
+        Task OpenFileReviewAsync(OpenFileReviewEventArgs e);
     }
 }

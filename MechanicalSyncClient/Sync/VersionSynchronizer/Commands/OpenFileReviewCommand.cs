@@ -23,7 +23,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public OpenFileReviewCommand(
             IVersionSynchronizer synchronizer,
-            OpenReviewTargetForViewingEventArgs e,
+            OpenFileReviewEventArgs e,
             ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));

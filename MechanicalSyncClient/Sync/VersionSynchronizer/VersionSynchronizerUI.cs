@@ -12,7 +12,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
     {
         public LocalFileListView LocalFileViewer { get; private set; }
 
-        public DrawingReviewerControl DrawingReviewer { get; set; }
 
         #region Form Components
 
@@ -40,35 +39,18 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public WorkspaceTreeView WorkspaceTreeView { get; set; }
 
-        public TreeView DrawingReviewsTreeView { get; set; }
-
-        public TreeView AssemblyReviewsTreeView { get; set; }
-
-        public DeliverableReviewsTreeView DrawingReviewsExplorer { get; private set; }
+        public TreeView FileReviewsTreeView { get; set; }
 
         public DeliverableReviewsTreeView ReviewsExplorer { get; private set; }
 
         public TabControl VersionSynchronizerTabs { get; set; }
 
-        public SplitContainer DrawingReviewContainer { get; set; }
-
-        public Panel DrawingReviewerPanel { get; set; }
-
-        public ToolStripLabel DrawingReviewerStatusText { get; set; }
-
-        public ToolStripProgressBar DrawingReviewerProgress { get; set; }
-
-        public ToolStripLabel DrawingReviewerDrawingStatus { get; set; }
-
-        public ToolStripLabel DrawingReviewerTitle { get; set; }
-
-        public ToolStripButton MarkDrawingAsFixedButton { get; set; }
-
+    
         public DataGridView FileChangeRequestGrid { get; set; }
 
         public ToolStripLabel FileReviewViewerTitle { get; set; }
 
-        public ToolStrip AssemblyReviewViewerToolStrip { get; set; }
+        public ToolStrip FileReviewsToolStrip { get; set; }
 
         public ToolStripLabel FileReviewStatus { get; set; }
 
@@ -76,9 +58,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public SplitContainer FileReviewsSplit { get; set; }
 
-        public SplitContainer DrawingReviewsSplit { get; set; }
-
-        public ToolStripButton RefreshAssemblyExplorerButton { get; set; }
+        public ToolStripButton RefreshFileReviewExplorerButton { get; set; }
 
         #endregion
 
@@ -99,22 +79,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             );
         }
 
-        public void InitializeDrawingReviews(LocalVersion version)
-        {
-            if (DrawingReviewsExplorer != null)
-                DrawingReviewsExplorer.Dispose();
-
-            DrawingReviewsExplorer = new DeliverableReviewsTreeView(
-               MechSyncServiceClient.Instance,
-               version,
-               ReviewTargetType.DrawingFile
-            );
-            DrawingReviewsExplorer.AttachTreeView(DrawingReviewsTreeView);
-            SetDefaultDrawingReviewControls();
-            DrawingReviewsSplit.Panel2Collapsed = true;
-        }
-
-        public void InitializeAssemblyReviews(LocalVersion version)
+        public void InitializeFileReviews(LocalVersion version)
         {
             if (ReviewsExplorer != null)
                 ReviewsExplorer.Dispose();
@@ -124,31 +89,18 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 version,
                 ReviewTargetType.AssemblyFile
             );
-            ReviewsExplorer.AttachTreeView(AssemblyReviewsTreeView);
+            ReviewsExplorer.AttachTreeView(FileReviewsTreeView);
             FileReviewsSplit.Panel2Collapsed = true;
-        }
-
-        public void SetDefaultDrawingReviewControls()
-        {
-            DrawingReviewerProgress.Visible = false;
-            DrawingReviewerStatusText.Text = "Select a drawing from the list";
-            DrawingReviewerDrawingStatus.Visible = false;
-            DrawingReviewerTitle.Visible = false;
-            MarkDrawingAsFixedButton.Visible = false;
         }
 
         private async void VersionSynchronizerTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedTabText = VersionSynchronizerTabs.SelectedTab.Text;
-            DeliverableReviewsTreeView deliverableExplorer = null;
 
-            if (selectedTabText.StartsWith("3D"))
-                deliverableExplorer = ReviewsExplorer;
-            else if (selectedTabText.StartsWith("2D"))
-                deliverableExplorer = DrawingReviewsExplorer;
-
-            if (deliverableExplorer != null)
-                await deliverableExplorer.Refresh();
+            if (selectedTabText == "Reviews") 
+            {
+                await ReviewsExplorer.Refresh();
+            }
         }
 
         public void ShowVersionExplorer()
@@ -172,20 +124,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 LocalFileViewer.Dispose();
                 LocalFileViewer = null;
             }
-        }
-
-        private void DisposeDrawingReviews()
-        {
-            if (DrawingReviewsExplorer != null)
-            {
-                DrawingReviewsExplorer.Dispose();
-                DrawingReviewsExplorer = null;
-            }
-            if (DrawingReviewer != null)
-            {
-                DrawingReviewer.Dispose();
-                DrawingReviewer = null;
-            } 
         }
 
         public void SetDeliverableStatusText(ToolStripLabel label, string status)
@@ -239,7 +177,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 if (disposing)
                 {
                     DisposeFileViewer();
-                    DisposeDrawingReviews();
                     VersionSynchronizerTabs.SelectedIndexChanged -= VersionSynchronizerTabs_SelectedIndexChanged;
                 }
                 disposedValue = true;

@@ -9,14 +9,14 @@ using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 {
-    public class UpdateAssemblyChangeRequestCommand : IVersionSynchronizerCommandAsync
+    public class UpdateChangeRequestCommand : IVersionSynchronizerCommandAsync
     {
         private readonly ChangeRequest changeRequest;
         private readonly ILogger logger;
 
         public IVersionSynchronizer Synchronizer { get; }
 
-        public UpdateAssemblyChangeRequestCommand(
+        public UpdateChangeRequestCommand(
             IVersionSynchronizer synchronizer, 
             ChangeRequest changeRequest,
             ILogger logger)

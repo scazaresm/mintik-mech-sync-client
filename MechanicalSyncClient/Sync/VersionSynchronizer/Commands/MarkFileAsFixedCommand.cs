@@ -1,7 +1,6 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
-using MechanicalSyncApp.Reviews.DrawingReviewer;
 using Serilog;
 using System;
 using System.Collections.Generic;

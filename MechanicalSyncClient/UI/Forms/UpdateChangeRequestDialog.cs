@@ -29,6 +29,7 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 ChangeStatus.Enabled = !value;
                 DesignerComments.ReadOnly = value;
+                Text = value ? "View change request" : Text;
             }
         }
 
