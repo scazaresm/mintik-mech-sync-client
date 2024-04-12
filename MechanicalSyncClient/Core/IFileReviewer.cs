@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core
 {
-    public interface IAssemblyReviewer
+    public interface IFileReviewer
     {
-        AssemblyReviewerArgs Args { get; }
+        FileReviewerArgs Args { get; }
         ReviewTarget ReviewTarget { get; set; }
-        FileMetadata AssemblyMetadata { get; set; }
+        FileMetadata Metadata { get; set; }
 
         Task OpenReviewTargetAsync(ReviewTarget reviewTarget);
         Task CloseReviewTargetAsync();
@@ -20,6 +20,6 @@ namespace MechanicalSyncApp.Core
         Task InitializeUiAsync();
         Task ViewChangeRequestAsync(ChangeRequest changeRequest);
         Task RefreshReviewTargetsAsync();
-        Task RejectAssemblyAsync();
+        Task RejectFileAsync();
     }
 }

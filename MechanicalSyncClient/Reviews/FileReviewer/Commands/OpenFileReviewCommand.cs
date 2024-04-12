@@ -7,20 +7,20 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
+namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
 {
-    public class OpenAssemblyReviewCommand : IAssemblyReviewerCommandAsync
+    public class OpenFileReviewCommand : IFileReviewerCommandAsync
     {
-        public IAssemblyReviewer Reviewer { get; }
+        public IFileReviewer Reviewer { get; }
 
         private readonly ReviewTarget reviewTarget;
         private readonly ILogger logger;
 
-        public OpenAssemblyReviewCommand(
-                IAssemblyReviewer reviewer,
-                ReviewTarget reviewTarget, 
+        public OpenFileReviewCommand(
+                IFileReviewer reviewer,
+                ReviewTarget reviewTarget,
                 ILogger logger
-            ) 
+            )
         {
             Reviewer = reviewer ?? throw new ArgumentNullException(nameof(reviewer));
             this.reviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
@@ -29,7 +29,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 
         public async Task RunAsync()
         {
-            logger.Debug("OpenAssemblyReviewCommand begins...");
+            logger.Debug("OpenFileReviewCommand begins...");
 
             var ui = Reviewer.Args.UI;
             var starter = Reviewer.Args.SolidWorksStarter;
@@ -45,37 +45,37 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                 ui.ReviewToolStrip.Enabled = false;
                 ui.ChangeRequestsGrid.Enabled = false;
                 ui.ChangeRequestSplit.Panel2Collapsed = isAlreadyReviewed && !isFixed;
-                ui.RejectAssemblyButton.Enabled = !isAlreadyReviewed || isFixed;
-                ui.ApproveAssemblyButton.Enabled = !isAlreadyReviewed || isFixed;
+                ui.RejectFileButton.Enabled = !isAlreadyReviewed || isFixed;
+                ui.ApproveFileButton.Enabled = !isAlreadyReviewed || isFixed;
                 ui.SetReviewTargetStatusText(reviewTarget.Status);
-                ui.StatusLabel.Text = "Loading assembly...";
+                ui.StatusLabel.Text = "Loading file...";
 
                 ui.PopulateChangeRequestGrid(reviewTarget);
                 ui.ShowReviewPanel();
 
                 Reviewer.ReviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
-                Reviewer.AssemblyMetadata = await syncService.GetFileMetadataAsync(reviewTarget.TargetId);
-                
-                var assemblyFilePath = Path.Combine(
+                Reviewer.Metadata = await syncService.GetFileMetadataAsync(reviewTarget.TargetId);
+
+                var filePath = Path.Combine(
                     Reviewer.Args.TempWorkingCopyDirectory,
-                    Reviewer.AssemblyMetadata.RelativeFilePath
+                    Reviewer.Metadata.RelativeFilePath
                 );
 
                 ui.SetHeaderText(
-                   $"Reviewing {Path.GetFileNameWithoutExtension(assemblyFilePath)} from {Reviewer.Args.Review}"
+                   $"Reviewing {Path.GetFileNameWithoutExtension(filePath)} from {Reviewer.Args.Review}"
                 );
-                await new SolidWorksModelLoader(starter, logger).LoadModelAsync(assemblyFilePath);
+                await new SolidWorksModelLoader(starter, logger).LoadModelAsync(filePath);
 
                 ui.ReviewToolStrip.Enabled = true;
                 ui.StatusLabel.Text = "Ready.";
                 ui.ChangeRequestInput.Enabled = true;
                 ui.ChangeRequestsGrid.Enabled = true;
 
-                logger.Debug("OpenAssemblyReviewCommand complete.");
+                logger.Debug("OpenFileReviewCommand complete.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                var message = $"Failed to open assembly: {ex.Message}";
+                var message = $"Failed to open file: {ex.Message}";
                 logger.Error(message, ex);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ui.HideReviewPanel();

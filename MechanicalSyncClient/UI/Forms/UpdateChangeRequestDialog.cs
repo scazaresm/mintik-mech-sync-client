@@ -29,6 +29,7 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 ChangeStatus.Enabled = !value;
                 DesignerComments.ReadOnly = value;
+                Text = value ? "View change request" : Text;
             }
         }
 
@@ -73,7 +74,7 @@ namespace MechanicalSyncApp.UI.Forms
 
             await synchronizer.SyncServiceClient.DownloadFileAsync(new DownloadFileRequest()
             {
-                VersionFolder = "AssyReview",
+                VersionFolder = "FileReview",
                 RelativeEquipmentPath = synchronizer.Version.RemoteProject.RelativeEquipmentPath,
                 RelativeFilePath = $"{ChangeRequest.Id}-change.png",
                 LocalFilename = tempImageFile

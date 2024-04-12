@@ -58,9 +58,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public ReviewTarget CurrentDrawingReviewTarget { get; set; }
 
-        public Review CurrentAssemblyReview { get; set; }
+        public Review CurrentFileReview { get; set; }
 
-        public ReviewTarget CurrentAssemblyReviewTarget { get; set; }
+        public ReviewTarget CurrentFileReviewTarget { get; set; }
 
         public string FileExtensionFilter { get; private set; } = "*.sldasm | *.sldprt | *.slddrw";
 
@@ -155,19 +155,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await new TransferOwnershipCommand(this, logger).RunAsync();
         }
 
-        public async Task OpenDrawingForViewingAsync(OpenReviewTargetForViewingEventArgs e)
+        public async Task OpenFileReviewAsync(OpenFileReviewEventArgs e)
         {
-            await new OpenDrawingForViewingCommand(this, e, logger).RunAsync();
-        }
-
-        public async Task OpenAssemblyForViewingAsync(OpenReviewTargetForViewingEventArgs e)
-        {
-            await new OpenAssyReviewForViewingCommand(this, e, logger).RunAsync();
+            await new OpenFileReviewCommand(this, e, logger).RunAsync();
         }
 
         public async Task OpenChangeRequestDetailsAsync(ChangeRequest changeRequest)
         {
-            await new UpdateAssemblyChangeRequestCommand(this, changeRequest, logger).RunAsync();
+            await new UpdateChangeRequestCommand(this, changeRequest, logger).RunAsync();
         }
 
         #endregion
@@ -178,8 +173,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         {
             UI.ProjectFolderNameLabel.Text = $"{Version.RemoteProject.FolderName} V{Version.RemoteVersion.Major} (Ongoing changes)";
             UI.InitializeLocalFileViewer(Version, ChangeMonitor);
-            UI.InitializeDrawingReviews(Version);
-            UI.InitializeAssemblyReviews(Version);
+            UI.InitializeFileReviews(Version);
 
             UI.VersionSynchronizerTabs.SelectedIndex = 0;
 
@@ -206,42 +200,29 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.OpenLocalCopyFolderMenuItem.Click += OpenLocalCopyFolderMenuItem_Click;
 
             UI.VersionSynchronizerTabs.SelectedIndex = 0;
-            UI.DrawingReviewsExplorer.OpenReviewForViewing += DrawingReviewsExplorer_OpenDrawingForViewing;
-            UI.AssemblyReviewsExplorer.OpenReviewForViewing += AssemblyReviewsExplorer_OpenAssemblyForViewing;
+            UI.ReviewsExplorer.OpenReview += ReviewsExplorer_OpenReview;
 
-            UI.RefreshDrawingExplorerButton.Click += RefreshDrawingExplorerButton_Click;
-            UI.RefreshAssemblyExplorerButton.Click += RefreshAssemblyExplorerButton_Click;
+            UI.RefreshFileReviewExplorerButton.Click += RefreshReviewsExplorerButton_Click;
 
-            UI.MarkDrawingAsFixedButton.Click += MarkDrawingAsFixedButton_Click;
-            UI.MarkAssemblyAsFixedButton.Click += MarkAssemblyAsFixedButton_Click;
+            UI.MarkFileAsFixedButton.Click += MarkFileAsFixedButton_Click;
 
             UI.ArchiveVersionButton.Click += ArchiveVersionButton_Click;
 
-            UI.AssemblyChangeRequestGrid.DoubleClick += AssemblyChangeRequestGrid_DoubleClick;
+            UI.FileChangeRequestGrid.DoubleClick += AssemblyChangeRequestGrid_DoubleClick;
 
             UI.ShowVersionExplorer();
         }
 
 
 
-        private async void MarkAssemblyAsFixedButton_Click(object sender, EventArgs e)
+        private async void MarkFileAsFixedButton_Click(object sender, EventArgs e)
         {
-            await new MarkAssemblyAsFixedCommand(this, logger).RunAsync();
+            await new MarkFileAsFixedCommand(this, logger).RunAsync();
         }
 
-        private async void MarkDrawingAsFixedButton_Click(object sender, EventArgs e)
+        private async void ReviewsExplorer_OpenReview(object sender, OpenFileReviewEventArgs e)
         {
-            await new MarkDrawingAsFixedCommand(this).RunAsync();
-        }
-
-        private async void DrawingReviewsExplorer_OpenDrawingForViewing(object sender, OpenReviewTargetForViewingEventArgs e)
-        {
-            await OpenDrawingForViewingAsync(e);
-        }
-       
-        private async void AssemblyReviewsExplorer_OpenAssemblyForViewing(object sender, OpenReviewTargetForViewingEventArgs e)
-        {
-            await OpenAssemblyForViewingAsync(e);
+            await OpenFileReviewAsync(e);
         }
 
         public void UpdateUI()
@@ -289,14 +270,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await TransferOwnershipAsync();
         }
 
-        private async void RefreshDrawingExplorerButton_Click(object sender, EventArgs e)
+        private async void RefreshReviewsExplorerButton_Click(object sender, EventArgs e)
         {
-            await UI.DrawingReviewsExplorer.Refresh();
-        }
-
-        private async void RefreshAssemblyExplorerButton_Click(object sender, EventArgs e)
-        {
-            await UI.AssemblyReviewsExplorer.Refresh();
+            await UI.ReviewsExplorer.Refresh();
         }
 
         private void CopyLocalCopyPathMenuItem_Click(object sender, EventArgs e)
@@ -344,17 +320,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.CopyLocalCopyPathMenuItem.Click -= CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click -= OpenLocalCopyFolderMenuItem_Click;
 
-            if (UI.DrawingReviewsExplorer != null) 
-                UI.DrawingReviewsExplorer.OpenReviewForViewing -= DrawingReviewsExplorer_OpenDrawingForViewing;
-                
-            if (UI.AssemblyReviewsExplorer != null)
-                UI.AssemblyReviewsExplorer.OpenReviewForViewing -= AssemblyReviewsExplorer_OpenAssemblyForViewing;
+            if (UI.ReviewsExplorer != null)
+                UI.ReviewsExplorer.OpenReview -= ReviewsExplorer_OpenReview;
 
-            UI.RefreshDrawingExplorerButton.Click -= RefreshDrawingExplorerButton_Click;
-            UI.MarkDrawingAsFixedButton.Click -= MarkDrawingAsFixedButton_Click;
-            UI.MarkAssemblyAsFixedButton.Click -= MarkAssemblyAsFixedButton_Click;
+            UI.MarkFileAsFixedButton.Click -= MarkFileAsFixedButton_Click;
             UI.ArchiveVersionButton.Click -= ArchiveVersionButton_Click;
-            UI.AssemblyChangeRequestGrid.DoubleClick -= AssemblyChangeRequestGrid_DoubleClick;
+            UI.FileChangeRequestGrid.DoubleClick -= AssemblyChangeRequestGrid_DoubleClick;
         }
 
         protected virtual void Dispose(bool disposing)

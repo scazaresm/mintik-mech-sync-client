@@ -31,18 +31,18 @@ namespace MechanicalSyncApp.UI.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VersionSynchronizerForm));
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Assemblies", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Parts", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Drawings", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Example",
             "Deleted",
             "other"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.WorkspaceTreeView = new System.Windows.Forms.TreeView();
@@ -71,35 +71,18 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.ArchiveVersionButton = new System.Windows.Forms.ToolStripButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.AssemblyReviewsSplit = new System.Windows.Forms.SplitContainer();
-            this.AssemblyReviewsTreeView = new System.Windows.Forms.TreeView();
+            this.FileReviewsSplit = new System.Windows.Forms.SplitContainer();
+            this.FileReviewsTreeView = new System.Windows.Forms.TreeView();
             this.DrawingReviewExplorerIcons = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.RefreshAssemblyExplorerButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.AssemblyChangeRequestsGrid = new System.Windows.Forms.DataGridView();
-            this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DesignerCommentsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AssemblyReviewViewerToolStrip = new System.Windows.Forms.ToolStrip();
-            this.MarkAssemblyAsFixedButton = new System.Windows.Forms.ToolStripButton();
+            this.FileChangeRequestsGrid = new System.Windows.Forms.DataGridView();
+            this.FileReviewsToolStrip = new System.Windows.Forms.ToolStrip();
+            this.MarkFileAsFixedButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.AssemblyReviewStatus = new System.Windows.Forms.ToolStripLabel();
-            this.AssemblyReviewViewerTitle = new System.Windows.Forms.ToolStripLabel();
-            this.DrawingReviewPage = new System.Windows.Forms.TabPage();
-            this.DrawingReviewsSplit = new System.Windows.Forms.SplitContainer();
-            this.DrawingReviewsTreeView = new System.Windows.Forms.TreeView();
-            this.DrawingReviewExplorerToolStrip = new System.Windows.Forms.ToolStrip();
-            this.RefreshDrawingExplorerButton = new System.Windows.Forms.ToolStripButton();
-            this.DrawingReviewerPanel = new System.Windows.Forms.Panel();
-            this.MarkupStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.DrawingReviewerStatusText = new System.Windows.Forms.ToolStripStatusLabel();
-            this.DrawingReviewerProgress = new System.Windows.Forms.ToolStripProgressBar();
-            this.DrawingViewerToolStrip = new System.Windows.Forms.ToolStrip();
-            this.MarkDrawingAsFixedButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.DrawingReviewerDrawingStatus = new System.Windows.Forms.ToolStripLabel();
-            this.DrawingReviewerTitle = new System.Windows.Forms.ToolStripLabel();
+            this.FileReviewStatus = new System.Windows.Forms.ToolStripLabel();
+            this.FileReviewViewerTitle = new System.Windows.Forms.ToolStripLabel();
             this.ProjectTabImages = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.CloseVersionButton = new System.Windows.Forms.Button();
@@ -116,6 +99,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMechanicalSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DesignerCommentsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
@@ -126,22 +112,14 @@ namespace MechanicalSyncApp.UI.Forms
             this.DesignFilesStatusStrip.SuspendLayout();
             this.SynchronizerToolStrip.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AssemblyReviewsSplit)).BeginInit();
-            this.AssemblyReviewsSplit.Panel1.SuspendLayout();
-            this.AssemblyReviewsSplit.Panel2.SuspendLayout();
-            this.AssemblyReviewsSplit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FileReviewsSplit)).BeginInit();
+            this.FileReviewsSplit.Panel1.SuspendLayout();
+            this.FileReviewsSplit.Panel2.SuspendLayout();
+            this.FileReviewsSplit.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AssemblyChangeRequestsGrid)).BeginInit();
-            this.AssemblyReviewViewerToolStrip.SuspendLayout();
-            this.DrawingReviewPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewsSplit)).BeginInit();
-            this.DrawingReviewsSplit.Panel1.SuspendLayout();
-            this.DrawingReviewsSplit.Panel2.SuspendLayout();
-            this.DrawingReviewsSplit.SuspendLayout();
-            this.DrawingReviewExplorerToolStrip.SuspendLayout();
-            this.MarkupStatusStrip.SuspendLayout();
-            this.DrawingViewerToolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FileChangeRequestsGrid)).BeginInit();
+            this.FileReviewsToolStrip.SuspendLayout();
             this.panel2.SuspendLayout();
             this.MainMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -216,7 +194,6 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             this.VersionSynchronizerTabs.Controls.Add(this.tabPage1);
             this.VersionSynchronizerTabs.Controls.Add(this.tabPage3);
-            this.VersionSynchronizerTabs.Controls.Add(this.DrawingReviewPage);
             this.VersionSynchronizerTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.VersionSynchronizerTabs.ImageList = this.ProjectTabImages;
             this.VersionSynchronizerTabs.Location = new System.Drawing.Point(0, 25);
@@ -245,21 +222,21 @@ namespace MechanicalSyncApp.UI.Forms
             this.columnHeader1,
             this.columnHeader2});
             this.FileViewerListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            listViewGroup4.Header = "Assemblies";
-            listViewGroup4.Name = "assembliesGroup";
-            listViewGroup5.Header = "Parts";
-            listViewGroup5.Name = "partsGroup";
-            listViewGroup6.Header = "Drawings";
-            listViewGroup6.Name = "drawingsGroup";
+            listViewGroup1.Header = "Assemblies";
+            listViewGroup1.Name = "assembliesGroup";
+            listViewGroup2.Header = "Parts";
+            listViewGroup2.Name = "partsGroup";
+            listViewGroup3.Header = "Drawings";
+            listViewGroup3.Name = "drawingsGroup";
             this.FileViewerListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4,
-            listViewGroup5,
-            listViewGroup6});
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
             this.FileViewerListView.HideSelection = false;
-            listViewItem3.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.FileViewerListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3,
-            listViewItem4});
+            listViewItem1,
+            listViewItem2});
             this.FileViewerListView.Location = new System.Drawing.Point(3, 28);
             this.FileViewerListView.MultiSelect = false;
             this.FileViewerListView.Name = "FileViewerListView";
@@ -426,45 +403,45 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.AssemblyReviewsSplit);
+            this.tabPage3.Controls.Add(this.FileReviewsSplit);
             this.tabPage3.ImageIndex = 2;
             this.tabPage3.Location = new System.Drawing.Point(4, 31);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1077, 670);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "3D Review";
+            this.tabPage3.Text = "Reviews";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // AssemblyReviewsSplit
+            // FileReviewsSplit
             // 
-            this.AssemblyReviewsSplit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AssemblyReviewsSplit.Location = new System.Drawing.Point(0, 0);
-            this.AssemblyReviewsSplit.Name = "AssemblyReviewsSplit";
+            this.FileReviewsSplit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FileReviewsSplit.Location = new System.Drawing.Point(0, 0);
+            this.FileReviewsSplit.Name = "FileReviewsSplit";
             // 
-            // AssemblyReviewsSplit.Panel1
+            // FileReviewsSplit.Panel1
             // 
-            this.AssemblyReviewsSplit.Panel1.Controls.Add(this.AssemblyReviewsTreeView);
-            this.AssemblyReviewsSplit.Panel1.Controls.Add(this.toolStrip1);
+            this.FileReviewsSplit.Panel1.Controls.Add(this.FileReviewsTreeView);
+            this.FileReviewsSplit.Panel1.Controls.Add(this.toolStrip1);
             // 
-            // AssemblyReviewsSplit.Panel2
+            // FileReviewsSplit.Panel2
             // 
-            this.AssemblyReviewsSplit.Panel2.BackColor = System.Drawing.Color.Transparent;
-            this.AssemblyReviewsSplit.Panel2.Controls.Add(this.panel1);
-            this.AssemblyReviewsSplit.Panel2.Controls.Add(this.AssemblyReviewViewerToolStrip);
-            this.AssemblyReviewsSplit.Size = new System.Drawing.Size(1077, 670);
-            this.AssemblyReviewsSplit.SplitterDistance = 236;
-            this.AssemblyReviewsSplit.TabIndex = 1;
+            this.FileReviewsSplit.Panel2.BackColor = System.Drawing.Color.Transparent;
+            this.FileReviewsSplit.Panel2.Controls.Add(this.panel1);
+            this.FileReviewsSplit.Panel2.Controls.Add(this.FileReviewsToolStrip);
+            this.FileReviewsSplit.Size = new System.Drawing.Size(1077, 670);
+            this.FileReviewsSplit.SplitterDistance = 236;
+            this.FileReviewsSplit.TabIndex = 1;
             // 
-            // AssemblyReviewsTreeView
+            // FileReviewsTreeView
             // 
-            this.AssemblyReviewsTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AssemblyReviewsTreeView.ImageIndex = 0;
-            this.AssemblyReviewsTreeView.ImageList = this.DrawingReviewExplorerIcons;
-            this.AssemblyReviewsTreeView.Location = new System.Drawing.Point(0, 25);
-            this.AssemblyReviewsTreeView.Name = "AssemblyReviewsTreeView";
-            this.AssemblyReviewsTreeView.SelectedImageIndex = 0;
-            this.AssemblyReviewsTreeView.Size = new System.Drawing.Size(236, 645);
-            this.AssemblyReviewsTreeView.TabIndex = 0;
+            this.FileReviewsTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FileReviewsTreeView.ImageIndex = 0;
+            this.FileReviewsTreeView.ImageList = this.DrawingReviewExplorerIcons;
+            this.FileReviewsTreeView.Location = new System.Drawing.Point(0, 25);
+            this.FileReviewsTreeView.Name = "FileReviewsTreeView";
+            this.FileReviewsTreeView.SelectedImageIndex = 0;
+            this.FileReviewsTreeView.Size = new System.Drawing.Size(236, 645);
+            this.FileReviewsTreeView.TabIndex = 0;
             // 
             // DrawingReviewExplorerIcons
             // 
@@ -499,80 +476,55 @@ namespace MechanicalSyncApp.UI.Forms
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.DarkGray;
-            this.panel1.Controls.Add(this.AssemblyChangeRequestsGrid);
+            this.panel1.Controls.Add(this.FileChangeRequestsGrid);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 27);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(837, 643);
             this.panel1.TabIndex = 5;
             // 
-            // AssemblyChangeRequestsGrid
+            // FileChangeRequestsGrid
             // 
-            this.AssemblyChangeRequestsGrid.AllowUserToAddRows = false;
-            this.AssemblyChangeRequestsGrid.AllowUserToDeleteRows = false;
-            this.AssemblyChangeRequestsGrid.AllowUserToResizeRows = false;
-            this.AssemblyChangeRequestsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.AssemblyChangeRequestsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FileChangeRequestsGrid.AllowUserToAddRows = false;
+            this.FileChangeRequestsGrid.AllowUserToDeleteRows = false;
+            this.FileChangeRequestsGrid.AllowUserToResizeRows = false;
+            this.FileChangeRequestsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.FileChangeRequestsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ChangeRequestDescriptionColumn,
             this.ChangeRequestStatusColumn,
             this.DesignerCommentsColumn});
-            this.AssemblyChangeRequestsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AssemblyChangeRequestsGrid.Location = new System.Drawing.Point(0, 0);
-            this.AssemblyChangeRequestsGrid.MultiSelect = false;
-            this.AssemblyChangeRequestsGrid.Name = "AssemblyChangeRequestsGrid";
-            this.AssemblyChangeRequestsGrid.ReadOnly = true;
-            this.AssemblyChangeRequestsGrid.RowHeadersVisible = false;
-            this.AssemblyChangeRequestsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.AssemblyChangeRequestsGrid.Size = new System.Drawing.Size(837, 643);
-            this.AssemblyChangeRequestsGrid.TabIndex = 2;
+            this.FileChangeRequestsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FileChangeRequestsGrid.Location = new System.Drawing.Point(0, 0);
+            this.FileChangeRequestsGrid.MultiSelect = false;
+            this.FileChangeRequestsGrid.Name = "FileChangeRequestsGrid";
+            this.FileChangeRequestsGrid.ReadOnly = true;
+            this.FileChangeRequestsGrid.RowHeadersVisible = false;
+            this.FileChangeRequestsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.FileChangeRequestsGrid.Size = new System.Drawing.Size(837, 643);
+            this.FileChangeRequestsGrid.TabIndex = 2;
             // 
-            // ChangeRequestDescriptionColumn
+            // FileReviewsToolStrip
             // 
-            this.ChangeRequestDescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle3;
-            this.ChangeRequestDescriptionColumn.HeaderText = "Description";
-            this.ChangeRequestDescriptionColumn.Name = "ChangeRequestDescriptionColumn";
-            this.ChangeRequestDescriptionColumn.ReadOnly = true;
-            // 
-            // ChangeRequestStatusColumn
-            // 
-            this.ChangeRequestStatusColumn.HeaderText = "Status";
-            this.ChangeRequestStatusColumn.Name = "ChangeRequestStatusColumn";
-            this.ChangeRequestStatusColumn.ReadOnly = true;
-            this.ChangeRequestStatusColumn.Width = 150;
-            // 
-            // DesignerCommentsColumn
-            // 
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DesignerCommentsColumn.DefaultCellStyle = dataGridViewCellStyle4;
-            this.DesignerCommentsColumn.HeaderText = "Designer comments";
-            this.DesignerCommentsColumn.Name = "DesignerCommentsColumn";
-            this.DesignerCommentsColumn.ReadOnly = true;
-            this.DesignerCommentsColumn.Width = 250;
-            // 
-            // AssemblyReviewViewerToolStrip
-            // 
-            this.AssemblyReviewViewerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MarkAssemblyAsFixedButton,
+            this.FileReviewsToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MarkFileAsFixedButton,
             this.toolStripSeparator5,
-            this.AssemblyReviewStatus,
-            this.AssemblyReviewViewerTitle});
-            this.AssemblyReviewViewerToolStrip.Location = new System.Drawing.Point(0, 0);
-            this.AssemblyReviewViewerToolStrip.Name = "AssemblyReviewViewerToolStrip";
-            this.AssemblyReviewViewerToolStrip.Size = new System.Drawing.Size(837, 27);
-            this.AssemblyReviewViewerToolStrip.TabIndex = 0;
-            this.AssemblyReviewViewerToolStrip.Text = "toolStrip2";
+            this.FileReviewStatus,
+            this.FileReviewViewerTitle});
+            this.FileReviewsToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.FileReviewsToolStrip.Name = "FileReviewsToolStrip";
+            this.FileReviewsToolStrip.Size = new System.Drawing.Size(837, 27);
+            this.FileReviewsToolStrip.TabIndex = 0;
+            this.FileReviewsToolStrip.Text = "toolStrip2";
             // 
-            // MarkAssemblyAsFixedButton
+            // MarkFileAsFixedButton
             // 
-            this.MarkAssemblyAsFixedButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.MarkAssemblyAsFixedButton.Image = ((System.Drawing.Image)(resources.GetObject("MarkAssemblyAsFixedButton.Image")));
-            this.MarkAssemblyAsFixedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.MarkAssemblyAsFixedButton.Name = "MarkAssemblyAsFixedButton";
-            this.MarkAssemblyAsFixedButton.Size = new System.Drawing.Size(97, 24);
-            this.MarkAssemblyAsFixedButton.Text = "Mark as fixed";
-            this.MarkAssemblyAsFixedButton.ToolTipText = "Mark assembly as fixed";
+            this.MarkFileAsFixedButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.MarkFileAsFixedButton.Image = ((System.Drawing.Image)(resources.GetObject("MarkFileAsFixedButton.Image")));
+            this.MarkFileAsFixedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MarkFileAsFixedButton.Name = "MarkFileAsFixedButton";
+            this.MarkFileAsFixedButton.Size = new System.Drawing.Size(97, 24);
+            this.MarkFileAsFixedButton.Text = "Mark as fixed";
+            this.MarkFileAsFixedButton.ToolTipText = "Mark assembly as fixed";
             // 
             // toolStripSeparator5
             // 
@@ -580,160 +532,20 @@ namespace MechanicalSyncApp.UI.Forms
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
             // 
-            // AssemblyReviewStatus
+            // FileReviewStatus
             // 
-            this.AssemblyReviewStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.AssemblyReviewStatus.AutoSize = false;
-            this.AssemblyReviewStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AssemblyReviewStatus.Name = "AssemblyReviewStatus";
-            this.AssemblyReviewStatus.Size = new System.Drawing.Size(59, 24);
-            this.AssemblyReviewStatus.Text = "Status";
+            this.FileReviewStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.FileReviewStatus.AutoSize = false;
+            this.FileReviewStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FileReviewStatus.Name = "FileReviewStatus";
+            this.FileReviewStatus.Size = new System.Drawing.Size(59, 24);
+            this.FileReviewStatus.Text = "Status";
             // 
-            // AssemblyReviewViewerTitle
+            // FileReviewViewerTitle
             // 
-            this.AssemblyReviewViewerTitle.Name = "AssemblyReviewViewerTitle";
-            this.AssemblyReviewViewerTitle.Size = new System.Drawing.Size(59, 24);
-            this.AssemblyReviewViewerTitle.Text = "Loading...";
-            // 
-            // DrawingReviewPage
-            // 
-            this.DrawingReviewPage.Controls.Add(this.DrawingReviewsSplit);
-            this.DrawingReviewPage.ImageIndex = 3;
-            this.DrawingReviewPage.Location = new System.Drawing.Point(4, 31);
-            this.DrawingReviewPage.Name = "DrawingReviewPage";
-            this.DrawingReviewPage.Size = new System.Drawing.Size(1077, 670);
-            this.DrawingReviewPage.TabIndex = 3;
-            this.DrawingReviewPage.Text = "2D review";
-            this.DrawingReviewPage.UseVisualStyleBackColor = true;
-            // 
-            // DrawingReviewsSplit
-            // 
-            this.DrawingReviewsSplit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DrawingReviewsSplit.Location = new System.Drawing.Point(0, 0);
-            this.DrawingReviewsSplit.Name = "DrawingReviewsSplit";
-            // 
-            // DrawingReviewsSplit.Panel1
-            // 
-            this.DrawingReviewsSplit.Panel1.Controls.Add(this.DrawingReviewsTreeView);
-            this.DrawingReviewsSplit.Panel1.Controls.Add(this.DrawingReviewExplorerToolStrip);
-            // 
-            // DrawingReviewsSplit.Panel2
-            // 
-            this.DrawingReviewsSplit.Panel2.BackColor = System.Drawing.Color.Transparent;
-            this.DrawingReviewsSplit.Panel2.Controls.Add(this.DrawingReviewerPanel);
-            this.DrawingReviewsSplit.Panel2.Controls.Add(this.MarkupStatusStrip);
-            this.DrawingReviewsSplit.Panel2.Controls.Add(this.DrawingViewerToolStrip);
-            this.DrawingReviewsSplit.Size = new System.Drawing.Size(1077, 670);
-            this.DrawingReviewsSplit.SplitterDistance = 236;
-            this.DrawingReviewsSplit.TabIndex = 0;
-            // 
-            // DrawingReviewsTreeView
-            // 
-            this.DrawingReviewsTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DrawingReviewsTreeView.ImageIndex = 0;
-            this.DrawingReviewsTreeView.ImageList = this.DrawingReviewExplorerIcons;
-            this.DrawingReviewsTreeView.Location = new System.Drawing.Point(0, 25);
-            this.DrawingReviewsTreeView.Name = "DrawingReviewsTreeView";
-            this.DrawingReviewsTreeView.SelectedImageIndex = 0;
-            this.DrawingReviewsTreeView.Size = new System.Drawing.Size(236, 645);
-            this.DrawingReviewsTreeView.TabIndex = 0;
-            // 
-            // DrawingReviewExplorerToolStrip
-            // 
-            this.DrawingReviewExplorerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.RefreshDrawingExplorerButton});
-            this.DrawingReviewExplorerToolStrip.Location = new System.Drawing.Point(0, 0);
-            this.DrawingReviewExplorerToolStrip.Name = "DrawingReviewExplorerToolStrip";
-            this.DrawingReviewExplorerToolStrip.Size = new System.Drawing.Size(236, 25);
-            this.DrawingReviewExplorerToolStrip.TabIndex = 1;
-            this.DrawingReviewExplorerToolStrip.Text = "toolStrip1";
-            // 
-            // RefreshDrawingExplorerButton
-            // 
-            this.RefreshDrawingExplorerButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.RefreshDrawingExplorerButton.Image = global::MechanicalSyncApp.Properties.Resources.refresh_icon_24;
-            this.RefreshDrawingExplorerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RefreshDrawingExplorerButton.Name = "RefreshDrawingExplorerButton";
-            this.RefreshDrawingExplorerButton.Size = new System.Drawing.Size(66, 22);
-            this.RefreshDrawingExplorerButton.Text = "Refresh";
-            this.RefreshDrawingExplorerButton.ToolTipText = "Refresh local files";
-            // 
-            // DrawingReviewerPanel
-            // 
-            this.DrawingReviewerPanel.BackColor = System.Drawing.Color.DarkGray;
-            this.DrawingReviewerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DrawingReviewerPanel.Location = new System.Drawing.Point(0, 27);
-            this.DrawingReviewerPanel.Name = "DrawingReviewerPanel";
-            this.DrawingReviewerPanel.Size = new System.Drawing.Size(837, 621);
-            this.DrawingReviewerPanel.TabIndex = 5;
-            // 
-            // MarkupStatusStrip
-            // 
-            this.MarkupStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DrawingReviewerStatusText,
-            this.DrawingReviewerProgress});
-            this.MarkupStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.MarkupStatusStrip.Location = new System.Drawing.Point(0, 648);
-            this.MarkupStatusStrip.Name = "MarkupStatusStrip";
-            this.MarkupStatusStrip.Size = new System.Drawing.Size(837, 22);
-            this.MarkupStatusStrip.TabIndex = 4;
-            this.MarkupStatusStrip.Text = "statusStrip1";
-            // 
-            // DrawingReviewerStatusText
-            // 
-            this.DrawingReviewerStatusText.Name = "DrawingReviewerStatusText";
-            this.DrawingReviewerStatusText.Size = new System.Drawing.Size(108, 17);
-            this.DrawingReviewerStatusText.Text = "Opening drawing...";
-            // 
-            // DrawingReviewerProgress
-            // 
-            this.DrawingReviewerProgress.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.DrawingReviewerProgress.Name = "DrawingReviewerProgress";
-            this.DrawingReviewerProgress.Size = new System.Drawing.Size(100, 16);
-            // 
-            // DrawingViewerToolStrip
-            // 
-            this.DrawingViewerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MarkDrawingAsFixedButton,
-            this.toolStripSeparator2,
-            this.DrawingReviewerDrawingStatus,
-            this.DrawingReviewerTitle});
-            this.DrawingViewerToolStrip.Location = new System.Drawing.Point(0, 0);
-            this.DrawingViewerToolStrip.Name = "DrawingViewerToolStrip";
-            this.DrawingViewerToolStrip.Size = new System.Drawing.Size(837, 27);
-            this.DrawingViewerToolStrip.TabIndex = 0;
-            this.DrawingViewerToolStrip.Text = "toolStrip2";
-            // 
-            // MarkDrawingAsFixedButton
-            // 
-            this.MarkDrawingAsFixedButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.MarkDrawingAsFixedButton.Image = ((System.Drawing.Image)(resources.GetObject("MarkDrawingAsFixedButton.Image")));
-            this.MarkDrawingAsFixedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.MarkDrawingAsFixedButton.Name = "MarkDrawingAsFixedButton";
-            this.MarkDrawingAsFixedButton.Size = new System.Drawing.Size(97, 24);
-            this.MarkDrawingAsFixedButton.Text = "Mark as fixed";
-            this.MarkDrawingAsFixedButton.ToolTipText = "Mark drawing as fixed";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
-            // 
-            // DrawingReviewerDrawingStatus
-            // 
-            this.DrawingReviewerDrawingStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.DrawingReviewerDrawingStatus.AutoSize = false;
-            this.DrawingReviewerDrawingStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DrawingReviewerDrawingStatus.Name = "DrawingReviewerDrawingStatus";
-            this.DrawingReviewerDrawingStatus.Size = new System.Drawing.Size(59, 24);
-            this.DrawingReviewerDrawingStatus.Text = "Status";
-            // 
-            // DrawingReviewerTitle
-            // 
-            this.DrawingReviewerTitle.Name = "DrawingReviewerTitle";
-            this.DrawingReviewerTitle.Size = new System.Drawing.Size(59, 24);
-            this.DrawingReviewerTitle.Text = "Loading...";
+            this.FileReviewViewerTitle.Name = "FileReviewViewerTitle";
+            this.FileReviewViewerTitle.Size = new System.Drawing.Size(59, 24);
+            this.FileReviewViewerTitle.Text = "Loading...";
             // 
             // ProjectTabImages
             // 
@@ -741,10 +553,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.ProjectTabImages.TransparentColor = System.Drawing.Color.Transparent;
             this.ProjectTabImages.Images.SetKeyName(0, "folder-icon-24.png");
             this.ProjectTabImages.Images.SetKeyName(1, "design-32.png");
-            this.ProjectTabImages.Images.SetKeyName(2, "3d-32.png");
-            this.ProjectTabImages.Images.SetKeyName(3, "document-32.png");
-            this.ProjectTabImages.Images.SetKeyName(4, "Icon-SOLIDWORKS.png");
-            this.ProjectTabImages.Images.SetKeyName(5, "review-icon-32.png");
+            this.ProjectTabImages.Images.SetKeyName(2, "review-icon-32.png");
+            this.ProjectTabImages.Images.SetKeyName(3, "3d-32.png");
+            this.ProjectTabImages.Images.SetKeyName(4, "document-32.png");
+            this.ProjectTabImages.Images.SetKeyName(5, "Icon-SOLIDWORKS.png");
             // 
             // panel2
             // 
@@ -875,6 +687,31 @@ namespace MechanicalSyncApp.UI.Forms
             this.aboutMechanicalSyncToolStripMenuItem.Text = "About Mechanical Sync";
             this.aboutMechanicalSyncToolStripMenuItem.Click += new System.EventHandler(this.aboutMechanicalSyncToolStripMenuItem_Click);
             // 
+            // ChangeRequestDescriptionColumn
+            // 
+            this.ChangeRequestDescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ChangeRequestDescriptionColumn.HeaderText = "Change request description";
+            this.ChangeRequestDescriptionColumn.Name = "ChangeRequestDescriptionColumn";
+            this.ChangeRequestDescriptionColumn.ReadOnly = true;
+            // 
+            // ChangeRequestStatusColumn
+            // 
+            this.ChangeRequestStatusColumn.HeaderText = "Status";
+            this.ChangeRequestStatusColumn.Name = "ChangeRequestStatusColumn";
+            this.ChangeRequestStatusColumn.ReadOnly = true;
+            this.ChangeRequestStatusColumn.Width = 150;
+            // 
+            // DesignerCommentsColumn
+            // 
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DesignerCommentsColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DesignerCommentsColumn.HeaderText = "Designer comments";
+            this.DesignerCommentsColumn.Name = "DesignerCommentsColumn";
+            this.DesignerCommentsColumn.ReadOnly = true;
+            this.DesignerCommentsColumn.Width = 250;
+            // 
             // VersionSynchronizerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -905,31 +742,18 @@ namespace MechanicalSyncApp.UI.Forms
             this.SynchronizerToolStrip.ResumeLayout(false);
             this.SynchronizerToolStrip.PerformLayout();
             this.tabPage3.ResumeLayout(false);
-            this.AssemblyReviewsSplit.Panel1.ResumeLayout(false);
-            this.AssemblyReviewsSplit.Panel1.PerformLayout();
-            this.AssemblyReviewsSplit.Panel2.ResumeLayout(false);
-            this.AssemblyReviewsSplit.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AssemblyReviewsSplit)).EndInit();
-            this.AssemblyReviewsSplit.ResumeLayout(false);
+            this.FileReviewsSplit.Panel1.ResumeLayout(false);
+            this.FileReviewsSplit.Panel1.PerformLayout();
+            this.FileReviewsSplit.Panel2.ResumeLayout(false);
+            this.FileReviewsSplit.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FileReviewsSplit)).EndInit();
+            this.FileReviewsSplit.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.AssemblyChangeRequestsGrid)).EndInit();
-            this.AssemblyReviewViewerToolStrip.ResumeLayout(false);
-            this.AssemblyReviewViewerToolStrip.PerformLayout();
-            this.DrawingReviewPage.ResumeLayout(false);
-            this.DrawingReviewsSplit.Panel1.ResumeLayout(false);
-            this.DrawingReviewsSplit.Panel1.PerformLayout();
-            this.DrawingReviewsSplit.Panel2.ResumeLayout(false);
-            this.DrawingReviewsSplit.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DrawingReviewsSplit)).EndInit();
-            this.DrawingReviewsSplit.ResumeLayout(false);
-            this.DrawingReviewExplorerToolStrip.ResumeLayout(false);
-            this.DrawingReviewExplorerToolStrip.PerformLayout();
-            this.MarkupStatusStrip.ResumeLayout(false);
-            this.MarkupStatusStrip.PerformLayout();
-            this.DrawingViewerToolStrip.ResumeLayout(false);
-            this.DrawingViewerToolStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FileChangeRequestsGrid)).EndInit();
+            this.FileReviewsToolStrip.ResumeLayout(false);
+            this.FileReviewsToolStrip.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.MainMenuStrip.ResumeLayout(false);
             this.MainMenuStrip.PerformLayout();
@@ -953,7 +777,6 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripButton RefreshLocalFilesButton;
         private System.Windows.Forms.ImageList ProjectTabImages;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage DrawingReviewPage;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton WorkOfflineButton;
         private System.Windows.Forms.Panel panel2;
@@ -975,42 +798,29 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem NewVersionButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
-        private System.Windows.Forms.SplitContainer DrawingReviewsSplit;
-        private System.Windows.Forms.TreeView DrawingReviewsTreeView;
         private System.Windows.Forms.ImageList WorkspaceIcons;
         private System.Windows.Forms.ToolStripMenuItem LogoutMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ProjectExplorerMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NewReviewButton;
         private System.Windows.Forms.Button CloseVersionButton;
-        private System.Windows.Forms.ToolStrip DrawingReviewExplorerToolStrip;
-        private System.Windows.Forms.ToolStripButton RefreshDrawingExplorerButton;
-        private System.Windows.Forms.ToolStrip DrawingViewerToolStrip;
-        private System.Windows.Forms.ToolStripButton MarkDrawingAsFixedButton;
         private System.Windows.Forms.ImageList DrawingReviewExplorerIcons;
-        private System.Windows.Forms.StatusStrip MarkupStatusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel DrawingReviewerStatusText;
-        private System.Windows.Forms.ToolStripProgressBar DrawingReviewerProgress;
-        private System.Windows.Forms.Panel DrawingReviewerPanel;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripLabel DrawingReviewerDrawingStatus;
-        private System.Windows.Forms.ToolStripLabel DrawingReviewerTitle;
         private System.Windows.Forms.ToolStripButton ArchiveVersionButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.SplitContainer AssemblyReviewsSplit;
-        private System.Windows.Forms.TreeView AssemblyReviewsTreeView;
+        private System.Windows.Forms.SplitContainer FileReviewsSplit;
+        private System.Windows.Forms.TreeView FileReviewsTreeView;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton RefreshAssemblyExplorerButton;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ToolStrip AssemblyReviewViewerToolStrip;
-        private System.Windows.Forms.ToolStripButton MarkAssemblyAsFixedButton;
+        private System.Windows.Forms.ToolStrip FileReviewsToolStrip;
+        private System.Windows.Forms.ToolStripButton MarkFileAsFixedButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripLabel AssemblyReviewStatus;
-        private System.Windows.Forms.ToolStripLabel AssemblyReviewViewerTitle;
-        private System.Windows.Forms.DataGridView AssemblyChangeRequestsGrid;
+        private System.Windows.Forms.ToolStripLabel FileReviewStatus;
+        private System.Windows.Forms.ToolStripLabel FileReviewViewerTitle;
+        private System.Windows.Forms.DataGridView FileChangeRequestsGrid;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutMechanicalSyncToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestDescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestStatusColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DesignerCommentsColumn;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutMechanicalSyncToolStripMenuItem;
     }
 }

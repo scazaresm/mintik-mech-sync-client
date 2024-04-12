@@ -13,14 +13,14 @@ using Version = MechanicalSyncApp.Core.Services.MechSync.Models.Version;
 
 namespace MechanicalSyncApp.UI
 {
-    public class OpenReviewTargetForViewingEventArgs : EventArgs
+    public class OpenFileReviewEventArgs : EventArgs
     {
         public Review Review { get; private set; }
         public ReviewTarget ReviewTarget { get; private set; }
 
         public FileMetadata Metadata { get; set; }
 
-        public OpenReviewTargetForViewingEventArgs(Review review, ReviewTarget reviewTarget, FileMetadata metadata)
+        public OpenFileReviewEventArgs(Review review, ReviewTarget reviewTarget, FileMetadata metadata)
         {
             Review = review ?? throw new ArgumentNullException(nameof(review));
             ReviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
@@ -36,7 +36,7 @@ namespace MechanicalSyncApp.UI
 
     public class DeliverableReviewsTreeView : IDisposable
     {
-        public event EventHandler<OpenReviewTargetForViewingEventArgs> OpenReviewForViewing;
+        public event EventHandler<OpenFileReviewEventArgs> OpenReview;
 
         public IMechSyncServiceClient MechSyncService { get; private set; }
         public IAuthenticationServiceClient AuthService { get; private set; }
@@ -73,19 +73,19 @@ namespace MechanicalSyncApp.UI
             AttachedTreeView.Nodes.Clear();
             AttachedTreeView.Nodes.Add(rootNode);
             AttachedTreeView.NodeMouseDoubleClick += AttachedTreeView_NodeMouseDoubleClick;
-          
+
+            
         }
 
         public async Task Refresh()
         {
             var reviews = await MechSyncService.GetVersionReviewsAsync(Version.RemoteVersion.Id);
 
-            AttachedTreeView.Nodes.Clear();
+            AttachedTreeView.Nodes.Clear(); 
+            var assemblyReviewsNode = AttachedTreeView.Nodes.Add("Assemblies");
+            var drawingReviewsNode = AttachedTreeView.Nodes.Add("Drawings");
             foreach (var review in reviews)
             {
-                // we are interested on the specified review targets only
-                if (review.TargetType != reviewTargetType.ToString()) continue;
-
                 // sync review targets to detect deleted files
                 var syncedReview = await MechSyncService.SyncReviewTargetsAsync(review.Id);
 
@@ -100,7 +100,10 @@ namespace MechanicalSyncApp.UI
 
                 await PopulateReviewTargets(reviewNode);
 
-                AttachedTreeView.Nodes.Add(reviewNode);
+                if (review.TargetType == ReviewTargetType.AssemblyFile.ToString())
+                    assemblyReviewsNode.Nodes.Add(reviewNode);
+                else if (review.TargetType == ReviewTargetType.DrawingFile.ToString())
+                    drawingReviewsNode.Nodes.Add(reviewNode);
             }
         }
 
@@ -153,8 +156,8 @@ namespace MechanicalSyncApp.UI
 
                 var reviewTargetMetadata = await GetReviewTargetDetailsAsync(reviewTarget.TargetId);
 
-                OpenReviewForViewing?.Invoke(sender,
-                    new OpenReviewTargetForViewingEventArgs(review, reviewTarget, reviewTargetMetadata)
+                OpenReview?.Invoke(sender,
+                    new OpenFileReviewEventArgs(review, reviewTarget, reviewTargetMetadata)
                 );
             }
         }

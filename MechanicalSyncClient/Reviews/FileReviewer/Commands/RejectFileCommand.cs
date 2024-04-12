@@ -7,15 +7,15 @@ using Serilog;
 using System.Linq;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 
-namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
+namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
 {
-    public class RejectAssemblyCommand : IAssemblyReviewerCommandAsync
+    public class RejectFileCommand : IFileReviewerCommandAsync
     {
         private readonly ILogger logger;
 
-        public IAssemblyReviewer Reviewer { get; }
+        public IFileReviewer Reviewer { get; }
 
-        public RejectAssemblyCommand(IAssemblyReviewer reviewer, ILogger logger)
+        public RejectFileCommand(IFileReviewer reviewer, ILogger logger)
         {
             Reviewer = reviewer ?? throw new ArgumentNullException(nameof(reviewer));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -23,32 +23,32 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
 
         public async Task RunAsync()
         {
-            logger.Debug("Starting RejectAssemblyCommand...");
+            logger.Debug("Starting RejectFileCommand...");
             var ui = Reviewer.Args.UI;
             try
             {
                 var Review = Reviewer.Args.Review;
                 var ReviewTarget = Reviewer.ReviewTarget;
 
-                var newChangeRequests = ReviewTarget.ChangeRequests.Where((cr) => 
+                var newChangeRequests = ReviewTarget.ChangeRequests.Where((cr) =>
                     cr.Status == ChangeRequestStatus.Pending.ToString()
                 );
 
                 if (newChangeRequests.Count() == 0)
                 {
                     MessageBox.Show(
-                        "At least one new change request is required in order to reject this assembly.", 
-                        "Could not reject assembly", 
-                        MessageBoxButtons.OK, 
+                        "At least one new change request is required in order to reject this file.",
+                        "Could not reject file",
+                        MessageBoxButtons.OK,
                         MessageBoxIcon.Exclamation);
                     return;
                 }
 
-                var confirmation = MessageBox.Show("Reject this assembly?", "Reject assembly", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var confirmation = MessageBox.Show("Reject this file?", "Reject file", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirmation != DialogResult.Yes) return;
 
-                ui.RejectAssemblyButton.Enabled = false;
-                ui.StatusLabel.Text = "Rejecting assembly...";
+                ui.RejectFileButton.Enabled = false;
+                ui.StatusLabel.Text = "Rejecting file...";
 
                 logger.Debug("Retrieving latest Review from server...");
                 var latestReview = await Reviewer.Args.SyncServiceClient.GetReviewAsync(Review.RemoteReview.Id)
@@ -67,7 +67,7 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation
                     );
                     ReviewTarget.UpdatedAt = latestReviewTarget.UpdatedAt;
-                    await new OpenAssemblyReviewCommand(Reviewer, ReviewTarget, logger).RunAsync();
+                    await new OpenFileReviewCommand(Reviewer, ReviewTarget, logger).RunAsync();
                     return;
                 }
 
@@ -82,15 +82,15 @@ namespace MechanicalSyncApp.Reviews.AssemblyReviewer.Commands
             }
             catch (Exception ex)
             {
-                var message = $"Could not reject the assembly: {ex}";
+                var message = $"Could not reject the file: {ex}";
                 logger.Error(message);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                ui.RejectAssemblyButton.Enabled = true;
+                ui.RejectFileButton.Enabled = true;
                 ui.StatusLabel.Text = "Ready";
-                logger.Debug("RejectAssemblyCommand complete.");
+                logger.Debug("RejectFileCommand complete.");
             }
         }
     }
