@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "ExampleAssembly.sldasm",
             "0",
             "Needs at least 1 approval"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "ExampleDrawing.slddrw",
             "0",
             "Needs at least 1 approval"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
@@ -88,9 +88,9 @@
             this.columnHeader6});
             this.ReviewableAssembliesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ReviewableAssembliesListView.HideSelection = false;
-            listViewItem3.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.ReviewableAssembliesListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3});
+            listViewItem1});
             this.ReviewableAssembliesListView.Location = new System.Drawing.Point(0, 0);
             this.ReviewableAssembliesListView.MultiSelect = false;
             this.ReviewableAssembliesListView.Name = "ReviewableAssembliesListView";
@@ -102,7 +102,7 @@
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "Drawing";
+            this.columnHeader4.Text = "Assembly file name";
             this.columnHeader4.Width = 350;
             // 
             // columnHeader5
@@ -135,9 +135,9 @@
             this.columnHeader3});
             this.ReviewableDrawingsListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ReviewableDrawingsListView.HideSelection = false;
-            listViewItem4.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
             this.ReviewableDrawingsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem4});
+            listViewItem2});
             this.ReviewableDrawingsListView.Location = new System.Drawing.Point(3, 3);
             this.ReviewableDrawingsListView.MultiSelect = false;
             this.ReviewableDrawingsListView.Name = "ReviewableDrawingsListView";
@@ -149,7 +149,7 @@
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "Drawing";
+            this.columnHeader1.Text = "Drawing file name";
             this.columnHeader1.Width = 350;
             // 
             // columnHeader2

@@ -129,10 +129,11 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // VersionLabel
             // 
+            this.VersionLabel.AutoSize = true;
             this.VersionLabel.ForeColor = System.Drawing.Color.White;
-            this.VersionLabel.Location = new System.Drawing.Point(241, 9);
+            this.VersionLabel.Location = new System.Drawing.Point(226, 9);
             this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(86, 18);
+            this.VersionLabel.Size = new System.Drawing.Size(78, 13);
             this.VersionLabel.TabIndex = 8;
             this.VersionLabel.Text = "Version 1.0.0.0";
             // 

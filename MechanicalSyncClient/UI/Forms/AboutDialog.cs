@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -45,15 +46,23 @@ namespace MechanicalSyncApp.UI.Forms
         {
             get
             {
-                if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+                try
                 {
-                    Version ver = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
-                    return string.Format("Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+                    if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+                    {
+                        Version ver = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                        return string.Format("Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision);
+                    }
+                    else
+                    {
+                        var ver = Assembly.GetExecutingAssembly().GetName().Version;
+                        return string.Format("Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    var ver = Assembly.GetExecutingAssembly().GetName().Version;
-                    return string.Format("Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+                    Log.Error($"Failed to retrieve deployment version: {ex.Message}");
+                    return "Version: ?";
                 }
             }
         }

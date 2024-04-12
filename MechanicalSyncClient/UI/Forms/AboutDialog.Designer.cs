@@ -77,10 +77,11 @@
             // 
             // VersionLabel
             // 
+            this.VersionLabel.AutoSize = true;
             this.VersionLabel.ForeColor = System.Drawing.Color.Black;
             this.VersionLabel.Location = new System.Drawing.Point(20, 51);
             this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(86, 18);
+            this.VersionLabel.Size = new System.Drawing.Size(78, 13);
             this.VersionLabel.TabIndex = 9;
             this.VersionLabel.Text = "Version 1.0.0.0";
             // 
