@@ -24,8 +24,8 @@ namespace MechanicalSyncApp.Core.Services.Authentication
     public class AuthenticationServiceClient : IAuthenticationServiceClient, IDisposable
     {
         #region Singleton
-        private readonly string SERVER_URL = ConfigurationManager.AppSettings["SERVER_URL"];
-        private readonly string DEFAULT_TIMEOUT_SECONDS = ConfigurationManager.AppSettings["DEFAULT_TIMEOUT_SECONDS"];
+        private readonly string SERVER_URL = Settings.Default.SERVER_URL;
+        private readonly int DEFAULT_TIMEOUT_SECONDS = Settings.Default.DEFAULT_TIMEOUT_SECONDS;
 
         private static IAuthenticationServiceClient _instance = null;
 
@@ -45,7 +45,7 @@ namespace MechanicalSyncApp.Core.Services.Authentication
             {
                 restClient = new HttpClient(new VerboseHandler(new HttpClientHandler()));
                 restClient.BaseAddress = new Uri($"{SERVER_URL}/api/authentication/");
-                restClient.Timeout = TimeSpan.FromSeconds(double.Parse(DEFAULT_TIMEOUT_SECONDS));
+                restClient.Timeout = TimeSpan.FromSeconds(DEFAULT_TIMEOUT_SECONDS);
             }
             catch(FormatException ex)
             {

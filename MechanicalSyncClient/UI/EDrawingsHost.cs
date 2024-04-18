@@ -1,4 +1,5 @@
 ﻿using eDrawings.Interop.EModelViewControl;
+using MechanicalSyncApp.Properties;
 using System;
 using System.Configuration;
 using System.Windows.Forms;
@@ -29,7 +30,7 @@ namespace MechanicalSyncApp.UI
         }
         private static string GetCLSID()
         {
-            var clsid = ConfigurationManager.AppSettings["EDRAWINGS_VIEWER_CLSID"];
+            var clsid = Settings.Default.EDRAWINGS_VIEWER_CLSID;
 
             return clsid ?? throw new Exception("Missing EDRAWINGS_VIEWER_CLSID configuration entry in config file.");
         }

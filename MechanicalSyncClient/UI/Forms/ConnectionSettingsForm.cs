@@ -28,9 +28,8 @@ namespace MechanicalSyncApp.UI.Forms
         {
             try
             {
-                RemoteServer.Text = ConfigurationManager.AppSettings[SERVER_URL] ?? "";
-                var timeout = ConfigurationManager.AppSettings[DEFAULT_TIMEOUT_SECONDS] ?? "10";
-                ServerTimeout.Value = decimal.Parse(timeout);
+                RemoteServer.Text = Properties.Settings.Default.SERVER_URL ?? "";
+                ServerTimeout.Value = Properties.Settings.Default.DEFAULT_TIMEOUT_SECONDS;
 
                 ApplyServerChanges.Enabled = false;
             }
@@ -50,9 +49,9 @@ namespace MechanicalSyncApp.UI.Forms
         {
             try
             {
-                SettingsUtils.UpsertSetting(SERVER_URL, RemoteServer.Text);
-                SettingsUtils.UpsertSetting(DEFAULT_TIMEOUT_SECONDS, ServerTimeout.Value.ToString());
-                ConfigurationManager.RefreshSection("appSettings");
+                Properties.Settings.Default.SERVER_URL = RemoteServer.Text;
+                Properties.Settings.Default.DEFAULT_TIMEOUT_SECONDS = (int)(ServerTimeout.Value);
+                Properties.Settings.Default.Save();
                 ApplyServerChanges.Enabled = false;
             }
             catch(Exception ex)

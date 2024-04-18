@@ -32,8 +32,6 @@
             this.DetailsPictureBox = new System.Windows.Forms.PictureBox();
             this.ChangeDescription = new System.Windows.Forms.TextBox();
             this.ChangeRequestToolStrip = new System.Windows.Forms.ToolStrip();
-            this.AcceptChangeButton = new System.Windows.Forms.ToolStripButton();
-            this.RejectChangeButton = new System.Windows.Forms.ToolStripButton();
             this.DeleteButton = new System.Windows.Forms.ToolStripButton();
             this.PasteImageButton = new System.Windows.Forms.ToolStripButton();
             this.OkButton = new System.Windows.Forms.Button();
@@ -91,8 +89,6 @@
             this.ChangeRequestToolStrip.AutoSize = false;
             this.ChangeRequestToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.ChangeRequestToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AcceptChangeButton,
-            this.RejectChangeButton,
             this.DeleteButton,
             this.PasteImageButton});
             this.ChangeRequestToolStrip.Location = new System.Drawing.Point(8, 12);
@@ -100,26 +96,6 @@
             this.ChangeRequestToolStrip.Size = new System.Drawing.Size(568, 25);
             this.ChangeRequestToolStrip.TabIndex = 1;
             this.ChangeRequestToolStrip.Text = "toolStrip1";
-            // 
-            // AcceptChangeButton
-            // 
-            this.AcceptChangeButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.AcceptChangeButton.Image = global::MechanicalSyncApp.Properties.Resources.thumbs_up_24;
-            this.AcceptChangeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AcceptChangeButton.Name = "AcceptChangeButton";
-            this.AcceptChangeButton.Size = new System.Drawing.Size(106, 22);
-            this.AcceptChangeButton.Text = "Accept change";
-            this.AcceptChangeButton.ToolTipText = "Accept change";
-            // 
-            // RejectChangeButton
-            // 
-            this.RejectChangeButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.RejectChangeButton.Image = global::MechanicalSyncApp.Properties.Resources.thumbs_down_24;
-            this.RejectChangeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RejectChangeButton.Name = "RejectChangeButton";
-            this.RejectChangeButton.Size = new System.Drawing.Size(101, 22);
-            this.RejectChangeButton.Text = "Reject change";
-            this.RejectChangeButton.ToolTipText = "Reject change";
             // 
             // DeleteButton
             // 
@@ -198,8 +174,6 @@
         private System.Windows.Forms.ToolStripButton DeleteButton;
         private System.Windows.Forms.ToolStripButton PasteImageButton;
         private System.Windows.Forms.Button OkButton;
-        private System.Windows.Forms.ToolStripButton AcceptChangeButton;
-        private System.Windows.Forms.ToolStripButton RejectChangeButton;
         private System.Windows.Forms.Button CancelActionButton;
     }
 }

@@ -103,10 +103,10 @@ namespace MechanicalSyncApp.UI.Forms
         {
             try
             {
-                WorkspaceDirectory.Text = ConfigurationManager.AppSettings[WORKSPACE_DIRECTORY] ?? string.Empty;
-                PublishingDirectory.Text = ConfigurationManager.AppSettings[PUBLISHING_DIRECTORY] ?? string.Empty;
-                EdrawingsViewerClsid.Text = ConfigurationManager.AppSettings[EDRAWINGS_VIEWER_CLSID] ?? string.Empty;
-                SolidWorksExePath.Text = ConfigurationManager.AppSettings[SOLIDWORKS_EXE_PATH] ?? string.Empty;
+                WorkspaceDirectory.Text = Properties.Settings.Default.WORKSPACE_DIRECTORY ?? string.Empty;
+                PublishingDirectory.Text = Properties.Settings.Default.PUBLISHING_DIRECTORY ?? string.Empty;
+                EdrawingsViewerClsid.Text = Properties.Settings.Default.EDRAWINGS_VIEWER_CLSID ?? string.Empty;
+                SolidWorksExePath.Text = Properties.Settings.Default.SOLIDWORKS_EXE_PATH ?? string.Empty;
                 ApplySyncChanges.Enabled = false;
             }
             catch (Exception ex)
@@ -120,11 +120,11 @@ namespace MechanicalSyncApp.UI.Forms
         {
             try
             {
-                SettingsUtils.UpsertSetting(WORKSPACE_DIRECTORY, WorkspaceDirectory.Text);
-                SettingsUtils.UpsertSetting(EDRAWINGS_VIEWER_CLSID, EdrawingsViewerClsid.Text);
-                SettingsUtils.UpsertSetting(SOLIDWORKS_EXE_PATH, SolidWorksExePath.Text);
-                SettingsUtils.UpsertSetting(PUBLISHING_DIRECTORY, PublishingDirectory.Text);
-                ConfigurationManager.RefreshSection("appSettings");
+                Properties.Settings.Default.WORKSPACE_DIRECTORY = WorkspaceDirectory.Text;
+                Properties.Settings.Default.EDRAWINGS_VIEWER_CLSID = EdrawingsViewerClsid.Text;
+                Properties.Settings.Default.SOLIDWORKS_EXE_PATH = SolidWorksExePath.Text;
+                Properties.Settings.Default.PUBLISHING_DIRECTORY = PublishingDirectory.Text;
+                Properties.Settings.Default.Save();
                 ApplySyncChanges.Enabled = false;
             }
             catch (Exception ex)
