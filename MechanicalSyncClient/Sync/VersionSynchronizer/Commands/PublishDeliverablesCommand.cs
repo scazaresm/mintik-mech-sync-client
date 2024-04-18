@@ -62,7 +62,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 using (var solidWorksStarter = new SolidWorksStarter(logger)
                 {
-                    SolidWorksExePath = ConfigurationManager.AppSettings[SOLIDWORKS_EXE_PATH],
+                    SolidWorksExePath = Properties.Settings.Default.SOLIDWORKS_EXE_PATH,
                     Hidden = true,
                     ShowSplash = false,
                     SolidWorksStartTimeoutSeconds = 60,

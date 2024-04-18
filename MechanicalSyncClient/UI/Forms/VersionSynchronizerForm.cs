@@ -38,7 +38,7 @@ namespace MechanicalSyncApp.UI.Forms
         {
             InitializeComponent();
 
-            var workspaceDirectory = ConfigurationManager.AppSettings["WORKSPACE_DIRECTORY"] ?? @"C:\Sync";
+            var workspaceDirectory = Properties.Settings.Default.WORKSPACE_DIRECTORY ?? @"C:\Sync";
 
             workspaceTreeView = new WorkspaceTreeView(MechSyncServiceClient.Instance, workspaceDirectory);
             workspaceTreeView.AttachTreeView(WorkspaceTreeView);

@@ -19,8 +19,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync
     {
         #region Singleton
 
-        private readonly string SERVER_URL = ConfigurationManager.AppSettings["SERVER_URL"];
-        private readonly string DEFAULT_TIMEOUT_SECONDS = ConfigurationManager.AppSettings["DEFAULT_TIMEOUT_SECONDS"];
+        private readonly string SERVER_URL = Properties.Settings.Default.SERVER_URL;
+        private readonly int DEFAULT_TIMEOUT_SECONDS = Properties.Settings.Default.DEFAULT_TIMEOUT_SECONDS;
 
         private ILogger logger;
 
@@ -42,7 +42,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             {
                 AuthenticationService = AuthenticationServiceClient.Instance;
 
-                var defaultTimeoutSeconds = double.Parse(DEFAULT_TIMEOUT_SECONDS);
+                var defaultTimeoutSeconds = DEFAULT_TIMEOUT_SECONDS;
 
                 // use this client for regular data transactions (not file upload/download)
                 restClient = new HttpClient(new VerboseHandler(new HttpClientHandler()));

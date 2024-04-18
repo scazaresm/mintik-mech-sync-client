@@ -6,6 +6,7 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Core.SolidWorksInterop.API;
+using MechanicalSyncApp.Properties;
 using MechanicalSyncApp.Reviews.FileReviewer;
 using Serilog;
 using System;
@@ -13,7 +14,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace MechanicalSyncApp.UI.Forms
 {
@@ -44,7 +44,7 @@ namespace MechanicalSyncApp.UI.Forms
             solidWorksStarter = new SolidWorksStarter(logger)
             {
                 Hidden = false,
-                SolidWorksExePath = ConfigurationManager.AppSettings["SOLIDWORKS_EXE_PATH"],
+                SolidWorksExePath = Settings.Default.SOLIDWORKS_EXE_PATH,
                 ShowSplash = false,
                 SolidWorksStartTimeoutSeconds = 60
             };

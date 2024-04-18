@@ -43,7 +43,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public string SnapshotDirectory { get; private set; } = Path.Combine(Path.GetTempPath(), "sync-snapshot");
 
-        public string BasePublishingDirectory { get; set; } = ConfigurationManager.AppSettings["PUBLISHING_DIRECTORY"];
+        public string BasePublishingDirectory { get; set; } = Properties.Settings.Default.PUBLISHING_DIRECTORY;
 
         public string RelativePublishingSummaryDirectory { get; set; } = @".publishing\pending";
 

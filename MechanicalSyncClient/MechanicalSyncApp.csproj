@@ -31,7 +31,7 @@
     <PublisherName>Mintik Software</PublisherName>
     <SuiteName>Mechanical Sync</SuiteName>
     <MinimumRequiredVersion>1.1.0.2</MinimumRequiredVersion>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -291,7 +291,6 @@
     <Compile Include="Core\Util\DictionaryDataGridViewAdapter.cs" />
     <Compile Include="Core\Util\EnumExtensions.cs" />
     <Compile Include="Core\Util\PathUtils.cs" />
-    <Compile Include="Core\Util\SettingsUtils.cs" />
     <Compile Include="Explorer\ProjectExplorer.cs" />
     <Compile Include="Explorer\ProjectExplorerUI.cs" />
     <Compile Include="Publishing\DeliverablePublisher\DeliverablePublisher.cs" />

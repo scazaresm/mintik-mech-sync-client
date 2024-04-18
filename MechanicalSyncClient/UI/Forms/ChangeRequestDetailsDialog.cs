@@ -27,8 +27,6 @@ namespace MechanicalSyncApp.UI.Forms
             ChangeDescription.ReadOnly = false;
             PasteImageButton.Visible = true;
             DeleteButton.Visible = false;
-            RejectChangeButton.Visible = false; // future implementation
-            AcceptChangeButton.Visible = false; // future implementation
             OkButton.Text = "Save";
             OkButton.Enabled = false;
         }
@@ -117,12 +115,6 @@ namespace MechanicalSyncApp.UI.Forms
                 ReviewTargetStatus.Reviewing.ToString()
             };
             return deleteableStatuses.Contains(changeRequest.Parent.Status);
-        }
-
-        private bool IsChangeRequestReviewable(ChangeRequest changeRequest)
-        {
-            return changeRequest.Status == ChangeRequestStatus.Done.ToString() &&
-                changeRequest.Parent.Status == ReviewTargetStatus.Fixed.ToString();
         }
 
         private void ChangeDescription_TextChanged(object sender, EventArgs e)
