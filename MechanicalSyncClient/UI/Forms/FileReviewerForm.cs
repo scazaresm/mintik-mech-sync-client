@@ -124,20 +124,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void FileReviewerForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            try
-            {
-                CleanupTempWorkingCopy();
-                solidWorksStarter?.Dispose();
-            }
-            catch(Exception ex)
-            {
-                logger.Error(ex.Message, ex);
-            }
-            finally
-            {
-                // go back to the main form
-                VersionSynchronizerForm.Instance.Show();
-            }
+            VersionSynchronizerForm.Instance.Show();
         }
 
         private void CleanupTempWorkingCopy()

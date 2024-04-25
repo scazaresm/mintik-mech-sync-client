@@ -58,6 +58,9 @@ namespace MechanicalSyncApp.Reviews.FileReviewer
             ui.RefreshReviewTargetsButton.Click += RefreshReviewTargetsButton_Click;
             ui.RejectFileButton.Click += RejectFileButton_Click;
 
+            var parentForm = ui.MainSplit.ParentForm;
+            parentForm.FormClosing += ParentForm_FormClosing;
+
             await RefreshReviewTargetsAsync();
         }
 
@@ -162,6 +165,29 @@ namespace MechanicalSyncApp.Reviews.FileReviewer
         private async void RejectFileButton_Click(object sender, EventArgs e)
         {
             await RejectFileAsync();
+        }
+
+        private async void ParentForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var logger = Args.Logger;
+            try
+            {
+                logger.Debug($"ParentForm_FormClosing starts...");
+
+                var mainSplit = Args.UI.MainSplit;
+                var isReviewingFile = mainSplit.Panel1Collapsed == true && mainSplit.Panel2Collapsed == false;
+
+                if (isReviewingFile)
+                    await CloseReviewTargetAsync();
+
+                Args.SolidWorksStarter?.Dispose();
+                Args.SolidWorksStarter = null;
+                logger.Debug($"Successfully handled ParentForm_FormClosing.");
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Failed to handle ParentForm_FormClosing event: {ex.Message}");
+            }
         }
     }
 }

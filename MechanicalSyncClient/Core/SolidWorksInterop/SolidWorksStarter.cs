@@ -8,7 +8,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Core.SolidWorksInterop
 {
@@ -126,8 +125,15 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
                 logger.Debug("Releasing COM objects...");
                 ReleaseComObjects();
 
-                logger.Debug("Closing SolidWorks App...");
-                SolidWorksApp?.ExitApp();
+                try
+                {
+                    logger.Debug("Closing SolidWorks App...");
+                    SolidWorksApp?.ExitApp();
+                }
+                catch (InvalidCastException)
+                {
+                    logger.Warning("Unable to call SolidWorksApp.ExitApp() due to InvalidCastException, was the SolidWorks window closed manually by the user?");
+                }
 
                 logger.Debug("Killing and disposing process...");
                 process?.Kill();
