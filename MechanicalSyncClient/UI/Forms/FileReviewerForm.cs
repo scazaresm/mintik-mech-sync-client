@@ -6,6 +6,7 @@ using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Core.SolidWorksInterop.API;
+using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.Properties;
 using MechanicalSyncApp.Reviews.FileReviewer;
 using Serilog;
@@ -141,18 +142,8 @@ namespace MechanicalSyncApp.UI.Forms
 
         private void CleanupTempWorkingCopy()
         {
-            if (!Directory.Exists(tempWorkingCopyDirectory))
-                return;
-            
-            // Remove read-only attribute from all files within the directory
-            var files = Directory.GetFiles(tempWorkingCopyDirectory, "*.*", SearchOption.AllDirectories);
-            foreach (string file in files)
-            {
-                FileAttributes attributes = File.GetAttributes(file);
-                if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                    File.SetAttributes(file, attributes & ~FileAttributes.ReadOnly);
-            }
-            Directory.Delete(tempWorkingCopyDirectory, true);
+            if (Directory.Exists(tempWorkingCopyDirectory))
+                DirectoryUtils.SafeDeleteTempDirectory(tempWorkingCopyDirectory);
         }
 
         private async Task DownloadTemporaryWorkingCopyAsync()

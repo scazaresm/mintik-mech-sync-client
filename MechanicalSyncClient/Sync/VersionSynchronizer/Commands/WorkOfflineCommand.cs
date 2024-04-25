@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI.Forms;
 using Microsoft.VisualBasic.Devices;
@@ -74,7 +75,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 logger.Debug($"Deleting local copy snapshot: {snapshotDirectory}");
 
                 if (Directory.Exists(snapshotDirectory))
-                    Directory.Delete(snapshotDirectory, true);
+                    DirectoryUtils.SafeDeleteTempDirectory(snapshotDirectory);
             }
             catch (Exception ex)
             {

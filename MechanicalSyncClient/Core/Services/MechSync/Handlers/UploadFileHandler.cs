@@ -33,10 +33,18 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Handlers
                     string tempFile = Path.GetTempFileName();
                     try
                     {
+                        // do not upload right away, create a temporary copy instead
                         File.Copy(request.LocalFilePath, tempFile, true);
 
                         using (var formData = new MultipartFormDataContent())
                         {
+                            // it's important to make sure our temp file is not read-only before opening for upload
+                            // windows will have conflict with temp files marked as read-only even when you open them for read
+                            FileAttributes attributes = File.GetAttributes(tempFile);
+                            attributes &= ~FileAttributes.ReadOnly;
+                            File.SetAttributes(tempFile, attributes);
+
+                            // open the file and upload
                             using (var fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
                             {
                                 formData.Add(new StreamContent(fileStream), "file", Path.GetFileName(request.LocalFilePath));

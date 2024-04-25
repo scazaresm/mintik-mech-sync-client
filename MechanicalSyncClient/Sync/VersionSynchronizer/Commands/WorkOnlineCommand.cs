@@ -1,5 +1,6 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Domain;
+using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI.Forms;
 using Microsoft.VisualBasic.Devices;
@@ -120,13 +121,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 string snapshotDirectory = Synchronizer.SnapshotDirectory;
 
                 if (Directory.Exists(snapshotDirectory))
-                    Directory.Delete(snapshotDirectory, true);
+                    DirectoryUtils.SafeDeleteTempDirectory(snapshotDirectory);
 
                 Directory.CreateDirectory(snapshotDirectory);
-
                 new Computer().FileSystem.CopyDirectory(localCopyDirectory, snapshotDirectory);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error($"Failed to create a local copy snapshot before going online: {ex}");
             }

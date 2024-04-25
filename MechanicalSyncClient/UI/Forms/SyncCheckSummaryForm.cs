@@ -12,6 +12,11 @@ namespace MechanicalSyncApp.UI.Forms
 {
     public partial class SyncCheckSummaryForm : Form
     {
+        public static readonly string ADD_REMOTE_ACTION_LABEL = "Add remote";
+        public static readonly string RESTORE_LOCAL_ACTION_LABEL = "Restore local (already published)";
+        public static readonly string UPDATE_REMOTE_ACTION_LABEL = "Update remote";
+        public static readonly string DELETE_REMOTE_ACTION_LABEL = "Delete remote";
+
         public bool OnlineWorkSummaryMode { get; set; } = false;
 
         private readonly IVersionSynchronizer versionSynchronizer;
@@ -52,7 +57,7 @@ namespace MechanicalSyncApp.UI.Forms
             foreach (FileMetadata file in summary.CreatedFiles.Values)
             {
                 var item = new ListViewItem(file.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
-                item.SubItems.Add("Add remote");
+                item.SubItems.Add(ADD_REMOTE_ACTION_LABEL);
                 item.ImageIndex = 0;
                 item.Group = SummaryListView.Groups[0];
                 item.Tag = file;
@@ -65,7 +70,7 @@ namespace MechanicalSyncApp.UI.Forms
             foreach (FileMetadata file in summary.ChangedFiles.Values)
             {
                 var item = new ListViewItem(file.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
-                item.SubItems.Add("Update remote");
+                item.SubItems.Add(UPDATE_REMOTE_ACTION_LABEL);
                 item.ImageIndex = 1;
                 item.Group = SummaryListView.Groups[1];
                 item.Tag = file;
@@ -81,8 +86,8 @@ namespace MechanicalSyncApp.UI.Forms
             {
                 var partNumber = Path.GetFileNameWithoutExtension(file.FullFilePath);
                 var action = publishingIndex.ContainsKey(partNumber)
-                    ? "Restore local (already published)"
-                    : "Delete remote";
+                    ? RESTORE_LOCAL_ACTION_LABEL
+                    : DELETE_REMOTE_ACTION_LABEL;
 
                 var item = new ListViewItem(file.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
                 item.SubItems.Add(action);

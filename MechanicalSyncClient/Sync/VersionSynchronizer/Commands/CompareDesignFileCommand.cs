@@ -5,6 +5,7 @@ using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -109,18 +110,44 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         private bool NeedToShowRightHandFile()
         {
-            var fileNotBeingAddedInManualMode = (!OnlineWorkSummaryMode && remoteAction != "Add");
-            var fileNotBeingDeletedInOnlineMode = (OnlineWorkSummaryMode && remoteAction != "Delete");
+            List<string> allowedRemoteActions;
 
-            return fileNotBeingAddedInManualMode || fileNotBeingDeletedInOnlineMode;
+            if (OnlineWorkSummaryMode)
+                allowedRemoteActions = new List<string>()
+                {
+                    SyncCheckSummaryForm.RESTORE_LOCAL_ACTION_LABEL,
+                    SyncCheckSummaryForm.ADD_REMOTE_ACTION_LABEL,
+                    SyncCheckSummaryForm.UPDATE_REMOTE_ACTION_LABEL,
+                };
+            else
+                allowedRemoteActions = new List<string>()
+                {
+                    SyncCheckSummaryForm.RESTORE_LOCAL_ACTION_LABEL,
+                    SyncCheckSummaryForm.DELETE_REMOTE_ACTION_LABEL,
+                    SyncCheckSummaryForm.UPDATE_REMOTE_ACTION_LABEL,
+                };
+
+            return allowedRemoteActions.Contains(remoteAction);
         }
 
         private bool NeedToShowLeftHandFile()
         {
-            var fileNotBeingDeletedInManualMode = (!OnlineWorkSummaryMode && remoteAction != "Delete");
-            var fileNotBeingAddedInOnlineMode = (OnlineWorkSummaryMode && remoteAction != "Add");
+            List<string> allowedRemoteActions;
 
-            return fileNotBeingAddedInOnlineMode || fileNotBeingDeletedInManualMode;
+            if (OnlineWorkSummaryMode)
+                allowedRemoteActions = new List<string>()
+                {
+                    SyncCheckSummaryForm.DELETE_REMOTE_ACTION_LABEL,
+                    SyncCheckSummaryForm.UPDATE_REMOTE_ACTION_LABEL,
+                };
+            else
+                allowedRemoteActions = new List<string>()
+                {
+                    SyncCheckSummaryForm.ADD_REMOTE_ACTION_LABEL,
+                    SyncCheckSummaryForm.UPDATE_REMOTE_ACTION_LABEL,
+                };
+
+            return allowedRemoteActions.Contains(remoteAction);
         }
 
         private async Task<string> DownloadRemoteFileAsync(FileMetadata localFileMetadata)
