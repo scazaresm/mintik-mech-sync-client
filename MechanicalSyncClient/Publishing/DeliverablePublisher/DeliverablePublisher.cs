@@ -157,8 +157,10 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         private string GetRelativePublishingDirectory()
         {
-            var projectFolderName = Synchronizer.Version.RemoteProject.FolderName;
-            return Path.Combine(DateTime.Now.Year.ToString(), projectFolderName);
+            var project = Synchronizer.Version.RemoteProject;
+            var projectFolderName = project.FolderName;
+            var projectYear = project.CreatedAt.Year.ToString();
+            return Path.Combine(projectYear, projectFolderName);
         }
 
         #region UI Management
