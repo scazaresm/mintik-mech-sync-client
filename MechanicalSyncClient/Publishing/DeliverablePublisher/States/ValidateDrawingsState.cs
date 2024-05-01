@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Util;
 using Serilog;
 using System;

@@ -14,6 +14,9 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
         private readonly IDrawingRevisionRetriever drawingRevisionRetriever;
         private readonly ILogger logger;
 
+        private readonly string PART_DOCUMENT_EXTENSION = ".SLDPRT";
+        private readonly string ASSY_DOCUMENT_EXTENSION = ".SLDASM";
+
         public DrawingRevisionValidationStrategy(
                 INextDrawingRevisionCalculator drawingRevisionCalculator,
                 IDrawingRevisionRetriever drawingRevisionRetriever,
@@ -38,6 +41,16 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
 
             logger.Debug($"Validating revision on drawing {drawingFileName}...");
 
+            // drawing revision is not required for assembly drawings
+            var associatedModelPath = GetAssociatedModelPath(drawing);
+
+            if (Path.GetExtension(associatedModelPath).ToUpper() == ASSY_DOCUMENT_EXTENSION)
+            {
+                drawing.Revision = "A";
+                logger.Debug($"Skipping drawing revision validation for assembly drawing {drawing.FullFilePath}");
+                return;
+            }
+
             var expectedRevision = drawingRevisionCalculator.GetNextRevision(drawingFileNameWithoutExtension);
 
             // store the current revision on the drawing
@@ -54,6 +67,18 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
 
                 logger.Debug($"Issue encountered on drawing {drawingFileName}, {issue}");
             }
+        }
+
+        private string GetAssociatedModelPath(FileMetadata drawing)
+        {
+            var drawingExtension = Path.GetExtension(drawing.FullFilePath);
+
+            var partFilePath = drawing.FullFilePath.Replace(drawingExtension, PART_DOCUMENT_EXTENSION);
+            var assemblyFilePath = drawing.FullFilePath.Replace(drawingExtension, ASSY_DOCUMENT_EXTENSION);
+
+            return File.Exists(partFilePath) ? partFilePath
+                : File.Exists(assemblyFilePath) ? assemblyFilePath
+                : throw new Exception($"Unable to find associated model file for drawing {drawing.FullFilePath}");
         }
     }
 }
