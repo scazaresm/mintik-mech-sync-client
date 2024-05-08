@@ -30,8 +30,8 @@
     <ProductName>Mechanical Sync</ProductName>
     <PublisherName>Mintik Software</PublisherName>
     <SuiteName>Mechanical Sync</SuiteName>
-    <MinimumRequiredVersion>1.1.0.8</MinimumRequiredVersion>
-    <ApplicationRevision>9</ApplicationRevision>
+    <MinimumRequiredVersion>1.1.0.9</MinimumRequiredVersion>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -338,6 +338,12 @@
     <Compile Include="Sync\VersionSynchronizer\States\IndexRemoteFilesState.cs" />
     <Compile Include="Sync\VersionSynchronizer\States\ProcessSyncCheckSummaryState.cs" />
     <Compile Include="Sync\VersionSynchronizer\WorkingCopyDownloader.cs" />
+    <Compile Include="UI\Forms\ArchiveVersionWarningDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ArchiveVersionWarningDialog.Designer.cs">
+      <DependentUpon>ArchiveVersionWarningDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\ChangeRequestDetailsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -558,6 +564,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\WorkspaceTreeView.cs" />
+    <EmbeddedResource Include="UI\Forms\ArchiveVersionWarningDialog.resx">
+      <DependentUpon>ArchiveVersionWarningDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\FileReviewerForm.resx">
       <DependentUpon>FileReviewerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -795,6 +804,7 @@
     <None Include="Resources\image-placeholder-350x350.png" />
     <None Include="Resources\archive-modern-48.png" />
     <None Include="Resources\hecho-en-mexico-logo-png-transparent.png" />
+    <None Include="Resources\Microsoft-Fluentui-Emoji-3d-Warning-3d.512.png" />
     <Content Include="sync-icon.ico" />
   </ItemGroup>
   <ItemGroup>

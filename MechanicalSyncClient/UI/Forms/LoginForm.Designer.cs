@@ -166,7 +166,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(310, 23);
             this.label6.TabIndex = 4;
-            this.label6.Text = "A PDM tool for machine builders, made easy.";
+            this.label6.Text = "CAD file version control tool for machine builders.";
             // 
             // pictureBox1
             // 

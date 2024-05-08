@@ -3,9 +3,6 @@ using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -33,9 +30,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
                 string localDirectory = Synchronizer.Version.LocalDirectory;
 
+                // show review summary
                 var nextStepResult = new ReviewSummaryForm(Synchronizer, logger).ShowDialog(); ;
 
                 if (nextStepResult != DialogResult.OK)
+                    return;
+
+                // archiving must be confirmed by user
+                var confirmationResult = new ArchiveVersionWarningDialog().ShowDialog();
+
+                if (confirmationResult != DialogResult.OK)
                     return;
 
                 await Synchronizer.SyncServiceClient.ArchiveVersionAsync(new ArchiveVersionRequest()

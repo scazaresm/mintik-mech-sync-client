@@ -270,7 +270,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             if (version.RemoteVersion.Major == 1 && validDrawing.Revision == "A")
                 return "New";
             else if (version.RemoteVersion.Major > 1 && validDrawing.Revision == "A")
-                return "Aggregated";
+                return "Added";
             else if (validDrawing.Revision != "A")
                 return "Rework";
 

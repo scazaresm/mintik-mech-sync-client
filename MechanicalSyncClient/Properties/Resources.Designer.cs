@@ -353,6 +353,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Microsoft_Fluentui_Emoji_3d_Warning_3d_512 {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft-Fluentui-Emoji-3d-Warning-3d.512", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap move_icon_32 {
             get {
                 object obj = ResourceManager.GetObject("move-icon-32", resourceCulture);

@@ -78,6 +78,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.RefreshAssemblyExplorerButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.FileChangeRequestsGrid = new System.Windows.Forms.DataGridView();
+            this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DesignerCommentsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileReviewsToolStrip = new System.Windows.Forms.ToolStrip();
             this.MarkFileAsFixedButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -99,9 +102,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMechanicalSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ChangeRequestDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DesignerCommentsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
@@ -289,12 +290,13 @@ namespace MechanicalSyncApp.UI.Forms
             this.SynchronizerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RefreshLocalFilesButton,
             this.toolStripDropDownButton1,
-            this.toolStripSeparator1,
             this.SyncRemoteButton,
+            this.toolStripSeparator1,
             this.WorkOfflineButton,
             this.WorkOnlineButton,
-            this.TransferOwnershipButton,
             this.PublishDeliverablesButton,
+            this.toolStripSeparator6,
+            this.TransferOwnershipButton,
             this.toolStripSeparator4,
             this.ArchiveVersionButton});
             this.SynchronizerToolStrip.Location = new System.Drawing.Point(3, 3);
@@ -503,6 +505,31 @@ namespace MechanicalSyncApp.UI.Forms
             this.FileChangeRequestsGrid.Size = new System.Drawing.Size(837, 643);
             this.FileChangeRequestsGrid.TabIndex = 2;
             // 
+            // ChangeRequestDescriptionColumn
+            // 
+            this.ChangeRequestDescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ChangeRequestDescriptionColumn.HeaderText = "Change request description";
+            this.ChangeRequestDescriptionColumn.Name = "ChangeRequestDescriptionColumn";
+            this.ChangeRequestDescriptionColumn.ReadOnly = true;
+            // 
+            // ChangeRequestStatusColumn
+            // 
+            this.ChangeRequestStatusColumn.HeaderText = "Status";
+            this.ChangeRequestStatusColumn.Name = "ChangeRequestStatusColumn";
+            this.ChangeRequestStatusColumn.ReadOnly = true;
+            this.ChangeRequestStatusColumn.Width = 150;
+            // 
+            // DesignerCommentsColumn
+            // 
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DesignerCommentsColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DesignerCommentsColumn.HeaderText = "Designer comments";
+            this.DesignerCommentsColumn.Name = "DesignerCommentsColumn";
+            this.DesignerCommentsColumn.ReadOnly = true;
+            this.DesignerCommentsColumn.Width = 250;
+            // 
             // FileReviewsToolStrip
             // 
             this.FileReviewsToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -687,30 +714,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.aboutMechanicalSyncToolStripMenuItem.Text = "About Mechanical Sync";
             this.aboutMechanicalSyncToolStripMenuItem.Click += new System.EventHandler(this.aboutMechanicalSyncToolStripMenuItem_Click);
             // 
-            // ChangeRequestDescriptionColumn
+            // toolStripSeparator6
             // 
-            this.ChangeRequestDescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle1;
-            this.ChangeRequestDescriptionColumn.HeaderText = "Change request description";
-            this.ChangeRequestDescriptionColumn.Name = "ChangeRequestDescriptionColumn";
-            this.ChangeRequestDescriptionColumn.ReadOnly = true;
-            // 
-            // ChangeRequestStatusColumn
-            // 
-            this.ChangeRequestStatusColumn.HeaderText = "Status";
-            this.ChangeRequestStatusColumn.Name = "ChangeRequestStatusColumn";
-            this.ChangeRequestStatusColumn.ReadOnly = true;
-            this.ChangeRequestStatusColumn.Width = 150;
-            // 
-            // DesignerCommentsColumn
-            // 
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DesignerCommentsColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.DesignerCommentsColumn.HeaderText = "Designer comments";
-            this.DesignerCommentsColumn.Name = "DesignerCommentsColumn";
-            this.DesignerCommentsColumn.ReadOnly = true;
-            this.DesignerCommentsColumn.Width = 250;
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
             // 
             // VersionSynchronizerForm
             // 
@@ -822,5 +829,6 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestDescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestStatusColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DesignerCommentsColumn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
     }
 }
