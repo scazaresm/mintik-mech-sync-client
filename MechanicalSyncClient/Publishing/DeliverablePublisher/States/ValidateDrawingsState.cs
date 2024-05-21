@@ -3,7 +3,9 @@ using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Util;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
@@ -32,7 +34,15 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
             var ui = Publisher.UI;
             ui.StatusLabel.Text = "Validating drawings...";
 
+            var remoteVersion = Publisher.Synchronizer.Version.RemoteVersion;
+
             var allDrawings = await drawingFetcher.FetchReviewableDrawingsAsync();
+
+            // skip ignored drawings for this version
+            allDrawings = allDrawings.Where((d) =>
+                !remoteVersion.IgnoreDrawings.Contains(Path.GetFileName(d.RelativeFilePath))
+            ).ToList();
+
             var viewer = Publisher.UI.ReviewableDrawingsViewer;
 
             var localVersionDirectory = Publisher.Synchronizer.Version.LocalDirectory;

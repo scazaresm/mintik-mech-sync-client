@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -91,7 +93,14 @@ namespace MechanicalSyncApp.UI.Forms
                 var fetcher = new ReviewableFileMetadataFetcher(Synchronizer, Log.Logger);
 
                 var reviewableDrawings = await fetcher.FetchReviewableDrawingsAsync();
-                    
+
+                var remoteVersion = Synchronizer.Version.RemoteVersion;
+
+                // skip ignored drawings for this version
+                reviewableDrawings = reviewableDrawings.Where((d) =>
+                    !remoteVersion.IgnoreDrawings.Contains(Path.GetFileName(d.RelativeFilePath))
+                ).ToList();
+
                 foreach (var drawing in reviewableDrawings)
                 {
                     if (!ReviewableDrawingsIndex.ContainsKey(drawing.Id))

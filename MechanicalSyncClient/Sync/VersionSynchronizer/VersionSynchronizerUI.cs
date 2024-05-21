@@ -60,6 +60,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public ToolStripButton RefreshFileReviewExplorerButton { get; set; }
 
+        public ToolStripMenuItem VersionMenu { get; set; }
+
         #endregion
 
 

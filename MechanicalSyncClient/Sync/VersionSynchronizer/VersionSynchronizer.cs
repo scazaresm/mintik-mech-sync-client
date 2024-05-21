@@ -210,6 +210,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
             UI.FileChangeRequestGrid.DoubleClick += AssemblyChangeRequestGrid_DoubleClick;
 
+            UI.VersionMenu.Visible = true;
+
             UI.ShowVersionExplorer();
         }
 

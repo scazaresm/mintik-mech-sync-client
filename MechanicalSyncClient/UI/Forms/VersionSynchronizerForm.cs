@@ -1,6 +1,7 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Services.Authentication;
 using MechanicalSyncApp.Core.Services.MechSync;
+using MechanicalSyncApp.Sync;
 using MechanicalSyncApp.Sync.VersionSynchronizer;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Exceptions;
 using Serilog;
@@ -114,6 +115,7 @@ namespace MechanicalSyncApp.UI.Forms
                 MarkFileAsFixedButton = MarkFileAsFixedButton,
                 FileReviewViewerTitle = FileReviewViewerTitle,
                 FileReviewsSplit = FileReviewsSplit,
+                VersionMenu = VersionMenu,
             };
 
             // create a new version synchronizer
@@ -158,10 +160,14 @@ namespace MechanicalSyncApp.UI.Forms
             }
         }
 
-        private void Workspace_OpenReview(object sender, OpenReviewEventArgs e)
+        private async void Workspace_OpenReview(object sender, OpenReviewEventArgs e)
         {
             try
             {
+                // refresh cached version to get latest changes, specially ignored drawings
+                e.Review.RemoteVersion = 
+                    await MechSyncServiceClient.Instance.GetVersionAsync(e.Review.RemoteVersion.Id);
+
                 if (e.Review.RemoteVersion.Status != "Ongoing")
                     throw new InvalidOperationException("This review belongs to a version which is no longer in Ongoing status.");
 
@@ -304,6 +310,19 @@ namespace MechanicalSyncApp.UI.Forms
         private void aboutMechanicalSyncToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new AboutDialog().ShowDialog();
+        }
+
+        private void IgnoreDrawingsButton_Click(object sender, EventArgs e)
+        {
+            if (synchronizer == null || synchronizer.Version == null)
+                MessageBox.Show(
+                    "Must open a version in order to be able to ignore drawings.", 
+                    "Not an open version", MessageBoxButtons.OK, MessageBoxIcon.Error
+                );
+
+            var drawingFetcher = new ReviewableFileMetadataFetcher(synchronizer, Log.Logger);
+
+            new IgnoreDrawingsForm(drawingFetcher, synchronizer).ShowDialog();
         }
     }
 }

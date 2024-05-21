@@ -56,7 +56,9 @@ namespace MechanicalSyncApp.Sync
             await FetchFileApprovals();
 
             var reviewableAssemblies = deltaFileMetadata
-                .Where(m => Regex.IsMatch(m.RelativeFilePath, globalConfig.ReviewableAssyRegex, RegexOptions.IgnoreCase))
+                .Where(m => 
+                    Regex.IsMatch(m.RelativeFilePath, globalConfig.ReviewableAssyRegex, RegexOptions.IgnoreCase)
+                )
                 .ToList();
 
             foreach(var assembly in reviewableAssemblies)
@@ -82,7 +84,9 @@ namespace MechanicalSyncApp.Sync
             await FetchFilePublishings();
 
             var reviewableDrawings = deltaFileMetadata
-                .Where(m => Regex.IsMatch(m.RelativeFilePath, globalConfig.ReviewableDrawingRegex, RegexOptions.IgnoreCase))
+                .Where(m => 
+                        Regex.IsMatch(m.RelativeFilePath, globalConfig.ReviewableDrawingRegex, RegexOptions.IgnoreCase)
+                )
                 .ToList();
 
             foreach(var drawing in reviewableDrawings)

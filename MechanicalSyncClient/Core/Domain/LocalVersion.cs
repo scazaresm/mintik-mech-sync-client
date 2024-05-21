@@ -1,4 +1,5 @@
 ﻿using MechanicalSyncApp.Core.Services.MechSync.Models;
+using System.Collections.Generic;
 using System.IO;
 
 namespace MechanicalSyncApp.Core.Domain

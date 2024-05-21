@@ -20,5 +20,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public DateTime CreatedAt { get; set; }
         public List<VersionOwner> OwnerHistory { get; set; }
         public string Reason { get; set; }
+        public HashSet<string> IgnoreDrawings { get; set; } = new HashSet<string>();
     }
 }

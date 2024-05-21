@@ -44,6 +44,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             Synchronizer.Dispose();
             Synchronizer = null;
 
+            UI.VersionMenu.Visible = false;
             UI.ShowWorkspaceExplorer();
             await UI.WorkspaceTreeView.Refresh();
 

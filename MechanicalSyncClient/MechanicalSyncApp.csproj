@@ -238,6 +238,7 @@
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionsWithStatusHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\ArchiveVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionFilePublishingsHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\IgnoreDrawingsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\PublishFileHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\SyncReviewTargetsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\TransferVersionOwnershipHandler.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Core\Services\MechSync\Models\Request\FixReviewTargetRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetDeltaFileMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\ArchiveVersionRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\IgnoreDrawingsRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\PublishFileRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\TransferVersionOwnershipRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Job.cs" />
@@ -373,6 +375,12 @@
     </Compile>
     <Compile Include="UI\Forms\AboutDialog.Designer.cs">
       <DependentUpon>AboutDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\IgnoreDrawingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\IgnoreDrawingsForm.Designer.cs">
+      <DependentUpon>IgnoreDrawingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\PublishingBlockersForm.cs">
       <SubType>Form</SubType>
@@ -605,6 +613,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\IgnoreDrawingsForm.resx">
+      <DependentUpon>IgnoreDrawingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ManagementConsoleForm.resx">
       <DependentUpon>ManagementConsoleForm.cs</DependentUpon>

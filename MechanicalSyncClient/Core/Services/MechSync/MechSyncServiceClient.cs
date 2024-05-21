@@ -246,6 +246,11 @@ namespace MechanicalSyncApp.Core.Services.MechSync
             return await new GetGlobalConfigHandler(restClient).HandleAsync();
         }
 
+        public async Task<Version> IgnoreDrawingsAsync(IgnoreDrawingsRequest request)
+        {
+            return await new IgnoreDrawingsHandler(restClient, request, logger).HandleAsync();
+        }
+
         #region Disposing pattern
         protected virtual void Dispose(bool disposing)
         {
