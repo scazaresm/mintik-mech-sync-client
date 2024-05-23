@@ -53,5 +53,20 @@ namespace MechanicalSyncApp.UI.Forms
                 Close();
             }
         }
+
+        private void ShowErrorDetailsButton_Click(object sender, EventArgs e)
+        {
+            if (DrawingsGridView.SelectedRows.Count != 1) return;
+
+            var selectedRow = DrawingsGridView.SelectedRows[0];
+
+            MessageBox.Show(selectedRow.Cells[3].Value.ToString(), "Publishing error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void DrawingContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ShowErrorDetailsButton.Enabled = DrawingsGridView.SelectedRows.Count == 1 && 
+                DrawingsGridView.SelectedRows[0].Cells[3].Value.ToString().ToLower().Contains("error");
+        }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeliverablePublishingForm));
@@ -38,17 +39,20 @@
             this.ApprovalCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PublishingStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MainToolStrip = new System.Windows.Forms.ToolStrip();
+            this.ValidateButton = new System.Windows.Forms.ToolStripButton();
             this.ViewBlockersButton = new System.Windows.Forms.ToolStripButton();
             this.CancelSelectedButton = new System.Windows.Forms.ToolStripButton();
             this.PublishSelectedButton = new System.Windows.Forms.ToolStripButton();
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.Progress = new System.Windows.Forms.ToolStripProgressBar();
-            this.ValidateButton = new System.Windows.Forms.ToolStripButton();
+            this.DrawingContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ShowErrorDetailsButton = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DrawingsGridView)).BeginInit();
             this.MainToolStrip.SuspendLayout();
             this.MainStatusStrip.SuspendLayout();
+            this.DrawingContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -70,6 +74,7 @@
             this.DrawingFile,
             this.ApprovalCount,
             this.PublishingStatus});
+            this.DrawingsGridView.ContextMenuStrip = this.DrawingContextMenu;
             this.DrawingsGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DrawingsGridView.Location = new System.Drawing.Point(0, 25);
             this.DrawingsGridView.Name = "DrawingsGridView";
@@ -127,6 +132,15 @@
             this.MainToolStrip.TabIndex = 2;
             this.MainToolStrip.Text = "toolStrip1";
             // 
+            // ValidateButton
+            // 
+            this.ValidateButton.Image = global::MechanicalSyncApp.Properties.Resources.inspect_deliverables_24;
+            this.ValidateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ValidateButton.Name = "ValidateButton";
+            this.ValidateButton.Size = new System.Drawing.Size(68, 22);
+            this.ValidateButton.Text = "Validate";
+            this.ValidateButton.ToolTipText = "Publish deliverables for manufacturing";
+            // 
             // ViewBlockersButton
             // 
             this.ViewBlockersButton.Image = global::MechanicalSyncApp.Properties.Resources.error_alert_24;
@@ -180,14 +194,20 @@
             this.Progress.Name = "Progress";
             this.Progress.Size = new System.Drawing.Size(100, 16);
             // 
-            // ValidateButton
+            // DrawingContextMenu
             // 
-            this.ValidateButton.Image = global::MechanicalSyncApp.Properties.Resources.inspect_deliverables_24;
-            this.ValidateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ValidateButton.Name = "ValidateButton";
-            this.ValidateButton.Size = new System.Drawing.Size(68, 22);
-            this.ValidateButton.Text = "Validate";
-            this.ValidateButton.ToolTipText = "Publish deliverables for manufacturing";
+            this.DrawingContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ShowErrorDetailsButton});
+            this.DrawingContextMenu.Name = "DrawingContextMenu";
+            this.DrawingContextMenu.Size = new System.Drawing.Size(181, 48);
+            this.DrawingContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.DrawingContextMenu_Opening);
+            // 
+            // ShowErrorDetailsButton
+            // 
+            this.ShowErrorDetailsButton.Name = "ShowErrorDetailsButton";
+            this.ShowErrorDetailsButton.Size = new System.Drawing.Size(180, 22);
+            this.ShowErrorDetailsButton.Text = "Show error details";
+            this.ShowErrorDetailsButton.Click += new System.EventHandler(this.ShowErrorDetailsButton_Click);
             // 
             // DeliverablePublishingForm
             // 
@@ -211,6 +231,7 @@
             this.MainToolStrip.PerformLayout();
             this.MainStatusStrip.ResumeLayout(false);
             this.MainStatusStrip.PerformLayout();
+            this.DrawingContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,5 +252,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ApprovalCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn PublishingStatus;
         private System.Windows.Forms.ToolStripButton ValidateButton;
+        private System.Windows.Forms.ContextMenuStrip DrawingContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem ShowErrorDetailsButton;
     }
 }

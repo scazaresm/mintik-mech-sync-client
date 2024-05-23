@@ -65,7 +65,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
                 }
                 catch(Exception ex)
                 {
-                    drawingLookup[drawing.Id].Cells["PublishingStatus"].Value = $"Publishing failed: {ex.Message}";
+                    drawingLookup[drawing.Id].Cells["PublishingStatus"].Value = $"Error: {ex.Message}";
                 }
                 processedCount++;
                 UpdateProgress(validDrawings.Count, processedCount);
