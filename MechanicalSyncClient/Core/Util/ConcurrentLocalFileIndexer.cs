@@ -89,12 +89,12 @@ namespace MechanicalSyncApp.Core.Util
                 // ommit lock files
                 if (fileName.StartsWith("~$"))
                     continue;
-
+                
                 // ommit files not matching allowed extensions
                 string fileExtension = $"*{Path.GetExtension(filePath)}";
-                if (!fileExtensionFilter.ToLower().Contains(fileExtension.ToLower()))
+                if (fileExtensionFilter.Length > 0 && (fileExtension.Length == 0 || !fileExtensionFilter.ToLower().Contains(fileExtension.ToLower())))
                     continue;
-
+                
                 fileQueue.Enqueue(filePath);
                 totalFileCount++;
             }

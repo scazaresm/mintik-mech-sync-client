@@ -1,18 +1,14 @@
 ﻿using MechanicalSyncApp.Core;
 using MechanicalSyncApp.Core.Args;
 using MechanicalSyncApp.Core.Domain;
-using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
-using MechanicalSyncApp.Core.SolidWorksInterop.API;
 using MechanicalSyncApp.Core.Util;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
@@ -53,7 +49,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             RevisionSuffix = BuildRevisionSuffix(validDrawing.Revision);
 
             deliverables.Clear();
-            await PublishDrawingDeliverablesAsync(validDrawing);
+            await PublishModelDeliverablesAsync(validDrawing.FullFilePath, PublishDrawingsToFormats);
 
             // export part or assembly deliverables
             var drawingExtension = Path.GetExtension(validDrawing.FullFilePath);
@@ -62,11 +58,11 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
 
             if (File.Exists(partFilePath))
             {
-                await PublishPartDeliverablesAsync(validDrawing, partFilePath);
+                await PublishModelDeliverablesAsync(partFilePath, PublishPartsToFormats);
             }
             else if (File.Exists(assemblyFilePath))
             {
-                await PublishAssemblyDeliverablesAsync(validDrawing, assemblyFilePath);
+                await PublishModelDeliverablesAsync(assemblyFilePath, PublishAssembliesToFormats);
             }
             else
             {
@@ -128,98 +124,89 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             }
         }
 
-        private async Task PublishDrawingDeliverablesAsync(FileMetadata validDrawing)
+        private async Task PublishModelDeliverablesAsync(string modelFilePath, string outputFormats)
         {
-            if (PublishDrawingsToFormats.Trim() == string.Empty)
+            if (outputFormats.Trim() == string.Empty)
                 return; // nothing to publish
 
-            var drawingExtension = Path.GetExtension(validDrawing.FullFilePath);
-            var drawingFileNameWithoutExtension = Path.GetFileNameWithoutExtension(validDrawing.FullFilePath);
+            var partNumber = Path.GetFileNameWithoutExtension(modelFilePath);
 
-            var expectedDrawingOutputFiles = PublishDrawingsToFormats
-                .Split('|')
-                .Select((formatExtension) =>
-                    Path.Combine(
-                        args.FullPublishingDirectory,
-                        formatExtension.Replace(".", ""),
-                        $"{drawingFileNameWithoutExtension}{RevisionSuffix}{formatExtension}"
-                    )
-                );
+            // publish to a temporary directory
+            var tempPublishingDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 
-            if (expectedDrawingOutputFiles.Count() == 0) return;
+            // delete the temporary directory if already exists
+            if (Directory.Exists(tempPublishingDirectory))
+                DirectoryUtils.SafeDeleteTempDirectory(tempPublishingDirectory);
 
-            await args.ModelExporter.ExportModelAsync(validDrawing.FullFilePath, expectedDrawingOutputFiles.ToArray());
+            // create a new temporary directory
+            Directory.CreateDirectory(tempPublishingDirectory);
 
-            bool allFilesExported = expectedDrawingOutputFiles.Where(
-                (file) => File.Exists(file)
-            ).Count() == expectedDrawingOutputFiles.Count();
+            // determine all temporary file names depending on the file formats that we need to export
+            var tempOutputFiles = outputFormats
+               .Split('|')
+               .Select((formatExtension) =>
+                   Path.Combine(
+                       tempPublishingDirectory,
+                       formatExtension.Replace(".", ""),
+                       $"{partNumber}{RevisionSuffix}{formatExtension}"
+                   )
+               );
 
-            if (!allFilesExported)
-                throw new Exception($"Could not publish all expected output formats for drawing {validDrawing.FullFilePath}");
-
-            deliverables.AddRange(expectedDrawingOutputFiles);
-        }
-
-        private async Task PublishPartDeliverablesAsync(FileMetadata validDrawing, string partFilePath)
-        {
-            if (PublishPartsToFormats.Trim() == string.Empty)
+            if (tempOutputFiles.Count() == 0)
                 return; // nothing to publish
 
-            var drawingFileNameWithoutExtension = Path.GetFileNameWithoutExtension(validDrawing.FullFilePath);
-
-            var expectedPartOutputFiles = PublishPartsToFormats
-                .Split('|')
-                .Select((formatExtension) =>
-                    Path.Combine(
-                        args.FullPublishingDirectory,
-                        formatExtension.Replace(".", ""),
-                        $"{drawingFileNameWithoutExtension}{RevisionSuffix}{formatExtension}"
-                    )
+            // determine the final output file paths based on temporary file paths, and associate them (temp & final)
+            Dictionary<string, string> finalOutputFiles = new Dictionary<string, string>();
+            foreach (string tempFile in tempOutputFiles)
+            {
+                finalOutputFiles.Add(
+                    tempFile,
+                    tempFile.Replace(tempPublishingDirectory, args.FullPublishingDirectory)
                 );
+            }
 
-            if (expectedPartOutputFiles.Count() == 0) return;
+            try
+            {
+                // export all formats to temporary file paths
+                await args.ModelExporter.ExportModelAsync(modelFilePath, tempOutputFiles.ToArray());
 
-            await args.ModelExporter.ExportModelAsync(partFilePath, expectedPartOutputFiles.ToArray());
+                // validate all temp files got exported
+                bool allTempFilesExported = tempOutputFiles.Where(
+                    (file) => File.Exists(file)
+                ).Count() == tempOutputFiles.Count();
 
-            bool allFilesExported = expectedPartOutputFiles.Where(
-                (file) => File.Exists(file)
-            ).Count() == expectedPartOutputFiles.Count();
+                if (!allTempFilesExported)
+                    throw new Exception($"Could not publish all expected output formats for {modelFilePath}");
 
-            if (!allFilesExported)
-                throw new Exception($"Could not publish all expected output formats for part {partFilePath}");
+                // copy temp files to the final paths
+                foreach (string tempFile in tempOutputFiles)
+                {
+                    var finalOutputFilePath = finalOutputFiles[tempFile];
 
-            deliverables.AddRange(expectedPartOutputFiles);
-        }
+                    Directory.CreateDirectory(Path.GetDirectoryName(finalOutputFilePath));
+                    File.Copy(tempFile, finalOutputFilePath, true);
+                }
 
-        private async Task PublishAssemblyDeliverablesAsync(FileMetadata validDrawing, string assemblyFilePath)
-        {
-            if (PublishAssembliesToFormats.Trim() == string.Empty)
-                return; // nothing to publish
+                // validate all temp files got copied to the publishing directory
+                bool allOutputFilesCopied = finalOutputFiles.Values.Where(
+                    (file) => File.Exists(file)
+                ).Count() == finalOutputFiles.Values.Count();
 
-            var drawingFileNameWithoutExtension = Path.GetFileNameWithoutExtension(validDrawing.FullFilePath);
+                if (!allOutputFilesCopied)
+                    throw new Exception($"Could not copy all temp files to publishing directory for {modelFilePath}");
 
-            var expectedAssemblyOutputFiles = PublishAssembliesToFormats
-                .Split('|')
-                .Select((formatExtension) =>
-                    Path.Combine(
-                        args.FullPublishingDirectory,
-                        formatExtension.Replace(".", ""),
-                        $"{drawingFileNameWithoutExtension}{RevisionSuffix}{formatExtension}"
-                    )
-                );
-
-            if (expectedAssemblyOutputFiles.Count() == 0) return;
-
-            await args.ModelExporter.ExportModelAsync(assemblyFilePath, expectedAssemblyOutputFiles.ToArray());
-
-            bool allFilesExported = expectedAssemblyOutputFiles.Where(
-                (file) => File.Exists(file)
-            ).Count() == expectedAssemblyOutputFiles.Count();
-
-            if (!allFilesExported)
-                throw new Exception($"Could not publish all expected output formats for assembly {assemblyFilePath}");
-
-            deliverables.AddRange(expectedAssemblyOutputFiles);
+                deliverables.AddRange(finalOutputFiles.Values);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                // Cleanup temp publishing directory
+                if (Directory.Exists(tempPublishingDirectory))
+                    DirectoryUtils.SafeDeleteTempDirectory(tempPublishingDirectory);
+            }
         }
 
         private string BuildRevisionSuffix(string revision)

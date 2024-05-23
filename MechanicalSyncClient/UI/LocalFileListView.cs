@@ -155,7 +155,7 @@ namespace MechanicalSyncApp.UI
 
                 // skip extensions not allowed by the extension filter
                 var fileExtension = Path.GetExtension(localFile);
-                if (!extensionFilter.ToLower().Contains(fileExtension.ToLower()))
+                if (extensionFilter.Length > 0 && (fileExtension.Length == 0 || !extensionFilter.ToLower().Contains(fileExtension.ToLower())))
                     continue;
 
                 FileLookup.Add(localFile, BuildDefaultListViewItem(localFile));

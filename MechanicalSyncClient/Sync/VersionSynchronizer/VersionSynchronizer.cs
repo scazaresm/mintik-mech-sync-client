@@ -62,7 +62,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public ReviewTarget CurrentFileReviewTarget { get; set; }
 
-        public string FileExtensionFilter { get; private set; } = "*.sldasm | *.sldprt | *.slddrw";
+        public string FileExtensionFilter { get; private set; } = ""; // "*.sldasm | *.sldprt | *.slddrw";
 
         public VersionSynchronizer(LocalVersion version, 
                                    VersionSynchronizerUI ui,

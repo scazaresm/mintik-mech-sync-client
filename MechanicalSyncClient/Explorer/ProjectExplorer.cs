@@ -128,7 +128,10 @@ namespace MechanicalSyncApp.Explorer
                         item.Tag = file;
                         item.ImageIndex = 0;
                         var groupIndex = GetFileGroupIndex(file.RelativeFilePath);
-                        item.Group = UI.FileList.Groups[groupIndex];
+
+                        if(groupIndex >= 0 && groupIndex < UI.FileList.Groups.Count)
+                            item.Group = UI.FileList.Groups[groupIndex];
+
                         UI.FileList.Items.Add(item);
                     }
                 }));

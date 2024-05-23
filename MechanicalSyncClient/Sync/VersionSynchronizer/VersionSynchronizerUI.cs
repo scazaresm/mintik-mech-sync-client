@@ -76,7 +76,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             DisposeFileViewer();
             LocalFileViewer = new LocalFileListView(
                 version.LocalDirectory, 
-                "*.sldasm | *.sldprt | *.slddrw",
+                "", //"*.sldasm | *.sldprt | *.slddrw",
                 changeMonitor
             );
         }

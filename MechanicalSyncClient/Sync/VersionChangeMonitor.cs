@@ -23,18 +23,8 @@ namespace MechanicalSyncApp.Sync
 
         public VersionChangeMonitor(LocalVersion version, string fileFilter)
         {
-            if (version is null)
-            {
-                throw new ArgumentNullException(nameof(version));
-            }
-
-            if (string.IsNullOrEmpty(fileFilter))
-            {
-                throw new ArgumentException($"'{nameof(fileFilter)}' cannot be null or empty.", nameof(fileFilter));
-            }
-
-            Version = version;
-            FileFilter = fileFilter;
+            Version = version ?? throw new ArgumentNullException(nameof(version));
+            FileFilter = fileFilter ?? throw new ArgumentNullException(nameof(fileFilter));
             ChangeEventQueue = new Queue<FileSyncEvent>();
         }
 
@@ -80,10 +70,12 @@ namespace MechanicalSyncApp.Sync
             if (Path.GetFileName(e.FullPath).Trim().StartsWith("~$"))
                 return;
 
+            
             // skip the file if its extension is not allowed according to file filter
             var extension = $"*{Path.GetExtension(e.FullPath).ToLower()}";
-            if (!FileFilter.ToLower().Contains(extension))
+            if (FileFilter.Length > 0 && (extension.Length == 0 || !FileFilter.ToLower().Contains(extension)))
                 return;
+            
 
             lock (eventQueueLock)
             {
