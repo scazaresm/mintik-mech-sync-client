@@ -59,6 +59,7 @@
             this.MarkupStatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.TreeViewIcons = new System.Windows.Forms.ImageList(this.components);
+            this.KeepOnTopCheck = new System.Windows.Forms.CheckBox();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
             this.MainSplit.Panel1.SuspendLayout();
@@ -78,6 +79,7 @@
             // 
             // HeaderPanel
             // 
+            this.HeaderPanel.Controls.Add(this.KeepOnTopCheck);
             this.HeaderPanel.Controls.Add(this.DesignerLabel);
             this.HeaderPanel.Controls.Add(this.label1);
             this.HeaderPanel.Controls.Add(this.HeaderLabel);
@@ -360,6 +362,19 @@
             this.TreeViewIcons.Images.SetKeyName(3, "file-nok-24.png");
             this.TreeViewIcons.Images.SetKeyName(4, "tools-icon-24.png");
             // 
+            // KeepOnTopCheck
+            // 
+            this.KeepOnTopCheck.AutoSize = true;
+            this.KeepOnTopCheck.Checked = true;
+            this.KeepOnTopCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.KeepOnTopCheck.Location = new System.Drawing.Point(882, 12);
+            this.KeepOnTopCheck.Name = "KeepOnTopCheck";
+            this.KeepOnTopCheck.Size = new System.Drawing.Size(84, 17);
+            this.KeepOnTopCheck.TabIndex = 3;
+            this.KeepOnTopCheck.Text = "Keep on top";
+            this.KeepOnTopCheck.UseVisualStyleBackColor = true;
+            this.KeepOnTopCheck.CheckedChanged += new System.EventHandler(this.KeepOnTopCheck_CheckedChanged);
+            // 
             // FileReviewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -371,6 +386,7 @@
             this.Name = "FileReviewerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "3D Review";
+            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FileReviewerForm_FormClosed);
             this.Load += new System.EventHandler(this.FileReviewerForm_Load);
             this.HeaderPanel.ResumeLayout(false);
@@ -428,5 +444,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestDescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestStatusColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DesignerComments;
+        private System.Windows.Forms.CheckBox KeepOnTopCheck;
     }
 }

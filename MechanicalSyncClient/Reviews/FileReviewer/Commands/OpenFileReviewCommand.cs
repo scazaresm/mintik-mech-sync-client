@@ -58,7 +58,7 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
 
                 var filePath = Path.Combine(
                     Reviewer.Args.TempWorkingCopyDirectory,
-                    Reviewer.Metadata.RelativeFilePath
+                    Reviewer.Metadata.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar)
                 );
 
                 ui.SetHeaderText(

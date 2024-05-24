@@ -11,7 +11,9 @@ using MechanicalSyncApp.Properties;
 using MechanicalSyncApp.Reviews.FileReviewer;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,6 +28,10 @@ namespace MechanicalSyncApp.UI.Forms
         private readonly ILogger logger;
 
         private readonly string tempWorkingCopyDirectory;
+
+        private readonly HashSet<string> swModelExtensions = new HashSet<string>() {
+            ".sldprt", ".sldasm", ".slddrw"
+        };
 
         private ISolidWorksStarter solidWorksStarter;
 
@@ -152,12 +158,21 @@ namespace MechanicalSyncApp.UI.Forms
                     progressDialog.Show();
 
                     var allFileMetadata = await syncServiceClient.GetFileMetadataAsync(review.RemoteVersion.Id, null);
-                    var totalFiles = allFileMetadata.Count;
+
+                    // filter only SolidWorks model files, we don't want to include unnecessary files (such like images or PDFs)
+                    // on this temporary copy that will be used only to render drawings in SolidWorks
+                    var swModelFilesMetadata = allFileMetadata.Where((m) =>
+                    {
+                        var fileExtension = Path.GetExtension(m.FullFilePath).ToLower();
+                        return swModelExtensions.Contains(fileExtension);
+                    }).ToList();
+
+                    var totalFiles = swModelFilesMetadata.Count;
 
                     int i = 0;
 
                     // download each file based on its metadata
-                    foreach (var fileMetadata in allFileMetadata)
+                    foreach (var fileMetadata in swModelFilesMetadata)
                     {
                         cts.Token.ThrowIfCancellationRequested();
 
@@ -197,6 +212,11 @@ namespace MechanicalSyncApp.UI.Forms
                     progressDialog.Close();
                 }
             }
+        }
+
+        private void KeepOnTopCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            TopMost = KeepOnTopCheck.Checked;
         }
     }
 }

@@ -29,6 +29,9 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         public string GetNextRevision(string drawingFileNameWithoutExtension)
         {
+            // escape file name to be safely used within Regex filters
+            drawingFileNameWithoutExtension = Regex.Escape(drawingFileNameWithoutExtension);
+
             if (drawingFileNameWithoutExtension is null)
                 throw new ArgumentNullException($"Argument cannot be null ({nameof(drawingFileNameWithoutExtension)})");
 
@@ -42,20 +45,30 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             if (!Directory.Exists(pdfDirectory))
                 Directory.CreateDirectory(pdfDirectory);
 
-            var allExistingPublishings = Directory.EnumerateFiles(pdfDirectory).Where(file =>
-                Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFileNameWithoutExtension}.*\.pdf", RegexOptions)
+            var allFilesInPublishingDirectory = Directory.EnumerateFiles(pdfDirectory).ToList();
+
+            var allPdfFiles = allFilesInPublishingDirectory.Where(file =>
+                Regex.IsMatch(
+                    Path.GetFileName(file),
+                    $@"^{drawingFileNameWithoutExtension}.*\.pdf",
+                    RegexOptions
+                )
             );
 
             var nextRevision = "";
 
-            if (allExistingPublishings.Count() == 0)
+            if (allPdfFiles.Count() == 0)
             {
                 nextRevision = "A"; // no publishings yet, so this is initial revision
             }
             else
             {
-                var publishingsWithRevisionSuffix = Directory.EnumerateFiles(pdfDirectory).Where(file =>
-                    Regex.IsMatch(Path.GetFileName(file), $@"^{drawingFileNameWithoutExtension}-.*\.pdf", RegexOptions)
+                var publishingsWithRevisionSuffix = allFilesInPublishingDirectory.Where(file =>
+                    Regex.IsMatch(
+                        Path.GetFileName(file), 
+                        $@"^{drawingFileNameWithoutExtension}-.*\.pdf", 
+                        RegexOptions
+                    )
                 );
 
                 var numericRevision = !UseInitialRevisionSuffix

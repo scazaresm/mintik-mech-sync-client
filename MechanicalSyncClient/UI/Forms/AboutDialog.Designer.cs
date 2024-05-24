@@ -28,23 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.MechanicalSyncLabel = new System.Windows.Forms.Label();
             this.AboutText = new System.Windows.Forms.Label();
             this.OkButton = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.VersionLabel = new System.Windows.Forms.Label();
+            this.MechanicalSyncLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // MechanicalSyncLabel
-            // 
-            this.MechanicalSyncLabel.AutoSize = true;
-            this.MechanicalSyncLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MechanicalSyncLabel.Location = new System.Drawing.Point(19, 16);
-            this.MechanicalSyncLabel.Name = "MechanicalSyncLabel";
-            this.MechanicalSyncLabel.Size = new System.Drawing.Size(169, 24);
-            this.MechanicalSyncLabel.TabIndex = 0;
-            this.MechanicalSyncLabel.Text = "Mechanical Sync";
             // 
             // AboutText
             // 
@@ -85,6 +75,16 @@
             this.VersionLabel.TabIndex = 9;
             this.VersionLabel.Text = "Version 1.0.0.0";
             // 
+            // MechanicalSyncLabel
+            // 
+            this.MechanicalSyncLabel.AutoSize = true;
+            this.MechanicalSyncLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MechanicalSyncLabel.Location = new System.Drawing.Point(19, 16);
+            this.MechanicalSyncLabel.Name = "MechanicalSyncLabel";
+            this.MechanicalSyncLabel.Size = new System.Drawing.Size(169, 24);
+            this.MechanicalSyncLabel.TabIndex = 0;
+            this.MechanicalSyncLabel.Text = "Mechanical Sync";
+            // 
             // AboutDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -109,11 +109,10 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label MechanicalSyncLabel;
         private System.Windows.Forms.Label AboutText;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label VersionLabel;
+        private System.Windows.Forms.Label MechanicalSyncLabel;
     }
 }

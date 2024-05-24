@@ -343,6 +343,16 @@ namespace MechanicalSyncApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mech_sync_logo_white {
+            get {
+                object obj = ResourceManager.GetObject("mech-sync-logo-white", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap merge_icon_24 {
             get {
                 object obj = ResourceManager.GetObject("merge-icon-24", resourceCulture);

@@ -7,9 +7,11 @@ using MechanicalSyncApp.Core.Util;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
 {
@@ -40,6 +42,8 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
             int processedCount = 0;
             foreach (var drawing in validDrawings)
             {
+                var publishingStatusCell = drawingLookup[drawing.Id].Cells["PublishingStatus"];
+
                 try
                 {
                     if (!drawingLookup.ContainsKey(drawing.Id))
@@ -59,14 +63,17 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
                     // set source file as read only to avoid further changes after publish
                     SetSourceFilesAsReadOnly(drawing);
 
+                    drawing.IsPublished = true;
+
                     // add this publishing to the index, so that we can identify the drawing as published
                     publishingIndexByPartNumber.TryAdd(partNumber, publishing);
-                    drawingLookup[drawing.Id].Cells["PublishingStatus"].Value = "Published";
+                    publishingStatusCell.Value = drawing.PublishingStatus.GetDescription();
                 }
                 catch(Exception ex)
                 {
                     drawingLookup[drawing.Id].Cells["PublishingStatus"].Value = $"Error: {ex.Message}";
                 }
+                publishingStatusCell.Style = drawing.GetPublishingStatusCellStyle();
                 processedCount++;
                 UpdateProgress(validDrawings.Count, processedCount);
             }
@@ -114,5 +121,6 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
             foreach (string file in sourceFiles)
                 File.SetAttributes(file, File.GetAttributes(file) | FileAttributes.ReadOnly);
         }
+
     }
 }

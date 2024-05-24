@@ -30,8 +30,8 @@
     <ProductName>Mechanical Sync</ProductName>
     <PublisherName>Mintik Software</PublisherName>
     <SuiteName>Mechanical Sync</SuiteName>
-    <MinimumRequiredVersion>1.1.0.15</MinimumRequiredVersion>
-    <ApplicationRevision>16</ApplicationRevision>
+    <MinimumRequiredVersion>1.1.0.17</MinimumRequiredVersion>
+    <ApplicationRevision>18</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -816,6 +816,7 @@
     <None Include="Resources\archive-modern-48.png" />
     <None Include="Resources\hecho-en-mexico-logo-png-transparent.png" />
     <None Include="Resources\Microsoft-Fluentui-Emoji-3d-Warning-3d.512.png" />
+    <None Include="Resources\mech-sync-logo-white.png" />
     <Content Include="sync-icon.ico" />
   </ItemGroup>
   <ItemGroup>

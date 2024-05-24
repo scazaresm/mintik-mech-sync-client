@@ -3,10 +3,11 @@ using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Util;
 using Serilog;
 using System;
-using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
 {
@@ -69,7 +70,10 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
                 {
                     var drawingRow = viewer.DrawingLookup[drawing.Id];
                     drawingRow.Tag = drawing;
-                    viewer.DrawingLookup[drawing.Id].Cells["PublishingStatus"].Value = drawing.PublishingStatus.GetDescription();
+
+                    var publishingStatusCell = viewer.DrawingLookup[drawing.Id].Cells["PublishingStatus"];
+                    publishingStatusCell.Value = drawing.PublishingStatus.GetDescription();
+                    publishingStatusCell.Style = drawing.GetPublishingStatusCellStyle();
                 }
 
                 processedCount++;

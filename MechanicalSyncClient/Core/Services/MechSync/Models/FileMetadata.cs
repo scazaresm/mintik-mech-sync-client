@@ -3,9 +3,11 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models
 {
@@ -25,6 +27,9 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
 
         [Description("Published")]
         Published,
+
+        [Description("Error")]
+        Error,
     }
 
     public class FileMetadata
@@ -74,5 +79,42 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
 
         [JsonIgnore]
         public List<CustomProperty> CustomProperties { get; } = new List<CustomProperty>();
+
+
+        public DataGridViewCellStyle GetPublishingStatusCellStyle()
+        {
+            var style = new DataGridViewCellStyle();
+
+            var status = PublishingStatus;
+
+            switch (status)
+            {
+                case PublishingStatus.Blocked:
+                    style.BackColor = Color.DarkRed;
+                    style.ForeColor = Color.White;
+                    break;
+
+                case PublishingStatus.WaitingForApproval:
+                    style.BackColor = Color.LightGray;
+                    style.ForeColor = Color.Black;
+                    break;
+
+                case PublishingStatus.Published:
+                    style.BackColor = Color.DarkGreen;
+                    style.ForeColor = Color.White;
+                    break;
+
+                case PublishingStatus.Ready:
+                    style.BackColor = Color.LightYellow;
+                    style.ForeColor = Color.Black;
+                    break;
+
+                default:
+                    style.BackColor = Color.White;
+                    style.ForeColor = Color.Black;
+                    break;
+            }
+            return style;
+        }
     }
 }
