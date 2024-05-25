@@ -365,9 +365,7 @@
             // KeepOnTopCheck
             // 
             this.KeepOnTopCheck.AutoSize = true;
-            this.KeepOnTopCheck.Checked = true;
-            this.KeepOnTopCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.KeepOnTopCheck.Location = new System.Drawing.Point(882, 12);
+            this.KeepOnTopCheck.Location = new System.Drawing.Point(872, 12);
             this.KeepOnTopCheck.Name = "KeepOnTopCheck";
             this.KeepOnTopCheck.Size = new System.Drawing.Size(84, 17);
             this.KeepOnTopCheck.TabIndex = 3;

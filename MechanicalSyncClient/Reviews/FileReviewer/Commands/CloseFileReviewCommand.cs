@@ -26,6 +26,11 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
 
             var ui = Reviewer.Args.UI;
             ui.CloseFileReviewButton.Enabled = false;
+
+            var parentForm = ui.ChangeRequestsGrid.FindForm();
+            var parentWasTopMost = parentForm.TopMost;
+            parentForm.TopMost = false;
+
             try
             {
                 var fileName = Path.GetFileName(Reviewer.Metadata.RelativeFilePath);
@@ -47,6 +52,7 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
             {
                 ui.HideReviewPanel();
                 ui.CloseFileReviewButton.Enabled = true;
+                parentForm.TopMost = parentWasTopMost;
             }
         }
     }

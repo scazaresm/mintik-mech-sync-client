@@ -38,6 +38,10 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
               reviewTarget.Status != ReviewTargetStatus.Reviewing.ToString();
             var isFixed = reviewTarget.Status == ReviewTargetStatus.Fixed.ToString();
 
+            var parentForm = ui.ChangeRequestsGrid.FindForm();
+            var parentWasTopMost = parentForm.TopMost;
+            parentForm.TopMost = false;
+
             try
             {
                 ui.ChangeRequestInput.Text = "Type here to create a new change request...";
@@ -79,6 +83,10 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
                 logger.Error(message, ex);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ui.HideReviewPanel();
+            }
+            finally
+            {
+                parentForm.TopMost = parentWasTopMost;
             }
         }
     }

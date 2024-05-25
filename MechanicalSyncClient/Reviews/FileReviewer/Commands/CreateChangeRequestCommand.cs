@@ -30,6 +30,10 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
             var syncService = Reviewer.Args.SyncServiceClient;
             var review = Reviewer.Args.Review;
 
+            var parentForm = ui.ChangeRequestsGrid.FindForm();
+            var parentWasTopMost = parentForm.TopMost;
+            parentForm.TopMost = false;
+
             var tempImagePath = "";
             logger.Debug($"Defined temporary change request image path: {tempImagePath}");
 
@@ -99,6 +103,7 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
                 ui.ChangeRequestInput.Parent.Focus();
 
                 CleanupTempImagePath(tempImagePath);
+                parentForm.TopMost = parentWasTopMost;
             }
         }
 

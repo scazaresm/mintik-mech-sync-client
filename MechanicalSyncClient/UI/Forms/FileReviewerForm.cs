@@ -27,6 +27,8 @@ namespace MechanicalSyncApp.UI.Forms
         private readonly LocalReview review;
         private readonly ILogger logger;
 
+        private bool wasTopMost;
+
         private readonly string tempWorkingCopyDirectory;
 
         private readonly HashSet<string> swModelExtensions = new HashSet<string>() {
@@ -118,14 +120,16 @@ namespace MechanicalSyncApp.UI.Forms
                 await sw.StartSolidWorksAsync();
                 await DownloadTemporaryWorkingCopyAsync();
                 ui.DeltaFilesTreeView.Enabled = true;
+                TopMost = false;
             }
             catch (Exception ex)
             {
+                TopMost = false;
                 var message = $"Failed to open review: {ex.Message}";
                 logger.Error(message, ex);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
-            }
+            } 
         }
 
         private void FileReviewerForm_FormClosed(object sender, FormClosedEventArgs e)

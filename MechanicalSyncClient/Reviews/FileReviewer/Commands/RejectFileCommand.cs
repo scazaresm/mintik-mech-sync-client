@@ -24,7 +24,12 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
         public async Task RunAsync()
         {
             logger.Debug("Starting RejectFileCommand...");
-            var ui = Reviewer.Args.UI;
+            var ui = Reviewer.Args.UI; 
+            
+            var parentForm = ui.ChangeRequestsGrid.FindForm();
+            var parentWasTopMost = parentForm.TopMost;
+            parentForm.TopMost = false;
+
             try
             {
                 var Review = Reviewer.Args.Review;
@@ -91,6 +96,8 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
                 ui.RejectFileButton.Enabled = true;
                 ui.StatusLabel.Text = "Ready";
                 logger.Debug("RejectFileCommand complete.");
+
+                parentForm.TopMost = parentWasTopMost;
             }
         }
     }

@@ -134,7 +134,9 @@ namespace MechanicalSyncApp.Reviews.FileReviewer
             var input = sender as TextBox;
 
             if (e.KeyCode == Keys.Enter && !e.Shift && input.Text.Trim() != string.Empty)
+            {
                 await CreateChangeRequestAsync();
+            }
         }
 
         private async void ChangeRequestsGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

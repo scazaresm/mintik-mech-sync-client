@@ -25,8 +25,13 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
         {
             logger.Debug("Starting ApproveFileCommand...");
             var ui = Reviewer.Args.UI;
+            var parentForm = ui.ChangeRequestsGrid.FindForm();
+            var parentWasTopMost = parentForm.TopMost;
+            parentForm.TopMost = false;
+
             try
             {
+
                 var Review = Reviewer.Args.Review;
                 var ReviewTarget = Reviewer.ReviewTarget;
 
@@ -87,7 +92,7 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
             catch (Exception ex)
             {
                 var message = $"Could not approve file: {ex}";
-                logger.Error(message);
+                logger.Error(message, ex);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -95,6 +100,7 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
                 ui.ApproveFileButton.Enabled = true;
                 ui.StatusLabel.Text = "Ready";
                 logger.Debug("ApproveFileCommand complete.");
+                parentForm.TopMost = parentWasTopMost;
             }
         }
     }

@@ -40,6 +40,10 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
             var remoteRelativeImagePath = $"{changeRequest.Id}-change.png";
             var tempDownloadedImagePath = Path.Combine(Path.GetTempPath(), remoteRelativeImagePath);
 
+            var parentForm = ui.ChangeRequestsGrid.FindForm();
+            var parentWasTopMost = parentForm.TopMost;
+            parentForm.TopMost = false;
+
             try
             {
                 var syncService = Reviewer.Args.SyncServiceClient;
@@ -79,6 +83,7 @@ namespace MechanicalSyncApp.Reviews.FileReviewer.Commands
             finally
             {
                 CleanupTempPictureFile(tempDownloadedImagePath);
+                parentForm.TopMost = parentWasTopMost;
             }
         }
 
