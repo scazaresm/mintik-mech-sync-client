@@ -27,7 +27,7 @@ namespace MechanicalSyncApp.UI.Forms
 
         private readonly List<string> allowedStatuses = new List<string>() { "Ongoing", "Latest", "History" };
 
-        private readonly Dictionary<string, Project> projectIndex = new Dictionary<string, Project>();
+        private readonly Dictionary<string, Project> projectCache = new Dictionary<string, Project>();
         private readonly Dictionary<string, UserDetails> userDetailsIndex = new Dictionary<string, UserDetails>();
 
         public SelectedVersionDetails SelectedVersionDetails { get; set; }
@@ -59,11 +59,16 @@ namespace MechanicalSyncApp.UI.Forms
                 else
                     versions = await mechSyncService.GetVersionsWithStatusAsync(statusFilter);
 
+                await PopulateProjectsCacheAsync();
+
                 VersionList.SelectedItems.Clear();
                 VersionList.Items.Clear();
                 foreach (var version in versions)
                 {
-                    var project = await GetProjectAsync(version.ProjectId);
+                    if (!projectCache.ContainsKey(version.ProjectId))
+                        continue;
+
+                    var project = projectCache[version.ProjectId];
                     var ownerDetails = await GetOwnerDetailsAsync(version.Owner.UserId);
 
                     if (!EvaluateSearchFilter(project, version, ownerDetails)) continue;
@@ -87,14 +92,6 @@ namespace MechanicalSyncApp.UI.Forms
                 Log.Error($"Failed to retrieve versions from server: {ex}");
                 MessageBox.Show($"Failed to retrieve versions from server: {ex}");
             }
-        }
-
-        private async Task<Project> GetProjectAsync(string projectId)
-        {
-            if (!projectIndex.ContainsKey(projectId))
-                projectIndex[projectId] = await mechSyncService.GetProjectAsync(projectId);
-
-            return projectIndex[projectId];
         }
 
         private async Task<UserDetails> GetOwnerDetailsAsync(string ownerId)
@@ -166,6 +163,17 @@ namespace MechanicalSyncApp.UI.Forms
         private void CancelVersionSelectButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        private async Task PopulateProjectsCacheAsync()
+        {
+            var allProjects = await mechSyncService.GetAllProjectsAsync();
+
+            projectCache.Clear();
+            foreach (var project in allProjects)
+            {
+                projectCache.Add(project.Id, project);
+            }
         }
     }
 }

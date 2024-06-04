@@ -123,13 +123,18 @@ namespace MechanicalSyncApp.UI
 
         private async Task FetchMyWorkAsync()
         {
+            await PopulateProjectsCacheAsync();
             var myWork = await serviceClient.GetMyWorkAsync();
 
             // re-populate version-related nodes
             myWorkNode.Nodes.Clear();
             foreach(var remoteVersion in myWork)
             {
-                var remoteProject = await GetProject(remoteVersion.ProjectId);
+                // project does not exist
+                if (!projectCache.ContainsKey(remoteVersion.ProjectId))
+                    continue;
+
+                var remoteProject = projectCache[remoteVersion.ProjectId];
                 var localVersion = new LocalVersion(remoteVersion, remoteProject, workspaceDirectory);
                 var versionNode = new TreeNode(localVersion.ToString());
                 versionNode.Tag = localVersion;
@@ -141,7 +146,9 @@ namespace MechanicalSyncApp.UI
 
         private async Task FetchMyReviewsAsync()
         {
+            await PopulateProjectsCacheAsync();
             var myReviews = await serviceClient.GetMyReviewsAsync();
+
 
             // re-populate review-related nodes
             myAssemblyFileReviewsNode.Nodes.Clear();
@@ -154,7 +161,11 @@ namespace MechanicalSyncApp.UI
                 if (remoteVersion.Status != "Ongoing")
                     continue;
 
-                var remoteProject = await GetProject(remoteVersion.ProjectId);
+                // project does not exist
+                if (!projectCache.ContainsKey(remoteVersion.ProjectId))
+                    continue;
+
+                var remoteProject = projectCache[remoteVersion.ProjectId];
                 var localReview = new LocalReview(remoteVersion, remoteProject, review);
                 var reviewNode = new TreeNode(localReview.ToString());
                 reviewNode.ImageIndex = 1;
@@ -171,16 +182,6 @@ namespace MechanicalSyncApp.UI
             }
         }
 
-        private async Task<Project> GetProject(string projectId)
-        {
-            if (!projectCache.ContainsKey(projectId))
-            {
-                var project = await serviceClient.GetProjectAsync(projectId);
-                projectCache.Add(projectId, project);
-            }
-            return projectCache[projectId];
-        }
-
         private async Task<Version> GetVersion(string versionId)
         {
             if (!versionCache.ContainsKey(versionId))
@@ -189,6 +190,17 @@ namespace MechanicalSyncApp.UI
                 versionCache.Add(versionId, version);
             }
             return versionCache[versionId];
+        }
+
+        private async Task PopulateProjectsCacheAsync()
+        {
+            var allProjects = await serviceClient.GetAllProjectsAsync();
+
+            projectCache.Clear();
+            foreach (var project in allProjects)
+            {
+                projectCache.Add(project.Id, project);
+            }
         }
     }
 }
