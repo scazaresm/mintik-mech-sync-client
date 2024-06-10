@@ -80,6 +80,8 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         [JsonIgnore]
         public List<CustomProperty> CustomProperties { get; } = new List<CustomProperty>();
 
+        [JsonIgnore]
+        public ReviewTarget ReviewTarget { get; set; }
 
         public DataGridViewCellStyle GetPublishingStatusCellStyle()
         {

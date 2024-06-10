@@ -84,6 +84,7 @@ namespace MechanicalSyncApp.UI
             AttachedTreeView.Nodes.Clear(); 
             var assemblyReviewsNode = AttachedTreeView.Nodes.Add("Assemblies");
             var drawingReviewsNode = AttachedTreeView.Nodes.Add("Drawings");
+
             foreach (var review in reviews)
             {
                 // sync review targets to detect deleted files
@@ -105,6 +106,8 @@ namespace MechanicalSyncApp.UI
                 else if (review.TargetType == ReviewTargetType.DrawingFile.ToString())
                     drawingReviewsNode.Nodes.Add(reviewNode);
             }
+
+            AttachedTreeView.ExpandAll();
         }
 
         private async Task PopulateReviewTargets(TreeNode reviewNode)
@@ -113,19 +116,26 @@ namespace MechanicalSyncApp.UI
 
             reviewNode.Nodes.Clear();
 
+            var allReviewTargetDetails = new List<FileMetadata>();
+
             foreach (var reviewTarget in review.Targets)
+                allReviewTargetDetails.Add(await GetReviewTargetDetailsAsync(reviewTarget));
+            
+            allReviewTargetDetails.Sort((a, b) => a.RelativeFilePath.CompareTo(b.RelativeFilePath));
+
+            foreach (var reviewTargetDetails in allReviewTargetDetails)
             {
-                var targetDetails = await GetReviewTargetDetailsAsync(reviewTarget.TargetId);
+                var reviewTarget = reviewTargetDetails.ReviewTarget;
 
                 var isTargetReviewed = ReviewedStatuses.Contains(reviewTarget.Status);
 
                 if (!isTargetReviewed)
                     continue;
 
-                var targetFileName = Path.GetFileName(targetDetails.FullFilePath);
+                var targetFileName = Path.GetFileName(reviewTargetDetails.FullFilePath);
 
                 var reviewTargetNode = new TreeNode(targetFileName);
-                reviewTargetNode.Tag = reviewTarget;
+                reviewTargetNode.Tag = reviewTargetDetails.ReviewTarget;
 
                 switch (reviewTarget.Status)
                 {
@@ -154,7 +164,7 @@ namespace MechanicalSyncApp.UI
                 var review = e.Node.Parent.Tag as Review;
                 var reviewTarget = e.Node.Tag as ReviewTarget;
 
-                var reviewTargetMetadata = await GetReviewTargetDetailsAsync(reviewTarget.TargetId);
+                var reviewTargetMetadata = await GetReviewTargetDetailsAsync(reviewTarget);
 
                 OpenReview?.Invoke(sender,
                     new OpenFileReviewEventArgs(review, reviewTarget, reviewTargetMetadata)
@@ -162,10 +172,19 @@ namespace MechanicalSyncApp.UI
             }
         }
 
-        private async Task<FileMetadata> GetReviewTargetDetailsAsync(string targetId)
+        private async Task<FileMetadata> GetReviewTargetDetailsAsync(ReviewTarget reviewTarget)
         {
+            if (reviewTarget is null)
+            {
+                throw new ArgumentNullException(nameof(reviewTarget));
+            }
+
+            var targetId = reviewTarget.TargetId;
+
             if (!reviewTargetIndex.ContainsKey(targetId))
                 reviewTargetIndex[targetId] = await MechSyncService.GetFileMetadataAsync(targetId);
+
+            reviewTargetIndex[targetId].ReviewTarget = reviewTarget;
 
             return reviewTargetIndex[targetId];
         }

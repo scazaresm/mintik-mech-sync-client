@@ -93,6 +93,7 @@ namespace MechanicalSyncApp.UI
             };
 
             var allReviewableFileMetadata = await FetchReviewableFileMetadata();
+            allReviewableFileMetadata.Sort((a, b) => a.RelativeFilePath.CompareTo(b.RelativeFilePath));
 
             foreach (var reviewableFileMetadata in allReviewableFileMetadata)
             {
