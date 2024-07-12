@@ -30,12 +30,12 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.IgnoredDrawingsGrid = new System.Windows.Forms.DataGridView();
-            this.selectionColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.drawingColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SaveButton = new System.Windows.Forms.Button();
             this.CancelIgnoreButton = new System.Windows.Forms.Button();
             this.SelectAllButton = new System.Windows.Forms.Button();
             this.UnselectAllButton = new System.Windows.Forms.Button();
+            this.selectionColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.drawingColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.IgnoredDrawingsGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,30 +52,17 @@
             // 
             this.IgnoredDrawingsGrid.AllowUserToAddRows = false;
             this.IgnoredDrawingsGrid.AllowUserToDeleteRows = false;
+            this.IgnoredDrawingsGrid.AllowUserToOrderColumns = true;
             this.IgnoredDrawingsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.IgnoredDrawingsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.selectionColumn,
             this.drawingColumn});
             this.IgnoredDrawingsGrid.Location = new System.Drawing.Point(15, 60);
             this.IgnoredDrawingsGrid.Name = "IgnoredDrawingsGrid";
+            this.IgnoredDrawingsGrid.ReadOnly = true;
             this.IgnoredDrawingsGrid.RowHeadersVisible = false;
             this.IgnoredDrawingsGrid.Size = new System.Drawing.Size(365, 229);
             this.IgnoredDrawingsGrid.TabIndex = 1;
-            // 
-            // selectionColumn
-            // 
-            this.selectionColumn.HeaderText = "";
-            this.selectionColumn.Name = "selectionColumn";
-            this.selectionColumn.Width = 30;
-            // 
-            // drawingColumn
-            // 
-            this.drawingColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.drawingColumn.HeaderText = "Drawing";
-            this.drawingColumn.Name = "drawingColumn";
-            this.drawingColumn.ReadOnly = true;
-            this.drawingColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.drawingColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // SaveButton
             // 
@@ -117,6 +104,21 @@
             this.UnselectAllButton.UseVisualStyleBackColor = true;
             this.UnselectAllButton.Click += new System.EventHandler(this.UnselectAllButton_Click);
             // 
+            // selectionColumn
+            // 
+            this.selectionColumn.HeaderText = "";
+            this.selectionColumn.Name = "selectionColumn";
+            this.selectionColumn.ReadOnly = true;
+            this.selectionColumn.Width = 30;
+            // 
+            // drawingColumn
+            // 
+            this.drawingColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.drawingColumn.HeaderText = "Drawing";
+            this.drawingColumn.Name = "drawingColumn";
+            this.drawingColumn.ReadOnly = true;
+            this.drawingColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
             // IgnoreDrawingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -147,9 +149,9 @@
         private System.Windows.Forms.DataGridView IgnoredDrawingsGrid;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button CancelIgnoreButton;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn selectionColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn drawingColumn;
         private System.Windows.Forms.Button SelectAllButton;
         private System.Windows.Forms.Button UnselectAllButton;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn selectionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn drawingColumn;
     }
 }

@@ -123,6 +123,9 @@ namespace MechanicalSyncApp.UI
             
             allReviewTargetDetails.Sort((a, b) => a.RelativeFilePath.CompareTo(b.RelativeFilePath));
 
+            var approvedNode = reviewNode.Nodes.Add("Approved");
+            var rejectedNode = reviewNode.Nodes.Add("Rejected");
+
             foreach (var reviewTargetDetails in allReviewTargetDetails)
             {
                 var reviewTarget = reviewTargetDetails.ReviewTarget;
@@ -142,17 +145,14 @@ namespace MechanicalSyncApp.UI
                     case "Approved":
                         reviewTargetNode.ImageIndex = 2;
                         reviewTargetNode.SelectedImageIndex = 2; 
+                        approvedNode.Nodes.Add(reviewTargetNode);
                         break;
                     case "Rejected":
                         reviewTargetNode.ImageIndex = 3;
                         reviewTargetNode.SelectedImageIndex = 3; 
-                        break;
-                    case "Fixed":
-                        reviewTargetNode.ImageIndex = 4;
-                        reviewTargetNode.SelectedImageIndex = 4;
+                        rejectedNode.Nodes.Add(reviewTargetNode);
                         break;
                 }
-                reviewNode.Nodes.Add(reviewTargetNode);
             }
             reviewNode.ExpandAll();
         }
@@ -161,7 +161,7 @@ namespace MechanicalSyncApp.UI
         {
             if (e.Node.Tag is ReviewTarget)
             {
-                var review = e.Node.Parent.Tag as Review;
+                var review = e.Node.Parent.Parent.Tag as Review;
                 var reviewTarget = e.Node.Tag as ReviewTarget;
 
                 var reviewTargetMetadata = await GetReviewTargetDetailsAsync(reviewTarget);

@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using Serilog;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -68,7 +69,7 @@ namespace MechanicalSyncApp.UI.Forms
         {
             logger.Debug("Download change request image...");
 
-            tempImageFile = Path.Combine(Path.GetTempPath(), ChangeRequest.Id);
+            tempImageFile = Path.Combine(Path.GetTempPath(), $"{ChangeRequest.Id}.png");
 
             CleanupImageFile(tempImageFile);
 
@@ -110,6 +111,14 @@ namespace MechanicalSyncApp.UI.Forms
         private bool ValidateData()
         {
             return ChangeStatus.Text != "Discarded" || DesignerComments.Text.Length > 0;
+        }
+
+        private void DetailsPictureBox_DoubleClick(object sender, EventArgs e)
+        {
+            if (tempImageFile != null && File.Exists(tempImageFile))
+            {
+                Process.Start(new ProcessStartInfo(tempImageFile) { UseShellExecute = true });
+            }
         }
     }
 }

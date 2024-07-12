@@ -48,6 +48,8 @@ namespace MechanicalSyncApp.UI.Forms
 
                     IgnoredDrawingsGrid.Rows.Add(checkedState, drawingFileName);
                 }
+                var fileNameColumn = IgnoredDrawingsGrid.Columns[1];
+                IgnoredDrawingsGrid.Sort(fileNameColumn, ListSortDirection.Ascending);
             }
             catch (Exception ex)
             {

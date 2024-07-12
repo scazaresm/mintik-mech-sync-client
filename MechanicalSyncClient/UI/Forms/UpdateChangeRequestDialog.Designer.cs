@@ -39,6 +39,7 @@
             this.DesignerComments = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ChangeStatus = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -50,11 +51,12 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Location = new System.Drawing.Point(14, 28);
+            this.splitContainer1.Location = new System.Drawing.Point(14, 45);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.AutoScroll = true;
             this.splitContainer1.Panel1.Controls.Add(this.DetailsPictureBox);
             // 
             // splitContainer1.Panel2
@@ -72,9 +74,10 @@
             this.DetailsPictureBox.Location = new System.Drawing.Point(0, 0);
             this.DetailsPictureBox.Name = "DetailsPictureBox";
             this.DetailsPictureBox.Size = new System.Drawing.Size(287, 258);
-            this.DetailsPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.DetailsPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.DetailsPictureBox.TabIndex = 0;
             this.DetailsPictureBox.TabStop = false;
+            this.DetailsPictureBox.DoubleClick += new System.EventHandler(this.DetailsPictureBox_DoubleClick);
             // 
             // ChangeDescription
             // 
@@ -90,7 +93,7 @@
             // CancelActionButton
             // 
             this.CancelActionButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelActionButton.Location = new System.Drawing.Point(439, 515);
+            this.CancelActionButton.Location = new System.Drawing.Point(449, 530);
             this.CancelActionButton.Name = "CancelActionButton";
             this.CancelActionButton.Size = new System.Drawing.Size(75, 23);
             this.CancelActionButton.TabIndex = 7;
@@ -100,7 +103,7 @@
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(530, 515);
+            this.OkButton.Location = new System.Drawing.Point(530, 530);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 6;
@@ -110,10 +113,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.splitContainer1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(593, 302);
+            this.groupBox1.Size = new System.Drawing.Size(593, 318);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Change request details";
@@ -124,7 +128,7 @@
             this.groupBox2.Controls.Add(this.DesignerComments);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.ChangeStatus);
-            this.groupBox2.Location = new System.Drawing.Point(12, 326);
+            this.groupBox2.Location = new System.Drawing.Point(12, 349);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(593, 175);
             this.groupBox2.TabIndex = 9;
@@ -173,12 +177,21 @@
             this.ChangeStatus.TabIndex = 0;
             this.ChangeStatus.SelectedIndexChanged += new System.EventHandler(this.ChangeStatus_SelectedIndexChanged);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(11, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(285, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Double click the image to open it in Windows image viewer";
+            // 
             // UpdateChangeRequestDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelActionButton;
-            this.ClientSize = new System.Drawing.Size(618, 552);
+            this.ClientSize = new System.Drawing.Size(618, 565);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.CancelActionButton);
@@ -192,12 +205,14 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UpdateChangeRequestDialog_FormClosing);
             this.Load += new System.EventHandler(this.UpdateChangeRequestDialog_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DetailsPictureBox)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -217,5 +232,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox ChangeStatus;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }

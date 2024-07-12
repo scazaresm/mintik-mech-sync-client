@@ -51,6 +51,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.AutoScroll = true;
             this.splitContainer1.Panel1.Controls.Add(this.DetailsPictureBox);
             // 
             // splitContainer1.Panel2
@@ -68,7 +69,7 @@
             this.DetailsPictureBox.Location = new System.Drawing.Point(0, 0);
             this.DetailsPictureBox.Name = "DetailsPictureBox";
             this.DetailsPictureBox.Size = new System.Drawing.Size(287, 258);
-            this.DetailsPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.DetailsPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.DetailsPictureBox.TabIndex = 0;
             this.DetailsPictureBox.TabStop = false;
             // 
@@ -154,6 +155,7 @@
             this.Text = "Change Request Details";
             this.Load += new System.EventHandler(this.ChangeRequestDetailsDialog_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
