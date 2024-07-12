@@ -30,8 +30,8 @@
     <ProductName>Mechanical Sync</ProductName>
     <PublisherName>Mintik Software</PublisherName>
     <SuiteName>Mechanical Sync</SuiteName>
-    <MinimumRequiredVersion>1.1.0.22</MinimumRequiredVersion>
-    <ApplicationRevision>25</ApplicationRevision>
+    <MinimumRequiredVersion>1.1.0.25</MinimumRequiredVersion>
+    <ApplicationRevision>26</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
