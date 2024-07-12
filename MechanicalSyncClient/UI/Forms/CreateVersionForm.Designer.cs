@@ -168,7 +168,10 @@
             this.Reason.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Reason.FormattingEnabled = true;
             this.Reason.Items.AddRange(new object[] {
+            "Assembly",
+            "Control",
             "Customer",
+            "PM",
             "Design"});
             this.Reason.Location = new System.Drawing.Point(10, 187);
             this.Reason.Name = "Reason";
