@@ -226,9 +226,9 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             await new MarkFileAsFixedCommand(this, logger).RunAsync();
         }
 
-        private void OpenFileForFixButton_Click(object sender, EventArgs e)
+        private async void OpenFileForFixButton_Click(object sender, EventArgs e)
         {
-            _ = new OpenFileForFixCommand(this, logger).RunAsync();
+            await new OpenFileForFixCommand(this, logger).RunAsync();
         }
 
         private async void ReviewsExplorer_OpenReview(object sender, OpenFileReviewEventArgs e)

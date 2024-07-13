@@ -30,18 +30,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             try
             {
                 Synchronizer.UI.MarkFileAsFixedButton.Enabled = false;
-                await Task.Run(() => Run());
-            }
-            finally
-            {
-                Synchronizer.UI.MarkFileAsFixedButton.Enabled = true;
-            }
-        }
-
-        private void Run()
-        {
-            try
-            {
 
                 var metadata = Synchronizer.CurrentFileReviewTargetMetadata;
                 var localFilePath = Path.Combine(
@@ -49,21 +37,33 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     metadata.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar)
                 );
 
-                logger.Debug("Preparing SW launcher...");
-
                 var solidWorksPath = Settings.Default.SOLIDWORKS_EXE_PATH;
-                string solidWorksLauncherPath = Path.Combine(Path.GetDirectoryName(solidWorksPath), "swShellFileLauncher.exe");
+                string swLauncherPath = Path.Combine(Path.GetDirectoryName(solidWorksPath), "swShellFileLauncher.exe");
+
+                await Task.Run(() => Run(metadata, localFilePath, swLauncherPath, logger));
+            }
+            finally
+            {
+                Synchronizer.UI.MarkFileAsFixedButton.Enabled = true;
+            }
+        }
+
+        private void Run(FileMetadata metadata, string localFilePath, string swLauncherPath, ILogger logger)
+        {
+            try
+            {
+                logger.Debug("Preparing SW launcher...");
 
                 ProcessStartInfo startInfo = new ProcessStartInfo
                 {
-                    FileName = solidWorksLauncherPath,
+                    FileName = swLauncherPath,
                     Arguments = $"\"{localFilePath}\"",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     CreateNoWindow = true
                 };
-                logger.Debug($"SW Launcher path: {solidWorksLauncherPath}");
+                logger.Debug($"SW Launcher path: {swLauncherPath}");
                 logger.Debug($"Target file: {localFilePath}");
 
                 logger.Debug("Initializing SW process with launcher...");
