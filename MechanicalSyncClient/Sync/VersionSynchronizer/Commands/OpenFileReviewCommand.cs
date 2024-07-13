@@ -43,11 +43,12 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             {
                 ui.FileReviewsSplit.Panel2Collapsed = false;
                 ui.MarkFileAsFixedButton.Visible = reviewTarget.Status == ReviewTargetStatus.Rejected.ToString();
+                ui.OpenFileForFixButton.Visible = reviewTarget.Status == ReviewTargetStatus.Rejected.ToString();
 
                 Synchronizer.CurrentFileReview = review;
                 Synchronizer.CurrentFileReviewTarget = reviewTarget;
+                Synchronizer.CurrentFileReviewTargetMetadata = metadata;
       
-
                 logger.Debug("Preparing UI elements...");
                 ui.SetDeliverableStatusText(ui.FileReviewStatus, reviewTarget.Status);
 

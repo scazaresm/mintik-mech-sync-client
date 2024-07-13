@@ -113,6 +113,7 @@ namespace MechanicalSyncApp.UI.Forms
                 FileReviewsToolStrip = FileReviewsToolStrip,
                 FileReviewStatus = FileReviewStatus,
                 MarkFileAsFixedButton = MarkFileAsFixedButton,
+                OpenFileForFixButton = OpenFileForFixButton,
                 FileReviewViewerTitle = FileReviewViewerTitle,
                 FileReviewsSplit = FileReviewsSplit,
                 VersionMenu = VersionMenu,

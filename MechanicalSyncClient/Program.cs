@@ -1,4 +1,5 @@
-﻿using MechanicalSyncApp.UI.Forms;
+﻿using MechanicalSyncApp.Core.SolidWorksInterop;
+using MechanicalSyncApp.UI.Forms;
 using Serilog;
 using Serilog.Events;
 using System;

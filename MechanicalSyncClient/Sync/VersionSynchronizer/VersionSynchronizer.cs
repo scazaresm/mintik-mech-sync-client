@@ -3,6 +3,7 @@ using MechanicalSyncApp.Core.AuthenticationService;
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
+using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Sync.VersionSynchronizer.Commands;
 using MechanicalSyncApp.Sync.VersionSynchronizer.States;
 using MechanicalSyncApp.UI;
@@ -61,6 +62,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
         public Review CurrentFileReview { get; set; }
 
         public ReviewTarget CurrentFileReviewTarget { get; set; }
+
+        public FileMetadata CurrentFileReviewTargetMetadata { get; set; }
 
         public string FileExtensionFilter { get; private set; } = ""; // "*.sldasm | *.sldprt | *.slddrw";
 
@@ -205,6 +208,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.RefreshFileReviewExplorerButton.Click += RefreshReviewsExplorerButton_Click;
 
             UI.MarkFileAsFixedButton.Click += MarkFileAsFixedButton_Click;
+            UI.OpenFileForFixButton.Click += OpenFileForFixButton_Click;
 
             UI.ArchiveVersionButton.Click += ArchiveVersionButton_Click;
 
@@ -215,11 +219,16 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.ShowVersionExplorer();
         }
 
-
+ 
 
         private async void MarkFileAsFixedButton_Click(object sender, EventArgs e)
         {
             await new MarkFileAsFixedCommand(this, logger).RunAsync();
+        }
+
+        private void OpenFileForFixButton_Click(object sender, EventArgs e)
+        {
+            _ = new OpenFileForFixCommand(this, logger).RunAsync();
         }
 
         private async void ReviewsExplorer_OpenReview(object sender, OpenFileReviewEventArgs e)
@@ -321,6 +330,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
             UI.TransferOwnershipButton.Click -= TransferOwnershipButton_Click;
             UI.CopyLocalCopyPathMenuItem.Click -= CopyLocalCopyPathMenuItem_Click;
             UI.OpenLocalCopyFolderMenuItem.Click -= OpenLocalCopyFolderMenuItem_Click;
+
 
             if (UI.ReviewsExplorer != null)
                 UI.ReviewsExplorer.OpenReview -= ReviewsExplorer_OpenReview;

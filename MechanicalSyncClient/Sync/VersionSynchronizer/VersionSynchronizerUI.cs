@@ -56,6 +56,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
 
         public ToolStripButton MarkFileAsFixedButton { get; set; }
 
+        public ToolStripButton OpenFileForFixButton { get; set; }
+
         public SplitContainer FileReviewsSplit { get; set; }
 
         public ToolStripButton RefreshFileReviewExplorerButton { get; set; }

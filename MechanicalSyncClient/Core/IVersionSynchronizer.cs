@@ -43,6 +43,7 @@ namespace MechanicalSyncApp.Core
         string RelativePublishingSummaryDirectory { get; set; }
         ReviewTarget CurrentFileReviewTarget { get; set; }
         Review CurrentFileReview { get; set; }
+        FileMetadata CurrentFileReviewTargetMetadata { get; set; }
 
         // State related methods
         VersionSynchronizerState GetState();

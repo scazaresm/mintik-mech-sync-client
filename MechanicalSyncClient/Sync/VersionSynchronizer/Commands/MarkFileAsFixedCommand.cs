@@ -35,8 +35,11 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
             try
             {
+                ui.MarkFileAsFixedButton.Enabled = false;
+
+                // check for pending change requests
                 var pendingChanges = grid.Rows.Cast<DataGridViewRow>().Where(
-                    (row) => (row.Tag as ChangeRequest).Status == "Pending"
+                   (row) => (row.Tag as ChangeRequest).Status == "Pending"
                 ).ToList();
 
                 if (pendingChanges.Any())
@@ -50,6 +53,26 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     return;
                 }
 
+                // check for all changes to be pushed to remote server
+                var syncRemoteCommand = new SyncRemoteCommand(Synchronizer, logger)
+                {
+                    NotifyWhenComplete = false,
+                    EnableToolStripWhenComplete = false,
+                };
+                await syncRemoteCommand.RunAsync();
+
+                if (!syncRemoteCommand.Complete)
+                {
+                    MessageBox.Show(
+                        "Your local copy has changes and needs to be synced with the remote server before marking files as fixed, please try again.",
+                        "Local copy has changes",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation
+                    );
+                    return;
+                }
+
+         
                 var response = MessageBox.Show(
                     "Are you sure to mark this file as fixed?",
                     "Mark as fixed", MessageBoxButtons.YesNo, MessageBoxIcon.Question
@@ -72,6 +95,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 var message = $"Could not mark file as fixed: {ex.Message}";
                 logger.Error(message);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                ui.MarkFileAsFixedButton.Enabled = true;
             }
         }
     }

@@ -30,8 +30,8 @@
     <ProductName>Mechanical Sync</ProductName>
     <PublisherName>Mintik Software</PublisherName>
     <SuiteName>Mechanical Sync</SuiteName>
-    <MinimumRequiredVersion>1.1.0.26</MinimumRequiredVersion>
-    <ApplicationRevision>27</ApplicationRevision>
+    <MinimumRequiredVersion>1.1.0.27</MinimumRequiredVersion>
+    <ApplicationRevision>28</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -322,6 +322,7 @@
     <Compile Include="Sync\VersionSynchronizer\Commands\CloseVersionCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\CompareDesignFileCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\MarkFileAsFixedCommand.cs" />
+    <Compile Include="Sync\VersionSynchronizer\Commands\OpenFileForFixCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenFileReviewCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\UpdateChangeRequestCommand.cs" />
     <Compile Include="Sync\VersionSynchronizer\Commands\OpenVersionCommand.cs" />
