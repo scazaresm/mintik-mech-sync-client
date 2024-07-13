@@ -41,8 +41,8 @@ namespace MechanicalSyncApp.UI.Forms
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Other",
             "Created"}, "Hopstarter-Sleek-Xp-Basic-Document-Blank.32.png");
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.FileSyncStatusIcons = new System.Windows.Forms.ImageList(this.components);
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.WorkspaceTreeView = new System.Windows.Forms.TreeView();
@@ -80,8 +80,8 @@ namespace MechanicalSyncApp.UI.Forms
             this.ChangeRequestStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DesignerCommentsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileReviewsToolStrip = new System.Windows.Forms.ToolStrip();
-            this.OpenFileForFixButton = new System.Windows.Forms.ToolStripButton();
             this.MarkFileAsFixedButton = new System.Windows.Forms.ToolStripButton();
+            this.OpenFileForFixButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.FileReviewStatus = new System.Windows.Forms.ToolStripLabel();
             this.FileReviewViewerTitle = new System.Windows.Forms.ToolStripLabel();
@@ -89,6 +89,9 @@ namespace MechanicalSyncApp.UI.Forms
             this.panel2 = new System.Windows.Forms.Panel();
             this.CloseVersionButton = new System.Windows.Forms.Button();
             this.ProjectFolderNameLabel = new System.Windows.Forms.Label();
+            this.DesignFilesStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.SyncStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.SyncProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNewButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,9 +106,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.IgnoreDrawingsButton = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMechanicalSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DesignFilesStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.SyncStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.SyncProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
@@ -124,8 +124,8 @@ namespace MechanicalSyncApp.UI.Forms
             ((System.ComponentModel.ISupportInitialize)(this.FileChangeRequestsGrid)).BeginInit();
             this.FileReviewsToolStrip.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.MainMenuStrip.SuspendLayout();
             this.DesignFilesStatusStrip.SuspendLayout();
+            this.MainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // FileSyncStatusIcons
@@ -490,8 +490,8 @@ namespace MechanicalSyncApp.UI.Forms
             // ChangeRequestDescriptionColumn
             // 
             this.ChangeRequestDescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ChangeRequestDescriptionColumn.DefaultCellStyle = dataGridViewCellStyle1;
             this.ChangeRequestDescriptionColumn.HeaderText = "Change request description";
             this.ChangeRequestDescriptionColumn.Name = "ChangeRequestDescriptionColumn";
             this.ChangeRequestDescriptionColumn.ReadOnly = true;
@@ -505,8 +505,8 @@ namespace MechanicalSyncApp.UI.Forms
             // 
             // DesignerCommentsColumn
             // 
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DesignerCommentsColumn.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DesignerCommentsColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.DesignerCommentsColumn.HeaderText = "Designer comments";
             this.DesignerCommentsColumn.Name = "DesignerCommentsColumn";
             this.DesignerCommentsColumn.ReadOnly = true;
@@ -526,16 +526,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.FileReviewsToolStrip.TabIndex = 0;
             this.FileReviewsToolStrip.Text = "toolStrip2";
             // 
-            // OpenFileForFixButton
-            // 
-            this.OpenFileForFixButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.OpenFileForFixButton.Image = global::MechanicalSyncApp.Properties.Resources.pencil_24;
-            this.OpenFileForFixButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.OpenFileForFixButton.Name = "OpenFileForFixButton";
-            this.OpenFileForFixButton.Size = new System.Drawing.Size(109, 24);
-            this.OpenFileForFixButton.Text = "Open file for fix";
-            this.OpenFileForFixButton.ToolTipText = "Mark assembly as fixed";
-            // 
             // MarkFileAsFixedButton
             // 
             this.MarkFileAsFixedButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -545,6 +535,16 @@ namespace MechanicalSyncApp.UI.Forms
             this.MarkFileAsFixedButton.Size = new System.Drawing.Size(116, 24);
             this.MarkFileAsFixedButton.Text = "Mark file as fixed";
             this.MarkFileAsFixedButton.ToolTipText = "Mark assembly as fixed";
+            // 
+            // OpenFileForFixButton
+            // 
+            this.OpenFileForFixButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.OpenFileForFixButton.Image = global::MechanicalSyncApp.Properties.Resources.pencil_24;
+            this.OpenFileForFixButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpenFileForFixButton.Name = "OpenFileForFixButton";
+            this.OpenFileForFixButton.Size = new System.Drawing.Size(109, 24);
+            this.OpenFileForFixButton.Text = "Open file for fix";
+            this.OpenFileForFixButton.ToolTipText = "Open file in SolidWorks";
             // 
             // toolStripSeparator5
             // 
@@ -611,6 +611,32 @@ namespace MechanicalSyncApp.UI.Forms
             this.ProjectFolderNameLabel.TabIndex = 17;
             this.ProjectFolderNameLabel.Text = "220214NY-OBERG SML HEAD TOOLING";
             this.ProjectFolderNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // DesignFilesStatusStrip
+            // 
+            this.DesignFilesStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SyncStatusLabel,
+            this.SyncProgressBar});
+            this.DesignFilesStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.DesignFilesStatusStrip.Location = new System.Drawing.Point(0, 708);
+            this.DesignFilesStatusStrip.Name = "DesignFilesStatusStrip";
+            this.DesignFilesStatusStrip.Size = new System.Drawing.Size(1085, 22);
+            this.DesignFilesStatusStrip.TabIndex = 19;
+            this.DesignFilesStatusStrip.Text = "statusStrip1";
+            // 
+            // SyncStatusLabel
+            // 
+            this.SyncStatusLabel.AutoSize = false;
+            this.SyncStatusLabel.Name = "SyncStatusLabel";
+            this.SyncStatusLabel.Size = new System.Drawing.Size(700, 17);
+            this.SyncStatusLabel.Text = "Status";
+            this.SyncStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // SyncProgressBar
+            // 
+            this.SyncProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.SyncProgressBar.Name = "SyncProgressBar";
+            this.SyncProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // MainMenuStrip
             // 
@@ -724,32 +750,6 @@ namespace MechanicalSyncApp.UI.Forms
             this.aboutMechanicalSyncToolStripMenuItem.Text = "About Mechanical Sync";
             this.aboutMechanicalSyncToolStripMenuItem.Click += new System.EventHandler(this.aboutMechanicalSyncToolStripMenuItem_Click);
             // 
-            // DesignFilesStatusStrip
-            // 
-            this.DesignFilesStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SyncStatusLabel,
-            this.SyncProgressBar});
-            this.DesignFilesStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.DesignFilesStatusStrip.Location = new System.Drawing.Point(0, 708);
-            this.DesignFilesStatusStrip.Name = "DesignFilesStatusStrip";
-            this.DesignFilesStatusStrip.Size = new System.Drawing.Size(1085, 22);
-            this.DesignFilesStatusStrip.TabIndex = 19;
-            this.DesignFilesStatusStrip.Text = "statusStrip1";
-            // 
-            // SyncStatusLabel
-            // 
-            this.SyncStatusLabel.AutoSize = false;
-            this.SyncStatusLabel.Name = "SyncStatusLabel";
-            this.SyncStatusLabel.Size = new System.Drawing.Size(700, 17);
-            this.SyncStatusLabel.Text = "Status";
-            this.SyncStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // SyncProgressBar
-            // 
-            this.SyncProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.SyncProgressBar.Name = "SyncProgressBar";
-            this.SyncProgressBar.Size = new System.Drawing.Size(100, 16);
-            // 
             // VersionSynchronizerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -792,10 +792,10 @@ namespace MechanicalSyncApp.UI.Forms
             this.FileReviewsToolStrip.ResumeLayout(false);
             this.FileReviewsToolStrip.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.MainMenuStrip.ResumeLayout(false);
-            this.MainMenuStrip.PerformLayout();
             this.DesignFilesStatusStrip.ResumeLayout(false);
             this.DesignFilesStatusStrip.PerformLayout();
+            this.MainMenuStrip.ResumeLayout(false);
+            this.MainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
