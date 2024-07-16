@@ -58,9 +58,9 @@
             this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label5.Location = new System.Drawing.Point(5, 9);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(242, 29);
+            this.label5.Size = new System.Drawing.Size(159, 29);
             this.label5.TabIndex = 9;
-            this.label5.Text = "New change review";
+            this.label5.Text = "New Review";
             // 
             // label2
             // 
@@ -155,7 +155,7 @@
             this.MinimizeBox = false;
             this.Name = "CreateReviewForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "New change review";
+            this.Text = "New review";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -59,7 +59,6 @@
             this.drawingColumn});
             this.IgnoredDrawingsGrid.Location = new System.Drawing.Point(15, 60);
             this.IgnoredDrawingsGrid.Name = "IgnoredDrawingsGrid";
-            this.IgnoredDrawingsGrid.ReadOnly = true;
             this.IgnoredDrawingsGrid.RowHeadersVisible = false;
             this.IgnoredDrawingsGrid.Size = new System.Drawing.Size(365, 229);
             this.IgnoredDrawingsGrid.TabIndex = 1;
@@ -108,7 +107,6 @@
             // 
             this.selectionColumn.HeaderText = "";
             this.selectionColumn.Name = "selectionColumn";
-            this.selectionColumn.ReadOnly = true;
             this.selectionColumn.Width = 30;
             // 
             // drawingColumn

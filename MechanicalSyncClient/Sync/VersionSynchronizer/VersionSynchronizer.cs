@@ -336,6 +336,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 UI.ReviewsExplorer.OpenReview -= ReviewsExplorer_OpenReview;
 
             UI.MarkFileAsFixedButton.Click -= MarkFileAsFixedButton_Click;
+            UI.OpenFileForFixButton.Click -= OpenFileForFixButton_Click;
             UI.ArchiveVersionButton.Click -= ArchiveVersionButton_Click;
             UI.FileChangeRequestGrid.DoubleClick -= AssemblyChangeRequestGrid_DoubleClick;
         }

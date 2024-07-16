@@ -16,10 +16,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
         private readonly string projectPublishingDirectory;
         private readonly ILogger logger;
 
-        public bool UseInitialRevisionSuffix { get; private set; } = false;
-
         public RegexOptions RegexOptions { get; set; } = RegexOptions.IgnoreCase;
-
 
         public NextDrawingRevisionCalculator(string projectPublishingDirectory, ILogger logger)
         {
@@ -71,10 +68,7 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
                     )
                 );
 
-                var numericRevision = !UseInitialRevisionSuffix
-                    ? publishingsWithRevisionSuffix.Count() + 2  // existing revisions + initial revision (without suffix) + next revision 
-                    : publishingsWithRevisionSuffix.Count() + 1; // existing revisions + next revision
-
+                var numericRevision = publishingsWithRevisionSuffix.Count() + 2;  // existing revisions + initial revision (without suffix) + next revision 
                 nextRevision = GetRevisionString(numericRevision);
             }
             logger.Debug($"Next revision for drawing {drawingFileNameWithoutExtension} should be '{nextRevision}'.");

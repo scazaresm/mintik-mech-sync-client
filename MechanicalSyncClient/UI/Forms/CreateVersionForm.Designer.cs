@@ -63,9 +63,9 @@
             this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label5.Location = new System.Drawing.Point(5, 9);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(246, 29);
+            this.label5.Size = new System.Drawing.Size(158, 29);
             this.label5.TabIndex = 16;
-            this.label5.Text = "New project change";
+            this.label5.Text = "New change";
             // 
             // CancelCreateVersionButton
             // 
@@ -121,9 +121,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(7, 221);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
+            this.label1.Size = new System.Drawing.Size(85, 13);
             this.label1.TabIndex = 10;
-            this.label1.Text = "Change goal:";
+            this.label1.Text = "Change request:";
             // 
             // Goal
             // 
@@ -171,8 +171,9 @@
             "Assembly",
             "Control",
             "Customer",
-            "PM",
-            "Design"});
+            "Design",
+            "Drafting",
+            "PM"});
             this.Reason.Location = new System.Drawing.Point(10, 187);
             this.Reason.Name = "Reason";
             this.Reason.Size = new System.Drawing.Size(247, 21);
@@ -184,9 +185,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(7, 171);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(82, 13);
+            this.label4.Size = new System.Drawing.Size(65, 13);
             this.label4.TabIndex = 22;
-            this.label4.Text = "Change reason:";
+            this.label4.Text = "Department:";
             // 
             // CreateVersionForm
             // 
@@ -213,7 +214,7 @@
             this.MinimizeBox = false;
             this.Name = "CreateVersionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "New project change";
+            this.Text = "New change";
             this.ResumeLayout(false);
             this.PerformLayout();
 

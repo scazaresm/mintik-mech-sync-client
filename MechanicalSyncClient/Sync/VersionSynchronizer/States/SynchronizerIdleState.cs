@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
 {
-    class SynchronizerIdleState : VersionSynchronizerState
+    public class SynchronizerIdleState : VersionSynchronizerState
     {
         private readonly ILogger logger;
 

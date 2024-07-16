@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechanicalSyncApp", "MechanicalSyncApp.csproj", "{E97318F3-1749-4B23-9D41-311E4CE86E95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechanicalSyncApp_Tests", "..\MechanicalSyncApp_Tests\MechanicalSyncApp_Tests.csproj", "{E8C332C4-C5D8-44BA-B41F-2C5715A9BE25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E97318F3-1749-4B23-9D41-311E4CE86E95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E97318F3-1749-4B23-9D41-311E4CE86E95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E97318F3-1749-4B23-9D41-311E4CE86E95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C332C4-C5D8-44BA-B41F-2C5715A9BE25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C332C4-C5D8-44BA-B41F-2C5715A9BE25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C332C4-C5D8-44BA-B41F-2C5715A9BE25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C332C4-C5D8-44BA-B41F-2C5715A9BE25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

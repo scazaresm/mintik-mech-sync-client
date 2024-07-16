@@ -669,53 +669,53 @@ namespace MechanicalSyncApp.UI.Forms
             this.NewVersionButton,
             this.NewReviewButton});
             this.FileNewButton.Name = "FileNewButton";
-            this.FileNewButton.Size = new System.Drawing.Size(166, 22);
+            this.FileNewButton.Size = new System.Drawing.Size(180, 22);
             this.FileNewButton.Text = "New";
             // 
             // NewProjectButton
             // 
             this.NewProjectButton.Name = "NewProjectButton";
-            this.NewProjectButton.Size = new System.Drawing.Size(162, 22);
+            this.NewProjectButton.Size = new System.Drawing.Size(180, 22);
             this.NewProjectButton.Text = "Project...";
             this.NewProjectButton.Click += new System.EventHandler(this.NewProjectButton_Click);
             // 
             // NewVersionButton
             // 
             this.NewVersionButton.Name = "NewVersionButton";
-            this.NewVersionButton.Size = new System.Drawing.Size(162, 22);
-            this.NewVersionButton.Text = "Project change...";
+            this.NewVersionButton.Size = new System.Drawing.Size(180, 22);
+            this.NewVersionButton.Text = "Change...";
             this.NewVersionButton.Click += new System.EventHandler(this.NewVersionButton_Click);
             // 
             // NewReviewButton
             // 
             this.NewReviewButton.Name = "NewReviewButton";
-            this.NewReviewButton.Size = new System.Drawing.Size(162, 22);
-            this.NewReviewButton.Text = "Change review...";
+            this.NewReviewButton.Size = new System.Drawing.Size(180, 22);
+            this.NewReviewButton.Text = "Review...";
             this.NewReviewButton.Click += new System.EventHandler(this.NewReviewButton_Click);
             // 
             // ProjectExplorerMenuItem
             // 
             this.ProjectExplorerMenuItem.Name = "ProjectExplorerMenuItem";
-            this.ProjectExplorerMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.ProjectExplorerMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ProjectExplorerMenuItem.Text = "Project Explorer...";
             this.ProjectExplorerMenuItem.Click += new System.EventHandler(this.ProjectExplorerMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(163, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // LogoutMenuItem
             // 
             this.LogoutMenuItem.Name = "LogoutMenuItem";
-            this.LogoutMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.LogoutMenuItem.Size = new System.Drawing.Size(180, 22);
             this.LogoutMenuItem.Text = "Logout";
             this.LogoutMenuItem.Click += new System.EventHandler(this.LogoutMenuItem_Click);
             // 
             // ExitMenuItem
             // 
             this.ExitMenuItem.Name = "ExitMenuItem";
-            this.ExitMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.ExitMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ExitMenuItem.Text = "Exit";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
