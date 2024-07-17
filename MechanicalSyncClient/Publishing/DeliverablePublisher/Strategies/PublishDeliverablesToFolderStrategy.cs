@@ -46,6 +46,10 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.Strategies
             if (!File.Exists(validDrawing.FullFilePath))
                 throw new FileNotFoundException($"The drawing does not exist at {validDrawing.FullFilePath}");
 
+            var fileChecksum = new Sha256FileChecksumCalculator().CalculateChecksum(validDrawing.FullFilePath);
+            if (fileChecksum != validDrawing.FileChecksum)
+                throw new InvalidOperationException("Detected file modifications since the last file validation, run validation and try again.");
+
             RevisionSuffix = BuildRevisionSuffix(validDrawing.Revision);
 
             deliverables.Clear();

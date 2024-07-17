@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeliverablePublishingForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.DrawingsGridView = new System.Windows.Forms.DataGridView();
@@ -49,6 +49,7 @@
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.Progress = new System.Windows.Forms.ToolStripProgressBar();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DrawingsGridView)).BeginInit();
             this.DrawingContextMenu.SuspendLayout();
@@ -60,9 +61,10 @@
             // 
             this.panel1.Controls.Add(this.DrawingsGridView);
             this.panel1.Controls.Add(this.MainToolStrip);
-            this.panel1.Location = new System.Drawing.Point(16, 76);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 79);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(741, 387);
+            this.panel1.Size = new System.Drawing.Size(813, 498);
             this.panel1.TabIndex = 6;
             // 
             // DrawingsGridView
@@ -82,7 +84,7 @@
             this.DrawingsGridView.ReadOnly = true;
             this.DrawingsGridView.RowHeadersVisible = false;
             this.DrawingsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DrawingsGridView.Size = new System.Drawing.Size(741, 362);
+            this.DrawingsGridView.Size = new System.Drawing.Size(813, 473);
             this.DrawingsGridView.TabIndex = 1;
             // 
             // DrawingIcon
@@ -104,8 +106,8 @@
             // 
             // ApprovalCount
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ApprovalCount.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ApprovalCount.DefaultCellStyle = dataGridViewCellStyle9;
             this.ApprovalCount.HeaderText = "Approvals";
             this.ApprovalCount.Name = "ApprovalCount";
             this.ApprovalCount.ReadOnly = true;
@@ -113,9 +115,9 @@
             // 
             // PublishingStatus
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PublishingStatus.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PublishingStatus.DefaultCellStyle = dataGridViewCellStyle10;
             this.PublishingStatus.HeaderText = "Publishing status";
             this.PublishingStatus.Name = "PublishingStatus";
             this.PublishingStatus.ReadOnly = true;
@@ -145,7 +147,7 @@
             this.PublishSelectedButton});
             this.MainToolStrip.Location = new System.Drawing.Point(0, 0);
             this.MainToolStrip.Name = "MainToolStrip";
-            this.MainToolStrip.Size = new System.Drawing.Size(741, 25);
+            this.MainToolStrip.Size = new System.Drawing.Size(813, 25);
             this.MainToolStrip.TabIndex = 2;
             this.MainToolStrip.Text = "toolStrip1";
             // 
@@ -193,9 +195,9 @@
             this.StatusLabel,
             this.Progress});
             this.MainStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.MainStatusStrip.Location = new System.Drawing.Point(0, 478);
+            this.MainStatusStrip.Location = new System.Drawing.Point(0, 555);
             this.MainStatusStrip.Name = "MainStatusStrip";
-            this.MainStatusStrip.Size = new System.Drawing.Size(773, 22);
+            this.MainStatusStrip.Size = new System.Drawing.Size(813, 22);
             this.MainStatusStrip.TabIndex = 7;
             this.MainStatusStrip.Text = "statusStrip1";
             // 
@@ -219,15 +221,23 @@
             this.label1.TabIndex = 8;
             this.label1.Text = resources.GetString("label1.Text");
             // 
+            // panel2
+            // 
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(813, 79);
+            this.panel2.TabIndex = 9;
+            // 
             // DeliverablePublishingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(773, 500);
+            this.ClientSize = new System.Drawing.Size(813, 577);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.MainStatusStrip);
             this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Controls.Add(this.panel2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -266,5 +276,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ApprovalCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn PublishingStatus;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel2;
     }
 }

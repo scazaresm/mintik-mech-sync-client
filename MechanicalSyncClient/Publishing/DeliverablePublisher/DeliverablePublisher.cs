@@ -13,15 +13,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 {
-    public class DeliverablePublisher : IDeliverablePublisher
+    public class DeliverablePublisher : IDeliverablePublisher, IDisposable
     {
-        private DeliverablePublisherState state;
+        private const string READY_STATUS = "Ready";
+        private const string PUBLISHED_STATUS = "Published";
 
+        private DeliverablePublisherState state;
 
         public DeliverablePublisherUI UI { get; }
         public ISolidWorksStarter SolidWorksStarter { get; }
@@ -30,6 +33,9 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
         private readonly ILogger logger;
 
         private SyncGlobalConfig globalConfig;
+        private bool disposedValue;
+
+        private CancellationTokenSource ValidationCancellationToken;
 
         public DeliverablePublisher(IVersionSynchronizer synchronizer, 
                                     ISolidWorksStarter solidWorksStarter,
@@ -70,31 +76,48 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         public async Task ValidateDrawingsAsync()
         {
-            var drawingFetcher = new ReviewableFileMetadataFetcher(Synchronizer, logger);
+            try
+            {
+                var drawingFetcher = new ReviewableFileMetadataFetcher(Synchronizer, logger);
 
-            var drawingRevisionValidationStrategy = new DrawingRevisionValidationStrategy(
-                new NextDrawingRevisionCalculator(GetFullPublishingDirectory(), logger),
-                new DrawingRevisionRetriever(SolidWorksStarter, logger),
-                logger
-            );
+                var drawingRevisionValidationStrategy = new DrawingRevisionValidationStrategy(
+                    new NextDrawingRevisionCalculator(GetFullPublishingDirectory(), logger),
+                    new DrawingRevisionRetriever(SolidWorksStarter, logger),
+                    logger
+                );
 
-            if (globalConfig is null)
-                globalConfig = await Synchronizer.SyncServiceClient.GetGlobalConfigAsync();
+                if (globalConfig is null)
+                    globalConfig = await Synchronizer.SyncServiceClient.GetGlobalConfigAsync();
 
-            var customPropertiesValidationStrategy = new CustomPropertiesValidationStrategy(
-                new ModelPropertiesRetriever(SolidWorksStarter, logger),
-                globalConfig,
-                logger
-            );
+                var customPropertiesValidationStrategy = new CustomPropertiesValidationStrategy(
+                    new ModelPropertiesRetriever(SolidWorksStarter, logger),
+                    globalConfig,
+                    logger
+                );
 
-            var drawingValidator = new DrawingValidator(
-              drawingRevisionValidationStrategy,
-              customPropertiesValidationStrategy,
-              logger
-            );
+                var drawingValidator = new DrawingValidator(
+                  drawingRevisionValidationStrategy,
+                  customPropertiesValidationStrategy,
+                  logger
+                );
 
-            SetState(new ValidateDrawingsState(drawingFetcher, drawingValidator, logger));
-            await RunStepAsync();
+                ValidationCancellationToken?.Dispose();
+                ValidationCancellationToken = new CancellationTokenSource();
+
+                SetState(new ValidateDrawingsState(drawingFetcher, drawingValidator, logger)
+                {
+                    CancellationTokenSource = ValidationCancellationToken
+                });
+                await RunStepAsync();
+            }
+            catch (OperationCanceledException)
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public async Task PublishAsync(List<FileMetadata> validDrawings)
@@ -176,17 +199,15 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
                 selectedRows.Count == 1 &&
                 (selectedRows[0].Tag as FileMetadata).PublishingStatus == PublishingStatus.Blocked;
 
-            var allSelectedReadyForPublishing = selectedRows
+            var allSelectedReadyForPublishing = selectedRows.Count > 0 && selectedRows
                 .Cast<DataGridViewRow>()
-                .Where((row) => row.Cells["PublishingStatus"].Value.ToString() == "Ready")
-                .Count() == selectedRows.Count;
+                .Count((row) => row.Cells["PublishingStatus"].Value.ToString() == READY_STATUS) == selectedRows.Count;
 
             UI.PublishSelectedButton.Enabled = allSelectedReadyForPublishing;
 
-            var allSelectedPublished = selectedRows
+            var allSelectedPublished = selectedRows.Count > 0 && selectedRows
                 .Cast<DataGridViewRow>()
-                .Where((row) => row.Cells["PublishingStatus"].Value.ToString() == "Published")
-                .Count() == selectedRows.Count;
+                .Count((row) => row.Cells["PublishingStatus"].Value.ToString() == PUBLISHED_STATUS) == selectedRows.Count;
 
             UI.CancelSelectedButton.Enabled = allSelectedPublished;
         }
@@ -234,10 +255,24 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         private async void ValidateButton_Click(object sender, EventArgs e)
         {
+            if ((sender as ToolStripButton).Text == "Cancel validation")
+            {
+                var confirmation = MessageBox.Show(
+                    "Are you sure to cancel the drawing validation?",
+                    "Cancel drawing validation",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirmation == DialogResult.Yes)
+                    ValidationCancellationToken.Cancel();
+
+                return;
+            }
+
             try
             {
-                UI.MainToolStrip.Enabled = false;
                 UI.StatusLabel.Text = "Looking for changes in local copy...";
+                UI.ValidateButton.Enabled = false;
 
                 var syncRemoteCommand = new SyncRemoteCommand(Synchronizer, logger)
                 {
@@ -261,8 +296,31 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
             }
             finally
             {
-                UI.MainToolStrip.Enabled = true;
+                UI.ValidateButton.Enabled = true;
             }
+        }
+
+        #endregion
+
+        #region Dispose pattern
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    ValidationCancellationToken?.Dispose();
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

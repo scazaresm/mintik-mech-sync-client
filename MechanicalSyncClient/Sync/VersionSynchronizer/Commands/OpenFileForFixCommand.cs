@@ -1,7 +1,4 @@
 ﻿using MechanicalSyncApp.Core;
-using MechanicalSyncApp.Core.Services.MechSync.Models;
-using MechanicalSyncApp.Core.SolidWorksInterop;
-using MechanicalSyncApp.Core.SolidWorksInterop.API;
 using MechanicalSyncApp.Properties;
 using Serilog;
 using System;
@@ -40,7 +37,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 var solidWorksPath = Settings.Default.SOLIDWORKS_EXE_PATH;
                 string swLauncherPath = Path.Combine(Path.GetDirectoryName(solidWorksPath), "swShellFileLauncher.exe");
 
-                await Task.Run(() => Run(metadata, localFilePath, swLauncherPath, logger));
+                await Task.Run(() => Run(localFilePath, swLauncherPath, logger));
             }
             finally
             {
@@ -48,7 +45,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             }
         }
 
-        private void Run(FileMetadata metadata, string localFilePath, string swLauncherPath, ILogger logger)
+        private void Run(string localFilePath, string swLauncherPath, ILogger logger)
         {
             try
             {

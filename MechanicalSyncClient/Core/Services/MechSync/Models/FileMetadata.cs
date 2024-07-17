@@ -48,7 +48,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public int ApprovalCount { get; set; } = 0;
 
         [JsonIgnore]
-        public List<string> ValidationIssues { get; } = new List<string>();
+        public List<string> ValidationIssues { get; set;  } = new List<string>();
 
         [JsonIgnore]
         public PublishingStatus PublishingStatus

@@ -2,6 +2,7 @@
 using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Core.SolidWorksInterop.API;
 using MechanicalSyncApp.Publishing.DeliverablePublisher;
+using MechanicalSyncApp.Publishing.DeliverablePublisher.States;
 using Serilog;
 using System;
 using System.Windows.Forms;
@@ -43,6 +44,7 @@ namespace MechanicalSyncApp.UI.Forms
                 };
                 publisher = new DeliverablePublisher(synchronizer, solidWorksStarter, ui, logger);
                 publisher.InitializeUI();
+
                 await publisher.ValidateDrawingsAsync();
             }
             catch(Exception ex)

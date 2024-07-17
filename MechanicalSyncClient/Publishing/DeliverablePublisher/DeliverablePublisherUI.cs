@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -35,12 +36,13 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher
 
         public StatusStrip MainStatusStrip { get; set; }
 
+
         public void Initialize()
         {
             ReviewableDrawingsViewer = new ReviewableDrawingsGrid();
             ReviewableDrawingsViewer.AttachDataGridView(DrawingsGridView);
             
-            MainToolStrip.Enabled = false;
+            MainToolStrip.Enabled = true;
             ViewBlockersButton.Enabled = false;
             PublishSelectedButton.Enabled = false;
             CancelSelectedButton.Enabled = false;
