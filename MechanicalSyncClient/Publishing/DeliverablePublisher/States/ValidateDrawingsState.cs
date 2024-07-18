@@ -80,7 +80,6 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
                     // replace server's full file path with local full file path
                     drawing.FullFilePath = Path.Combine(localVersionDirectory, drawing.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
 
-
                     // validate drawing if approved and not already published
                     if (drawing.ApprovalCount > 0 && !drawing.IsPublished)
                     {

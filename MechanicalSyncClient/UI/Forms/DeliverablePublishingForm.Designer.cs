@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DeliverablePublishingForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.DrawingsGridView = new System.Windows.Forms.DataGridView();
@@ -64,7 +64,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 79);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(813, 498);
+            this.panel1.Size = new System.Drawing.Size(813, 476);
             this.panel1.TabIndex = 6;
             // 
             // DrawingsGridView
@@ -84,7 +84,7 @@
             this.DrawingsGridView.ReadOnly = true;
             this.DrawingsGridView.RowHeadersVisible = false;
             this.DrawingsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DrawingsGridView.Size = new System.Drawing.Size(813, 473);
+            this.DrawingsGridView.Size = new System.Drawing.Size(813, 451);
             this.DrawingsGridView.TabIndex = 1;
             // 
             // DrawingIcon
@@ -106,8 +106,8 @@
             // 
             // ApprovalCount
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ApprovalCount.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ApprovalCount.DefaultCellStyle = dataGridViewCellStyle3;
             this.ApprovalCount.HeaderText = "Approvals";
             this.ApprovalCount.Name = "ApprovalCount";
             this.ApprovalCount.ReadOnly = true;
@@ -115,9 +115,9 @@
             // 
             // PublishingStatus
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PublishingStatus.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PublishingStatus.DefaultCellStyle = dataGridViewCellStyle4;
             this.PublishingStatus.HeaderText = "Publishing status";
             this.PublishingStatus.Name = "PublishingStatus";
             this.PublishingStatus.ReadOnly = true;
@@ -235,9 +235,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(813, 577);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.MainStatusStrip);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
+            this.Controls.Add(this.MainStatusStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

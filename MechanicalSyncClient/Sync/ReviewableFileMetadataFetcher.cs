@@ -46,6 +46,8 @@ namespace MechanicalSyncApp.Sync
 
         public async Task<List<FileMetadata>> FetchReviewableAssembliesAsync()
         {
+            logger.Debug("FetchReviewableAssembliesAsync starts...");
+
             if (globalConfig is null)
                 globalConfig = await serviceClient.GetGlobalConfigAsync();
 
@@ -56,23 +58,31 @@ namespace MechanicalSyncApp.Sync
             await FetchFileApprovals();
 
             var reviewableAssemblies = deltaFileMetadata
-                .Where(m => 
-                    Regex.IsMatch(m.RelativeFilePath, globalConfig.ReviewableAssyRegex, RegexOptions.IgnoreCase)
-                )
-                .ToList();
+                .Where(m => m.RelativeFilePath.ToLower().EndsWith(".sldasm")
+                    //Regex.IsMatch(m.RelativeFilePath, globalConfig.ReviewableAssyRegex, RegexOptions.IgnoreCase)
+                ).ToList();
+
+            logger.Debug($"Found {reviewableAssemblies.Count} reviewable assemblies:");
 
             foreach(var assembly in reviewableAssemblies)
             {
+                logger.Debug($"Assy: {assembly.RelativeFilePath}");
+
                 if (FileApprovalCountIndex.ContainsKey(assembly.Id))
                     assembly.ApprovalCount = FileApprovalCountIndex[assembly.Id];
                 else
                     assembly.ApprovalCount = 0;
             }
+
+            logger.Debug("FetchReviewableAssembliesAsync complete.");
             return reviewableAssemblies;
         }
 
+
         public async Task<List<FileMetadata>> FetchReviewableDrawingsAsync()
         {
+            logger.Debug("FetchReviewableDrawingsAsync starts...");
+
             if (globalConfig is null)
                 globalConfig = await serviceClient.GetGlobalConfigAsync();
 
@@ -83,14 +93,19 @@ namespace MechanicalSyncApp.Sync
             await FetchFileApprovals();
             await FetchFilePublishings();
 
+
             var reviewableDrawings = deltaFileMetadata
-                .Where(m => 
-                        Regex.IsMatch(m.RelativeFilePath, globalConfig.ReviewableDrawingRegex, RegexOptions.IgnoreCase)
+                .Where(m => m.RelativeFilePath.ToLower().EndsWith(".slddrw")
+                    //Regex.IsMatch(Regex.Escape(m.RelativeFilePath), globalConfig.ReviewableDrawingRegex, RegexOptions.IgnoreCase)
                 )
                 .ToList();
 
-            foreach(var drawing in reviewableDrawings)
+            logger.Debug($"Found {reviewableDrawings.Count} reviewable drawings:");
+
+            foreach (var drawing in reviewableDrawings)
             {
+                logger.Debug($"Drawing: {drawing.RelativeFilePath}");
+
                 if (FileApprovalCountIndex.ContainsKey(drawing.Id))
                     drawing.ApprovalCount = FileApprovalCountIndex[drawing.Id];
                 else
@@ -99,6 +114,7 @@ namespace MechanicalSyncApp.Sync
                 var partNumber = Path.GetFileNameWithoutExtension(drawing.FullFilePath);
                 drawing.IsPublished = FilePublishingIndex.ContainsKey(partNumber);
             }
+            logger.Debug("FetchReviewableDrawingsAsync complete.");
             return reviewableDrawings;
         }
 
