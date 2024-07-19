@@ -78,7 +78,7 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public string Revision { get; set; }
 
         [JsonIgnore]
-        public List<CustomProperty> CustomProperties { get; } = new List<CustomProperty>();
+        public List<CustomProperty> CustomProperties { get; set; } = new List<CustomProperty>();
 
         [JsonIgnore]
         public ReviewTarget ReviewTarget { get; set; }

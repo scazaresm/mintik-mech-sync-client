@@ -19,7 +19,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
     public class PublishDeliverablesCommand : IVersionSynchronizerCommandAsync
     {
         private readonly ILogger logger;
-        private readonly string SOLIDWORKS_EXE_PATH = "SOLIDWORKS_EXE_PATH";
         public IVersionSynchronizer Synchronizer { get; private set; }
 
         public PublishDeliverablesCommand(IVersionSynchronizer synchronizer, ILogger logger)

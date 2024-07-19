@@ -89,6 +89,8 @@ namespace MechanicalSyncApp.Publishing.DeliverablePublisher.States
                         if (cachedValidation != null && drawing.FileChecksum == cachedValidation.FileChecksum)
                         {
                             drawing.ValidationIssues = cachedValidation.ValidationIssues;
+                            drawing.Revision = cachedValidation.Revision;
+                            drawing.CustomProperties = cachedValidation.CustomProperties;
                         }
                         else
                         {
