@@ -64,14 +64,32 @@ namespace MechanicalSyncApp.Core.SolidWorksInterop
                     int errs = -1;
                     int warns = -1;
 
-                    bool success = model.Extension.SaveAs(outputFilePath, (int)swSaveAsVersion_e.swSaveAsCurrentVersion,
-                       (int)swSaveAsOptions_e.swSaveAsOptions_Silent, null, ref errs, ref warns);
+                    // Replacing old SaveAs method with SaveAs3
+                    // 
+                    // bool success = model.Extension.SaveAs(outputFilePath, (int)swSaveAsVersion_e.swSaveAsCurrentVersion,
+                    //    (int)swSaveAsOptions_e.swSaveAsOptions_Silent, null, ref errs, ref warns);
+
+                    bool success = model.Extension.SaveAs3(
+                        outputFilePath,
+                        (int)swSaveAsVersion_e.swSaveAsCurrentVersion,
+                        (int)swSaveAsOptions_e.swSaveAsOptions_Silent,
+                        null,
+                        null,
+                        ref errs,
+                        ref warns
+                    );
 
                     if (!success)
-                        throw new Exception(
-                            $"Failed to export {sourceFile} into {outputFilePath}: " + ParseSaveError((swFileSaveError_e)errs)
-                        );
+                    {
+                        var msg =  $"Failed to export {sourceFile} into {outputFilePath}: " + ParseSaveError((swFileSaveError_e)errs);
+                        throw new Exception(msg);
+                    }
 
+                    if (!File.Exists(outputFilePath)) {
+                        var msg = $"{outputFilePath} does not exist after calling IModelDocExtension::SaveAs3 with success.";
+                        logger.Error(msg);
+                        throw new Exception(msg);
+                    }
                     logger.Debug($"Successfully exported {sourceFile} into {outputFilePath}.");
                 }
             }

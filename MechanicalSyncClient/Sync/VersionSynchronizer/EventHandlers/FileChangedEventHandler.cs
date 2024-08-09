@@ -60,6 +60,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                 if (synchronizer.ChangeMonitor.IsMonitoring())
                     fileViewer.SetSyncingStatusToFile(fileSyncEvent.FullPath);
 
+                
                 await client.UploadFileAsync(new UploadFileRequest
                 {
                     LocalFilePath = fileSyncEvent.FullPath,

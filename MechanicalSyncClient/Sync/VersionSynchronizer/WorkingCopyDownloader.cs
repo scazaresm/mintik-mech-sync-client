@@ -58,6 +58,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer
                 // remote file path is linux-based with forward slash, convert to windows-based
                 localFileName = localFileName.Replace('/', Path.DirectorySeparatorChar);
 
+                logger.Debug($"Downloading {Path.GetFileName(localFileName)} into {localFileName}");
+
                 Dialog?.SetStatus($"Downloading {Path.GetFileName(localFileName)}...");
 
                 var fileDirectory = Path.GetDirectoryName(localFileName);
