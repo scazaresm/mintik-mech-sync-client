@@ -33,6 +33,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileReviewerForm));
             this.HeaderPanel = new System.Windows.Forms.Panel();
+            this.KeepOnTopCheck = new System.Windows.Forms.CheckBox();
             this.DesignerLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.HeaderLabel = new System.Windows.Forms.Label();
@@ -59,7 +60,9 @@
             this.MarkupStatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.TreeViewIcons = new System.Windows.Forms.ImageList(this.components);
-            this.KeepOnTopCheck = new System.Windows.Forms.CheckBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ReviewContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CopyReviewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
             this.MainSplit.Panel1.SuspendLayout();
@@ -75,6 +78,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ChangeRequestsGrid)).BeginInit();
             this.ReviewToolStrip.SuspendLayout();
             this.MarkupStatusStrip.SuspendLayout();
+            this.ReviewContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // HeaderPanel
@@ -88,6 +92,17 @@
             this.HeaderPanel.Name = "HeaderPanel";
             this.HeaderPanel.Size = new System.Drawing.Size(974, 59);
             this.HeaderPanel.TabIndex = 2;
+            // 
+            // KeepOnTopCheck
+            // 
+            this.KeepOnTopCheck.AutoSize = true;
+            this.KeepOnTopCheck.Location = new System.Drawing.Point(872, 12);
+            this.KeepOnTopCheck.Name = "KeepOnTopCheck";
+            this.KeepOnTopCheck.Size = new System.Drawing.Size(84, 17);
+            this.KeepOnTopCheck.TabIndex = 3;
+            this.KeepOnTopCheck.Text = "Keep on top";
+            this.KeepOnTopCheck.UseVisualStyleBackColor = true;
+            this.KeepOnTopCheck.CheckedChanged += new System.EventHandler(this.KeepOnTopCheck_CheckedChanged);
             // 
             // DesignerLabel
             // 
@@ -362,16 +377,23 @@
             this.TreeViewIcons.Images.SetKeyName(3, "file-nok-24.png");
             this.TreeViewIcons.Images.SetKeyName(4, "tools-icon-24.png");
             // 
-            // KeepOnTopCheck
+            // contextMenuStrip1
             // 
-            this.KeepOnTopCheck.AutoSize = true;
-            this.KeepOnTopCheck.Location = new System.Drawing.Point(872, 12);
-            this.KeepOnTopCheck.Name = "KeepOnTopCheck";
-            this.KeepOnTopCheck.Size = new System.Drawing.Size(84, 17);
-            this.KeepOnTopCheck.TabIndex = 3;
-            this.KeepOnTopCheck.Text = "Keep on top";
-            this.KeepOnTopCheck.UseVisualStyleBackColor = true;
-            this.KeepOnTopCheck.CheckedChanged += new System.EventHandler(this.KeepOnTopCheck_CheckedChanged);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // ReviewContextMenu
+            // 
+            this.ReviewContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CopyReviewMenuItem});
+            this.ReviewContextMenu.Name = "ReviewContextMenu";
+            this.ReviewContextMenu.Size = new System.Drawing.Size(140, 26);
+            // 
+            // CopyReviewMenuItem
+            // 
+            this.CopyReviewMenuItem.Name = "CopyReviewMenuItem";
+            this.CopyReviewMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.CopyReviewMenuItem.Text = "Copy review";
             // 
             // FileReviewerForm
             // 
@@ -409,6 +431,7 @@
             this.ReviewToolStrip.PerformLayout();
             this.MarkupStatusStrip.ResumeLayout(false);
             this.MarkupStatusStrip.PerformLayout();
+            this.ReviewContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -443,5 +466,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ChangeRequestStatusColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DesignerComments;
         private System.Windows.Forms.CheckBox KeepOnTopCheck;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip ReviewContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem CopyReviewMenuItem;
     }
 }

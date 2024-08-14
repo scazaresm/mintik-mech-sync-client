@@ -313,17 +313,17 @@ namespace MechanicalSyncApp.UI.Forms
             new AboutDialog().ShowDialog();
         }
 
-        private void IgnoreDrawingsButton_Click(object sender, EventArgs e)
+        private void IgnoreFilesButton_Click(object sender, EventArgs e)
         {
             if (synchronizer == null || synchronizer.Version == null)
                 MessageBox.Show(
-                    "Must open a version in order to be able to ignore drawings.", 
+                    "Must open a version in order to be able to ignore files.", 
                     "Not an open version", MessageBoxButtons.OK, MessageBoxIcon.Error
                 );
 
-            var drawingFetcher = new ReviewableFileMetadataFetcher(synchronizer, Log.Logger);
+            var fetcher = new ReviewableFileMetadataFetcher(synchronizer, Log.Logger);
 
-            new IgnoreDrawingsForm(drawingFetcher, synchronizer).ShowDialog();
+            new IgnoreFilesForm(fetcher, synchronizer).ShowDialog();
         }
     }
 }

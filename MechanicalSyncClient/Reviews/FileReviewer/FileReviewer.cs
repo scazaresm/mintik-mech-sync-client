@@ -7,6 +7,8 @@ using MechanicalSyncApp.Core.Args;
 using System.Windows.Forms;
 using System.Drawing;
 using MechanicalSyncApp.Reviews.FileReviewer.Commands;
+using Serilog.Core;
+using System.Linq;
 
 namespace MechanicalSyncApp.Reviews.FileReviewer
 {
@@ -30,15 +32,12 @@ namespace MechanicalSyncApp.Reviews.FileReviewer
         {
             var remoteReview = Args.Review.RemoteReview;
 
-            if (remoteReview.TargetType == "AssemblyFile")
-                FileExplorer = new ReviewableAssembliesTreeView(Args.SyncServiceClient, Args.Review, Args.Logger);
-            else if (remoteReview.TargetType == "DrawingFile")
-                FileExplorer = new ReviewableDrawingsTreeView(Args.SyncServiceClient, Args.Review, Args.Logger);
-            else
-                throw new Exception($"Unsupported TargetType in review: {remoteReview.TargetType}");
+            FileExplorer = new ReviewableFilesTreeViewFactory(Args.SyncServiceClient, Args.Review, Args.Logger)
+                .GetTreeView(remoteReview);
 
             FileExplorer.AttachTreeView(Args.UI.DeltaFilesTreeView);
-            FileExplorer.OnOpenReviewTarget += AssembliesTreeView_OnOpenReviewTarget;
+            FileExplorer.OnOpenReviewTarget += FileExplorer_OnOpenReviewTarget;
+            FileExplorer.OnReviewRightClick += FileExplorer_OnReviewRightClick;
 
             var designerDetails = await Args.AuthServiceClient.GetUserDetailsAsync(Args.Review.RemoteVersion.Owner.UserId);
 
@@ -57,6 +56,8 @@ namespace MechanicalSyncApp.Reviews.FileReviewer
             ui.ApproveFileButton.Click += ApproveFileButton_Click;
             ui.RefreshReviewTargetsButton.Click += RefreshReviewTargetsButton_Click;
             ui.RejectFileButton.Click += RejectFileButton_Click;
+            ui.CopyReviewMenuItem.Click += CopyReviewMenuItem_Click;
+            
 
             var parentForm = ui.MainSplit.ParentForm;
             parentForm.FormClosing += ParentForm_FormClosing;
@@ -64,6 +65,39 @@ namespace MechanicalSyncApp.Reviews.FileReviewer
             await RefreshReviewTargetsAsync();
         }
 
+        private void FileExplorer_OnReviewRightClick(object sender, ReviewRightClickEventArgs e)
+        {
+            try
+            {
+                return; // context menu disabled for now
+
+                /*
+                var contextMenu = (Args.UI.CopyReviewMenuItem.Owner as ContextMenuStrip);
+                contextMenu?.Show(Args.UI.DeltaFilesTreeView, e.Location);
+                Args.UI.CopyReviewMenuItem.Tag = e.ReviewTarget;
+                */
+            } 
+            catch (Exception ex)
+            {
+                var msg = $"Failed to show context menu on review right click: {ex?.Message}";
+                Args.Logger.Error(msg);
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CopyReviewMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // not implemented, context mnenu is disabled for now
+            }
+            catch (Exception ex)
+            {
+                var msg = $"Failed to copy review: {ex?.Message}";
+                Args.Logger.Error(msg);
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         public async Task OpenReviewTargetAsync(ReviewTarget reviewTarget)
         {
@@ -155,7 +189,7 @@ namespace MechanicalSyncApp.Reviews.FileReviewer
             await RefreshReviewTargetsAsync();
         }
 
-        private async void AssembliesTreeView_OnOpenReviewTarget(object sender, OpenReviewTargetEventArgs e)
+        private async void FileExplorer_OnOpenReviewTarget(object sender, OpenReviewTargetEventArgs e)
         {
             await OpenReviewTargetAsync(e.ReviewTarget);
         }

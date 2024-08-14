@@ -5,6 +5,7 @@ using MechanicalSyncApp.Sync;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,16 @@ namespace MechanicalSyncApp.UI
 
         public override async Task<List<FileMetadata>> FetchReviewableFileMetadata()
         {
-            return await new ReviewableFileMetadataFetcher(
+            var assemblies = await new ReviewableFileMetadataFetcher(
                 serviceClient, review.RemoteVersion.Id, logger
             ).FetchReviewableAssembliesAsync();
+
+            var remoteVersion = review.RemoteVersion;
+
+            // skip assemblies which are being ignored on this version, do not need review
+            return assemblies.Where((d) =>
+                !remoteVersion.IgnoreAssemblies.Contains(Path.GetFileName(d.RelativeFilePath))
+            ).ToList();
         }
     }
 }

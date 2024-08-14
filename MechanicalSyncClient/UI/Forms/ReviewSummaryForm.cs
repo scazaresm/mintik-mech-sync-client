@@ -111,6 +111,11 @@ namespace MechanicalSyncApp.UI.Forms
 
                 var reviewableAssemblies = await fetcher.FetchReviewableAssembliesAsync();
 
+                // skip ignored assemblies for this version
+                reviewableAssemblies = reviewableAssemblies.Where((a) =>
+                    !remoteVersion.IgnoreAssemblies.Contains(Path.GetFileName(a.RelativeFilePath))
+                ).ToList();
+
                 foreach (var assembly in reviewableAssemblies)
                 {
                     if (!ReviewableAssemblyIndex.ContainsKey(assembly.Id))

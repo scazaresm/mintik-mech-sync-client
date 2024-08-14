@@ -103,7 +103,7 @@ namespace MechanicalSyncApp.UI.Forms
             this.LogoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.VersionMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.IgnoreDrawingsButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.IgnoreFilesButton = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMechanicalSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
@@ -675,21 +675,21 @@ namespace MechanicalSyncApp.UI.Forms
             // NewProjectButton
             // 
             this.NewProjectButton.Name = "NewProjectButton";
-            this.NewProjectButton.Size = new System.Drawing.Size(180, 22);
+            this.NewProjectButton.Size = new System.Drawing.Size(124, 22);
             this.NewProjectButton.Text = "Project...";
             this.NewProjectButton.Click += new System.EventHandler(this.NewProjectButton_Click);
             // 
             // NewVersionButton
             // 
             this.NewVersionButton.Name = "NewVersionButton";
-            this.NewVersionButton.Size = new System.Drawing.Size(180, 22);
+            this.NewVersionButton.Size = new System.Drawing.Size(124, 22);
             this.NewVersionButton.Text = "Change...";
             this.NewVersionButton.Click += new System.EventHandler(this.NewVersionButton_Click);
             // 
             // NewReviewButton
             // 
             this.NewReviewButton.Name = "NewReviewButton";
-            this.NewReviewButton.Size = new System.Drawing.Size(180, 22);
+            this.NewReviewButton.Size = new System.Drawing.Size(124, 22);
             this.NewReviewButton.Text = "Review...";
             this.NewReviewButton.Click += new System.EventHandler(this.NewReviewButton_Click);
             // 
@@ -722,18 +722,18 @@ namespace MechanicalSyncApp.UI.Forms
             // VersionMenu
             // 
             this.VersionMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.IgnoreDrawingsButton});
+            this.IgnoreFilesButton});
             this.VersionMenu.Name = "VersionMenu";
             this.VersionMenu.Size = new System.Drawing.Size(57, 20);
             this.VersionMenu.Text = "Version";
             this.VersionMenu.Visible = false;
             // 
-            // IgnoreDrawingsButton
+            // IgnoreFilesButton
             // 
-            this.IgnoreDrawingsButton.Name = "IgnoreDrawingsButton";
-            this.IgnoreDrawingsButton.Size = new System.Drawing.Size(168, 22);
-            this.IgnoreDrawingsButton.Text = "Ignore drawings...";
-            this.IgnoreDrawingsButton.Click += new System.EventHandler(this.IgnoreDrawingsButton_Click);
+            this.IgnoreFilesButton.Name = "IgnoreFilesButton";
+            this.IgnoreFilesButton.Size = new System.Drawing.Size(180, 22);
+            this.IgnoreFilesButton.Text = "Ignore files...";
+            this.IgnoreFilesButton.Click += new System.EventHandler(this.IgnoreFilesButton_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -860,7 +860,7 @@ namespace MechanicalSyncApp.UI.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn DesignerCommentsColumn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem VersionMenu;
-        private System.Windows.Forms.ToolStripMenuItem IgnoreDrawingsButton;
+        private System.Windows.Forms.ToolStripMenuItem IgnoreFilesButton;
         private System.Windows.Forms.ToolStripButton OpenFileForFixButton;
         private System.Windows.Forms.StatusStrip DesignFilesStatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel SyncStatusLabel;

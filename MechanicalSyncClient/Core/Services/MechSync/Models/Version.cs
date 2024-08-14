@@ -21,5 +21,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models
         public List<VersionOwner> OwnerHistory { get; set; }
         public string Reason { get; set; }
         public HashSet<string> IgnoreDrawings { get; set; } = new HashSet<string>();
+        public HashSet<string> IgnoreAssemblies { get; set; } = new HashSet<string>();
     }
 }

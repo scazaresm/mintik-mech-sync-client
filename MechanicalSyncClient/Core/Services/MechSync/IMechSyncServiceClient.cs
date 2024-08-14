@@ -51,9 +51,9 @@ namespace MechanicalSyncApp.Core.Services.MechSync
         Task<ChangeRequest> UpdateChangeRequestAsync(string changeRequestId, ChangeRequestUpdateableFields updateableFields);
         Task DeleteChangeRequestAsync(string changeRequestId);
 
-       
-
         Task<SyncGlobalConfig> GetGlobalConfigAsync();
-        Task<Version> IgnoreDrawingsAsync(IgnoreDrawingsRequest request);
+
+        Task<Version> IgnoreDrawingsAsync(IgnoreFilesRequest request);
+        Task<Version> IgnoreAssembliesAsync(IgnoreFilesRequest request);
     }
 }

@@ -70,6 +70,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.EventHandlers
                     RelativeFilePath = fileSyncEvent.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/')
                 });
 
+                await Task.Delay(50);
+
                 if (synchronizer.ChangeMonitor.IsMonitoring())
                 {
                     fileViewer.SetSyncedStatusToFile(fileSyncEvent.FullPath);

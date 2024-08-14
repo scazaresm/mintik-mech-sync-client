@@ -30,8 +30,8 @@
     <ProductName>Mechanical Sync</ProductName>
     <PublisherName>Mintik Software</PublisherName>
     <SuiteName>Mechanical Sync</SuiteName>
-    <MinimumRequiredVersion>1.1.0.36</MinimumRequiredVersion>
-    <ApplicationRevision>37</ApplicationRevision>
+    <MinimumRequiredVersion>1.1.0.37</MinimumRequiredVersion>
+    <ApplicationRevision>38</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -238,6 +238,7 @@
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionsWithStatusHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\ArchiveVersionHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\GetVersionFilePublishingsHandler.cs" />
+    <Compile Include="Core\Services\MechSync\Handlers\IgnoreAssembliesHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\IgnoreDrawingsHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\PublishFileHandler.cs" />
     <Compile Include="Core\Services\MechSync\Handlers\SyncReviewTargetsHandler.cs" />
@@ -255,7 +256,7 @@
     <Compile Include="Core\Services\MechSync\Models\Request\FixReviewTargetRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\GetDeltaFileMetadataRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\ArchiveVersionRequest.cs" />
-    <Compile Include="Core\Services\MechSync\Models\Request\IgnoreDrawingsRequest.cs" />
+    <Compile Include="Core\Services\MechSync\Models\Request\IgnoreFilesRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\PublishFileRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Request\TransferVersionOwnershipRequest.cs" />
     <Compile Include="Core\Services\MechSync\Models\Job.cs" />
@@ -377,11 +378,11 @@
     <Compile Include="UI\Forms\AboutDialog.Designer.cs">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Forms\IgnoreDrawingsForm.cs">
+    <Compile Include="UI\Forms\IgnoreFilesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\IgnoreDrawingsForm.Designer.cs">
-      <DependentUpon>IgnoreDrawingsForm.cs</DependentUpon>
+    <Compile Include="UI\Forms\IgnoreFilesForm.Designer.cs">
+      <DependentUpon>IgnoreFilesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\PublishingBlockersForm.cs">
       <SubType>Form</SubType>
@@ -502,6 +503,7 @@
     <Compile Include="UI\Forms\ReviewSummaryForm.Designer.cs">
       <DependentUpon>ReviewSummaryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ReviewableFilesTreeViewFactory.cs" />
     <Compile Include="UI\SelectedVersionDetails.cs" />
     <Compile Include="UI\Forms\SyncCheckSummaryForm.cs">
       <SubType>Form</SubType>
@@ -615,8 +617,8 @@
     <EmbeddedResource Include="UI\Forms\AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\IgnoreDrawingsForm.resx">
-      <DependentUpon>IgnoreDrawingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Forms\IgnoreFilesForm.resx">
+      <DependentUpon>IgnoreFilesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ManagementConsoleForm.resx">
       <DependentUpon>ManagementConsoleForm.cs</DependentUpon>

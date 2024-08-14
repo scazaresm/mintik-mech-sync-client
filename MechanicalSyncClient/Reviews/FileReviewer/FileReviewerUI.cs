@@ -38,6 +38,8 @@ namespace MechanicalSyncApp.Reviews.FileReviewer
 
         public DataGridView ChangeRequestsGrid { get; set; }
 
+        public ToolStripMenuItem CopyReviewMenuItem { get; set; }
+
 
         public void SetHeaderText(string headerText)
         {

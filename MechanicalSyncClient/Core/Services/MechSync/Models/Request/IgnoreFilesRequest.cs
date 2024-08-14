@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MechanicalSyncApp.Core.Services.MechSync.Models.Request
 {
-    public class IgnoreDrawingsRequest
+    public class IgnoreFilesRequest
     {
         public string VersionId { get; set; }
         public List<string> ToIgnore { get; set; } = new List<string>();

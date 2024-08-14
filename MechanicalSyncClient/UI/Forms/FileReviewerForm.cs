@@ -84,6 +84,7 @@ namespace MechanicalSyncApp.UI.Forms
                 RejectFileButton = RejectFileButton,
                 RefreshReviewTargetsButton = RefreshReviewTargetsButton,
                 ChangeRequestSplit = ChangeRequestSplit,
+                CopyReviewMenuItem = CopyReviewMenuItem
             };
             fileReviewer = new FileReviewer(
                 new FileReviewerArgs()

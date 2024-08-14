@@ -10,5 +10,6 @@ namespace MechanicalSyncApp.Core.Services.MechSync.Models.Request
     {
         public string FolderName { get; set; }
         public string InitialVersionOwnerId { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

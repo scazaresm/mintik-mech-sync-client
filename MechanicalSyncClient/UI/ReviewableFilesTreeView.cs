@@ -6,6 +6,7 @@ using MechanicalSyncApp.Sync;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,9 +28,32 @@ namespace MechanicalSyncApp.UI
         }
     }
 
+    public class ReviewRightClickEventArgs : EventArgs
+    {
+        public LocalReview Review { get; private set; }
+
+        public ReviewTarget ReviewTarget { get; private set; }
+        public TreeNode Node { get; }
+        public Point Location { get; }
+
+        public ReviewRightClickEventArgs(LocalReview review, ReviewTarget reviewTarget, TreeNode node, Point location)
+        {
+            Review = review ?? throw new ArgumentNullException(nameof(review));
+            ReviewTarget = reviewTarget ?? throw new ArgumentNullException(nameof(reviewTarget));
+            Node = node ?? throw new ArgumentNullException(nameof(node));
+            Location = location;
+        }
+    }
+
     public abstract class ReviewableFilesTreeView
     {
         public event EventHandler<OpenReviewTargetEventArgs> OnOpenReviewTarget;
+        public event EventHandler<ReviewRightClickEventArgs> OnReviewRightClick;
+
+        private const string REVIEWED_FOLDER_NAME = "Reviewed";
+        private const string PENDING_FOLDER_NAME = "Pending";
+        private const string REVIEWING_FOLDER_NAME = "Reviewing";
+        private const string FIXED_FOLDER_NAME = "Fixed";
 
         protected readonly IMechSyncServiceClient serviceClient;
         protected readonly LocalReview review;
@@ -37,14 +61,14 @@ namespace MechanicalSyncApp.UI
 
         public TreeView AttachedTreeView { get; private set; }
 
-        protected TreeNode pendingNode;
-        protected TreeNode reviewingNode;
-        protected TreeNode reviewedNode;
-        protected TreeNode fixedNode;
+        public TreeNode PendingNode { get; private set; }
+        public TreeNode ReviewingNode { get; private set; }
+        public TreeNode ReviewedNode { get; private set; }
+        public TreeNode FixedNode { get; private set; }
 
         protected Dictionary<string, ReviewTarget> reviewTargetLookup;
 
-        public ReviewableFilesTreeView(IMechSyncServiceClient serviceClient, LocalReview review, ILogger logger)
+        public ReviewableFilesTreeView(IMechSyncServiceClient serviceClient, LocalReview review,  ILogger logger)
         {
             this.serviceClient = serviceClient ?? throw new ArgumentNullException(nameof(serviceClient));
             this.review = review ?? throw new ArgumentNullException(nameof(review));
@@ -55,22 +79,23 @@ namespace MechanicalSyncApp.UI
         public void AttachTreeView(TreeView treeView)
         {
             AttachedTreeView = treeView ?? throw new ArgumentNullException(nameof(treeView));
-            pendingNode = new TreeNode("Pending");
-            pendingNode.ImageIndex = 0;
+            PendingNode = new TreeNode(PENDING_FOLDER_NAME);
+            PendingNode.ImageIndex = 0;
 
-            reviewingNode = new TreeNode("Reviewing");
-            reviewingNode.ImageIndex = 0;
+            ReviewingNode = new TreeNode(REVIEWING_FOLDER_NAME);
+            ReviewingNode.ImageIndex = 0;
 
-            reviewedNode = new TreeNode("Reviewed");
-            reviewedNode.ImageIndex = 0;
+            ReviewedNode = new TreeNode(REVIEWED_FOLDER_NAME);
+            ReviewedNode.ImageIndex = 0;
 
-            fixedNode = new TreeNode("Fixed");
-            fixedNode.ImageIndex = 0;
+            FixedNode = new TreeNode(FIXED_FOLDER_NAME);
+            FixedNode.ImageIndex = 0;
 
             AttachedTreeView.Nodes.AddRange(new TreeNode[] {
-                pendingNode, reviewingNode, reviewedNode, fixedNode
+                PendingNode, ReviewingNode, ReviewedNode, FixedNode
             });
             AttachedTreeView.NodeMouseDoubleClick += AttachedTreeView_NodeMouseDoubleClick;
+            AttachedTreeView.MouseDown += AttachedTreeView_MouseDown;
         }
 
         public abstract Task<List<FileMetadata>> FetchReviewableFileMetadata();
@@ -80,10 +105,10 @@ namespace MechanicalSyncApp.UI
             await SyncReviewTargets();
 
             // clear all nodes
-            pendingNode.Nodes.Clear();
-            reviewingNode.Nodes.Clear();
-            reviewedNode.Nodes.Clear();
-            fixedNode.Nodes.Clear();
+            PendingNode.Nodes.Clear();
+            ReviewingNode.Nodes.Clear();
+            ReviewedNode.Nodes.Clear();
+            FixedNode.Nodes.Clear();
 
             var reviewedIconIndexes = new Dictionary<string, int>()
             {
@@ -106,26 +131,26 @@ namespace MechanicalSyncApp.UI
                 switch (reviewTarget.Status)
                 {
                     case "Pending":
-                        newTreeNode = pendingNode.Nodes.Add(reviewableFileName);
+                        newTreeNode = PendingNode.Nodes.Add(reviewableFileName);
                         newTreeNode.ImageIndex = 1;
                         newTreeNode.SelectedImageIndex = 1;
                         break;
 
                     case "Reviewing":
-                        newTreeNode = reviewingNode.Nodes.Add(reviewableFileName);
+                        newTreeNode = ReviewingNode.Nodes.Add(reviewableFileName);
                         newTreeNode.ImageIndex = 1;
                         newTreeNode.SelectedImageIndex = 1;
                         break;
 
                     case "Rejected":
                     case "Approved":
-                        newTreeNode = reviewedNode.Nodes.Add(reviewableFileName);
+                        newTreeNode = ReviewedNode.Nodes.Add(reviewableFileName);
                         newTreeNode.ImageIndex = reviewedIconIndexes[reviewTarget.Status];
                         newTreeNode.SelectedImageIndex = newTreeNode.ImageIndex;
                         break;
 
                     case "Fixed":
-                        newTreeNode = fixedNode.Nodes.Add(reviewableFileName);
+                        newTreeNode = FixedNode.Nodes.Add(reviewableFileName);
                         newTreeNode.ImageIndex = reviewedIconIndexes[reviewTarget.Status];
                         newTreeNode.SelectedImageIndex = newTreeNode.ImageIndex;
                         break;
@@ -155,6 +180,31 @@ namespace MechanicalSyncApp.UI
             {
                 OnOpenReviewTarget?.Invoke(this, new OpenReviewTargetEventArgs(review, target));
             }
+        }
+
+        private void AttachedTreeView_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                // Get the node at the mouse position
+                var clickedNode = AttachedTreeView.GetNodeAt(e.X, e.Y);
+
+                if ( IsReviewNode(clickedNode) )
+                {
+                    OnReviewRightClick?.Invoke(
+                        this, 
+                        new ReviewRightClickEventArgs(review, (clickedNode.Tag as ReviewTarget), 
+                        clickedNode,
+                        e.Location
+                    ));
+                }
+            }
+        }
+
+        private bool IsReviewNode(TreeNode node)
+        {
+            var parentNode = node.Parent;
+            return node != null && parentNode != null && parentNode.Text == REVIEWED_FOLDER_NAME && node.Tag is ReviewTarget;
         }
     }
 }

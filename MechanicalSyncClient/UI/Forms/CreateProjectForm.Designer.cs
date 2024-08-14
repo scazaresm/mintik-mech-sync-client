@@ -37,6 +37,9 @@
             this.CancelCreateProjectButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.ErrorMessage = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.PurchaseOrderYear = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.PurchaseOrderYear)).BeginInit();
             this.SuspendLayout();
             // 
             // FolderNameTextBox
@@ -88,7 +91,7 @@
             // CreateProjectButton
             // 
             this.CreateProjectButton.Enabled = false;
-            this.CreateProjectButton.Location = new System.Drawing.Point(261, 210);
+            this.CreateProjectButton.Location = new System.Drawing.Point(263, 264);
             this.CreateProjectButton.Name = "CreateProjectButton";
             this.CreateProjectButton.Size = new System.Drawing.Size(75, 23);
             this.CreateProjectButton.TabIndex = 5;
@@ -99,7 +102,7 @@
             // CancelCreateProjectButton
             // 
             this.CancelCreateProjectButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelCreateProjectButton.Location = new System.Drawing.Point(180, 210);
+            this.CancelCreateProjectButton.Location = new System.Drawing.Point(180, 264);
             this.CancelCreateProjectButton.Name = "CancelCreateProjectButton";
             this.CancelCreateProjectButton.Size = new System.Drawing.Size(75, 23);
             this.CancelCreateProjectButton.TabIndex = 6;
@@ -130,12 +133,46 @@
             this.ErrorMessage.Text = "Error";
             this.ErrorMessage.Visible = false;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 195);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(105, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Purchase order year:";
+            // 
+            // PurchaseOrderYear
+            // 
+            this.PurchaseOrderYear.Location = new System.Drawing.Point(10, 217);
+            this.PurchaseOrderYear.Maximum = new decimal(new int[] {
+            3000,
+            0,
+            0,
+            0});
+            this.PurchaseOrderYear.Minimum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.PurchaseOrderYear.Name = "PurchaseOrderYear";
+            this.PurchaseOrderYear.ReadOnly = true;
+            this.PurchaseOrderYear.Size = new System.Drawing.Size(120, 20);
+            this.PurchaseOrderYear.TabIndex = 11;
+            this.PurchaseOrderYear.Value = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            // 
             // CreateProjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelCreateProjectButton;
-            this.ClientSize = new System.Drawing.Size(348, 250);
+            this.ClientSize = new System.Drawing.Size(348, 301);
+            this.Controls.Add(this.PurchaseOrderYear);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.ErrorMessage);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CancelCreateProjectButton);
@@ -151,6 +188,7 @@
             this.Name = "CreateProjectForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New project";
+            ((System.ComponentModel.ISupportInitialize)(this.PurchaseOrderYear)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -167,5 +205,7 @@
         private System.Windows.Forms.Button CancelCreateProjectButton;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label ErrorMessage;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown PurchaseOrderYear;
     }
 }

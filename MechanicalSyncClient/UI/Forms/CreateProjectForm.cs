@@ -22,6 +22,7 @@ namespace MechanicalSyncApp.UI.Forms
         public CreateProjectForm()
         {
             InitializeComponent();
+            PurchaseOrderYear.Value = DeterminePurchaseOrderYear();
         }
 
         private void CancelCreateProjectButton_Click(object sender, EventArgs e)
@@ -65,8 +66,27 @@ namespace MechanicalSyncApp.UI.Forms
             ValidateData();
         }
 
+        private int DeterminePurchaseOrderYear()
+        {
+            if (FolderNameTextBox.Text.Length < 2)
+                return DateTime.Now.Year;
+
+            var yearPrefix = FolderNameTextBox.Text.Trim().Substring(0, 2);
+
+            try
+            {
+                int year = int.Parse($"20{yearPrefix}");
+                return year;
+            }
+            catch (Exception)
+            {
+                return DateTime.Now.Year;
+            }
+        }
+
         private void ValidateData()
         {
+            PurchaseOrderYear.Value = DeterminePurchaseOrderYear();
             CreateProjectButton.Enabled = FolderNameTextBox.Text.Length > 0 && initialVersionOwner != null;
         }
 
@@ -75,10 +95,30 @@ namespace MechanicalSyncApp.UI.Forms
             try
             {
                 ErrorMessage.Visible = false;
+
+                var now = DateTime.Now;
+
+                var poYear = (int)PurchaseOrderYear.Value;
+
+                // Determine the last valid day of the target month in the PO year
+                int daysInMonth = DateTime.DaysInMonth(poYear, now.Month);
+                int safeDay = Math.Min(now.Day, daysInMonth);
+
+                var createdAt = new DateTime(
+                    poYear,
+                    now.Month,
+                    safeDay,
+                    now.Hour,
+                    now.Minute,
+                    now.Second,
+                    now.Millisecond
+                );
+
                 await MechSyncServiceClient.Instance.CreateProjectAsync(new CreateProjectRequest()
                 {
                     FolderName = FolderNameTextBox.Text,
-                    InitialVersionOwnerId = initialVersionOwner.Id
+                    InitialVersionOwnerId = initialVersionOwner.Id,
+                    CreatedAt  = createdAt,
                 });
                 DialogResult = DialogResult.OK;
             }
