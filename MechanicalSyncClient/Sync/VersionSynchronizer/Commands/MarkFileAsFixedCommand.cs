@@ -1,9 +1,11 @@
 ﻿using MechanicalSyncApp.Core;
+using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +17,10 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
     public class MarkFileAsFixedCommand : IVersionSynchronizerCommandAsync
     {
         private readonly ILogger logger;
+        private readonly string ONGOING_FOLDER = "Ongoing";
         private Review review;
         private ReviewTarget reviewTarget;
+        private FileMetadata reviewTargetMetadata;
 
         public IVersionSynchronizer Synchronizer { get; }
 
@@ -26,6 +30,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger)); 
             review = Synchronizer?.CurrentFileReview ?? throw new NullReferenceException(nameof(Synchronizer.CurrentFileReview));
             reviewTarget = Synchronizer?.CurrentFileReviewTarget ?? throw new NullReferenceException(nameof(Synchronizer.CurrentFileReviewTarget));
+            reviewTargetMetadata = Synchronizer.CurrentFileReviewTargetMetadata ?? throw new NullReferenceException(nameof(Synchronizer.CurrentFileReviewTargetMetadata));
         }
 
         public async Task RunAsync()
@@ -53,33 +58,27 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     return;
                 }
 
-                // check for all changes to be pushed to remote server
-                var syncRemoteCommand = new SyncRemoteCommand(Synchronizer, logger)
-                {
-                    NotifyWhenComplete = false,
-                    EnableToolStripWhenComplete = false,
-                };
-                await syncRemoteCommand.RunAsync();
-
-                if (!syncRemoteCommand.Complete)
-                {
-                    MessageBox.Show(
-                        "Your local copy has changes and needs to be synced with the remote server before marking files as fixed, please try again.",
-                        "Local copy has changes",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Exclamation
-                    );
-                    return;
-                }
-
-         
                 var response = MessageBox.Show(
-                    "Are you sure to mark this file as fixed?",
-                    "Mark as fixed", MessageBoxButtons.YesNo, MessageBoxIcon.Question
+                    "Are you sure to upload latest changes on this file and mark it as fixed?",
+                    "Mark file as fixed", MessageBoxButtons.YesNo, MessageBoxIcon.Question
                 );
 
                 if (response != DialogResult.Yes) return;
 
+                var relativeFilePath = reviewTargetMetadata.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/');
+                var localFilePath = Path.Combine(Synchronizer.Version.LocalDirectory, relativeFilePath);
+
+                // upload file changes
+                await Synchronizer.SyncServiceClient.UploadFileAsync(new UploadFileRequest
+                {
+                    LocalFilePath = localFilePath,
+                    VersionId = review.VersionId,
+                    VersionFolder = ONGOING_FOLDER,
+                    RelativeEquipmentPath = Synchronizer.Version.RemoteProject.RelativeEquipmentPath,
+                    RelativeFilePath = relativeFilePath
+                });
+
+                // mark review target as fixed
                 await Synchronizer.SyncServiceClient.UpdateReviewTargetAsync(new UpdateReviewTargetRequest()
                 {
                     ReviewId = review.Id,

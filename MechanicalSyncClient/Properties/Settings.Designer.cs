@@ -94,5 +94,17 @@ namespace MechanicalSyncApp.Properties {
                 this["SOLIDWORKS_EXE_PATH"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string EDRAWINGS_EXE_PATH {
+            get {
+                return ((string)(this["EDRAWINGS_EXE_PATH"]));
+            }
+            set {
+                this["EDRAWINGS_EXE_PATH"] = value;
+            }
+        }
     }
 }

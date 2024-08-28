@@ -152,7 +152,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         private async Task<string> DownloadRemoteFileAsync(FileMetadata localFileMetadata)
         {
-            var tempFile = PathUtils.GetTempFileNameWithExtension(Path.GetExtension(localFileMetadata.RelativeFilePath));
+            var tempFile = PathUtils.GetTempFileWithExtension(Path.GetExtension(localFileMetadata.RelativeFilePath));
             logger.Debug($"Created temporary file name: {tempFile}");
             logger.Debug("Downloading file from server to temporary file path...");
             await Synchronizer.SyncServiceClient.DownloadFileAsync(new DownloadFileRequest()

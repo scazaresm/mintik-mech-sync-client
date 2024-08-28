@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Sergio Cazares",
             "test"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagementConsoleForm));
@@ -51,6 +51,9 @@
             this.FilterUserTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.syncTabPage = new System.Windows.Forms.TabPage();
+            this.BrowseEDrawingsExePath = new System.Windows.Forms.Button();
+            this.eDrawingsExePath = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.BrowsePublishingDirectory = new System.Windows.Forms.Button();
             this.PublishingDirectory = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -108,7 +111,7 @@
             this.UserList.FullRowSelect = true;
             this.UserList.HideSelection = false;
             this.UserList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem2});
             this.UserList.Location = new System.Drawing.Point(3, 28);
             this.UserList.Name = "UserList";
             this.UserList.Size = new System.Drawing.Size(714, 413);
@@ -228,6 +231,9 @@
             // 
             // syncTabPage
             // 
+            this.syncTabPage.Controls.Add(this.BrowseEDrawingsExePath);
+            this.syncTabPage.Controls.Add(this.eDrawingsExePath);
+            this.syncTabPage.Controls.Add(this.label5);
             this.syncTabPage.Controls.Add(this.BrowsePublishingDirectory);
             this.syncTabPage.Controls.Add(this.PublishingDirectory);
             this.syncTabPage.Controls.Add(this.label2);
@@ -248,6 +254,34 @@
             this.syncTabPage.TabIndex = 1;
             this.syncTabPage.Text = "Sync";
             this.syncTabPage.UseVisualStyleBackColor = true;
+            // 
+            // BrowseEDrawingsExePath
+            // 
+            this.BrowseEDrawingsExePath.Location = new System.Drawing.Point(527, 180);
+            this.BrowseEDrawingsExePath.Name = "BrowseEDrawingsExePath";
+            this.BrowseEDrawingsExePath.Size = new System.Drawing.Size(75, 23);
+            this.BrowseEDrawingsExePath.TabIndex = 22;
+            this.BrowseEDrawingsExePath.Text = "Browse...";
+            this.BrowseEDrawingsExePath.UseVisualStyleBackColor = true;
+            this.BrowseEDrawingsExePath.Click += new System.EventHandler(this.BrowseEDrawingsExePath_Click);
+            // 
+            // eDrawingsExePath
+            // 
+            this.eDrawingsExePath.Location = new System.Drawing.Point(11, 182);
+            this.eDrawingsExePath.Name = "eDrawingsExePath";
+            this.eDrawingsExePath.ReadOnly = true;
+            this.eDrawingsExePath.Size = new System.Drawing.Size(510, 20);
+            this.eDrawingsExePath.TabIndex = 20;
+            this.eDrawingsExePath.TextChanged += new System.EventHandler(this.eDrawingsExePath_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 166);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(174, 13);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "eDrawings Viewer executable path:";
             // 
             // BrowsePublishingDirectory
             // 
@@ -279,7 +313,7 @@
             // 
             // BrowseSolidWorksExePath
             // 
-            this.BrowseSolidWorksExePath.Location = new System.Drawing.Point(527, 176);
+            this.BrowseSolidWorksExePath.Location = new System.Drawing.Point(527, 231);
             this.BrowseSolidWorksExePath.Name = "BrowseSolidWorksExePath";
             this.BrowseSolidWorksExePath.Size = new System.Drawing.Size(75, 23);
             this.BrowseSolidWorksExePath.TabIndex = 16;
@@ -289,7 +323,7 @@
             // 
             // SolidWorksExePath
             // 
-            this.SolidWorksExePath.Location = new System.Drawing.Point(11, 178);
+            this.SolidWorksExePath.Location = new System.Drawing.Point(11, 233);
             this.SolidWorksExePath.Name = "SolidWorksExePath";
             this.SolidWorksExePath.ReadOnly = true;
             this.SolidWorksExePath.Size = new System.Drawing.Size(510, 20);
@@ -299,7 +333,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 162);
+            this.label1.Location = new System.Drawing.Point(8, 217);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(143, 13);
             this.label1.TabIndex = 15;
@@ -318,7 +352,7 @@
             // ApplySyncChanges
             // 
             this.ApplySyncChanges.Enabled = false;
-            this.ApplySyncChanges.Location = new System.Drawing.Point(527, 232);
+            this.ApplySyncChanges.Location = new System.Drawing.Point(527, 284);
             this.ApplySyncChanges.Name = "ApplySyncChanges";
             this.ApplySyncChanges.Size = new System.Drawing.Size(75, 23);
             this.ApplySyncChanges.TabIndex = 11;
@@ -425,5 +459,8 @@
         private System.Windows.Forms.Button BrowsePublishingDirectory;
         private System.Windows.Forms.TextBox PublishingDirectory;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button BrowseEDrawingsExePath;
+        private System.Windows.Forms.TextBox eDrawingsExePath;
+        private System.Windows.Forms.Label label5;
     }
 }

@@ -24,11 +24,6 @@ namespace MechanicalSyncApp.UI.Forms
     {
         private readonly IAuthenticationServiceClient authenticationService = AuthenticationServiceClient.Instance;
 
-        private readonly string WORKSPACE_DIRECTORY = "WORKSPACE_DIRECTORY";
-        private readonly string PUBLISHING_DIRECTORY = "PUBLISHING_DIRECTORY";
-        private readonly string EDRAWINGS_VIEWER_CLSID = "EDRAWINGS_VIEWER_CLSID";
-        private readonly string SOLIDWORKS_EXE_PATH = "SOLIDWORKS_EXE_PATH";
-
         #region Singleton
         private static Form _instance = null;
 
@@ -107,6 +102,8 @@ namespace MechanicalSyncApp.UI.Forms
                 PublishingDirectory.Text = Properties.Settings.Default.PUBLISHING_DIRECTORY ?? string.Empty;
                 EdrawingsViewerClsid.Text = Properties.Settings.Default.EDRAWINGS_VIEWER_CLSID ?? string.Empty;
                 SolidWorksExePath.Text = Properties.Settings.Default.SOLIDWORKS_EXE_PATH ?? string.Empty;
+                eDrawingsExePath.Text = Properties.Settings.Default.EDRAWINGS_EXE_PATH ?? string.Empty;
+
                 ApplySyncChanges.Enabled = false;
             }
             catch (Exception ex)
@@ -124,7 +121,9 @@ namespace MechanicalSyncApp.UI.Forms
                 Properties.Settings.Default.EDRAWINGS_VIEWER_CLSID = EdrawingsViewerClsid.Text;
                 Properties.Settings.Default.SOLIDWORKS_EXE_PATH = SolidWorksExePath.Text;
                 Properties.Settings.Default.PUBLISHING_DIRECTORY = PublishingDirectory.Text;
+                Properties.Settings.Default.EDRAWINGS_EXE_PATH = eDrawingsExePath.Text;
                 Properties.Settings.Default.Save();
+
                 ApplySyncChanges.Enabled = false;
             }
             catch (Exception ex)
@@ -141,7 +140,8 @@ namespace MechanicalSyncApp.UI.Forms
                 Directory.Exists(WorkspaceDirectory.Text) && 
                 Directory.Exists(PublishingDirectory.Text) &&
                 EdrawingsViewerClsid.Text != "" &&
-                File.Exists(SolidWorksExePath.Text);
+                File.Exists(SolidWorksExePath.Text) &&
+                File.Exists(eDrawingsExePath.Text);
         }
 
         private void BrowseWorkspaceDirectory_Click(object sender, EventArgs e)
@@ -273,6 +273,29 @@ namespace MechanicalSyncApp.UI.Forms
                 EditUserButton.Enabled = false;
                 ResetPasswordButton.Enabled = false;
             }
+        }
+
+        private void BrowseEDrawingsExePath_Click(object sender, EventArgs e)
+        {
+            using (var openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                openFileDialog.Filter = "Executable Files (*.exe)|*.exe";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+
+                DialogResult result = openFileDialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(openFileDialog.FileName))
+                {
+                    eDrawingsExePath.Text = openFileDialog.FileName;
+                }
+            }
+        }
+
+        private void eDrawingsExePath_TextChanged(object sender, EventArgs e)
+        {
+            ApplySyncChanges.Enabled = ValidateSyncSettings();
         }
     }
 }

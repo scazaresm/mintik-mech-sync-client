@@ -30,8 +30,8 @@
     <ProductName>Mechanical Sync</ProductName>
     <PublisherName>Mintik Software</PublisherName>
     <SuiteName>Mechanical Sync</SuiteName>
-    <MinimumRequiredVersion>1.1.0.37</MinimumRequiredVersion>
-    <ApplicationRevision>38</ApplicationRevision>
+    <MinimumRequiredVersion>1.1.0.38</MinimumRequiredVersion>
+    <ApplicationRevision>39</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -194,6 +194,7 @@
     <Compile Include="Core\Domain\PublishingSummary.cs" />
     <Compile Include="Core\Domain\LocalReview.cs" />
     <Compile Include="Core\Domain\ManufacturingMetadata.cs" />
+    <Compile Include="Core\SolidWorksInterop\API\IEDrawingsStarter.cs" />
     <Compile Include="Core\ICancelPublishingStrategy.cs" />
     <Compile Include="Core\ICustomPropertiesValidationStrategy.cs" />
     <Compile Include="Core\IDrawingAnalyzer.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="Core\SolidWorksInterop\API\ISolidWorksModelLoader.cs" />
     <Compile Include="Core\SolidWorksInterop\API\ISolidWorksStarter.cs" />
     <Compile Include="Core\SolidWorksInterop\API\ISolidWorksModelExporter.cs" />
+    <Compile Include="Core\SolidWorksInterop\EDrawingsStarter.cs" />
     <Compile Include="Core\SolidWorksInterop\SolidWorksModelExporter.cs" />
     <Compile Include="Core\SolidWorksInterop\ModelPropertiesRetriever.cs" />
     <Compile Include="Core\SolidWorksInterop\AssemblyPartListRetriever.cs" />

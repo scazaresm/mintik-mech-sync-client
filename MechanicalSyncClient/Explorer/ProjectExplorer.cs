@@ -4,13 +4,16 @@ using MechanicalSyncApp.Core.Services.Authentication.Models;
 using MechanicalSyncApp.Core.Services.MechSync;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+using MechanicalSyncApp.Core.SolidWorksInterop;
 using MechanicalSyncApp.Core.Util;
 using MechanicalSyncApp.UI;
 using MechanicalSyncApp.UI.Forms;
 using Serilog;
+using Serilog.Core;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -183,7 +186,8 @@ namespace MechanicalSyncApp.Explorer
             if (versionFolder is null)
                 throw new ArgumentNullException(nameof(versionFolder));
 
-            var tempFile = PathUtils.GetTempFileNameWithExtension(Path.GetExtension(fileMetadata.RelativeFilePath));
+            var tempFile = PathUtils.GetTempFileWithName(Path.GetFileName(fileMetadata.RelativeFilePath));
+
             Log.Debug($"Created temporary file name: {tempFile}");
             try
             {
@@ -191,6 +195,12 @@ namespace MechanicalSyncApp.Explorer
 
                 Log.Debug("Downloading file from server to temporary file path...");
                 UI.VersionFilesStatusLabel.Text = "Downloading file from server...";
+
+                if (File.Exists(tempFile))
+                {
+                    File.Delete(tempFile);
+                }
+
                 await mechSyncService.DownloadFileAsync(new DownloadFileRequest()
                 {
                     LocalFilename = tempFile,
@@ -200,16 +210,7 @@ namespace MechanicalSyncApp.Explorer
                     ExplorerTransactionId = explorerTransactionId.ToString(),
                 });
 
-                Log.Debug("Creating viewer instance...");
-                var fileName = Path.GetFileName(fileMetadata.RelativeFilePath.Replace('/', Path.DirectorySeparatorChar));
-                var viewer = new DesignFileViewerForm(tempFile, fileName, versionFolder);
-
-                Log.Debug("Initializing viewer...");
-                viewer.Initialize();
-
-                UI.VersionFilesStatusLabel.Text = "Showing file in viewer...";
-                Log.Debug("Showing file in viewer dialog...");
-                viewer.ShowDialog();
+                new EDrawingsStarter().Start(tempFile);
             }
             catch(Exception ex)
             {
