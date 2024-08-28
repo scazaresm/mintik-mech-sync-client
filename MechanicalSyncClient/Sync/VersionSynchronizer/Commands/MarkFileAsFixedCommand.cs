@@ -2,6 +2,7 @@
 using MechanicalSyncApp.Core.Domain;
 using MechanicalSyncApp.Core.Services.MechSync.Models;
 using MechanicalSyncApp.Core.Services.MechSync.Models.Request;
+using MechanicalSyncApp.UI;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -58,26 +59,51 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     return;
                 }
 
+                // sync remote to push all changes to server (assemblies only)
+                if (review.TargetType == ReviewTargetType.AssemblyFile.ToString())
+                {
+                    var syncRemoteCommand = new SyncRemoteCommand(Synchronizer, logger)
+                    {
+                        NotifyWhenComplete = false,
+                        EnableToolStripWhenComplete = false,
+                    };
+                    await syncRemoteCommand.RunAsync();
+
+                    if (!syncRemoteCommand.Complete)
+                    {
+                        MessageBox.Show(
+                            "Your local copy has changes and needs to be synced with the remote server before marking files as fixed, please try again.",
+                            "Local copy has changes",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Exclamation
+                        );
+                        return;
+                    }
+                }
+
                 var response = MessageBox.Show(
-                    "Are you sure to upload latest changes on this file and mark it as fixed?",
-                    "Mark file as fixed", MessageBoxButtons.YesNo, MessageBoxIcon.Question
-                );
+                        "Are you sure to mark this file as fixed?",
+                        "Mark as fixed", MessageBoxButtons.YesNo, MessageBoxIcon.Question
+                    );
 
                 if (response != DialogResult.Yes) return;
 
                 var relativeFilePath = reviewTargetMetadata.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/');
                 var localFilePath = Path.Combine(Synchronizer.Version.LocalDirectory, relativeFilePath);
 
-                // upload file changes
-                await Synchronizer.SyncServiceClient.UploadFileAsync(new UploadFileRequest
+                // upload file changes (drawings only)
+                if (review.TargetType == ReviewTargetType.DrawingFile.ToString())
                 {
-                    LocalFilePath = localFilePath,
-                    VersionId = review.VersionId,
-                    VersionFolder = ONGOING_FOLDER,
-                    RelativeEquipmentPath = Synchronizer.Version.RemoteProject.RelativeEquipmentPath,
-                    RelativeFilePath = relativeFilePath
-                });
-
+                    await Synchronizer.SyncServiceClient.UploadFileAsync(new UploadFileRequest
+                    {
+                        LocalFilePath = localFilePath,
+                        VersionId = review.VersionId,
+                        VersionFolder = ONGOING_FOLDER,
+                        RelativeEquipmentPath = Synchronizer.Version.RemoteProject.RelativeEquipmentPath,
+                        RelativeFilePath = relativeFilePath
+                    });
+                }
+                
                 // mark review target as fixed
                 await Synchronizer.SyncServiceClient.UpdateReviewTargetAsync(new UpdateReviewTargetRequest()
                 {
