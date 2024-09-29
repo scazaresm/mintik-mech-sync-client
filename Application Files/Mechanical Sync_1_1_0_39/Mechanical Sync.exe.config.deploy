@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+    <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+      <section name="MechanicalSyncApp.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+    </sectionGroup>
+  </configSections>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.7.2" />
+  </startup>
+  <entityFramework>
+    <providers>
+      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+    </providers>
+  </entityFramework>
+  <appSettings>
+	<!-- General settings -->
+	<add key="SERVER_URL" value="http://localhost" />
+	<add key="DEFAULT_TIMEOUT_SECONDS" value="10" />
+	<add key="EDRAWINGS_VIEWER_CLSID" value="476F8C77-404C-4876-BCCA-0215E6B8BB14" />
+	<add key="WORKSPACE_DIRECTORY" value="D:\Sync" />
+	<add key="PUBLISHING_DIRECTORY" value="Z:\MANUFACTURING"/>
+	<add key="SOLIDWORKS_EXE_PATH" value="C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\SLDWORKS.exe"/>
+
+	<!-- Logging settings -->
+	<add key="serilog:minimum-level" value="Debug"/>
+
+	<add key="serilog:using:Console" value="Serilog.Sinks.Console" />
+	<add key="serilog:write-to:Console" />
+
+	<add key="serilog:using:File" value="Serilog.Sinks.File" />
+	<add key="serilog:write-to:File.path" value="mech-sync.log"/>
+	<add key="serilog:write-to:File.rollingInterval" value="Day"/>
+	<add key="serilog:write-to:File.flushToDiskInterval" value="00:01:00"/>
+	<add key="serilog:write-to:File.retainedFileCountLimit" value="5"/>
+  </appSettings>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="System.Runtime.CompilerServices.Unsafe" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Bcl.AsyncInterfaces" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-8.0.0.0" newVersion="8.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+  <userSettings>
+    <MechanicalSyncApp.Properties.Settings>
+      <setting name="SERVER_URL" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="DEFAULT_TIMEOUT_SECONDS" serializeAs="String">
+        <value>60</value>
+      </setting>
+      <setting name="EDRAWINGS_VIEWER_CLSID" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="WORKSPACE_DIRECTORY" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="PUBLISHING_DIRECTORY" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="SOLIDWORKS_EXE_PATH" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="EDRAWINGS_EXE_PATH" serializeAs="String">
+        <value />
+      </setting>
+    </MechanicalSyncApp.Properties.Settings>
+  </userSettings>
+</configuration>
