@@ -59,26 +59,34 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     return;
                 }
 
-                // sync remote to push all changes to server (assemblies only)
-                if (review.TargetType == ReviewTargetType.AssemblyFile.ToString())
-                {
-                    var syncRemoteCommand = new SyncRemoteCommand(Synchronizer, logger)
-                    {
-                        NotifyWhenComplete = false,
-                        EnableToolStripWhenComplete = false,
-                    };
-                    await syncRemoteCommand.RunAsync();
+                var relativeFilePath = reviewTargetMetadata.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/');
+                var localFilePath = Path.Combine(Synchronizer.Version.LocalDirectory, relativeFilePath);
 
-                    if (!syncRemoteCommand.Complete)
-                    {
-                        MessageBox.Show(
-                            "Your local copy has changes and needs to be synced with the remote server before marking files as fixed, please try again.",
-                            "Local copy has changes",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Exclamation
-                        );
-                        return;
-                    }
+                // sync remote to push all changes to server
+                var syncRemoteCommand = new SyncRemoteCommand(Synchronizer, logger)
+                {
+                    NotifyWhenComplete = false,
+                    EnableToolStripWhenComplete = false,
+                };
+
+                // when marking a drawing as fixed we only need to sync any file having the same file name as drawing
+                // (i.e. both drawing file and its corresponding part file)
+                // for assemblies we must do a complete sync, since many files might have been changed and there is no way to determine
+                if (review.TargetType == ReviewTargetType.DrawingFile.ToString())
+                {
+                    syncRemoteCommand.TargetFileName = Path.GetFileNameWithoutExtension(localFilePath);
+                }
+                await syncRemoteCommand.RunAsync();
+
+                if (!syncRemoteCommand.Complete)
+                {
+                    MessageBox.Show(
+                        "Your local copy has changes and needs to be synced with the remote server before marking files as fixed, please try again.",
+                        "Local copy has changes",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation
+                    );
+                    return;
                 }
 
                 var response = MessageBox.Show(
@@ -87,22 +95,6 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                     );
 
                 if (response != DialogResult.Yes) return;
-
-                var relativeFilePath = reviewTargetMetadata.RelativeFilePath.Replace(Path.DirectorySeparatorChar, '/');
-                var localFilePath = Path.Combine(Synchronizer.Version.LocalDirectory, relativeFilePath);
-
-                // upload file changes (drawings only)
-                if (review.TargetType == ReviewTargetType.DrawingFile.ToString())
-                {
-                    await Synchronizer.SyncServiceClient.UploadFileAsync(new UploadFileRequest
-                    {
-                        LocalFilePath = localFilePath,
-                        VersionId = review.VersionId,
-                        VersionFolder = ONGOING_FOLDER,
-                        RelativeEquipmentPath = Synchronizer.Version.RemoteProject.RelativeEquipmentPath,
-                        RelativeFilePath = relativeFilePath
-                    });
-                }
                 
                 // mark review target as fixed
                 await Synchronizer.SyncServiceClient.UpdateReviewTargetAsync(new UpdateReviewTargetRequest()

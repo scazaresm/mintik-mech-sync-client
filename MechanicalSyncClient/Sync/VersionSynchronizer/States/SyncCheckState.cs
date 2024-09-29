@@ -22,6 +22,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
         public SyncCheckSummary Summary { get; private set; }
         public bool RethrowException { get; set; } = false;
 
+        public bool SkipDeletedFilesCheck { get; set; }
+
         public SyncCheckState(ILogger logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -63,12 +65,15 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                     }
                 }
 
-                // check for deleted files
-                IEnumerable<string> existingInRemoteButNotInLocal = remoteFileIndex.Keys.Except(localFileIndex.Keys);
-                foreach (string deletedFileKey in existingInRemoteButNotInLocal)
-                {
-                    Summary.AddDeletedFile(remoteFileIndex[deletedFileKey]);
-                    logger.Debug($"\t{remoteFileIndex[deletedFileKey].RelativeFilePath} = Deleted");
+                if (!SkipDeletedFilesCheck)
+                { 
+                    // check for deleted files
+                    IEnumerable<string> existingInRemoteButNotInLocal = remoteFileIndex.Keys.Except(localFileIndex.Keys);
+                    foreach (string deletedFileKey in existingInRemoteButNotInLocal)
+                    {
+                        Summary.AddDeletedFile(remoteFileIndex[deletedFileKey]);
+                        logger.Debug($"\t{remoteFileIndex[deletedFileKey].RelativeFilePath} = Deleted");
+                    }
                 }
             }
             catch (Exception ex)

@@ -15,6 +15,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
     {
         private readonly ILogger logger;
 
+        public string TargetFileName { get; set; }
+
         public IndexLocalFilesState(ILogger logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -29,6 +31,7 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
                 Synchronizer.FileExtensionFilter, 
                 logger
             );
+            indexer.TargetFileName = TargetFileName;
             indexer.ProgressChanged += Indexer_ProgressChanged;
 
             var ui = Synchronizer.UI;
@@ -36,7 +39,19 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.States
             await indexer.IndexAsync();
             ui.SyncProgressBar.Visible = false;
 
-            Synchronizer.LocalFileIndex = indexer.FileIndex;
+            if (string.IsNullOrEmpty(TargetFileName))
+            {
+                // update the entire index
+                Synchronizer.LocalFileIndex = indexer.FileIndex;
+            }
+            else
+            {
+                // focus on updating target files only
+                foreach(var file in indexer.FileIndex.Keys)
+                {
+                    Synchronizer.LocalFileIndex[file] = indexer.FileIndex[file];
+                }
+            }
             logger.Debug("Completed local file index.");
         }
 

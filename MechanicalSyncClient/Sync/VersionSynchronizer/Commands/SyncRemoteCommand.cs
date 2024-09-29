@@ -24,6 +24,8 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
 
         public bool Complete {  get; set; } = false;
 
+        public string TargetFileName { get; set; }
+
         public SyncRemoteCommand(IVersionSynchronizer synchronizer, ILogger logger)
         {
             Synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
@@ -49,13 +51,14 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 Synchronizer.SetState(new IndexRemoteFilesState(logger));
                 await Synchronizer.RunStepAsync();
 
-                Synchronizer.SetState(new IndexLocalFilesState(logger));
+                Synchronizer.SetState(new IndexLocalFilesState(logger) { TargetFileName = TargetFileName });
                 await Synchronizer.RunStepAsync();
 
                 Synchronizer.SetState(new IndexPublishingsState(logger));
                 await Synchronizer.RunStepAsync();
 
-                var syncCheckState = new SyncCheckState(logger);
+                // skipping deleted files check when the sync is focused on a specific target file
+                var syncCheckState = new SyncCheckState(logger) { SkipDeletedFilesCheck = !string.IsNullOrEmpty(TargetFileName) };
                 Synchronizer.SetState(syncCheckState);
                 await Synchronizer.RunStepAsync();
 

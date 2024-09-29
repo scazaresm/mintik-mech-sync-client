@@ -23,6 +23,8 @@ namespace MechanicalSyncApp.Core.Util
         private int totalFileCount = 0;
         private int completedFileCount = 0;
 
+        public string TargetFileName { get; set; }
+
         private ConcurrentQueue<string> fileQueue = new ConcurrentQueue<string>();
 
         public ConcurrentDictionary<string, FileMetadata> FileIndex { get; private set; } = new ConcurrentDictionary<string, FileMetadata>();
@@ -82,7 +84,14 @@ namespace MechanicalSyncApp.Core.Util
 
         private void EnqueueLocalFiles()
         {
-            foreach (string filePath in Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories))
+            var localFiles = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories).ToList();
+
+            if (!string.IsNullOrEmpty(TargetFileName))
+            {
+                localFiles = localFiles.Where(f => Path.GetFileNameWithoutExtension(f) == TargetFileName).ToList();
+            }
+
+            foreach (string filePath in localFiles)
             {
                 string fileName = Path.GetFileName(filePath);
 

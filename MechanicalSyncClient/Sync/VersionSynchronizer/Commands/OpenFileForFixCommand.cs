@@ -35,35 +35,17 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
                 );
 
                 var solidWorksPath = Settings.Default.SOLIDWORKS_EXE_PATH;
-                string swLauncherPath = Path.Combine(Path.GetDirectoryName(solidWorksPath), "swShellFileLauncher.exe");
-
-                await Task.Run(() => Run(localFilePath, swLauncherPath, logger));
-            }
-            finally
-            {
-                Synchronizer.UI.MarkFileAsFixedButton.Enabled = true;
-            }
-        }
-
-        private void Run(string localFilePath, string swLauncherPath, ILogger logger)
-        {
-            try
-            {
-                logger.Debug("Preparing SW launcher...");
 
                 ProcessStartInfo startInfo = new ProcessStartInfo
                 {
-                    FileName = swLauncherPath,
+                    FileName = solidWorksPath,
                     Arguments = $"\"{localFilePath}\"",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     CreateNoWindow = true
                 };
-                logger.Debug($"SW Launcher path: {swLauncherPath}");
-                logger.Debug($"Target file: {localFilePath}");
 
-                logger.Debug("Initializing SW process with launcher...");
                 using (Process process = Process.Start(startInfo))
                 {
                     string output = process.StandardOutput.ReadToEnd();
@@ -73,9 +55,13 @@ namespace MechanicalSyncApp.Sync.VersionSynchronizer.Commands
             }
             catch (Exception ex)
             {
-                var message = $"Could not open file: {ex.Message}";
+                var message = $"Could not open file for fix: {ex.Message} {ex?.InnerException?.Message}";
                 logger.Error(message);
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Synchronizer.UI.MarkFileAsFixedButton.Enabled = true;
             }
         }
     }
